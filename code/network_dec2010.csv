@@ -1,0 +1,343 @@
+128.164.2.0/24, DIT - switch admin network
+128.164.3.0/24, DIT - small switch admin network
+128.164.4.0/24, DIT -  Wireless switch admin network
+128.164.8.0/24, DIT - DHCP Testing
+128.164.10.0/24, CATS
+128.164.11.0/24, DIT - firewalled DIT servers
+128.164.12.0/24, DIT - test network
+128.164.13.0/24, DIT
+128.164.14.0/24, Security
+128.164.15.0/24, DIT - aSNAP
+128.164.16.0/22, DIT - CCA wireless guest
+128.164.28.0/24, DIT - 2100 M St. DIT
+128.164.29.0/24, Medical Center
+128.164.30.0/24, Medical Center
+128.164.31.0/24, Medical Center
+128.164.32.0/22, Medical Center
+128.164.36.0/25, DIT - voice-OAM&P (future-firewalled)
+128.164.36.128/25,   DIT - voice-CLANs
+128.164.37.0/25,     DIT - voice-control network-A (IPSIs) (future)
+128.164.37.128/26,   DIT - voice-SIP servers
+128.164.37.192/26,   DIT - voice-Session Border Controllers (future)
+128.164.38.0/25,     DIT - voice-control network-B (IPSIs) (future)
+128.164.38.128/25,   DIT - voice-Bearer Resources
+128.164.40.0/24,     DIT - voice-2021K
+128.164.41.0/24,     DIT - voice-2121K
+128.164.42.0/27,     DIT - voice-ACAD
+128.164.43.0/27,     DIT - voice-2020k
+128.164.48.0/29,     DIT - voice-1776G (cab27)
+128.164.48.8/29,     DIT - voice-2033k IPSI-A
+128.164.48.16/29,    DIT - voice-2033k IPSI-B
+128.164.48.24.29,    DIT - voice-HOVA (cab28)
+128.164.48.32/28,    DIT - voice-2033k Media Resources
+128.164.48.48/28,    DIT - voice-2100M Media Resources
+128.164.48.64/26,    DIT - Aston VoIP
+128.164.48.128/28,   DIT - voice-CityHall-Media Resources
+128.164.48.144/29,   DIT - voice-CityHall-IPSI-B
+128.164.48.152/29,   DIT - unused /29 (maybe use for MVC ESS)
+128.164.48.160/29,   DIT - voice-MVC IPSI-A
+128.164.48.168/29,   DIT - voice-MVC IPSI-B
+128.164.48.176/28,   DIT - voice-MVC Media Resources
+128.164.48.192/26,   DIT - voice-2100M VoIP
+128.164.49.0/25,     DIT - voice-2175K
+128.164.49.128/25,   DIT - voice-2135F (Square 80)
+128.164.50.0/29,     DIT - voice-2100M IPSI-A
+128.164.50.8/29,     DIT - voice-2100M IPSI-B
+128.164.50.64/26,    DIT - voice-2029K
+128.164.50.128/26,   Medical Center
+128.164.51.0/27,     DIT - voice-1919Penn-MZ
+128.164.59.0/26,     DIT - voice-test-servers
+128.164.59.64/26,    DIT voice-test-clients
+128.164.60.0/22,     CATS Labs
+128.164.73.0/24,     Medical Center
+128.164.74.0/24,     Medical Center
+128.164.75.0/24,     MFA
+128.164.76.0/24,     2100 M St. 2nd Floor
+128.164.77.0/24,     ResNet Secure Access (cameras/LOM)
+128.164.78.0/24,     KVM/LOM?
+128.164.79.0/24,     2140 & 2100 Penn
+128.164.80.0/26,     DIT - Machine Room DMZ
+128.164.80.64/26,    Security
+128.164.80.128/27,   DIT - 1776G CCA aSNAP
+128.164.80.160/27,   DIT - LoadBalancer LDAP Network
+128.164.80.192/27,   DIT - MVC Admin Network
+128.164.81.0/24,     2033 K St. 2nd & 3rd floor
+128.164.82.0/24,     DIT - VMWare FBDC
+128.164.83.0/24,     2033 K St. 7th floor
+128.164.84.0/26,     Language Lab (firewalled)
+128.164.84.128.0/26, CCAS - CCAS FBDC Cabinet
+128.164.85.0/26,     DIT - 1919 Penn Law School Data
+128.164.86.0/23,     Medical Center
+128.164.88.0/26,     DIT - FBDC Test Network
+128.164.88.64/26,    M. Escoto - Alexandria Campus
+128.164.88.128/26,   Firewall testing
+128.164.89.0/24,     SBPM 1 Virginia Square
+128.164.90.0/24,     Miscellaneous/Unsorted
+128.164.91.0/25,     DIT - Machine Room DMZ
+128.164.91.128/25,   DIT - LoadBalancer Routed Network
+128.164.92.0/23,     802.1X wireless network
+128.164.96.0/21,     VPN Public Network
+128.164.104.0/21,    DIT - VPN Admin Network
+128.164.112.0/21,    DIT -VPN Network
+128.164.120.0/24,    Ross Misc (Parking/Hillel/etc.)
+128.164.121.0/24,    Strong/SQ80 Misc
+128.164.122.0/24,    Funger/IHOS Misc
+128.164.123.0/24,    Support Misc
+128.164.124.0/24,    AcadCtr Misc
+128.164.125.0/24,    HOG Misc
+128.164.126.0/24,    Old Main/NALU
+128.164.127.0/24,    DIT - GWIS/UNIX
+128.164.128.0/23,    ITS - DIT
+128.164.130.0/24,    DIT - Banner/CITRIX
+128.164.131.0/24,    DIT - Load Balancer Network
+128.164.132.0/22,    Law School
+128.164.136.0/23,    CATS
+128.164.138.0/24,    Support Building
+128.164.139.0/24,    SEAS
+128.164.140.0/24,    DIT - Airespace
+128.164.141.0/24,    DIT - UNIX Servers
+128.164.142.0/24,    DIT - DIT
+128.164.143.0/28,    DIT - 1776G DIT LOOPBACKs
+128.164.143.16/28,   Dept Of State 2401 E St.
+128.164.143.32/28,   Dept Of State 2201 C St.
+128.164.143.48/28,   DIT - Qualys Testing (chubirka)
+128.164.143.64/26,   DIT - Fantastapotamous
+128.164.143.128/26,  Student Health
+128.164.143.192/28,  DIT - DIT Firewall Migration VLAN (601)
+128.164.143.208/28,  DIT - CCA OOB MGT
+128.164.143.224/27,  DIT - AireSpace Network
+128.164.144.128/26,  SEAS - SEAS Servers
+128.164.144.192/26,  Shenandoah Wireless
+128.164.145.0/24,    Mitchell Misc.
+128.164.146.0/24,    Stuart Misc.
+128.164.147.0/24,    Law School
+128.164.148.0/22,    ESIA
+128.164.156.0/22,    SEAS
+128.164.160.0/24,    SEAS
+128.164.161.0/24,    DIT - City Hall Admin
+128.164.162.0/24,    A. Bambad - Rockville BioStatistics
+128.164.163.0/24,    DIT - FBDC Novell Cluster
+128.164.171.0/27,    2020 K Street Temp Space
+128.164.172.0/24,    UPD
+128.164.173.0/24,    UPD
+128.164.174.0/25,    DIT - Ivory Towers Wireless
+128.164.174.128/25,  DIT - FBDC Server Admin interfaces
+128.164.175.0/24,    Medical Center
+128.164.176.0/24,    Pepperdine - 2011 Eye St (4th, 7th, 8th)
+128.164.177.0/24,    DIT - 2011 Eye St (2nd, 3rd)
+128.164.178.0/25,    DIT - 2135 F St. Wireless
+128.164.178.128/26,  Medical Center
+128.164.179.0/28,    DIT - 2020 K Street (Wireless & Paetec)
+128.164.179.64/26,   DIT - HOVA Wireless
+128.164.180.0/24,    Comptroller
+128.164.181.0/24,    MVC Faculty
+128.164.182.0/24,    GSEHD
+128.164.183.0/24,    MVC Classrooms
+128.164.184.0/23,    Medical Center
+128.164.186.0/24,    DIT - MVC Access Points
+128.164.187.0/25,    DIT - Head-End Control
+128.164.187.128/25,  DIT - Head-End IPTV Source
+128.164.196.0/22,    SNS
+128.164.200.0/24,    ResNet Servers
+128.164.201.0/24,    SEAS
+128.164.202.0/28,    DIT - Aston MGT (COLT + EDFA)
+128.164.202.16/28,   DIT - Production SSL VPN Admin network
+128.164.202.32/28,   DIT - Test SSL VPN pools
+128.164.202.48/28,   DIT - Test SSL VPN pools
+128.164.202.64/26,   DIT - New Hall Wireless
+128.164.202.128/29,  DIT - Hospital PAETEC
+128.164.202.136/29,  DIT - Lafayette PAETEC
+128.164.202.144/29,  DIT - Aston PAETEC
+128.164.202.152/29,  DIT - City Hall PAETEC
+128.164.202.160/28,  DIT - 2011 I St. PAETEC
+128.164.202.176/29,  DIT - Cisco ASA Management Network
+128.164.202.192/27,  Watergate Office
+128.164.203.4/30,    DIT  - acad7609 to nva7609-1
+128.164.203.8/30,    DIT - mx240-supp to nva7609-1
+128.164.203.12/30,   DIT - CORE1 to nva7609-1
+128.164.203.16/30,   DIT - CORE2 to nva7609-2
+128.164.203.20/31,   DIT - CORE1 to the Aston
+128.164.203.22/31,   DIT - CORE2 to the Aston
+128.164.203.24/30,   DIT - 1776G CCA Trusted Network
+128.164.203.28/31,   DIT - hibbert.DIT.gwu.edu to acad7609
+128.164.203.30/31,   DIT - 1776G to patti7200 (Gigabeam)
+128.164.203.32/30,   DIT - CORE1 to acad7609
+128.164.203.36/31,   DIT - CORE1 to patti7200
+128.164.203.38/31,   DIT - CORE2 to selma7200
+128.164.203.40/30,   DIT - patti7200 to selma7200
+128.164.203.44/31,   DIT - patti7200 to CAT3K-PATTI-1
+128.164.203.46/31,   DIT - selma7200 to CAT3K-SELMA-1
+128.164.203.48/31,   DIT - 1776G to selma7200 (T1 Multilink)
+128.164.203.50/31,   DIT - 2021K to patti7200 (RCN)
+128.164.203.52/31,   DIT - 2121K to selma7200 (RCN)
+128.164.203.54/31,   DIT - 2121K to patti7200 (Pairgain)
+128.164.203.56/31,   DIT - 2033K to selma7200 (RCN)
+128.164.203.58/31,   DIT - 2033K to patti7200 (Pairgain)
+128.164.203.60/30,   DIT - CORE1 to CORE2
+128.164.203.64/31,   DIT - 2175K to patti7200 (RCN)
+128.164.203.66/31,   DIT - 1VASquare to patti7200 (Verizon)
+128.164.203.68/31,   DIT - 2100M to selma 7200 (RCN)
+128.164.203.72/30,   DIT - CORE2 to mx240-supp
+128.164.203.76/31,   DIT - 2100M to patti 7200 (Pairgain-1)
+128.164.203.78/31,   DIT - Lafayette to Core 2 (Paetec)
+128.164.203.80/30,   DIT - acad7609 to mx240-supp
+128.164.203.84/31,   DIT - 2100M to patti 7200 (Pairgain-2)
+128.164.203.88/30,   DIT - Hospital to Core 1 (Paetec)
+128.164.203.92/31,   DIT - Lafayette to 2011 I Street (Paetec)
+128.164.203.94/31,   DIT - CityHall to Lafayette (Paetec)
+128.164.203.96/31,   DIT - CityHall to Hospital (Paetec)
+128.164.203.98/31,   DIT - Lafayette to Hospital
+128.164.203.100/30,  DIT - 2020K to the Aston
+128.164.203.104/29,  DIT - VPN Box Network
+128.164.203.112/30,  DIT - Dept Of State 2201C Street
+128.164.203.116/30,  DIT - Dept Of State 2401 E Street
+128.164.203.120/29,  DIT - Hospital Interconnect
+128.164.203.128/31,  DIT - CORE-1 to MVC-IPCS-1
+128.164.203.130/31,  DIT - CORE-2 to MVC-IPCS-2
+128.164.203.132/31,  DIT - MVC-IPCS interconnect (1 to 2)
+128.164.203.134/31,  DIT - p2p_to_head-end
+128.164.203.136/30,  DIT - Hospital to Lafayette
+128.164.203.140/31,  DIT - CityHall to selma7200 (Pairgain)
+128.164.203.142/31,  DIT - 2029K to patti (Pairgain)
+128.164.203.144/31,  DIT - 2029K to patti (Allied telecom)
+128.164.203.146/31,  Rockville
+128.164.203.148/30,  DIT - Aston to Hospital
+128.164.203.152/30,  DIT - 1919 Penn to ACAD (Allied Telecom)
+128.164.203.156/30,  DIT - 1919 Penn to Support (Allied Telecom)
+128.164.212.0/22,    Gelman
+128.164.216.0/24,    2121 K St.
+128.164.217.0/28,    DIT - FW-PIM
+128.164.218.0/24,    SBPM - 1 Virginia Square
+128.164.219.0/24,    SEAS - SEAS
+128.164.224.0/22,    SBPM
+128.164.228.0/22,    Miscellaneous/Unsorted
+128.164.232.0/22,    Rice Hall
+128.164.236.0/22,    CCAS - Corcoran/Sampson/Townhouses
+128.164.240.0/22,    Academic Center
+128.164.244.0/22,    HOG/Monroe/Stuart/Lisner/Bell
+128.164.248.0/22,    Media & Public Affairs
+128.164.254.0/24,    DIT - video cameras
+128.164.255.0/24,    DIT - loopbacks
+161.253.1.0/24,     Student
+161.253.2.0/24,     Student
+161.253.3.0/24,     Student
+161.253.4.0/23,     Student - Potomac House
+161.253.6.0/23,     Student - Strong/Guthridge/2109F
+161.253.8.0/22,     Student - JBKO/Munson/Fullbright
+161.253.12.0/22,     Student - NewHall
+161.253.16.0/23,     Student - Madison Hall
+161.253.18.0/23,     Student - FSK Hall/2028G/Bldg.JJ/2034G
+161.253.20.0/22,     Student - Ivory Tower
+161.253.24.0/22,     Student - City Hall
+161.253.28.0/23,     Student - The Schenley/Lafayette
+161.253.30.0/23,     Student - IHOS/Townhouse Row/AQ/AS/AT
+161.253.32.0/22,     Student - Thurston Hall
+161.253.36.0/22,     Student - HOVA
+161.253.40.0/24,     Student - 1957 E St. (ESIA Residential)
+161.253.41.0/24,     Student - The West End
+161.253.42.0/23,     Student - MC 3rd floor events
+161.253.44.0/24,     Student - The Aston
+161.253.45.0/24,     Student - ResHall Labs/MC Student Groups
+161.253.46.0/23,     Student - Mitchell Hall
+161.253.48.0/22,     Student - MVC Students
+161.253.53.0/24,     Student - Crawford Hall
+161.253.54.0/23,     Student - Thurston Hall (fl 1 - 3)
+161.253.56.0/23,     Student - The Dakota
+161.253.58.0/23,     Student - 2135 F St. (Square 80)
+161.253.64.0/21,     Student - Summer Wireless
+161.253.96.0/19,     SSL VPN
+161.253.129.0/27,    Jason Foundation
+161.253.129.32/28,   IJIS
+161.253.129.48/28,   MFA
+161.253.129.64/27,   CATS
+161.253.130.0/29,    NCAC DMZ
+161.253.130.16/28,   DIT - Patchlink Firewalled Network
+161.253.130.64/26,   Security
+161.253.130.128/26,  DIT - UNIX test
+161.253.131.0/25,    DIT - telecom (via 161.253.152.1)
+161.253.131.128/26,  DIT - DIT_mgt
+161.253.131.192/27,  DIT - Load Balancer LDAP Network
+161.253.131.242/31,  DIT - mx240-nva to nva-7609-1
+161.253.131.244/31,  DIT - mx240-nva to nva-7609-2
+161.253.131.246/31,  DIT - CAT3K-Research2-1E to 1W
+161.253.131.248/31,  DIT - nva-7609-2 to CAT3K-Research2-1W
+161.253.131.250/31,  DIT - nva-7609-1 to CAT3K-Research2-1E
+161.253.131.252/31,  DIT - nva-7609-1 to nva-7609-2 (p2p)
+161.253.132.0/25,    DIT - Load Balancer Routed Network
+161.253.132.128/25,  DIT - LCDC Server Admin interfaces
+161.253.135.0/24,    Ashburn Campus Building 2 - VPN Network
+161.253.137.0/24,    Ashburn Campus Building 2 - Basement East
+161.253.138.0/24,    Ashburn Campus Building 2 - 1st Fl. West
+161.253.139.0/24,    Ashburn Campus Building 2 - 1st Fl. East
+161.253.140.0/24,    Ashburn Campus Building 2 - 2nd Fl. West
+161.253.141.0/24,    Ashburn Campus Building 2 - 2nd Fl. East
+161.253.142.0/24,    Ashburn Campus Building 2 - 3rd Fl. West
+161.253.143.0/24,    Ashburn Campus Building 2 - 3rd Fl. East
+161.253.147.0/24,    CATS
+161.253.148.0/26,    EMC-Centera_DMZ (via 161.253.152.1)
+161.253.149.0/24,    Firewall/Load-balance (via 161.253.152.1)
+161.253.150.0/24,    Firewall (via 161.253.152.1)
+161.253.151.0/24,    Firewall (via 161.253.152.1)
+161.253.152.0/24,    DIT Ð Ashburn Data Center
+161.253.153.0/24,    DIT Ð Ashburn Data Center (CoLo)
+161.253.154.0/23,    Ashburn Campus NCAC (via 161.253.130.1)
+161.253.156.0/23,    DIT  - Ashburn Campus Building 1
+161.253.158.0/24,    VMWareDMZ (via 161.253.152.1)
+161.253.159.0/24,    DIT - LOM-KVM
+161.253.160.0/24,    UPD DVR
+161.253.161.0/26,    DIT - voice-CTRL-a
+161.253.161.64/26,   DIT - voice-SIP-internal
+161.253.161.128/25,  DIT - voice-bearer_resources
+161.253.162.0/26,    DIT - voice-CTLR-b
+161.253.162.64/26,   DIT - voice-SIP-SBC
+161.253.162.128/25,  DIT - voice-CLANs
+161.253.167.0/24,    DIT - Cameras
+161.253.168.0/24,    DIT - LCDC Novell Cluster
+161.253.172.0/23,    UMUC
+161.253.175.0/25,    unused
+161.253.175.128/25,  DIT - voice-Research2
+161.253.176.0/24,    Research2 1st Floor
+161.253.177.0/24,    Research2 2nd Floor
+161.253.178.0/24,    Research2 3rd Floor
+161.253.179.0/27,    DIT - Research2 Admin Network
+161.253.180.0/22,    DIT - VPN Network
+161.253.184.0/22,    DIT - Ashburn SSL VPN
+161.253.191.240/28,  DIT - loopbacks
+239.164.11.44,     MCAST  mheily - Vignette Prod VAP Cluster
+239.164.11.46,     MCAST  mheily - Vignette Prod VCM Cluster
+239.164.11.55,     MCAST  mheily - Vignette Test VAP Cluster
+239.164.11.56,     MCAST  mheily - Vignette Test VCM Cluster
+239.164.11.185,     MCAST  shehzada - vcm2.stage.uwp.gwu.edu
+239.253.150.30,     MCAST  VAP Preview
+239.253.150.93,     MCAST  mheily - Vignette Test PREVIEW Cluster
+239.253.150.211,     MCAST  shehzada - vap1.stage.uwp.gwu.edu
+239.253.150.212,     MCAST  shehzada - vcm1.stage.uwp.gwu.edu
+239.164.187.0/24,    MCAST  syoung - CATV Head End multicast sources
+128.164.255.10,     LOOPBACK - multiple (anycast RP)
+128.164.255.172,     LOOPBACK - CAT6K-CORE-1
+128.164.255.173,     LOOPBACK - CAT6K-CORE-2
+128.164.255.176,     LOOPBACK - patti-7200
+128.164.255.177,     LOOPBACK - selma-7200
+128.164.255.178,     LOOPBACK - acad-7609
+128.164.255.179,     LOOPBACK - MX240-SUPP
+128.164.255.181,     LOOPBACK - 1776G-3825
+128.164.255.182,     LOOPBACK - CAT4K-2121K-1
+128.164.255.183,     LOOPBACK - CAT4K-2033K-2nd
+128.164.255.184,     LOOPBACK - CAT6K-ASTON-1
+128.164.255.185,     LOOPBACK - CAT4K-2175K-1
+128.164.255.186,     LOOPBACK - CAT4K-2100M-1
+128.164.255.187,     LOOPBACK - CAT3560-MVC-IPCS-1
+128.164.255.188,     LOOPBACK - CAT3560-MVC-IPCS-2
+128.164.255.189,     LOOPBACK - CAT3K-ADAMS-Paetec
+128.164.255.190,     LOOPBACK - CAT3K-HOSP-Paetec
+128.164.255.191,     LOOPBACK - CAT3K-2011I-Paetec
+128.164.255.193,     LOOPBACK - CAT3K-2020K-Paetec
+128.164.255.194,     LOOPBACK - 2029K-4th-1800
+128.164.255.195,     LOOPBACK - CAT4K-CityHall-1
+128.164.255.196,     LOOPBACK - 1919Penn-MZ-1800
+128.164.255.197,     LOOPBACK - CAT2K-1919Penn-data
+161.253.191.241,     LOOPBACK - CAT3K-Research2-1W
+161.253.191.242,     LOOPBACK - CAT3K-Research2-1E
+161.253.191.250,     LOOPBACK - MX240-NVA
+161.253.191.253,     LOOPBACK - nva-7609-1
+161.253.191.254,     LOOPBACK - nva-7609-2
