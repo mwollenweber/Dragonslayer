@@ -1,0 +1,284 @@
+/home/dragonslayer/code/dragonslayer.py:53: Warning: Data truncated for column 'registrant' at row 1
+  self.cursor.execute('''INSERT INTO mdl(mdl.tdstamp,mdl.url, mdl.ip, mdl.lookup, mdl.description, mdl.registrant)
+/home/dragonslayer/code/dragonslayer.py:53: Warning: Data truncated for column 'url' at row 1
+  self.cursor.execute('''INSERT INTO mdl(mdl.tdstamp,mdl.url, mdl.ip, mdl.lookup, mdl.description, mdl.registrant)
+/home/dragonslayer/code/dragonslayer.py:53: Warning: Data truncated for column 'lookup' at row 1
+  self.cursor.execute('''INSERT INTO mdl(mdl.tdstamp,mdl.url, mdl.ip, mdl.lookup, mdl.description, mdl.registrant)
+/home/dragonslayer/code/dragonslayer.py:53: Warning: Data truncated for column 'description' at row 1
+  self.cursor.execute('''INSERT INTO mdl(mdl.tdstamp,mdl.url, mdl.ip, mdl.lookup, mdl.description, mdl.registrant)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Out of range value adjusted for column 'tdstamp' at row 606
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Row 606 doesn't contain data for all columns
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:229: Warning: Column 'srcip' cannot be null
+  self.cursor.execute('''INSERT INTO dragon
+/home/dragonslayer/code/dragonslayer.py:229: Warning: Column 'dstip' cannot be null
+  self.cursor.execute('''INSERT INTO dragon
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 7928
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 9350
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 20425
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 22369
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23213
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23214
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23215
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23216
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23217
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23218
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23219
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23220
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23221
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23222
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23223
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23224
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23225
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23226
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23227
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 23228
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 28080
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 30065
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 31239
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 34256
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 34662
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 34687
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 34711
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 34745
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 34759
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 34761
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 40868
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 44117
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 44122
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 44124
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 46549
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 51705
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 52403
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 52457
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 52458
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 52459
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 52460
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 52461
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 52462
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 52463
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 52464
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 53096
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 57296
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 59498
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 63559
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 63633
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 63636
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 63706
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 63715
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 63716
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 63719
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 63720
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 64359
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 64954
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 66064
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 66492
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 70853
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 76171
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 77885
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 79215
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 7
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 1096
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 1340
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 2792
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 2793
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 2794
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 2795
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 2796
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 2797
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 2798
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 3492
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 3826
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 3827
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 4487
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 5936
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 5938
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 5943
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 5944
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 5945
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 5946
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 5947
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 5965
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 5968
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 5969
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 5970
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 5971
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 5972
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 5973
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 5976
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 8637
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 8678
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 9812
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 9844
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11009
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11446
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11447
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11448
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11449
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11450
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11451
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11457
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11458
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11459
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11460
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11461
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11462
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11463
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11464
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11465
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11466
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11467
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11468
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11469
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 11470
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 14088
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 16410
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 16420
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 17043
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 17062
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 18821
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 20945
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 22248
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+/home/dragonslayer/code/dragonslayer.py:227: Warning: Data truncated for column 'x4' at row 22934
+  self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+initializing dragonslayer
+db connection succeeded
+loading mdl
+loaded: /home/dragonslayer/dragon_db/dragon.log.350
+loaded: /home/dragonslayer/dragon_db/dragon.log.359
+loaded: /home/dragonslayer/dragon_db/dragon.log.351
+loaded: /home/dragonslayer/dragon_db/dragon.log.358
+generating hourly bad list
+lastupdate = 7975 interval = 21600
+
+shadow server data up to date enough
+done updating hourly_dragon_bad

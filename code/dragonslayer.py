@@ -353,7 +353,6 @@ class dragonslayer:
                 ORDER BY dragon.dstip, dragon.srcip, dragon.event'''
         
         update_hourly_q = '''INSERT INTO hourly_dragon_mdl (hourly_dragon_mdl.tdstamp, hourly_dragon_mdl.event, hourly_dragon_mdl.victim, hourly_dragon_mdl.attacker, hourly_dragon_mdl.description) select temp_mdl.tdstamp, temp_mdl.event, temp_mdl.victim, temp_mdl.attacker, temp_mdl.description from temp_mdl ON DUPLICATE KEY UPDATE hourly_dragon_mdl.tdstamp=temp_mdl.tdstamp'''
-
         clean_hourly_q1 = '''DELETE from hourly_dragon_mdl where DATEDIFF(CURDATE(), DATE(tdstamp)) > 0''' 
 
 
