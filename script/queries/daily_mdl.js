@@ -79,7 +79,7 @@ SampleApp.DailyMdl.GridPanel = function() {
         store: store,
         columns: [
             {
-                id       :'date',
+                id       :'daily_mdl_date',
                 header   : 'Date', 
                 width    : 160, 
                 sortable : true, 
@@ -111,7 +111,7 @@ SampleApp.DailyMdl.GridPanel = function() {
             }
         ],
         stripeRows: true,
-        autoExpandColumn: 'date'
+        autoExpandColumn: 'daily_mdl_date'
     });
 }
 

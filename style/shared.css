@@ -6,5 +6,7 @@
 .dragonslayer-nav-link {
     text-decoration:none;
     color:#3764A0;
+    vertical-align: top;
+    font-size: small;
 }
 
