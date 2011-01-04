@@ -50,6 +50,10 @@ Ext.extend(SampleApp.DailyCritical.Panel, Ext.Panel, {
  * Grid Panel
  */
 SampleApp.DailyCritical.GridPanel = function() {
+	SampleApp.DailyCritical.GridPanel.superclass.constructor.call(this,{
+        loadMask: true,
+        title: "djqwdjqwkld"
+	});
     
 	// create the data store
     var store = new Ext.data.ArrayStore({
@@ -60,7 +64,8 @@ SampleApp.DailyCritical.GridPanel = function() {
            {name: 'attacker'}
         ]
     });
-	
+    
+    Ext.Ajax.timeout = 300000; 
     var myData = Ext.Ajax.request({
         url: 'controls/queries/daily_critical.php',
         method:'GET', 

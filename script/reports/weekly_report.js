@@ -81,7 +81,7 @@ SampleApp.WeeklyReport.GridPanel = function() {
         store: store,
         columns: [
             {
-                id       :'device',
+                id       :'weekly_report_device',
                 header   : 'Device Name', 
                 width    : 160, 
                 sortable : true, 
@@ -125,7 +125,7 @@ SampleApp.WeeklyReport.GridPanel = function() {
             }
         ],
         stripeRows: true,
-        autoExpandColumn: 'notes'
+        autoExpandColumn: 'weekly_report_device'
     });
 }
 

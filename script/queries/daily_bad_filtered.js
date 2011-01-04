@@ -30,7 +30,7 @@ SampleApp.DailyBadFiltered.Panel = function() {
 	dailyBadFilteredGridPanel = new SampleApp.DailyBadFiltered.GridPanel();
     SampleApp.DailyBadFiltered.Panel.superclass.constructor.call(this,{
         frame:true,
-        title: "Daily MDL",
+        title: "Daily Bad Filtered",
         closable:true,
         titleCollapse:true,
         layout: 'border',
