@@ -24,7 +24,7 @@ SampleApp.Actions.Panel = function() {
     SampleApp.Actions.Panel.superclass.constructor.call(this,{
         frame:true,
         title:"Actions",
-        contentEl:"dragonslayer-Actions-content",
+        contentEl:"dragonslayer-actions-content",
         titleCollapse:true
     });
     
