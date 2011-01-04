@@ -1,5 +1,6 @@
 Ext.namespace("SampleApp.WeeklyReport");
 var weeklyReportGridPanel;
+var weeklyReportFormPanel;
 
 /**
  * Attach the launcher panel to the West Panel
@@ -27,15 +28,19 @@ SampleApp.WeeklyReport.Open = function() {
  * 
  */
 SampleApp.WeeklyReport.Panel = function() {
+    weeklyReportFormPanel = new SampleApp.WeeklyReport.FormPanel();
 	weeklyReportGridPanel = new SampleApp.WeeklyReport.GridPanel();
+	
     SampleApp.WeeklyReport.Panel.superclass.constructor.call(this,{
         frame:true,
         title: "Weekly Report",
+        id: 'container',
         closable:true,
         titleCollapse:true,
         layout: 'border',
         items : [
-                 weeklyReportGridPanel
+                 weeklyReportGridPanel,
+                 weeklyReportFormPanel
         ]
     });
 };
@@ -134,3 +139,25 @@ SampleApp.WeeklyReport.GridPanel = function() {
  */
 Ext.extend(SampleApp.WeeklyReport.GridPanel, Ext.grid.GridPanel, {
 });
+
+/**
+ *  Address Book Form Panel
+ */
+SampleApp.WeeklyReport.FormPanel = function(){
+    SampleApp.WeeklyReport.FormPanel.superclass.constructor.call(this,{
+        frame:false,
+        title: 'Weekly Report Graph',
+        bodyStyle:'padding:5px 5px 0',
+        id: 'weekly_report_chart_container',
+        region: "south",
+        height: 300,
+        width: 800
+    })
+}
+
+/**
+ * 
+ */
+Ext.extend(SampleApp.WeeklyReport.FormPanel, Ext.FormPanel, {
+});
+
