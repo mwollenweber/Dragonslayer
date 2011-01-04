@@ -22,7 +22,7 @@ for($i=0;$i < $result_count;$i++) {
 	$patchy_query = "SELECT dev_name, tdstamp FROM patchy WHERE INET_NTOA(ip) = '$ip' ORDER by id DESC limit 1";
 	$patchy_results = mysqli_query($link,$patchy_query);
 	
-	if($patchy_results != null) {
+	if(mysqli_num_rows($patchy_results) == 1) {
 		$patchy_results_array = mysqli_fetch_assoc($patchy_results);
 		$device_name = $patchy_results_array['dev_name'];
 		$patchlink = "YES";
