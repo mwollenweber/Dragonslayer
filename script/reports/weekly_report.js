@@ -1,6 +1,6 @@
 Ext.namespace("SampleApp.WeeklyReport");
 var weeklyReportGridPanel;
-var weeklyReportFormPanel;
+var chart;
 
 /**
  * Attach the launcher panel to the West Panel
@@ -140,86 +140,111 @@ SampleApp.WeeklyReport.GridPanel = function() {
 Ext.extend(SampleApp.WeeklyReport.GridPanel, Ext.grid.GridPanel, {
 });
 
-
 /**
  *  Address Book Form Panel
  */
 SampleApp.WeeklyReport.FormPanel = function(){
+	
+    var store_everything = new Ext.data.JsonStore({
+        fields:['week_all', 'count_all','week_student', 'count_student', 'week_dit','count_dit'],
+        url: 'controls/query.php?type=cases',
+        root: "data",
+    });
+    
+    var loadData = function(store){
+        store.load();
+    }
+
+    var bindStore = function(store){
+        chart.bindStore(store);
+    }
+
+    var addSeries = function(){
+        var series = [{
+            name: 'All',
+            dataIndex: 'count_all',
+            xField: 'week_all',
+            yField: 'count_all',
+        },{
+            name: 'Student',
+            dataIndex: 'count_student',
+            xField: 'week_student',
+            yField: 'count_student',
+        },{
+            name: 'DIT',
+            dataIndex: 'count_dit',
+            xField: 'week_dit',
+            yField: 'count_dit',
+        }];
+        chart.addSeries(series);
+    }
+	
+	chart = new Ext.ux.HighChart({
+		loadMask:true,
+        chartConfig: {
+            chart: {
+                defaultSeriesType: 'line',
+                margin: [50, 150, 60, 80]
+            },
+            title: {
+                text: 'Weekly Cases',
+                style: {
+                    margin: '10px 100px 0 0' // center it
+                }
+            },
+            xAxis: [{
+            	title: {
+            		text: 'Week'
+            	},
+				categories: ['0', '1', '2','3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+								'13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'],
+                min:1,
+                max:52
+            
+            }],
+            yAxis: {
+                title: {
+                    text: 'Number of Cases'
+                },
+                min:0,
+                max:250
+            },
+            tooltip: {
+                formatter: function() {
+                    return '<b>'+ this.series.name +'</b><br/>'+
+                        this.y +' cases';
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                style: {
+                    left: 'auto',
+                    bottom: 'auto',
+                    right: '10px',
+                    top: '100px'
+                }
+            }
+        }
+    });
+
+	
     SampleApp.WeeklyReport.FormPanel.superclass.constructor.call(this,{
         frame:false,
         title: 'Weekly Report Graph',
         bodyStyle:'padding:5px 5px 0',
         region: "south",
-        height: 300,
+        height: 400,
         width: 800,
-        items: new Ext.TabPanel({
-            activeTab: 0,
-            items: [
-                    new Ext.ux.HighchartPanel({
-                        title: 'Chart',
-                        layout:'fit',
-                        redrawOnResize: true, // Option (If using large datasets set this to false)
-                        chartConfig: {
-                            chart: {
-                                defaultSeriesType: 'area'
-                            },
-                            title: {
-                                text: 'US and USSR nuclear stockpiles'
-                            },
-                            subtitle: {
-                                text: 'Source: http://thebulletin.metapress.com/content/c4120650912x74k7/fulltext.pdf'
-                            },
-                            xAxis: {
-                            },
-                            yAxis: {
-                                title: {
-                                    text: 'Nuclear weapon states'
-                                },
-                                labels: {
-                                    formatter: function() {
-                                        return this.value / 1000 +'k';
-                                    }
-                                }
-                            },
-                            tooltip: {
-                                formatter: function() {
-                                    return this.series.name +' produced <b>'+
-                                        Highcharts.numberFormat(this.y, 0, null, ' ') +'</b><br/>warheads in '+ this.x;
-                                }
-                            },
-                            plotOptions: {
-                                area: {
-                                    pointStart: 1940,
-                                    marker: {
-                                        enabled: false,
-                                        symbol: 'circle',
-                                        radius: 2
-                                    }
-                                }
-                            },
-                            series: [{
-                                    name: 'USA',
-                                    data: [null, null, null, null, null, 6 , 11, 32, 110, 235, 369, 640,
-                                        1005, 1436, 2063, 3057, 4618, 6444, 9822, 15468, 20434, 24126,
-                                        27387, 29459, 31056, 31982, 32040, 31233, 29224, 27342, 26662,
-                                        26956, 27912, 28999, 28965, 27826, 25579, 25722, 24826, 24605,
-                                        24304, 23464, 23708, 24099, 24357, 24237, 24401, 24344, 23586,
-                                        22380, 21004, 17287, 14747, 13076, 12555, 12144, 11009, 10950,
-                                        10871, 10824, 10577, 10527, 10475, 10421, 10358, 10295, 10104 ]
-                                }, {
-                                    name: 'USSR/Russia',
-                                    data: [null, null, null, null, null, null, null , null , null ,null,
-                                        5, 25, 50, 120, 150, 200, 426, 660, 869, 1060, 1605, 2471, 3322,
-                                        4238, 5221, 6129, 7089, 8339, 9399, 10538, 11643, 13092, 14478,
-                                        15915, 17385, 19055, 21205, 23044, 25393, 27935, 30062, 32049,
-                                        33952, 35804, 37431, 39197, 45000, 43000, 41000, 39000, 37000,
-                                        35000, 33000, 31000, 29000, 27000, 25000, 24000, 23000, 22000,
-                                        21000, 20000, 19000, 18000, 18000, 17000, 16000]
-                                }]
-                        }
-                })]
-            }),
+        items: [chart]
     })
+    
+    addSeries();
+    bindStore(store_everything);
+    loadData(store_everything);
+    
+//    
+//    bindStore(store_student);
+//    loadData(store_student);
 }
 
 /**
