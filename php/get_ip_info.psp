@@ -1,5 +1,4 @@
 <%
-
 import socket, MySQLdb, sys, Queue
 from xml.dom.minidom import Document
 from threading import Thread
@@ -7,6 +6,7 @@ from threading import Thread
 sys.path.append("/home/dragonslayer/code/")
 options = req.get_options()
 options['mod_python.importer.path'] = "/home/dragonslayer/code/"
+
 
 import dhcp_lookup2
 #import dragonslayer
@@ -23,150 +23,196 @@ class dhcp_thread(Thread):
 
 	def ret_dhcp(self):
 		return self.dhcp_ret
-
-def get_ip_from_form():
-	if form.has_key("ip"):
-		ip = form["ip"]
-	else:
-		ip = 0
-
-	return ip
-
-def get_dns(ip):
+class ip_info:
+	def __init__(self):
+		ipstr = None
+		fqdn = None
+		dups = None
+		net = None
+		macs = None
+		crit = None
+		dhcp = None
+		req_type = None
 	
-	ret = socket.getfqdn(ip)
+	def get_ip_from_form(self):
+		if form.has_key("ip"):
+			ip = form["ip"]
+		else:
+			ip = 0
 	
-	if ret.find("gwu.edu") < 0:
-		ret = "client"
-		
-	return ret
-
-
-def check_duplicates(conn, ip):
-	duplicate_query = "SELECT victim FROM gwcases WHERE INET_NTOA(victim)='" + str(ip) +  "' and DATE(tdstamp) BETWEEN CURDATE()-6 and CURDATE()"
-	#print "duplicate_query = " + duplicate_query
-	cursor = conn.cursor()
-	cursor.execute(duplicate_query)
-	row = cursor.fetchone()
-
-	if row is None:
-		return str(0)
-	else:
-		return str(1)
+		return ip
 	
-
-def get_network(conn, ip):
-	network_query = "SELECT name from netblocks where INET_ATON('" + ip + "') BETWEEN start and end limit 1"
-	cursor = conn.cursor()
-	cursor.execute(network_query)
-	row = cursor.fetchone()
-
-	if row is None:
-		row = ["unknown"]
-
-	return row[0]
-
-def get_macs(conn, ip):
-	ret = []
-	mac_query = "select mac from mac_view where ip = INET_ATON('%s')" % ip
-	cursor = conn.cursor()
-	cursor.execute(mac_query)
-	while (1):
+	def get_dns(self, ip):
+		ret = socket.getfqdn(ip)
+		if ret.find("gwu.edu") < 0:
+			ret = "client"
+			
+		return ret
+	
+	
+	def check_duplicates(self, conn, ip):
+		duplicate_query = "SELECT victim FROM gwcases WHERE INET_NTOA(victim)='" + str(ip) +  "' and DATE(tdstamp) BETWEEN CURDATE()-6 and CURDATE()"
+		#print "duplicate_query = " + duplicate_query
+		cursor = conn.cursor()
+		cursor.execute(duplicate_query)
 		row = cursor.fetchone()
-		if row == None:
-			break
-
-		ret.append(row[0])
-
-	return ret
-
-def check_critical(conn, ip):
-	query = "SELECT INET_NTOA(ip), notes FROM critical where ip = INET_ATON('%s')" % ip
-	cursor = conn.cursor()
-	cursor.execute(query)
-	row = cursor.fetchone()
 	
-	if row is None:
-		return "FALSE"
-
-	ret = "CRITICAL HOST: " + str(row[0]) + " TRUE"
-	return ret
+		if row is None:
+			return str(0)
+		else:
+			return str(1)
+		
 	
-
-def get_ip_msg(ipstr):
-
-	thread_list = []
+	def get_network(self, conn, ip):
+		network_query = "SELECT name from netblocks where INET_ATON('" + ip + "') BETWEEN start and end limit 1"
+		cursor = conn.cursor()
+		cursor.execute(network_query)
+		row = cursor.fetchone()
 	
-	dhcp_t = dhcp_thread(0, ipstr)
-	dhcp_t.start()
-
-	username = "dragonslayer"
-	password = "slayer"
-	database = "dragonslayer"
+		if row is None:
+			row = ["unknown"]
 	
-	conn = MySQLdb.connect(host = "localhost",
-			       user = username,
-			       passwd = password,
-			       db = database)
-
-
-	fqdn = get_dns(ipstr)
-	dups = check_duplicates(conn, ipstr)
-	net = get_network(conn, ipstr)
-	macs = get_macs(conn, ipstr)
-	crit = check_critical(conn, ipstr)
-
-	dhcp_t.join()
-	dhcp = dhcp_t.ret_dhcp()
+		return row[0]
 	
-	#build the xml reply
-	doc=Document()
-	ip_msg = doc.createElement("ip_msg")
-	doc.appendChild(ip_msg)
+	def get_macs(self, conn, ip):
+		ret = []
+		mac_query = "select mac from mac_view where ip = INET_ATON('%s')" % ip
+		cursor = conn.cursor()
+		cursor.execute(mac_query)
+		while (1):
+			row = cursor.fetchone()
+			if row == None:
+				break
+	
+			ret.append(row[0])
+	
+		return ret
+	
+	def check_critical(self, conn, ip):
+		query = "SELECT INET_NTOA(ip), notes FROM critical where ip = INET_ATON('%s')" % ip
+		cursor = conn.cursor()
+		cursor.execute(query)
+		row = cursor.fetchone()
+		
+		if row is None:
+			return "FALSE"
+	
+		ret = "CRITICAL HOST: " + str(row[0]) + " TRUE"
+		return ret
+	
+	def build_json_reply(self):
+		print "building json reply"
+		try:
+			import json
+		except:
+			import simplejson as json
+			
+		ip_msg = {"ip_addr": self.ipstr}
+		ip_msg["fqdn"] = self.fqdn
+		ip_msg["recent_case"] = self.dups
+		ip_msg["network_name"] = self.net
+		ip_msg["critical_info"] = self.crit
+		ip_msg["dhcp_info"] = self.dhcp
+		#add mac info
+		
+		return json.dumps(ip_msg)
+		
 
-	ip_addr = doc.createElement("ip_addr")
-	ip_msg.appendChild(ip_addr)
-	txt = doc.createTextNode(ipstr)
-	ip_addr.appendChild(txt)
-
-	name = doc.createElement("fqdn")
-	ip_msg.appendChild(name)
-	txt = doc.createTextNode(fqdn)
-	name.appendChild(txt)
-
-	has_dups = doc.createElement("recent_case")
-	ip_msg.appendChild(has_dups)
-	txt = doc.createTextNode(str(dups))
-	has_dups.appendChild(txt)
-
-	net_name = doc.createElement("network_name")
-	ip_msg.appendChild(net_name)
-	txt = doc.createTextNode(str(net))
-	net_name.appendChild(txt)
-
-	crit_name = doc.createElement("critical_info")
-	ip_msg.appendChild(crit_name)
-	txt = doc.createTextNode(crit)
-	crit_name.appendChild(txt)
-
-	dhcp_info = doc.createElement("dhcp_info")
-	ip_msg.appendChild(dhcp_info)
-	txt = doc.createTextNode(dhcp)
-	dhcp_info.appendChild(txt)
-
-	for m in macs:
-		mac_info = doc.createElement("mac_addr")
-		ip_msg.appendChild(mac_info)
-		txt = doc.createTextNode(m)
-		mac_info.appendChild(txt)
-
-	return doc.toprettyxml(indent="   ")
+			
+	
+	def build_xml_reply(self):
+		doc = Document()
+		ip_msg = doc.createElement("ip_msg")
+		doc.appendChild(ip_msg)
+	
+		ip_addr = doc.createElement("ip_addr")
+		ip_msg.appendChild(ip_addr)
+		txt = doc.createTextNode(self.ipstr)
+		ip_addr.appendChild(txt)
+	
+		name = doc.createElement("fqdn")
+		ip_msg.appendChild(name)
+		txt = doc.createTextNode(self.fqdn)
+		name.appendChild(txt)
+	
+		has_dups = doc.createElement("recent_case")
+		ip_msg.appendChild(has_dups)
+		txt = doc.createTextNode(str(self.dups))
+		has_dups.appendChild(txt)
+	
+		net_name = doc.createElement("network_name")
+		ip_msg.appendChild(net_name)
+		txt = doc.createTextNode(str(self.net))
+		net_name.appendChild(txt)
+	
+		crit_name = doc.createElement("critical_info")
+		ip_msg.appendChild(crit_name)
+		txt = doc.createTextNode(self.crit)
+		crit_name.appendChild(txt)
+	
+		dhcp_info = doc.createElement("dhcp_info")
+		ip_msg.appendChild(dhcp_info)
+		txt = doc.createTextNode(self.dhcp)
+		dhcp_info.appendChild(txt)
+	
+		for m in self.macs:
+			mac_info = doc.createElement("mac_addr")
+			ip_msg.appendChild(mac_info)
+			txt = doc.createTextNode(m)
+			mac_info.appendChild(txt)
+	
+		return doc.toprettyxml(indent="   ")
+		
+	
+	def get_ip_msg(self, ipstr):
+		thread_list = []
+		dhcp_t = dhcp_thread(0, ipstr)
+		dhcp_t.start()
+	
+		username = "dragonslayer"
+		password = "slayer"
+		database = "dragonslayer"
+		
+		conn = MySQLdb.connect(host = "localhost",
+			               user = username,
+			               passwd = password,
+			               db = database)
+	
+	
+		self.ipstr = ipstr
+		self.fqdn = self.get_dns(ipstr)
+		self.dups = self.check_duplicates(conn, ipstr)
+		self.net = self.get_network(conn, ipstr)
+		self.macs = self.get_macs(conn, ipstr)
+		self.crit = self.check_critical(conn, ipstr)
+	
+		dhcp_t.join()
+		self.dhcp = dhcp_t.ret_dhcp()
+		
+		#figure out the type of reply
+		if form.has_key("type"):
+			req_type = form["type"]
+			if req_type == "json":
+				req.content_type = 'application/json'
+				return self.build_json_reply()
+				
+			elif req_type == "xml":
+				req.content_type = 'text/xml'
+				return self.build_xml_reply()
+			else:
+				print "ERROR"
+				
+		else:
+			req.content_type = 'text/xml'
+			return self.build_xml_reply()
+			
 
 if form.has_key("ip"):
 	ip = form["ip"]
-	req.content_type = 'text/xml'
-	req.write(get_ip_msg(ip))
-#get_ip_msg("")
+	my_ip_msg = ip_info()
+	req.write(my_ip_msg.get_ip_msg(ip))
+else:
+	req.write("Wtf dude")
 
 %>
 
