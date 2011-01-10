@@ -22,8 +22,10 @@ class dhcp_thread(Thread):
 
 	def ret_dhcp(self):
 		return self.dhcp_ret
+		
 class ip_info:
 	def __init__(self):
+		self.dhcp_flag = True
 		ipstr = None
 		fqdn = None
 		dups = None
@@ -169,9 +171,10 @@ class ip_info:
 		
 	
 	def get_ip_msg(self, ipstr):
-		thread_list = []
-		dhcp_t = dhcp_thread(0, ipstr)
-		dhcp_t.start()
+		if self.dhcp_flag == True:
+			thread_list = []
+			dhcp_t = dhcp_thread(0, ipstr)
+			dhcp_t.start()
 	
 		username = "dragonslayer"
 		password = "slayer"
@@ -190,8 +193,11 @@ class ip_info:
 		self.macs = self.get_macs(conn, ipstr)
 		self.crit = self.check_critical(conn, ipstr)
 	
-		dhcp_t.join()
-		self.dhcp = dhcp_t.ret_dhcp()
+		if self.dhcp_flag == True:
+			dhcp_t.join()
+			self.dhcp = dhcp_t.ret_dhcp()
+		else:
+			self.dhcp = "ERROR: Unrequested"
 		
 		#figure out the type of reply
 		if form.has_key("type"):
@@ -209,12 +215,17 @@ class ip_info:
 		else:
 			req.content_type = 'text/xml'
 			return self.build_xml_reply()
-			
+def str2bool(v):
+  return v.lower() in ["yes", "true", "t", "1"]			
 
 if form.has_key("ip"):
 	ip = form["ip"]
 	my_ip_msg = ip_info()
+	if form.has_key("dhcp"):
+		my_ip_msg.dhcp_flag = str2bool(form["dhcp"])
+	
 	req.write(my_ip_msg.get_ip_msg(ip))
+	
 else:
 	req.write("Wtf dude")
 
