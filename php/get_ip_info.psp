@@ -7,7 +7,6 @@ sys.path.append("/home/dragonslayer/code/")
 options = req.get_options()
 options['mod_python.importer.path'] = "/home/dragonslayer/code/"
 
-
 import dhcp_lookup2
 #import dragonslayer
 
@@ -107,18 +106,23 @@ class ip_info:
 		except:
 			import simplejson as json
 			
-		ip_msg = {"ip_addr": self.ipstr}
-		ip_msg["fqdn"] = self.fqdn
-		ip_msg["recent_case"] = self.dups
-		ip_msg["network_name"] = self.net
-		ip_msg["critical_info"] = self.crit
-		ip_msg["dhcp_info"] = self.dhcp
+		data = {"ip_addr": self.ipstr}
+		data["fqdn"] = self.fqdn
+		data["recent_case"] = self.dups
+		data["network_name"] = self.net
+		data["critical_info"] = self.crit
+		data["dhcp_info"] = self.dhcp
+		
 		#add mac info
+		if len(self.macs) > 0:
+			mac_info = []
+			for m in self.macs:
+				mac_info.append(m)
 		
+			data["mac_info"] = mac_info
+		ip_msg = {"ip_msg":data}
 		return json.dumps(ip_msg)
-		
-
-			
+				
 	
 	def build_xml_reply(self):
 		doc = Document()
