@@ -33,7 +33,7 @@ SampleApp.Main.CenterPanel = function() {
         enableTabScroll: true,
         defaults: {autoScroll: true},
         activeTab: 0,
-        items:[ ]
+        items:[]
     });
 };
 

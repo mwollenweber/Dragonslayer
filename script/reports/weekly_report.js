@@ -241,10 +241,7 @@ SampleApp.WeeklyReport.FormPanel = function(){
     addSeries();
     bindStore(store_everything);
     loadData(store_everything);
-    
-//    
-//    bindStore(store_student);
-//    loadData(store_student);
+
 }
 
 /**

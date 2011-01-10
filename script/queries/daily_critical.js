@@ -52,7 +52,6 @@ Ext.extend(SampleApp.DailyCritical.Panel, Ext.Panel, {
 SampleApp.DailyCritical.GridPanel = function() {
 	SampleApp.DailyCritical.GridPanel.superclass.constructor.call(this,{
         loadMask: true,
-        title: "djqwdjqwkld"
 	});
     
 	// create the data store
