@@ -180,7 +180,6 @@ SampleApp.WeeklyReport.FormPanel = function(){
     }
 	
 	chart = new Ext.ux.HighChart({
-		loadMask:true,
         chartConfig: {
             chart: {
                 defaultSeriesType: 'line',
@@ -235,6 +234,7 @@ SampleApp.WeeklyReport.FormPanel = function(){
         region: "south",
         height: 400,
         width: 800,
+		loadMask:true,
         items: [chart]
     })
     
