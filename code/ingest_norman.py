@@ -15,7 +15,6 @@ class db_config:
     user = "dragonslayer"
     passwd = "slayer"
     db = "dragonslayer"
-    table = "norman_url"
     
 
 class norman_url:
@@ -23,8 +22,8 @@ class norman_url:
         print "initializing norman url"
         
         self.data = []
+        self.hosts2ips = []
         self.mysql_conn = None
-        self.mysql_table = None
         self.mysql_cursor = None
         
         if filename != None:
@@ -101,9 +100,7 @@ class norman_url:
         
         for line in data:
             print line
-            
-
-        
+             
             
     def url2ips(self, url = None):
         if url != None:
@@ -129,11 +126,13 @@ class norman_url:
             thread_list[thread_count].start()
             thread_count = thread_count + 1
 
-        time.sleep(10)
+        time.sleep(10.0 + thread_count/15.0)
         
         for t in thread_list:
             t.join(2.0)
-            print t.ret_hostlookup()
+            if t.ret_hostlookup() != None:
+                self.hosts2ips.append(t.ret_hostlookup())
+                print t.ret_hostlookup()
             
         print "done with lookups"
             
@@ -143,8 +142,8 @@ class norman_url:
             import MySQLdb
             mydbinfo = db_config()
             self.mysql_conn = MySQLdb.connect(host = mydbinfo.host, user = mydbinfo.user, passwd = mydbinfo.passwd, db = mydbinfo.db)
-            self.mysql_cursor = self.conn.cursor()
-            self.mysql_table = mydbinfo.table
+            self.mysql_cursor = self.mysql_conn.cursor()
+            
         except:
             print "epic fail trying to connect to mysql"
             exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
@@ -152,7 +151,7 @@ class norman_url:
             
     def push2mysql(self):
         print "pushing data to mysql"
-        insert_query_base = "INSERT INTO norman_url (tdstamp, url, md5, originator_content, originator_signature, download_md5, download_content, download_signature, download_sandbox) VALUES (NOW(), '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')"
+        insert_query = "INSERT INTO norman_url (tdstamp, url, md5, originator_content, originator_signature, download_md5, download_content, download_signature, download_sandbox) VALUES (NOW(), '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')"
         if self.mysql_conn == None:
             self.mysql_conn = self.mysql_connect()
             
@@ -162,11 +161,24 @@ class norman_url:
            
       
         for d in self.data:
-            print insert_query_base % (d["url"], d["md5"], d["originator_content"], d["originator_signature"], d["download_md5"], d["download_content"], d["download_signature"], d["download_sandbox"], ) 
-            #print d
+            self.mysql_cursor.execute(insert_query % (d["url"], d["md5"], d["originator_content"], d["originator_signature"], d["download_md5"], d["download_content"], d["download_signature"], d["download_sandbox"])) 
+    
+    def push_hosts2ips_mysql(self):
+        print "blegh"
+        if self.mysql_conn == None:
+            self.mysql_conn = self.mysql_connect()
             
+        if len(self.hosts2ips) <= 0:
+            print "you need to load data numnuts"
+            return None
  
+        query = "INSERT INTO host2ip (tdstamp, hostname, ip) VALUES (NOW(), '%s', INET_ATON('%s'))"
+        for d in self.hosts2ips:
+            hostname = d["hostname"]
+            for ip in d["ips"]:
+                self.mysql_cursor.execute(query % (hostname, ip))
             
+        
 class hostlookup_thread(Thread, norman_url):
     def __init__(self, myid, hostname):
         self.myid = myid
@@ -176,7 +188,6 @@ class hostlookup_thread(Thread, norman_url):
         Thread.__init__(self)
         
     def run(self):
-        print "running lookup thread"
         self.ret = self.get_ips_from_hostname(self.hostname)
         
         
@@ -186,22 +197,25 @@ class hostlookup_thread(Thread, norman_url):
     def get_ips_from_hostname(self, hostname):
         try:
             socket.setdefaulttimeout(3.0)
-            socket.socket.setblocking(0)
-            
             host_ip = {"hostname":hostname, "ips": socket.gethostbyname_ex(hostname)[2]}
-            print host_ip
             return host_ip
-        except:
-            print "ERROR: socket error getting %s\n" % hostname
+        
+        except socket.gaierror:
+            #print "ERROR: ip unavailable for %s" % hostname
             return None
+        
+        except:
+            exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
+            traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
 
                 
             
 def main():
     my_norman = norman_url(sys.argv[1])
-    my_norman.push2mysql()
-    my_norman.print_data()
-    #my_norman.url2ips()
+    #my_norman.push2mysql()
+    #my_norman.print_data()
+    my_norman.url2ips()
+    my_norman.push_hosts2ips_mysql()
      
             
 if __name__ == "__main__":
