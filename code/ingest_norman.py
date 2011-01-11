@@ -1,5 +1,6 @@
 try: 
     import os, sys, csv, zipfile, getopt, traceback, socket, urlparse, time
+    import threading
     from threading import Thread
     import StringIO
     import json
@@ -105,7 +106,7 @@ class norman_url:
         for d in self.data:
             urlobj = urlparse.urlparse(d["url"])
             host_list.append(urlobj.hostname)
-            #print "hostname = " + urlobj.hostname
+
              
         
         host_list = list(set(host_list))
@@ -116,10 +117,15 @@ class norman_url:
             thread_list[thread_count].start()
             thread_count = thread_count + 1
 
-        time.sleep(10)
+        iterations = 0
+        while threading.active_count() > 1 and iterations < 100:
+            print "active count = %s\n" % threading.active_count()
+            iterations = iterations + 1
+            time.sleep(1)
+
         
         for t in thread_list:
-            t.join(2.0)
+            t.join(1.0)
             print t.ret_hostlookup()
             
         print "done with lookups"
@@ -139,7 +145,7 @@ class norman_url:
             
     def push2mysql(self):
         print "pushing data to mysql"
-        insert_query_base = "INSERT INTO norman_url (tdstamp, url, md5, originator_content, originator_signature, download_md5, download_content, download_signature, download_sandbox) VALUES (NOW(), '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')"
+        insert_query = "INSERT INTO norman_url (tdstamp, url, md5, originator_content, originator_signature, download_md5, download_content, download_signature, download_sandbox) VALUES (NOW(), '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')"
         if self.mysql_conn == None:
             self.mysql_conn = self.mysql_connect()
             
@@ -149,21 +155,18 @@ class norman_url:
            
       
         for d in self.data:
-            print insert_query_base % (d["url"], d["md5"], d["originator_content"], d["originator_signature"], d["download_md5"], d["download_content"], d["download_signature"], d["download_sandbox"], ) 
-            #print d
-            
- 
+            self.mysql_cursor.execute(insert_query % (d["url"], d["md5"], d["originator_content"], d["originator_signature"], d["download_md5"], d["download_content"], d["download_signature"], d["download_sandbox"]))
+
             
 class hostlookup_thread(Thread, norman_url):
     def __init__(self, myid, hostname):
         self.myid = myid
         self.hostname = hostname
-        self.ret = None
-        
+        self.ret = None       
         Thread.__init__(self)
         
     def run(self):
-        print "running lookup thread"
+        print "in thread %s" % self.myid
         self.ret = self.get_ips_from_hostname(self.hostname)
         
         
@@ -173,22 +176,27 @@ class hostlookup_thread(Thread, norman_url):
     def get_ips_from_hostname(self, hostname):
         try:
             socket.setdefaulttimeout(3.0)
-            socket.socket.setblocking(0)
-            
             host_ip = {"hostname":hostname, "ips": socket.gethostbyname_ex(hostname)[2]}
             print host_ip
             return host_ip
+        
+        except socket.gaierror:
+            print "ERROR. hostname doesn't translate"
+            return None
+        
         except:
             print "ERROR: socket error getting %s\n" % hostname
+            exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
+            traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
             return None
 
                 
             
 def main():
     my_norman = norman_url(sys.argv[1])
-    #my_norman.push2mysql()
+    my_norman.push2mysql()
     #my_norman.print_data()
-    my_norman.url2ips()
+    #my_norman.url2ips()
      
             
 if __name__ == "__main__":
