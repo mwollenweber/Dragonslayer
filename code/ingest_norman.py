@@ -29,7 +29,8 @@ class norman_url:
         
         if filename != None:
             if filename.find(".zip") > 0:
-                self.open_zip(filename)
+                blob = self.open_zip(filename)
+                self.data2dict(blob)
 
             elif filename.find("url") >= 0 and filename.find("csv") > 0:
                 blob = self.read_file(filename)
@@ -76,8 +77,20 @@ class norman_url:
             
         data_stream.close()
         
-    def open_zip(zip_filename):
-        print "blegh"
+    def open_zip(self, filename):
+        zf = None
+        f = zipfile.ZipFile(filename)
+        
+        for name in f.namelist():
+            if name.find("url2") >= 0 and name.find("csv") > 0:
+                zf = name
+                break
+        
+        if zf == None:
+            print "ERROR: couldn't find the url2  csv in the zip file"
+            return None
+        
+        return f.read(zf)
         
     def get_json(self, data):
         return json.dumps(data)
@@ -186,9 +199,9 @@ class hostlookup_thread(Thread, norman_url):
             
 def main():
     my_norman = norman_url(sys.argv[1])
-    #my_norman.push2mysql()
-    #my_norman.print_data()
-    my_norman.url2ips()
+    my_norman.push2mysql()
+    my_norman.print_data()
+    #my_norman.url2ips()
      
             
 if __name__ == "__main__":
