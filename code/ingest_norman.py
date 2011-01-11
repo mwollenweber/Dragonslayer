@@ -138,6 +138,7 @@ class norman_url:
             self.mysql_conn = MySQLdb.connect(host = mydbinfo.host, user = mydbinfo.user, passwd = mydbinfo.passwd, db = mydbinfo.db)
             self.mysql_cursor = self.conn.cursor()
             self.mysql_table = mydbinfo.table
+            print "connection appears successful"
         except:
             print "epic fail trying to connect to mysql"
             exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
