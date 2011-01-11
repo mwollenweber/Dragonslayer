@@ -136,7 +136,7 @@ class norman_url:
             import MySQLdb
             mydbinfo = db_config()
             self.mysql_conn = MySQLdb.connect(host = mydbinfo.host, user = mydbinfo.user, passwd = mydbinfo.passwd, db = mydbinfo.db)
-            self.mysql_cursor = self.conn.cursor()
+            self.mysql_cursor = self.mysql_conn.cursor()
             self.mysql_table = mydbinfo.table
             print "connection appears successful"
         except:
