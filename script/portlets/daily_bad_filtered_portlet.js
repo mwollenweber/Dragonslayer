@@ -36,7 +36,8 @@ DailyBadFilteredPortlet = function() {
         stripeRows: true,
         autoExpandColumn: 'daily_bad_filter_date',
         height: 300,
-        viewConfig: {forceFit: true}
+        viewConfig: {forceFit: true},
+		autoSizeColumns: true
     });
 }
 
