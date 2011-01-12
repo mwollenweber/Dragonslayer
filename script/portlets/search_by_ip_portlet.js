@@ -1,43 +1,48 @@
 SearchByIpPortlet = function() {
 
-    var columns = [
-		{ id :'daily_bad_filter_date', header : 'Date', width : 160, sortable : true, dataIndex: 'date' },
-		{ header : 'Event', width : 200, sortable : true, dataIndex: 'event' },
-		{ header : 'Victim', width : 120, sortable : true, dataIndex: 'victim' },
-		{ header : 'Attacker', width : 120, sortable : true, dataIndex: 'attacker' },
-		{ header : 'Notes', width : 170, sortable : true, dataIndex: 'notes'}
-	];
-
-	var store = new Ext.data.ArrayStore({
-	    fields: [
-	       {name: 'date'},
-	       {name: 'event'},
-	       {name: 'victim'},
-	       {name: 'attacker'},
-	       {name: 'notes'}
-	    ]
-	});
+    searchByIpFormPanel = new SampleApp.SearchByIp.FormPanel(); //Create the form panel for the search box
 	
-	var myData = Ext.Ajax.request({
-	    url: 'controls/queries/daily_bad_filtered.php',
-	    method:'GET', 
-	    waitTitle:'Connecting', 
-	    waitMsg:'Getting data...',
-	    
-	    success:function(request){ 
-	    	var obj = Ext.util.JSON.decode(request.responseText); 
-	    	store.loadData(obj);
-	   },
-	});
+	SampleApp.SearchByIp.FormPanel = function(){
+		SampleApp.SearchByIp.FormPanel.superclass.constructor.call(this,{
+	        frame:false,
+	        buttonAlign : 'left',
+	        bodyStyle:'padding:5px 5px 0',
 
+	        defaultType: 'textfield',
+	        items: [{
+	                fieldLabel: 'IP Address',
+	                name: 'ip_address',
+	                allowBlank:false
+	            },
+	        ],
+	
+	        buttons: [{
+	            text: 'Search',   
+	            formBind: true,	 
+	            handler:function(){ 
+	            	var form_data = searchByIpFormPanel.getForm().getValues();
+	            	Ext.Ajax.request({
+	            		url: 'controls/actions/search_by_ip.php',
+				        method:'POST', 
+				        waitTitle:'Connecting', 
+				        waitMsg:'Getting data...',
+				        params: form_data,
+				        
+				        success:function(request){ 
+				        	var obj = Ext.util.JSON.decode(request.responseText);
+				        	store.loadData(obj);
+				       },
+					});
+	            },
+	        }],
+	        region: "north",
+	    });
+	}
+	
 	SearchByIpPortlet.superclass.constructor.call(this, {
-        store: store,
-        columns: columns,
-        stripeRows: true,
-        autoExpandColumn: 'daily_bad_filter_date',
-        height: 100,
-        viewConfig: {forceFit: true}
+        height: 95,
+        items: [searchByIpFormPanel]
     });
 }
 
-Ext.extend(SearchByIpPortlet, Ext.grid.GridPanel);
+Ext.extend(SearchByIpPortlet, Ext.Panel);

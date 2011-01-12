@@ -27,6 +27,8 @@ Ext.onReady(function() {
     });
 });
 
+
+
 /**
  * Welcome Panel - contains a welcoming message
  */
@@ -55,7 +57,7 @@ SampleApp.Welcome.Panel = function(config) {
 						title: 'Search by IP Address',
 						tools: tools,
 						frame:true,
-						items: new SearchByIpPortlet(),
+//						items: new SearchByIpPortlet(),
 					}, {
 						title: 'Weekly Report',
 						tools: tools,
@@ -79,7 +81,8 @@ SampleApp.Welcome.Panel = function(config) {
 					}, {
 						title: 'Past 30 Day Events',
 						tools: tools,
-						items: new Past30DayEventsGraphPortlet()
+						items: new Past30DayEventsGraphPortlet(),
+						height: 600,
 					}
 				]}
 			]

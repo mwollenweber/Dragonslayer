@@ -1,6 +1,5 @@
 <?php
 include 'database/database_connection.php';
-//$type = $_POST["type"];
 $type = $_GET["type"];
 
 #JSON is expected on the client side
