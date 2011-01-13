@@ -1,6 +1,7 @@
 Ext.namespace("SampleApp.CreateCase");
 var createCaseFormPanel;
 var createCaseGridPanel;
+var network_name = '';
 
 /**
  * Attach the launcher panel to the West Panel
@@ -70,6 +71,54 @@ SampleApp.CreateCase.FormPanel = function(){
 	                          [0, 'Delete'],
 	                      ];
 	
+	var ip_information = new Ext.data.JsonStore({
+	    fields: ['critical_info','ip_addr','fqdn','dhcp_info','recent_case','network_name']
+	});
+	
+	var myData = Ext.Ajax.request({
+	    url: 'controls/queries/get_ip_info.json', //this needs to call the real service
+	    waitTitle:'Connecting', 
+	    waitMsg:'Getting data...',
+	    
+	    success:function(request){ 
+	    	var obj = Ext.util.JSON.decode(request.responseText); 
+	    	ip_information.loadData(obj.ip_msg);
+	    	
+	    	network.setValue(obj.ip_msg.network_name);
+	    	victim.setValue(obj.ip_msg.ip_addr);
+	    	dns.setValue(obj.ip_msg.fqdn);
+	    	dhcp.setValue(obj.ip_msg.dhcp_info);
+	   },
+	});
+	
+    var network = new Ext.form.TextField({
+        fieldLabel: 'Network',
+        name: 'network',
+        allowBlank:false,
+        width: 400
+    });
+    
+    var victim = new Ext.form.TextField({
+        fieldLabel: 'Victim',
+        name: 'victim',
+        allowBlank:false,
+        width: 400
+    });
+    
+    var dhcp = new Ext.form.TextField({
+        fieldLabel: 'DHCP',
+        name: 'dhcp',
+        allowBlank:false,
+        width: 400
+    });
+    
+    var dns = new Ext.form.TextField({
+        fieldLabel: 'DNS',
+        name: 'dns',
+        allowBlank:false,
+        width: 400
+    });
+	
     SampleApp.CreateCase.FormPanel.superclass.constructor.call(this,{
         frame:false,
         buttonAlign : 'left',
@@ -94,36 +143,16 @@ SampleApp.CreateCase.FormPanel = function(){
                 allowBlank:false,
                 width: 400
             },
-            {
-                fieldLabel: 'Victim',
-                name: 'victim',
-                allowBlank:false,
-                width: 400
-            },
+            victim,
             {
                 fieldLabel: 'NetID',
                 name: 'netid',
                 allowBlank:false,
                 width: 400
             },
-            {
-                fieldLabel: 'Network',
-                name: 'network',
-                allowBlank:false,
-                width: 400
-            },
-            {
-                fieldLabel: 'DHCP',
-                name: 'dhcp',
-                allowBlank:false,
-                width: 400
-            },
-            {
-                fieldLabel: 'DNS',
-                name: 'dns',
-                allowBlank:false,
-                width: 400
-            },
+            network,
+            dhcp,
+            dns,
             {
                 fieldLabel: 'Attacker',
                 name: 'attacker',

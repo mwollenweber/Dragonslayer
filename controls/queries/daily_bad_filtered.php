@@ -13,9 +13,11 @@ mysqli_query($link,$create_bad_view);
 $result= mysqli_query($link,$query);
 
 $data_result = array();
-
+$count = 0;
 while($row = mysqli_fetch_assoc($result)) {
-	$data_result[] = array($row['tdstamp'], $row['event'], $row['INET_NTOA(victim)'], $row['INET_NTOA(attacker)'], $row['description']);
+	$url = "<a href='#' name='openCreateCase'>+</a>";
+	$data_result[] = array('case'=>$url, 'date'=>$row['tdstamp'], 'event'=>$row['event'], 'victim'=>$row['INET_NTOA(victim)'], 'attacker'=>$row['INET_NTOA(attacker)'], 'notes'=>$row['description']);
+	$count++;
 }
 
 mysqli_close($link);

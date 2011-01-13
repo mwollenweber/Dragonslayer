@@ -52,15 +52,9 @@ Ext.extend(SampleApp.DailyBadFiltered.Panel, Ext.Panel, {
 SampleApp.DailyBadFiltered.GridPanel = function() {
     
 	// create the data store
-    var store = new Ext.data.ArrayStore({
-        fields: [
-           {name: 'date'},
-           {name: 'event'},
-           {name: 'victim'},
-           {name: 'attacker'},
-           {name: 'notes'}
-        ]
-    });
+	var store = new Ext.data.JsonStore({
+	    fields: ['date','event','victim','attacker','notes']
+	});
 	
     var myData = Ext.Ajax.request({
         url: 'controls/queries/daily_bad_filtered.php',

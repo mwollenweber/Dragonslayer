@@ -1,21 +1,17 @@
 DailyBadFilteredPortlet = function() {
 
-    var columns = [
+	var cm = new Ext.grid.ColumnModel([ 
+        { header : 'Create case', width : 100, sortable : true, dataIndex: 'case'},
 		{ id :'daily_bad_filter_date', header : 'Date', width : 160, sortable : true, dataIndex: 'date' },
 		{ header : 'Event', width : 200, sortable : true, dataIndex: 'event' },
 		{ header : 'Victim', width : 120, sortable : true, dataIndex: 'victim' },
 		{ header : 'Attacker', width : 120, sortable : true, dataIndex: 'attacker' },
 		{ header : 'Notes', width : 170, sortable : true, dataIndex: 'notes'}
-	];
+	]);
+	cm.defaultSortable = true; 
 
-	var store = new Ext.data.ArrayStore({
-	    fields: [
-	       {name: 'date'},
-	       {name: 'event'},
-	       {name: 'victim'},
-	       {name: 'attacker'},
-	       {name: 'notes'}
-	    ]
+	var store = new Ext.data.JsonStore({
+	    fields: ['case','date','event','victim','attacker','notes']
 	});
 	
 	var myData = Ext.Ajax.request({
@@ -29,15 +25,22 @@ DailyBadFilteredPortlet = function() {
 	    	store.loadData(obj);
 	   },
 	});
-
+	
 	DailyBadFilteredPortlet.superclass.constructor.call(this, {
         store: store,
-        columns: columns,
+        cm: cm,
         stripeRows: true,
         autoExpandColumn: 'daily_bad_filter_date',
         height: 300,
         viewConfig: {forceFit: true},
-		autoSizeColumns: true
+		autoSizeColumns: true,
+		listeners: {
+			cellclick: function(grid, rowIndex, colIndex) {
+				if (colIndex == 0) {
+					SampleApp.CreateCase.Open();
+				}
+			}
+		}
     });
 }
 
