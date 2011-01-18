@@ -73,14 +73,17 @@ SampleApp.CreateCase.Panel = function() {
 	            {  
 					columnWidth:.35,
 					style:'padding:10px 10 10px 10px',
-					items: createCaseFormPanel,
-					height: 800
+					items: createCaseFormPanel
 	        	},
 				{
 					columnWidth:.64,
 					style: 'padding:10px 5px 10px 10px',
-					items: createCaseDragonInterface,
-					height: 720
+					items: {
+						frame:true,         
+						title: 'Dragon Interface',
+						items: createCaseDragonInterface,
+						height: 720
+					}
 	        	}
         	]
     	}]
