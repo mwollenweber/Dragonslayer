@@ -58,15 +58,32 @@ SampleApp.CreateCase.OpenFromGrid = function(date,event,victim,attacker,notes) {
 SampleApp.CreateCase.Panel = function() {
 
     createCaseFormPanel = new SampleApp.CreateCase.FormPanel();
+    createCaseDragonInterface = new SampleApp.CreateCase.DragonInterface();
     SampleApp.CreateCase.Panel.superclass.constructor.call(this,{
         frame:true,
-        title: "Create Case",
-        closable:true,
-        titleCollapse:true,
-        layout: 'border',
-        items : [
-                 createCaseFormPanel
-        ]
+        layout: "fit",
+        title:'Create Case',
+        closable: true,
+        items: [{
+			xtype:'portal',
+			margins: '0 0 10 10',
+			cmargins: '10 10 10 10' ,
+			region:'center',
+        	items: [
+	            {  
+					columnWidth:.35,
+					style:'padding:10px 10 10px 10px',
+					items: createCaseFormPanel,
+					height: 800
+	        	},
+				{
+					columnWidth:.64,
+					style: 'padding:10px 5px 10px 10px',
+					items: createCaseDragonInterface,
+					height: 720
+	        	}
+        	]
+    	}]
     });
 };
 
@@ -275,4 +292,16 @@ SampleApp.CreateCase.FormPanel = function(){
 }
 
 Ext.extend(SampleApp.CreateCase.FormPanel, Ext.FormPanel, {
+});
+
+SampleApp.CreateCase.DragonInterface = function(){
+	SampleApp.CreateCase.DragonInterface.superclass.constructor.call(this,{
+        frame:true,
+        layout: "border",
+        html: "<iframe height=100% width=100% src='https://128.164.11.22:9443'></iframe>"
+    });
+};
+
+
+Ext.extend(SampleApp.CreateCase.DragonInterface, Ext.Panel, {
 });
