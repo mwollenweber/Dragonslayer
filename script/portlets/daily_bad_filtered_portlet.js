@@ -37,7 +37,13 @@ DailyBadFilteredPortlet = function() {
 		listeners: {
 			cellclick: function(grid, rowIndex, colIndex) {
 				if (colIndex == 0) {
-					SampleApp.CreateCase.Open();
+					var rec = grid.getStore().getAt(rowIndex);
+					date = rec.get('date');
+					event = rec.get('event');
+					victim = rec.get('victim');
+					attacker = rec.get('attacker');
+					notes = rec.get('notes');
+					SampleApp.CreateCase.OpenFromGrid(date,event,victim,attacker,notes);
 				}
 			}
 		}
