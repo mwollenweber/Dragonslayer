@@ -17,23 +17,29 @@ class db_config:
     db = "dragonslayer"
     
 
-class norman_url:
+class norman_ingestor:
     def __init__(self, filename = None):
-        print "initializing norman url"
+        print "initializing norman ingestor\n I love me some malware"
         
         self.data = []
         self.hosts2ips = []
         self.mysql_conn = None
         self.mysql_cursor = None
+        self.filename = filename
         
-        if filename != None:
+        
+    def update(self, filename = None):
+        if filename != None or self.filename != None:
             if filename.find(".zip") > 0:
                 blob = self.open_zip(filename)
                 self.data2dict(blob)
-
             elif filename.find("url") >= 0 and filename.find("csv") > 0:
                 blob = self.read_file(filename)
                 self.data2dict(blob)
+            elif self.filename.find("zip") > 0:
+                blob = self.open_zip(self.filename)
+                self.data2dict(blob)
+                
             else:
                 print "seriously give me something I can work with"
         
@@ -211,7 +217,7 @@ class hostlookup_thread(Thread, norman_url):
                 
             
 def main():
-    my_norman = norman_url(sys.argv[1])
+    my_norman = norman_ingestor(sys.argv[1])
     #my_norman.push2mysql()
     #my_norman.print_data()
     my_norman.url2ips()
