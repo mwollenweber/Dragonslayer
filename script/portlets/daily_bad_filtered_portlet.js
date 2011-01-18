@@ -1,4 +1,4 @@
-DailyBadFilteredPortlet = function() {
+function DailyBadFilteredPortlet(){
 
 	var cm = new Ext.grid.ColumnModel([ 
         { header : 'Create case', width : 100, sortable : true, dataIndex: 'case'},
@@ -25,6 +25,20 @@ DailyBadFilteredPortlet = function() {
 	    	store.loadData(obj);
 	   },
 	});
+	
+	this.reload_store = function() {
+		Ext.Ajax.request({
+		    url: 'controls/queries/daily_bad_filtered.php',
+		    method:'GET', 
+		    waitTitle:'Connecting', 
+		    waitMsg:'Getting data...',
+		    
+		    success:function(request){ 
+		    	var obj = Ext.util.JSON.decode(request.responseText); 
+		    	store.loadData(obj);
+		   },
+		});
+	}
 	
 	DailyBadFilteredPortlet.superclass.constructor.call(this, {
         store: store,

@@ -1,9 +1,10 @@
 Ext.namespace('SampleApp.Welcome');
 
+var dbf_portlet = new DailyBadFilteredPortlet();
+
 var tools = [{
     id:'gear',
     handler: function(){
-        Ext.Msg.alert('Message', 'The Settings tool was clicked.');
     }
 },{
     id:'close',
@@ -27,13 +28,17 @@ Ext.onReady(function() {
     });
 });
 
-
+function timeout_trigger() {
+	dbf_portlet.reload_store();
+    setTimeout('timeout_trigger()', 30000);
+}
 
 /**
  * Welcome Panel - contains a welcoming message
  */
 SampleApp.Welcome.Panel = function(config) {
     Ext.apply(this,config);
+    timeout_trigger();
 
     SampleApp.Welcome.Panel.superclass.constructor.call(this,{
         frame:true,
@@ -52,7 +57,7 @@ SampleApp.Welcome.Panel = function(config) {
 						frame:true,         
 						title: 'Daily Bad Filtered',
 						tools: tools,
-						items: new DailyBadFilteredPortlet()
+						items: dbf_portlet
 					}, {
 						title: 'Search by IP Address',
 						tools: tools,

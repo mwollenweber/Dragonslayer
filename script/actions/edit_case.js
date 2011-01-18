@@ -64,15 +64,16 @@ SampleApp.EditCase.Panel = function() {
 			region:'center',
         	items: [
 	            {  
-					columnWidth:.69,
+					columnWidth:.59,
 					style:'padding:10px 10 10px 10px',
 					items: editCaseGridPanel,
 					height: 800
 	        	},
 				{
-					columnWidth:.29,
+					columnWidth:.39,
 					style: 'padding:10px 5px 10px 10px',
-					items: editCaseFormPanel
+					items: editCaseFormPanel,
+					height: 720
 	        	}
         	]
     	}]
@@ -214,14 +215,15 @@ SampleApp.EditCase.FormPanel = function(){
     verification_field = new Ext.form.TextArea({
         fieldLabel: 'Verification',
         name: 'verification',
-        width: 400
+        width: 400,
+        height: 250
     });
     
     SampleApp.EditCase.FormPanel.superclass.constructor.call(this,{
         frame:false,
         buttonAlign : 'left',
         bodyStyle:'padding:5px 5px 0',
-        width: 600,
+        width: 520,
         defaultType: 'textfield',
         items: [
             event_field,
@@ -274,7 +276,7 @@ SampleApp.EditCase.FormPanel = function(){
             },
         }],
         region: "north",
-        height: 500
+        height: 700
     });
 }
 
