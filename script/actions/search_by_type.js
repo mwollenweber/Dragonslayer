@@ -208,7 +208,16 @@ SampleApp.SearchByIp.GridPanel = function() {
             }
         ],
         stripeRows: true,
-        autoExpandColumn: 'search_by_ip_confirmation'
+        autoExpandColumn: 'search_by_ip_confirmation',
+		listeners: {
+			cellclick: function(grid, rowIndex, colIndex) {
+				if (colIndex == 0) {
+					var rec = grid.getStore().getAt(rowIndex);
+					dsid = rec.get('dsid');
+					SampleApp.EditCase.OpenFromGrid(dsid);
+				}
+			}
+		}
     });
 }
 

@@ -2,6 +2,8 @@ Ext.namespace("SampleApp.EditCase");
 var editCaseGridPanel;
 var editCaseFormPanel;
 
+var anywhere_store;
+
 var dsid;
 var date;
 var analyst;
@@ -46,12 +48,43 @@ SampleApp.EditCase.Open = function() {
     });
 }
 
+SampleApp.EditCase.OpenFromGrid = function(dsid) {
+
+    var editCasePanel = new SampleApp.EditCase.Panel();
+    SampleApp.Main.CenterPanelInstance.add(editCasePanel);
+    SampleApp.Main.CenterPanelInstance.activate(editCasePanel);
+	
+	var myData = Ext.Ajax.request({
+	    url: 'controls/queries/get_case_info.php', //this needs to call the real service
+	    waitTitle:'Connecting', 
+	    waitMsg:'Getting data...',
+	    params: {dsid: dsid},
+	    
+	    success:function(request){ 
+	    	var obj = Ext.util.JSON.decode(request.responseText); 
+	    	anywhere_store.loadData(obj);
+	    	
+	    	date_field.setValue(obj[0][1]);
+	    	reporter_field.setValue(obj[0][2]);
+	    	event_field.setValue(obj[0][3]);
+	    	victim_field.setValue(obj[0][4]);
+	    	attacker_field.setValue(obj[0][5]);
+	    	dns_field.setValue(obj[0][6]);
+	    	network_field.setValue(obj[0][7]);
+	    	verification_field.setValue(obj[0][8]);
+	    	notes_field.setValue(obj[0][9]);
+	    	category_field.setValue(obj[0][10]);
+	   },
+	});
+}
+
 /**
  * 
  */
 SampleApp.EditCase.Panel = function() {
 	editCaseFormPanel = new SampleApp.EditCase.FormPanel();
     editCaseGridPanel = new SampleApp.EditCase.GridPanel();
+    editCaseFromAnywhereGrid = new SampleApp.EditCase.FromAnywhereGrid();
     SampleApp.EditCase.Panel.superclass.constructor.call(this,{
         frame:true,
         layout: "fit",
@@ -66,8 +99,18 @@ SampleApp.EditCase.Panel = function() {
 	            {  
 					columnWidth:.59,
 					style:'padding:10px 10 10px 10px',
-					items: editCaseGridPanel,
-					height: 800
+					items:[{
+						frame:true,         
+						title: '50 Latest Cases',
+						items: editCaseGridPanel,
+					},
+					{
+						frame:true,         
+						title: 'Results from last tab',
+						items: editCaseFromAnywhereGrid,
+						
+					}]
+					
 	        	},
 				{
 					columnWidth:.39,
@@ -119,8 +162,6 @@ SampleApp.EditCase.FormPanel = function(){
 	    success:function(request){ 
 	    	var obj = Ext.util.JSON.decode(request.responseText); 
 	    	ip_information.loadData(obj.ip_msg);
-	    	
-	    	network_field.setValue(obj.ip_msg.network_name);
 	    	dns_field.setValue(obj.ip_msg.fqdn);
 	    	dhcp_field.setValue(obj.ip_msg.dhcp_info);
 	   },
@@ -393,7 +434,7 @@ SampleApp.EditCase.GridPanel = function() {
         ],
         stripeRows: true,
         autoExpandColumn: 'search_by_ip_confirmation',
-        height: 700,
+        height: 300,
 		autoSizeColumns: true,
 		listeners: {
 			cellclick: function(grid, rowIndex, colIndex) {
@@ -419,4 +460,127 @@ SampleApp.EditCase.GridPanel = function() {
  *  Grid Panel
  */
 Ext.extend(SampleApp.EditCase.GridPanel, Ext.grid.GridPanel, {
+});
+
+/**
+ * Grid Panel
+ */
+SampleApp.EditCase.FromAnywhereGrid = function() {
+	
+	// create the data store
+    anywhere_store = new Ext.data.ArrayStore({
+        fields: [
+           {name: 'dsid'},	
+           {name: 'date'},
+           {name: 'analyst'},
+           {name: 'event'},
+           {name: 'victim'},
+           {name: 'attacker'},
+           {name: 'dns'},
+           {name: 'network'},
+           {name: 'user_verification'},
+           {name: 'confirmation'},
+           {name: 'report_category'}
+        ]
+    });
+    
+    SampleApp.EditCase.FromAnywhereGrid.superclass.constructor.call(this,{
+        store: anywhere_store,
+        columns: [
+	          {
+	              header   : 'DSID', 
+	              width    : 100, 
+	              sortable : true, 
+	              dataIndex: 'dsid'
+	          },
+            {
+                header   : 'Date', 
+                width    : 160, 
+                sortable : true, 
+                dataIndex: 'date'
+            },
+            {
+                header   : 'Analyst', 
+                width    : 200, 
+                sortable : true, 
+                dataIndex: 'analyst'
+            },
+            {
+                header   : 'Event', 
+                width    : 120, 
+                sortable : true, 
+                dataIndex: 'event'
+            },
+            {
+                header   : 'Victim', 
+                width    : 120, 
+                sortable : true, 
+                dataIndex: 'victim'
+            },
+            {
+                header   : 'Attacker', 
+                width    : 170, 
+                sortable : true, 
+                dataIndex: 'attacker'
+            },
+            {
+                header   : 'DNS', 
+                width    : 170, 
+                sortable : true, 
+                dataIndex: 'dns'
+            },
+            {
+                header   : 'Network', 
+                width    : 170, 
+                sortable : true, 
+                dataIndex: 'network'
+            },
+            {
+                header   : 'Verification', 
+                width    : 170, 
+                sortable : true, 
+                dataIndex: 'user_verification'
+            },
+            {
+            	id		 : 'search_by_ip_confirmation',
+                header   : 'Confirmation', 
+                width    : 170, 
+                sortable : true, 
+                dataIndex: 'confirmation'
+            },
+            {
+                header   : 'Category', 
+                width    : 170, 
+                sortable : true, 
+                dataIndex: 'report_category'
+            }
+        ],
+        stripeRows: true,
+        autoExpandColumn: 'search_by_ip_confirmation',
+        height: 200,
+		autoSizeColumns: true,
+		listeners: {
+			cellclick: function(grid, rowIndex, colIndex) {
+				var rec = grid.getStore().getAt(rowIndex);
+				
+				//values pulled from the global form
+				date_field.setValue(rec.get('date'));
+				reporter_field.setValue(rec.get('analyst'));
+				event_field.setValue(rec.get('event'));
+				victim_field.setValue(rec.get('victim'));
+				attacker_field.setValue(rec.get('attacker'));
+				dns_field.setValue(rec.get('dns'));
+				network_field.setValue(rec.get('network'));
+				verification_field.setValue(rec.get('user_verification'));
+				notes_field.setValue(rec.get('confirmation'));
+				category_field.setValue(rec.get('report_category'));
+			}
+		},
+    });
+}
+
+/**
+ *  Grid Panel
+ */
+Ext.extend(SampleApp.EditCase.FromAnywhereGrid, Ext.grid.GridPanel, {
 });
