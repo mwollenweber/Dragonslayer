@@ -1,4 +1,11 @@
 <?php 
+/*
+ * @author Brandon Dixon
+ * @date 01/19/2011
+ * @description Gets the cases entered this week
+ * @return JSON object
+ */
+
 include('../database/database_connection.php');
 
 #JSON is expected on the client side
@@ -33,6 +40,7 @@ for($i=0;$i < $result_count;$i++) {
 		$last_patchlink_checkin = "";
 	}
 	
+	//Last checks
 	if($device_name == null) { $device_name = ""; }
 	if($last_patchlink_checkin == null) { $last_patchlink_checkin == ""; }
 	

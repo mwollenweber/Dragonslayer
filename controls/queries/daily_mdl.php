@@ -1,4 +1,11 @@
 <?php 
+/*
+ * @author Brandon Dixon
+ * @date 01/19/2011
+ * @description Queries for MDL related attacks for a given day
+ * @return JSON object
+ */
+
 include('../database/database_connection.php');
 
 #JSON is expected on the client side

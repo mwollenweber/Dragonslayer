@@ -1,4 +1,13 @@
 <?php 
+/*
+ * @author Brandon Dixon
+ * @date 01/19/2011
+ * @description Queries for events deemed critical and returns them
+ * @return JSON object
+ * 
+ * TODO paginate the results or control how much comes back at a given time 
+ */
+
 include('../database/database_connection.php');
 
 #JSON is expected on the client side

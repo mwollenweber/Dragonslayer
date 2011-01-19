@@ -1,4 +1,11 @@
 <?php 
+/*
+ * @author Brandon Dixon
+ * @date 01/19/2011
+ * @description Creates a case from user-filled out form
+ * @return JSON object
+ */
+
 include('../database/database_connection.php');
 
 #JSON is expected on the client side
@@ -15,6 +22,7 @@ foreach ($_POST as $key => $value) {
 	$_POST[$key] = htmlspecialchars($value);
 }
 
+//clean the POST variables
 $event = addslashes($_POST["event"]);
 $victim = addslashes($_POST["victim"]);
 $network = addslashes($_POST["network"]);

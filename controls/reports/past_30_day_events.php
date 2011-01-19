@@ -1,8 +1,16 @@
 <?php
+/*
+ * @author Brandon Dixon
+ * @date 01/19/2011
+ * @description Get events from the past 30 days to display to the user
+ * @return JSON object
+ * 
+ * TODO identify the best way to return data to the user for graphing
+ */
+
 include '../database/database_connection.php';
 
-$q = $_GET['q'];
-$q = addslashes($q);
+$q = addslashes($_GET['q']);
 
 #JSON is expected on the client side
 header("Content-type: text/json");

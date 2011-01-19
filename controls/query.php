@@ -1,6 +1,15 @@
 <?php
+/*
+ * @author Brandon Dixon
+ * @date 01/19/2011
+ * @description Gets the cases entered this week
+ * @return JSON object
+ * 
+ * TODO split this into different files and clean up
+ */
+
 include 'database/database_connection.php';
-$type = $_GET["type"];
+$type = addslashes($_GET["type"]);
 
 #JSON is expected on the client side
 header("Content-type: text/json");
@@ -49,13 +58,13 @@ if ($type == 'week' || $type == 'month' || $type == 'year') {
 			$point = array((int)$row['rtime'],(int)$row['count']);
 			$instance[] = $point;
 		}
-		$instance[] = array(24,0);
+		$instance[] = array(24,0); //hack to give up the correct axis
 		$data[] = $instance;	
 	}
 } elseif ($type == 'cases') {
 	
 	$instance = array();
-	$whole = array();
+	$whole = array(); //all of the data
 	
 	#All cases
 	$query = "SELECT COUNT(id) as c, week(tdstamp) as w from gwcases where DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), 365) AND CURDATE() group by week(tdstamp) ORDER BY id, week(tdstamp)";
@@ -87,7 +96,9 @@ if ($type == 'week' || $type == 'month' || $type == 'year') {
 	
 	$whole['data'] = $instance;
 	
-} else {}
+} else { 
+	//TODO account for this 
+}
 
 mysqli_close($link);
 

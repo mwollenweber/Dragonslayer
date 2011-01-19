@@ -1,4 +1,13 @@
 <?php 
+/*
+ * @author Brandon Dixon
+ * @date 01/19/2011
+ * @description Gets a list of the 50 most recent cases that a user may want to edit
+ * @return JSON object
+ * 
+ * TODO pass in the amount of cases or find a better way to filter them
+ */
+
 include('../database/database_connection.php');
 
 #JSON is expected on the client side
@@ -10,6 +19,7 @@ $result= mysqli_query($link,$query);
 $data_result = array();
 
 while($row = mysqli_fetch_assoc($result)) {
+	//need to display the right category based on the number
 	$category = $row['report_category'];
 	if($category == 0) {
 		$category = "Delete";

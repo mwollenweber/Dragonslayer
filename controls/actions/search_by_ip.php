@@ -1,10 +1,19 @@
 <?php 
+/*
+ * @author Brandon Dixon
+ * @date 01/19/2011
+ * @description Allows user to search by an IP address and get matching cases
+ * @return JSON object
+ * 
+ * TODO modify to search on a number of fields
+ */
+
 include('../database/database_connection.php');
 
 #JSON is expected on the client side
 header("Content-type: text/json");
 
-$ip_address = $_POST['ip_address'];
+$ip_address = addslashes($_POST['ip_address']);
 
 $query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE INET_NTOA(victim)='$ip_address' ORDER BY tdstamp";
 
