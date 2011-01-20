@@ -104,5 +104,5 @@ SampleApp.DailyBadFiltered.GridPanel = function() {
 /**
  *  Grid Panel
  */
-Ext.extend(SampleApp.DailyBadFiltered.GridPanel, Ext.grid.GridPanel, {
+Ext.extend(SampleApp.DailyBadFiltered.GridPanel, Ext.grid.EditorGridPanel, {
 });

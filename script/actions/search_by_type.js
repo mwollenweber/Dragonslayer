@@ -116,6 +116,24 @@ SampleApp.SearchByIp.FormPanel = function(){
 				});
             },
         }],
+        keys: [
+               { key: [Ext.EventObject.ENTER], handler: function() {
+            	   var form_data = searchByIpFormPanel.getForm().getValues();
+            	   Ext.Ajax.request({
+	               		url: 'controls/actions/search_by_type.php',
+	   			        method:'POST', 
+	   			        waitTitle:'Connecting', 
+	   			        waitMsg:'Getting data...',
+	   			        params: form_data,
+	   			        
+	   			        success:function(request){ 
+	   			        	var obj = Ext.util.JSON.decode(request.responseText);
+	   			        	store.loadData(obj);
+	   			       },
+   					});
+                   }
+               }
+           ],
         region: "north",
         height: 100
     });
