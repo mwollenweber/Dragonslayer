@@ -134,7 +134,9 @@ SampleApp.CreateCase.FormPanel = function(){
 	    	network_field.setValue(obj.ip_msg.network_name);
 	    	dns_field.setValue(obj.ip_msg.fqdn);
 	    	dhcp_field.setValue(obj.ip_msg.dhcp_info);
-	    	Ext.Msg.alert('Critical', 'This is a VIP machine!');
+	    	if (obj.ip_msg.critical_info != "FALSE") {
+	    		Ext.Msg.alert('Critical', 'This is a VIP machine!');
+	    	}
 	   },
 	});
 	
