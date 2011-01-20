@@ -1,6 +1,7 @@
 Ext.namespace('SampleApp.Welcome');
 
 var dbf_portlet = new DailyBadFilteredPortlet();
+var rvc_portlet = new RecentVipCases();
 
 var tools = [{
     id:'gear',
@@ -30,6 +31,7 @@ Ext.onReady(function() {
 
 function timeout_trigger() {
 	dbf_portlet.reload_store();
+	rvc_portlet.reload_store();
     setTimeout('timeout_trigger()', 30000);
 }
 
@@ -59,10 +61,10 @@ SampleApp.Welcome.Panel = function(config) {
 						tools: tools,
 						items: dbf_portlet
 					}, {
-						title: 'Search by IP Address',
+						title: 'Recent VIP Cases',
 						tools: tools,
-						frame:true,
-//						items: new SearchByIpPortlet(),
+						items: rvc_portlet,
+						height: 300,
 					}, {
 						title: 'Weekly Report',
 						tools: tools,
@@ -84,10 +86,10 @@ SampleApp.Welcome.Panel = function(config) {
 						tools: tools,
 						height: 400
 					}, {
-						title: 'Past 30 Day Events',
-						tools: tools,
-						items: new Past30DayEventsGraphPortlet(),
-						height: 600,
+//						title: 'Recent VIP Cases',
+//						tools: tools,
+//						items: rvc_portlet,
+//						height: 300,
 					}
 				]}
 			]
