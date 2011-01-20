@@ -6,7 +6,7 @@
  * @return Sets the connection variables for the database_connection.php file
  */
 
-$host="128.164.80.81";
+$host="localhost";
 $username="dragonslayer";
 $password="slayer";
 $db_name="dragonslayer";

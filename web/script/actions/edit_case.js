@@ -20,11 +20,13 @@ var event_field;
 var reporter_field;
 var victim_field;
 var attacker_field;
+var netid_field;
 var dns_field
 var network_field;
 var notes_field;
 var category_field;
 var verification_field;
+var dsid_field;
 
 /**
  * Attach the launcher panel to the West Panel
@@ -53,7 +55,9 @@ SampleApp.EditCase.OpenFromGrid = function(dsid) {
     var editCasePanel = new SampleApp.EditCase.Panel();
     SampleApp.Main.CenterPanelInstance.add(editCasePanel);
     SampleApp.Main.CenterPanelInstance.activate(editCasePanel);
-	
+
+    dsid_field.setValue(dsid);
+    
 	var myData = Ext.Ajax.request({
 	    url: 'controls/queries/get_case_info.php', //this needs to call the real service
 	    waitTitle:'Connecting', 
@@ -69,11 +73,12 @@ SampleApp.EditCase.OpenFromGrid = function(dsid) {
 	    	event_field.setValue(obj[0][3]);
 	    	victim_field.setValue(obj[0][4]);
 	    	attacker_field.setValue(obj[0][5]);
-	    	dns_field.setValue(obj[0][6]);
-	    	network_field.setValue(obj[0][7]);
-	    	verification_field.setValue(obj[0][8]);
-	    	notes_field.setValue(obj[0][9]);
-	    	category_field.setValue(obj[0][10]);
+	    	netid_field.setValue(obj[0][6]);
+	    	dns_field.setValue(obj[0][7]);
+	    	network_field.setValue(obj[0][8]);
+	    	verification_field.setValue(obj[0][9]);
+	    	notes_field.setValue(obj[0][10]);
+	    	category_field.setValue(obj[0][11]);
 	   },
 	});
 }
@@ -150,29 +155,12 @@ SampleApp.EditCase.FormPanel = function(){
 	                          [0, 'Delete'],
 	                      ];
 	
-	var ip_information = new Ext.data.JsonStore({
-	    fields: ['critical_info','ip_addr','fqdn','dhcp_info','recent_case','network_name']
-	});
-	
-	var myData = Ext.Ajax.request({
-	    url: 'controls/queries/get_ip_info.json', //this needs to call the real service
-	    waitTitle:'Connecting', 
-	    waitMsg:'Getting data...',
-	    
-	    success:function(request){ 
-	    	var obj = Ext.util.JSON.decode(request.responseText); 
-	    	ip_information.loadData(obj.ip_msg);
-	    	dns_field.setValue(obj.ip_msg.fqdn);
-	    	dhcp_field.setValue(obj.ip_msg.dhcp_info);
-	   },
-	});
-	
 	//break out form fields from the form so that we can add data to the object
 	event_field = new Ext.form.TextField({
         fieldLabel: 'Event',
         name: 'event',
-        allowBlank:false,
-        width: 400
+        width: 400,
+        readOnly:true,
     });
 	
 	date_field = new Ext.form.TextField({
@@ -185,8 +173,8 @@ SampleApp.EditCase.FormPanel = function(){
 	reporter_field = new Ext.form.TextField({
         fieldLabel: 'Reporter',
         name: 'reporter',
-        allowBlank:false,
-        width: 400
+        width: 400,
+        readOnly:true,
     });
 	
     network_field = new Ext.form.TextField({
@@ -206,7 +194,7 @@ SampleApp.EditCase.FormPanel = function(){
     victim_field = new Ext.form.TextField({
         fieldLabel: 'Victim',
         name: 'victim',
-        allowBlank:false,
+        readOnly:true,
         width: 400
     });
     
@@ -260,6 +248,13 @@ SampleApp.EditCase.FormPanel = function(){
         height: 250
     });
     
+    dsid_field = new Ext.form.Hidden({
+    	xtype:'hidden',
+        name:'dsid',
+    });
+    
+
+    
     SampleApp.EditCase.FormPanel.superclass.constructor.call(this,{
         frame:false,
         buttonAlign : 'left',
@@ -290,7 +285,8 @@ SampleApp.EditCase.FormPanel = function(){
             },
             verification_field,
             notes_field,
-            category_field
+            category_field,
+            dsid_field
         ],
         
         buttons: [{
@@ -308,7 +304,20 @@ SampleApp.EditCase.FormPanel = function(){
 			        success:function(request){ 
 			        	var obj = Ext.util.JSON.decode(request.responseText);
 			        	if(obj.success == "true") {
-			        		Ext.Msg.alert('Case created');
+			        		Ext.Msg.alert('Case updated');
+			        		
+			        		//Update the grid when all is updated
+			        	    var myData = Ext.Ajax.request({
+			        	        url: 'controls/queries/last_50_cases.php',
+			        	        method:'GET', 
+			        	        waitTitle:'Connecting', 
+			        	        waitMsg:'Getting data...',
+			        	        
+			        	        success:function(request){ 
+			        	        	var obj = Ext.util.JSON.decode(request.responseText); 
+			        	        	store.loadData(obj);
+			        	       },
+			        		});
 			        	} else {
 			        		Ext.Msg.alert('Case creation failed', obj.error); 
 			        	}
@@ -341,6 +350,7 @@ SampleApp.EditCase.GridPanel = function() {
            {name: 'event'},
            {name: 'victim'},
            {name: 'attacker'},
+           {name: 'netid'},
            {name: 'dns'},
            {name: 'network'},
            {name: 'user_verification'},
@@ -401,6 +411,12 @@ SampleApp.EditCase.GridPanel = function() {
                 dataIndex: 'attacker'
             },
             {
+                header   : 'NetID', 
+                width    : 170, 
+                sortable : true, 
+                dataIndex: 'netid'
+            },
+            {
                 header   : 'DNS', 
                 width    : 170, 
                 sortable : true, 
@@ -441,11 +457,13 @@ SampleApp.EditCase.GridPanel = function() {
 				var rec = grid.getStore().getAt(rowIndex);
 				
 				//values pulled from the global form
+				dsid_field.setValue(rec.get('dsid'));
 				date_field.setValue(rec.get('date'));
 				reporter_field.setValue(rec.get('analyst'));
 				event_field.setValue(rec.get('event'));
 				victim_field.setValue(rec.get('victim'));
 				attacker_field.setValue(rec.get('attacker'));
+				netid_field.setValue(rec.get('netid'));
 				dns_field.setValue(rec.get('dns'));
 				network_field.setValue(rec.get('network'));
 				verification_field.setValue(rec.get('user_verification'));
@@ -564,6 +582,7 @@ SampleApp.EditCase.FromAnywhereGrid = function() {
 				var rec = grid.getStore().getAt(rowIndex);
 				
 				//values pulled from the global form
+				dsid_field.setValue(rec.get('dsid'));
 				date_field.setValue(rec.get('date'));
 				reporter_field.setValue(rec.get('analyst'));
 				event_field.setValue(rec.get('event'));

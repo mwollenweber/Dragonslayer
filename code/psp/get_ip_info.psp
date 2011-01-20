@@ -3,9 +3,9 @@ import socket, MySQLdb, sys, Queue
 from xml.dom.minidom import Document
 from threading import Thread
 
-sys.path.append("/home/dragonslayer/code/")
+sys.path.append("/var/www/html/code/psp/")
 options = req.get_options()
-options['mod_python.importer.path'] = "/home/dragonslayer/code/"
+options['mod_python.importer.path'] = "/var/www/html/code/psp/"
 
 import dhcp_lookup2
 #import dragonslayer

@@ -123,15 +123,14 @@ SampleApp.CreateCase.FormPanel = function(){
 	});
 	
 	var myData = Ext.Ajax.request({
-	    url: 'controls/queries/get_ip_info.json', //this needs to call the real service
+	    url: '../code/psp/get_ip_info.psp', //this needs to call the real service
 	    waitTitle:'Connecting', 
 	    waitMsg:'Getting data...',
+	    params: { 'ip': victim, type: 'json'},
 	    
 	    success:function(request){ 
 	    	var obj = Ext.util.JSON.decode(request.responseText); 
 	    	ip_information.loadData(obj.ip_msg);
-	    	
-	    	network_field.setValue(obj.ip_msg.network_name);
 	    	dns_field.setValue(obj.ip_msg.fqdn);
 	    	dhcp_field.setValue(obj.ip_msg.dhcp_info);
 	   },
