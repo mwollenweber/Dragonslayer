@@ -94,6 +94,10 @@ if($category == "Normal") {
 	$category = 520;
 } elseif ($category == "Delete") {
 	$category = 0;
+} else {
+	$data['success'] = "false";
+	$data['error'] = "Not a valid category";
+	$proceed = false;
 }
 
 if($proceed) {
