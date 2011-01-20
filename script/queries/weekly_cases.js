@@ -155,6 +155,15 @@ SampleApp.WeeklyCases.GridPanel = function() {
         autoExpandColumn: 'search_by_ip_confirmation',
         height: 700,
 		autoSizeColumns: true,
+		listeners: {
+			cellclick: function(grid, rowIndex, colIndex) {
+				if (colIndex == 0) {
+					var rec = grid.getStore().getAt(rowIndex);
+					dsid = rec.get('dsid');
+					SampleApp.EditCase.OpenFromGrid(dsid);
+				}
+			}
+		}
     });
 }
 

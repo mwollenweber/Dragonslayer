@@ -55,8 +55,8 @@ SampleApp.DailyBadFiltered.GridPanel = function() {
         { header : 'Create case', width : 100, sortable : true, dataIndex: 'case'},
    		{ id :'daily_bad_filter_date', header : 'Date', width : 160, sortable : true, dataIndex: 'date' },
    		{ header : 'Event', width : 200, sortable : true, dataIndex: 'event' },
-   		{ header : 'Victim', width : 120, sortable : true, dataIndex: 'victim' },
-   		{ header : 'Attacker', width : 120, sortable : true, dataIndex: 'attacker' },
+   		{ header : 'Victim', width : 120, sortable : true, dataIndex: 'victim', editor: new Ext.form.TextField({ allowBlank: false }) },
+   		{ header : 'Attacker', width : 120, sortable : true, dataIndex: 'attacker', editor: new Ext.form.TextField({ allowBlank: false }) },
    		{ header : 'Notes', width : 170, sortable : true, dataIndex: 'notes'}
    	]);
    	cm.defaultSortable = true; 
@@ -84,6 +84,7 @@ SampleApp.DailyBadFiltered.GridPanel = function() {
         stripeRows: true,
         autoExpandColumn: 'daily_bad_filter_date',
 		autoSizeColumns: true,
+		clicksToEdit: 1,
 		listeners: {
 			cellclick: function(grid, rowIndex, colIndex) {
 				if (colIndex == 0) {
