@@ -131,8 +131,10 @@ SampleApp.CreateCase.FormPanel = function(){
 	    success:function(request){ 
 	    	var obj = Ext.util.JSON.decode(request.responseText); 
 	    	ip_information.loadData(obj.ip_msg);
+	    	network_field.setValue(obj.ip_msg.network_name);
 	    	dns_field.setValue(obj.ip_msg.fqdn);
 	    	dhcp_field.setValue(obj.ip_msg.dhcp_info);
+	    	Ext.Msg.alert('Critical', 'This is a VIP machine!');
 	   },
 	});
 	
@@ -280,7 +282,7 @@ SampleApp.CreateCase.FormPanel = function(){
 			        success:function(request){ 
 			        	var obj = Ext.util.JSON.decode(request.responseText);
 			        	if(obj.success == "true") {
-			        		Ext.Msg.alert('Case created');
+			        		Ext.Msg.alert('Success','Case created');
 			        	} else {
 			        		Ext.Msg.alert('Case creation failed', obj.error); 
 			        	}
