@@ -1,6 +1,7 @@
 Ext.namespace("SampleApp.CreateCase");
 var createCaseFormPanel;
 var createCaseGridPanel;
+var createCasePanel;
 var network_name = '';
 var date;
 var dragon_event;
@@ -19,7 +20,7 @@ Ext.onReady(function(){
  * Event handler
  */
 SampleApp.CreateCase.Open = function() {
-    var createCasePanel = new SampleApp.CreateCase.Panel();
+    createCasePanel = new SampleApp.CreateCase.Panel();
     SampleApp.Main.CenterPanelInstance.add(createCasePanel);
     SampleApp.Main.CenterPanelInstance.activate(createCasePanel);
     
@@ -285,6 +286,7 @@ SampleApp.CreateCase.FormPanel = function(){
 			        	var obj = Ext.util.JSON.decode(request.responseText);
 			        	if(obj.success == "true") {
 			        		Ext.Msg.alert('Success','Case created');
+			        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
 			        	} else {
 			        		Ext.Msg.alert('Case creation failed', obj.error); 
 			        	}

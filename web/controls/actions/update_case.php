@@ -66,6 +66,36 @@ if(strlen($attacker) < 3) {
 	$attacker = "0.0.0.0";
 }
 
+if($category == "Normal") {
+	$category = 200;
+} elseif ($category == "Normal - Remedied") {
+	$category = 201;
+} elseif ($category == "Student") {
+	$category = 20;
+} elseif ($category == "Server") {
+	$category = 300;
+} elseif ($category == "Needs Research") {
+	$category = 42;
+} elseif ($category == "Other - Do Not Ticket") {
+	$category = 100;
+} elseif ($category == "Other - Please Review") {
+	$category = 252;
+} elseif ($category == "VIP - Please Review") {
+	$category = 250;
+} elseif ($category == "VIP - Block/Re-image") {
+	$category = 251;
+} elseif ($category == "Request Review") {
+	$category = 253;
+} elseif ($category == "Needs Forensics") {
+	$category = 500;
+} elseif ($category == "Forensics Ongoing") {
+	$category = 510;
+} elseif ($category == "Forensics Complete") {
+	$category = 520;
+} elseif ($category == "Delete") {
+	$category = 0;
+}
+
 if($proceed) {
 	$query = "UPDATE gwcases SET event = '$event', network = '$network', dns_name = '$dns', attacker = INET_ATON('$attacker'), primary_detection = '$primary', secondary_detection = '$secondary', verification = '$verification', notes = '$notes', discovered = '$discovered', reporter = '$reporter', report_category = '$category', dhcp_info = '$dhcp', netid = '$netid' WHERE id=$dsid"; 
 

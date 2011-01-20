@@ -53,6 +53,12 @@ if(strlen($victim) < 4) {
 	$proceed = false;
 }
 
+if(strlen($reporter) < 4) {
+	$data['success'] = "false";
+	$data['error'] = "You must enter a reporter";
+	$proceed = false;
+}
+
 if(strlen($network) < 3) {
 	$network = "GWU";
 }
@@ -63,6 +69,36 @@ if(strlen($dns) < 3) {
 
 if(strlen($attacker) < 3) {
 	$attacker = "0.0.0.0";
+}
+
+if($category == "Normal") {
+	$category = 200;
+} elseif ($category == "Normal - Remedied") {
+	$category = 201;
+} elseif ($category == "Student") {
+	$category = 20;
+} elseif ($category == "Server") {
+	$category = 300;
+} elseif ($category == "Needs Research") {
+	$category = 42;
+} elseif ($category == "Other - Do Not Ticket") {
+	$category = 100;
+} elseif ($category == "Other - Please Review") {
+	$category = 252;
+} elseif ($category == "VIP - Please Review") {
+	$category = 250;
+} elseif ($category == "VIP - Block/Re-image") {
+	$category = 251;
+} elseif ($category == "Request Review") {
+	$category = 253;
+} elseif ($category == "Needs Forensics") {
+	$category = 500;
+} elseif ($category == "Forensics Ongoing") {
+	$category = 510;
+} elseif ($category == "Forensics Complete") {
+	$category = 520;
+} elseif ($category == "Delete") {
+	$category = 0;
 }
 
 if($proceed) {

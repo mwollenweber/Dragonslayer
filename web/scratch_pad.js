@@ -1,9 +1,44 @@
-["2362",
- "2011-01-20 11:37:31",
- "bsdixon",
- "GWU-MASSIVE-EXE",
- "128.164.106.73",
- "193.105.134.115",
- "Student Financial Assistance",
- "fake av\r\n\r\nDavis, Tracey C \r\nSr Financial Aid Ofcr II \r\n    Student Financial Assistance \r\n    VA Campus -Bldg 2 - 2nd Floor \r\n    44983 Knoll Square \r\n    Ashburn, VA 20147 \r\n\r\n    Ph. (202) 994-6620 \r\n    traceyd@gwu.edu"
- ]
+if($category == 200) {
+	$category = "Normal";
+} elseif ($category == 201) {
+	$category = "Normal - Remedied";
+} elseif ($category == 20) {
+	$category = "Student";
+} elseif ($category == 300) {
+	$category = "Server";
+} elseif ($category == 42) {
+	$category = "Needs Research";
+} elseif ($category == 100) {
+	$category = "Other - Do Not Ticket";
+} elseif ($category == 252) {
+	$category = "Other - Please Review";
+} elseif ($category == 250) {
+	$category = "VIP - Please Review";
+} elseif ($category == 251) {
+	$category = "VIP - Block/Re-image";
+} elseif ($category == 253) {
+	$category = "Request Review";
+} elseif ($category == 500) {
+	$category = "Needs Forensics";
+} elseif ($category == 510) {
+	$category = "Forensics Ongoing";
+} elseif ($category == 520) {
+	$category = "Forensics Complete";
+} elseif ($category == 0) {
+	$category = "Delete";
+} else {
+	
+}
+
+
+if($category == 0) {
+	$category = "Delete";
+} elseif ($category == 20) {
+	$category = "Student";
+} elseif ($category == 200) {
+	$category = "Normal";
+} elseif ($category == 42) {
+	$category = "Needs Research";
+} elseif ($category == 100) {
+	$category = "Other - Do Not Ticket";
+} elseif 
