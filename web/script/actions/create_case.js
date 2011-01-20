@@ -137,6 +137,9 @@ SampleApp.CreateCase.FormPanel = function(){
 	    	dhcp_field.setValue(obj.ip_msg.dhcp_info);
 	    	if (obj.ip_msg.critical_info != "FALSE") {
 	    		Ext.Msg.alert('Critical', 'This is a VIP machine!');
+	    	}	    	
+	    	if (obj.ip_msg.recent_case != "0") {
+	    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
 	    	}
 	   },
 	});
