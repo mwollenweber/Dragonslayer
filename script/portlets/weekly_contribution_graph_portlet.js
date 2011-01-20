@@ -35,9 +35,6 @@ WeeklyContributionGraphPortlet = function() {
         }
     });
 	
-    /**
-     * Constructor for SearchByIpPortlet to return back the 2 created items into the portlet
-     */
 	WeeklyContributionGraphPortlet.superclass.constructor.call(this, {
         frame:false,
         bodyStyle:'padding:5px 5px 0',
