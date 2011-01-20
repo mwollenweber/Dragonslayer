@@ -1,0 +1,15 @@
+<%
+import socket
+
+if form.has_key("ip"):
+	ip = form["ip"]
+	ret = socket.getfqdn(ip)
+else:
+	ret = "client"
+
+if ret.find("gwu.edu") < 0:
+	ret = "client"
+
+req.write(ret)
+
+%>
