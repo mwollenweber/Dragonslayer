@@ -9,6 +9,19 @@ var victim;
 var attacker;
 var notes;
 
+var date_field;
+var event_field;
+var reporter_field;
+var victim_field;
+var attacker_field;
+var netid_field;
+var dns_field
+var network_field;
+var notes_field;
+var category_field;
+var verification_field;
+var dsid_field;
+
 /**
  * Attach the launcher panel to the West Panel
  */
@@ -88,7 +101,7 @@ SampleApp.CreateCase.Panel = function() {
 						{
 							frame:true,         
 							title: 'Cases to be Entered',
-							items: new DailyBadFilteredPortlet()
+							items: new UnenteredCasesPortlet()
 						}
 					]
 	        	}
@@ -151,70 +164,70 @@ SampleApp.CreateCase.FormPanel = function(){
 	});
 	
 	//break out form fields from the form so that we can add data to the object
-	var event_field = new Ext.form.TextField({
+	event_field = new Ext.form.TextField({
         fieldLabel: 'Event',
         name: 'event',
         allowBlank:false,
         width: 400
     });
 	
-	var date_field = new Ext.form.TextField({
+	date_field = new Ext.form.TextField({
         fieldLabel: 'Date Discovered',
         name: 'date',
         allowBlank:false,
         width: 400
     });
 	
-	var reporter_field = new Ext.form.TextField({
+	reporter_field = new Ext.form.TextField({
         fieldLabel: 'Reporter',
         name: 'reporter',
         allowBlank:false,
         width: 400
     });
 	
-    var network_field = new Ext.form.TextField({
+    network_field = new Ext.form.TextField({
         fieldLabel: 'Network',
         name: 'network',
         allowBlank:false,
         width: 400
     });
     
-    var netid_field = new Ext.form.TextField({
+    netid_field = new Ext.form.TextField({
         fieldLabel: 'NetID',
         name: 'netid',
         allowBlank:false,
         width: 400
     });
     
-    var victim_field = new Ext.form.TextField({
+    victim_field = new Ext.form.TextField({
         fieldLabel: 'Victim',
         name: 'victim',
         allowBlank:false,
         width: 400
     });
     
-    var attacker_field = new Ext.form.TextField({
+    attacker_field = new Ext.form.TextField({
         fieldLabel: 'Attacker',
         name: 'attacker',
         allowBlank:false,
         width: 400
     });
     
-    var dhcp_field = new Ext.form.TextField({
+    dhcp_field = new Ext.form.TextField({
         fieldLabel: 'DHCP',
         name: 'dhcp',
         allowBlank:false,
         width: 400
     });
     
-    var dns_field = new Ext.form.TextField({
+    dns_field = new Ext.form.TextField({
         fieldLabel: 'DNS',
         name: 'dns',
         allowBlank:false,
         width: 400
     });
     
-    var notes_field = new Ext.form.TextArea({
+    notes_field = new Ext.form.TextArea({
         fieldLabel: 'Notes',
         name: 'notes',
         width: 400
