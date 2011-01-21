@@ -1,11 +1,11 @@
 <%
-import sys
+import sys, json
 sys.path.append("/home/dragonslayer/code/")
 options = req.get_options()
 options['mod_python.importer.path'] = "/home/dragonslayer/code/"
 
 import dragonslayer
-
+ret = {"data": False}
 
 if form.has_key("patchy_file"):
     file_obj = form["patchy_file"]
@@ -14,9 +14,14 @@ if form.has_key("patchy_file"):
     ds = dragonslayer.dragonslayer()
     msg = ds.update_patchy(data_blob=data)
     
+    if ds.patchy_success:
+        ret = {"data": True}
+    else:
+        ret["messages"] = msg
+        
     ds.shutdown()
-    req.write("done uploading patchy... i hope")
-    req.write("msg from dragonslayer: " + msg)
+    req.write(json.dumps(ret))
+
 else:
     req.write("give me a file... bastard")
 

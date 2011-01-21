@@ -151,23 +151,21 @@ class dragonslayer:
             self.load_shadow(f, url)
         
     def update_patchy(self, data_blob=None):
-        patchy_export = "/home/dragonslayer/patchy/DevicesExport.csv"
+        self.patchy_success = False
         file_status = 0 #closed
-        msg = "in update patchy"
+        msg = ""
 
         #"Device Name","IP Address","Status","OS Info","Version","Group List","Agent Install Date","Last Contact Date","Queued Deployments"
         if data_blob == None:
             reader = csv.reader(open(patchy_export, "r"), delimiter=',', quoting=csv.QUOTE_MINIMAL)
             file_status = 1
-            msg+= "no data blob"
+            msg+= "ERRPR: no data blob"
         else:
-            msg+="got data blob"
+            msg+="SUCCESS: got data blob"
             import StringIO
             data_stream = StringIO.StringIO(data_blob)
             reader = csv.reader(data_stream, delimiter=',', quoting=csv.QUOTE_MINIMAL)
         
-        print "updating patchy"
-        msg += "updating patchy"
         count = 0
         
         for row in reader:
@@ -192,17 +190,17 @@ class dragonslayer:
                 query = '''INSERT INTO patchy(ip, dev_name, tdstamp) VALUES (INET_ATON('%s'), '%s', '%s') ON DUPLICATE KEY UPDATE tdstamp=VALUES(tdstamp)''' % ( ip, dev, update)      
                 #print "query = " + query
                 self.cursor.execute(query) 
-                
-                msg += query + "<br>"
                 count = count + 1
                 
             except:
                 exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
                 print "error loading patchy record - skipping one record"
-                msg += "error loading patchy record - skipping one record"
+                #msg += "error loading patchy record - skipping one record"
                 traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
 
-        msg+= "done<br>" + str(count) + " records uploaded"
+        msg+= "SUCCESS: " + str(count) + " records loaded"
+        self.patch_success = True
+        
         return msg
         
 
@@ -247,6 +245,7 @@ class dragonslayer:
         self.dragon_log_prefix = 'dragon.log'
         self.dragon_log_exclude = '.gz'
         self.dragon_log_processed = []
+        self.patchy_success = None
 
     def generate_hourly_bad(self):
         print "generating hourly bad list"
