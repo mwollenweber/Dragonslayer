@@ -9,8 +9,9 @@ try:
 except:
     import simplejson as json
 
-
 import dragonslayer
+
+req.content_type = 'application/json'
 ret = {"data": False}
 
 if form.has_key("patchy_file"):
@@ -29,6 +30,7 @@ if form.has_key("patchy_file"):
     req.write(json.dumps(ret))
 
 else:
-    req.write("give me a file... bastard")
+    ret = {"msg": "give me a file  you bastard"}
+    req.write(json.dumps(ret))
 
 %>
