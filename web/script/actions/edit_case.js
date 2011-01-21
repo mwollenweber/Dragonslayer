@@ -542,6 +542,12 @@ SampleApp.EditCase.FromAnywhereGrid = function() {
                 dataIndex: 'attacker'
             },
             {
+                header   : 'NetID', 
+                width    : 170, 
+                sortable : true, 
+                dataIndex: 'netid'
+            },
+            {
                 header   : 'DNS', 
                 width    : 170, 
                 sortable : true, 
@@ -588,6 +594,7 @@ SampleApp.EditCase.FromAnywhereGrid = function() {
 				event_field.setValue(rec.get('event'));
 				victim_field.setValue(rec.get('victim'));
 				attacker_field.setValue(rec.get('attacker'));
+				netid_field.setValue(rec.get('netid'));
 				dns_field.setValue(rec.get('dns'));
 				network_field.setValue(rec.get('network'));
 				verification_field.setValue(rec.get('user_verification'));
