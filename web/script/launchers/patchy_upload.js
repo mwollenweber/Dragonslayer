@@ -67,7 +67,7 @@ SampleApp.PatchyUpload.Panel = function() {
     	title: 'Patchy File Uploader',
         width:500,
         closeAction:'hide',
-        plain: true,
+        modal: true,
         items: patchy_form
     });
 };
