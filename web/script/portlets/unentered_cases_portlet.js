@@ -1,7 +1,6 @@
 function UnenteredCasesPortlet(){
 
 	var cm = new Ext.grid.ColumnModel([ 
-        { header : 'Create case', width : 100, sortable : true, dataIndex: 'case' },
 		{ id :'daily_bad_filter_date', header : 'Date', width : 160, sortable : true, dataIndex: 'date' },
 		{ header : 'Event', width : 200, sortable : true, dataIndex: 'event' },
 		{ header : 'Victim', width : 120, sortable : true, dataIndex: 'victim', editor: new Ext.form.TextField({ allowBlank: false }) },
