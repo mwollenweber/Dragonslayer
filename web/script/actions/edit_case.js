@@ -76,9 +76,10 @@ SampleApp.EditCase.OpenFromGrid = function(dsid) {
 	    	netid_field.setValue(obj[0][6]);
 	    	dns_field.setValue(obj[0][7]);
 	    	network_field.setValue(obj[0][8]);
-	    	verification_field.setValue(obj[0][9]);
-	    	notes_field.setValue(obj[0][10]);
-	    	category_field.setValue(obj[0][11]);
+	    	dhcp_field.setValue(obj[0][9]);
+	    	verification_field.setValue(obj[0][10]);
+	    	notes_field.setValue(obj[0][11]);
+	    	category_field.setValue(obj[0][12]);
 	   },
 	});
 }
@@ -353,6 +354,7 @@ SampleApp.EditCase.GridPanel = function() {
            {name: 'netid'},
            {name: 'dns'},
            {name: 'network'},
+           {name: 'dhcp_info'},
            {name: 'user_verification'},
            {name: 'confirmation'},
            {name: 'report_category'}
@@ -429,6 +431,12 @@ SampleApp.EditCase.GridPanel = function() {
                 dataIndex: 'network'
             },
             {
+                header   : 'DHCP', 
+                width    : 170, 
+                sortable : true, 
+                dataIndex: 'dhcp_info'
+            },
+            {
                 header   : 'Verification', 
                 width    : 170, 
                 sortable : true, 
@@ -466,6 +474,7 @@ SampleApp.EditCase.GridPanel = function() {
 				netid_field.setValue(rec.get('netid'));
 				dns_field.setValue(rec.get('dns'));
 				network_field.setValue(rec.get('network'));
+				dhcp_field.setValue(rec.get('dhcp_info'));
 				verification_field.setValue(rec.get('user_verification'));
 				notes_field.setValue(rec.get('confirmation'));
 				category_field.setValue(rec.get('report_category'));
@@ -494,8 +503,10 @@ SampleApp.EditCase.FromAnywhereGrid = function() {
            {name: 'event'},
            {name: 'victim'},
            {name: 'attacker'},
+           {name: 'netid'},
            {name: 'dns'},
            {name: 'network'},
+           {name: 'dhcp_info'},
            {name: 'user_verification'},
            {name: 'confirmation'},
            {name: 'report_category'}
@@ -560,6 +571,12 @@ SampleApp.EditCase.FromAnywhereGrid = function() {
                 dataIndex: 'network'
             },
             {
+                header   : 'DHCP', 
+                width    : 170, 
+                sortable : true, 
+                dataIndex: 'dhcp_info'
+            },
+            {
                 header   : 'Verification', 
                 width    : 170, 
                 sortable : true, 
@@ -597,6 +614,7 @@ SampleApp.EditCase.FromAnywhereGrid = function() {
 				netid_field.setValue(rec.get('netid'));
 				dns_field.setValue(rec.get('dns'));
 				network_field.setValue(rec.get('network'));
+				dhcp_field.setValue(rec.get('dhcp_info'));
 				verification_field.setValue(rec.get('user_verification'));
 				notes_field.setValue(rec.get('confirmation'));
 				category_field.setValue(rec.get('report_category'));

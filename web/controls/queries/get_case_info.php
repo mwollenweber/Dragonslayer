@@ -15,7 +15,7 @@ header("Content-type: text/json");
 
 $dsid = addslashes($_POST['dsid']);
 
-$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), netid, dns_name, network, verification, notes, report_category FROM gwcases WHERE id='$dsid' ORDER BY tdstamp DESC LIMIT 50";
+$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), netid, dns_name, network, dhcp_info, verification, notes, report_category FROM gwcases WHERE id='$dsid' ORDER BY tdstamp DESC LIMIT 50";
 $result= mysqli_query($link,$query);
 
 $data_result = array();
@@ -56,7 +56,7 @@ while($row = mysqli_fetch_assoc($result)) {
 	}
 	
 //	$data_result[] = array('id'=>$row['id'],'date'=>$row['tdstamp'],'reporter'=>$row['reporter'],'event'=>$row['event'],'victim'=>$row['INET_NTOA(victim)'],'attacker'=>$row['INET_NTOA(attacker)'],'dns'=>$row['dns_name'],'network'=>$row['network'],'verification'=>$row['verification'],'notes'=>$row['notes'],'category'=>$category);
-	$data_result[] = array($row['id'],$row['tdstamp'],$row['reporter'],$row['event'],$row['INET_NTOA(victim)'],$row['INET_NTOA(attacker)'],$row['netid'],$row['dns_name'],$row['network'],$row['verification'],$row['notes'],$category);
+	$data_result[] = array($row['id'],$row['tdstamp'],$row['reporter'],$row['event'],$row['INET_NTOA(victim)'],$row['INET_NTOA(attacker)'],$row['netid'],$row['dns_name'],$row['network'],$row['dhcp_info'],$row['verification'],$row['notes'],$category);
 }
 
 mysqli_close($link);
