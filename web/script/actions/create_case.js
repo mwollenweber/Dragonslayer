@@ -197,7 +197,7 @@ SampleApp.CreateCase.FormPanel = function(){
     netid_field = new Ext.form.TextField({
         fieldLabel: 'NetID',
         name: 'netid',
-        allowBlank:false,
+        allowBlank:true,
         width: 400
     });
     
@@ -232,7 +232,8 @@ SampleApp.CreateCase.FormPanel = function(){
     notes_field = new Ext.form.TextArea({
         fieldLabel: 'Notes',
         name: 'notes',
-        width: 400
+        width: 400,
+        allowBlank:false,
     });
 	
     
@@ -262,19 +263,20 @@ SampleApp.CreateCase.FormPanel = function(){
             {
                 fieldLabel: 'Primary Detection',
                 name: 'primary_detection',
-                allowBlank:false,
+                allowBlank:true,
                 width: 400
             },
             {
                 fieldLabel: 'Seconday Detection',
                 name: 'seconday_detection',
-                allowBlank:false,
-                width: 400
+                width: 400,
+                allowBlank:true,
             },
             new Ext.form.TextArea({
                 fieldLabel: 'Verification',
                 name: 'verification',
-                width: 400
+                width: 400,
+                allowBlank:false,
             }),
             notes_field,
             new Ext.form.ComboBox({
@@ -291,6 +293,7 @@ SampleApp.CreateCase.FormPanel = function(){
                 mode: 'local',
                 triggerAction: 'all',
                 emptyText:'Select a category...',
+                allowBlank:false,
             }),
         ],
 
@@ -299,24 +302,26 @@ SampleApp.CreateCase.FormPanel = function(){
             formBind: true,	 
             handler:function(){ 
             	var form_data = createCaseFormPanel.getForm().getValues();
-            	Ext.Ajax.request({
-            		url: 'controls/actions/create_case.php',
-			        method:'POST', 
-			        waitTitle:'Connecting', 
-			        waitMsg:'Getting data...',
-			        params: form_data,
-			        
-			        success:function(request){ 
-			        	var obj = Ext.util.JSON.decode(request.responseText);
-			        	if(obj.success == "true") {
-			        		Ext.Msg.alert('Success','Case created');
-			        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
-			        		createCaseFormPanel.getForm().reset();
-			        	} else {
-			        		Ext.Msg.alert('Case creation failed', obj.error); 
-			        	}
-			       },
-				});
+            	if(createCaseFormPanel.getForm().isValid()){
+	            	Ext.Ajax.request({
+	            		url: 'controls/actions/create_case.php',
+				        method:'POST', 
+				        waitTitle:'Connecting', 
+				        waitMsg:'Getting data...',
+				        params: form_data,
+				        
+				        success:function(request){ 
+				        	var obj = Ext.util.JSON.decode(request.responseText);
+				        	if(obj.success == "true") {
+				        		Ext.Msg.alert('Success','Case created');
+				        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
+				        		createCaseFormPanel.getForm().reset();
+				        	} else {
+				        		Ext.Msg.alert('Case creation failed', obj.error); 
+				        	}
+				       },
+					});
+            	}
             },
         }],
         region: "north",

@@ -162,6 +162,7 @@ SampleApp.EditCase.FormPanel = function(){
         name: 'event',
         width: 400,
         readOnly:true,
+        allowBlank:false,
     });
 	
 	date_field = new Ext.form.TextField({
@@ -176,6 +177,7 @@ SampleApp.EditCase.FormPanel = function(){
         name: 'reporter',
         width: 400,
         readOnly:true,
+        allowBlank:false,
     });
 	
     network_field = new Ext.form.TextField({
@@ -188,7 +190,7 @@ SampleApp.EditCase.FormPanel = function(){
     netid_field = new Ext.form.TextField({
         fieldLabel: 'NetID',
         name: 'netid',
-        allowBlank:false,
+        allowBlank:true,
         width: 400
     });
     
@@ -196,7 +198,8 @@ SampleApp.EditCase.FormPanel = function(){
         fieldLabel: 'Victim',
         name: 'victim',
         readOnly:true,
-        width: 400
+        width: 400,
+        allowBlank:false,
     });
     
     attacker_field = new Ext.form.TextField({
@@ -223,7 +226,8 @@ SampleApp.EditCase.FormPanel = function(){
     notes_field = new Ext.form.TextArea({
         fieldLabel: 'Notes',
         name: 'notes',
-        width: 400
+        width: 400,
+        allowBlank:false,
     });
     
     category_field = new Ext.form.ComboBox({
@@ -240,13 +244,15 @@ SampleApp.EditCase.FormPanel = function(){
         mode: 'local',
         triggerAction: 'all',
         emptyText:'Select a category...',
+        allowBlank:false,
     });
     
     verification_field = new Ext.form.TextArea({
         fieldLabel: 'Verification',
         name: 'verification',
         width: 400,
-        height: 250
+        height: 250,
+        allowBlank:false,
     });
     
     dsid_field = new Ext.form.Hidden({
@@ -275,13 +281,13 @@ SampleApp.EditCase.FormPanel = function(){
             {
                 fieldLabel: 'Primary Detection',
                 name: 'primary_detection',
-                allowBlank:false,
+                allowBlank:true,
                 width: 400
             },
             {
                 fieldLabel: 'Seconday Detection',
                 name: 'seconday_detection',
-                allowBlank:false,
+                allowBlank:true,
                 width: 400
             },
             verification_field,
@@ -295,35 +301,37 @@ SampleApp.EditCase.FormPanel = function(){
             formBind: true,	 
             handler:function(){ 
             	var form_data = editCaseFormPanel.getForm().getValues();
-            	Ext.Ajax.request({
-            		url: 'controls/actions/update_case.php',
-			        method:'POST', 
-			        waitTitle:'Connecting', 
-			        waitMsg:'Getting data...',
-			        params: form_data,
-			        
-			        success:function(request){ 
-			        	var obj = Ext.util.JSON.decode(request.responseText);
-			        	if(obj.success == "true") {
-			        		Ext.Msg.alert('Case updated');
-			        		
-			        		//Update the grid when all is updated
-			        	    var myData = Ext.Ajax.request({
-			        	        url: 'controls/queries/last_50_cases.php',
-			        	        method:'GET', 
-			        	        waitTitle:'Connecting', 
-			        	        waitMsg:'Getting data...',
-			        	        
-			        	        success:function(request){ 
-			        	        	var obj = Ext.util.JSON.decode(request.responseText); 
-			        	        	store.loadData(obj);
-			        	       },
-			        		});
-			        	} else {
-			        		Ext.Msg.alert('Case creation failed', obj.error); 
-			        	}
-			       },
-				});
+            	if(editCaseFormPanel.getForm().isValid()) {
+	            	Ext.Ajax.request({
+	            		url: 'controls/actions/update_case.php',
+				        method:'POST', 
+				        waitTitle:'Connecting', 
+				        waitMsg:'Getting data...',
+				        params: form_data,
+				        
+				        success:function(request){ 
+				        	var obj = Ext.util.JSON.decode(request.responseText);
+				        	if(obj.success == "true") {
+				        		Ext.Msg.alert('Case updated');
+				        		
+				        		//Update the grid when all is updated
+				        	    var myData = Ext.Ajax.request({
+				        	        url: 'controls/queries/last_50_cases.php',
+				        	        method:'GET', 
+				        	        waitTitle:'Connecting', 
+				        	        waitMsg:'Getting data...',
+				        	        
+				        	        success:function(request){ 
+				        	        	var obj = Ext.util.JSON.decode(request.responseText); 
+				        	        	store.loadData(obj);
+				        	       },
+				        		});
+				        	} else {
+				        		Ext.Msg.alert('Case creation failed', obj.error); 
+				        	}
+				       },
+					});
+            	}
             },
         }],
         region: "north",
