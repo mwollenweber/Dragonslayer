@@ -1,8 +1,14 @@
 <%
-import sys, json
+import sys
 sys.path.append("/home/dragonslayer/code/")
 options = req.get_options()
 options['mod_python.importer.path'] = "/home/dragonslayer/code/"
+
+try: 
+    import json
+except:
+    import simplejson as json
+
 
 import dragonslayer
 ret = {"data": False}
