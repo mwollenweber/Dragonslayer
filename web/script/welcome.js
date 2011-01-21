@@ -32,7 +32,7 @@ Ext.onReady(function() {
 function timeout_trigger() {
 	dbf_portlet.reload_store();
 	rvc_portlet.reload_store();
-    setTimeout('timeout_trigger()', 30000);
+    setTimeout('timeout_trigger()', 10000);
 }
 
 /**

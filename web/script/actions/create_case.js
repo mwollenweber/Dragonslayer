@@ -57,7 +57,6 @@ SampleApp.CreateCase.OpenFromGrid = function(date,event,victim,attacker,notes) {
  * 
  */
 SampleApp.CreateCase.Panel = function() {
-
     createCaseFormPanel = new SampleApp.CreateCase.FormPanel();
     createCaseDragonInterface = new SampleApp.CreateCase.DragonInterface();
     SampleApp.CreateCase.Panel.superclass.constructor.call(this,{
@@ -79,12 +78,19 @@ SampleApp.CreateCase.Panel = function() {
 				{
 					columnWidth:.64,
 					style: 'padding:10px 5px 10px 10px',
-					items: {
-						frame:true,         
-						title: 'Dragon Interface',
-						items: createCaseDragonInterface,
-						height: 720
-					}
+					items: [
+				        {
+							frame:true,         
+							title: 'Dragon Interface',
+							items: createCaseDragonInterface,
+							height: 700
+						},
+						{
+							frame:true,         
+							title: 'Cases to be Entered',
+							items: new DailyBadFilteredPortlet()
+						}
+					]
 	        	}
         	]
     	}]
@@ -290,6 +296,7 @@ SampleApp.CreateCase.FormPanel = function(){
 			        	if(obj.success == "true") {
 			        		Ext.Msg.alert('Success','Case created');
 			        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
+			        		createCaseFormPanel.getForm().reset();
 			        	} else {
 			        		Ext.Msg.alert('Case creation failed', obj.error); 
 			        	}
@@ -308,7 +315,6 @@ Ext.extend(SampleApp.CreateCase.FormPanel, Ext.FormPanel, {
 SampleApp.CreateCase.DragonInterface = function(){
 	SampleApp.CreateCase.DragonInterface.superclass.constructor.call(this,{
         frame:true,
-        layout: "border",
         html: "<iframe height=100% width=100% src='https://128.164.11.22:9443'></iframe>"
     });
 };
