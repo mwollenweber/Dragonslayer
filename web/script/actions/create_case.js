@@ -22,6 +22,8 @@ var category_field;
 var verification_field;
 var dsid_field;
 
+//var unenteredCasesPortlet = new UnenteredCasesPortlet();
+
 /**
  * Attach the launcher panel to the West Panel
  */
@@ -101,7 +103,7 @@ SampleApp.CreateCase.Panel = function() {
 						{
 							frame:true,         
 							title: 'Cases to be Entered',
-							items: new UnenteredCasesPortlet()
+							items: unenteredCasesPortlet
 						}
 					]
 	        	}

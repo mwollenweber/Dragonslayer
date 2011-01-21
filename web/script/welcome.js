@@ -2,6 +2,7 @@ Ext.namespace('SampleApp.Welcome');
 
 var dbf_portlet = new DailyBadFilteredPortlet();
 var rvc_portlet = new RecentVipCases();
+var unenteredCasesPortlet = new UnenteredCasesPortlet(); //portlet is located within create case, but we want it to sync with DBF
 
 var tools = [{
     id:'gear',
@@ -32,6 +33,7 @@ Ext.onReady(function() {
 function timeout_trigger() {
 	dbf_portlet.reload_store();
 	rvc_portlet.reload_store();
+	unenteredCasesPortlet.reload_store();
     setTimeout('timeout_trigger()', 10000);
 }
 
