@@ -44,14 +44,33 @@ SampleApp.PatchyUpload.Panel = function() {
         buttons: [{
             text: 'Save',
             handler: function(){
+            	var form_data = patchy_form.getForm().getValues();
             	if(patchy_form.getForm().isValid()){
 	            	patchy_form.getForm().submit({
-	                    url: '../code/psp/submit_patchy.psp',
+//	                    url: '../code/psp/submit_patchy.psp',
+	            		url: 'controls/file_test.php',
 	                    waitMsg: 'Uploading patchy file...',
 	                    success: function(fp, o){
-	                        msg('Success', 'Processed file "'+o.result.file+'" on the server');
+	                    	Ext.Msg.alert('Success');
 	                    }
 	                });
+            		
+//            		Ext.Ajax.request({
+//	            		url: 'controls/file_test.php',
+//				        method:'POST', 
+//				        waitTitle:'Connecting', 
+//				        waitMsg:'Getting data...',
+//				        params: form_data,
+//				        
+//				        success:function(request){ 
+//				        	var obj = Ext.util.JSON.decode(request.responseText);
+//				        	if(obj.success == "true") {
+//				        		Ext.Msg.alert('Success','Case created');
+//				        	} else {
+//				        		Ext.Msg.alert('Case creation failed', obj.error); 
+//				        	}
+//				       },
+//					});
             	}
             }
         },{
