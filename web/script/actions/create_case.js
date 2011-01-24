@@ -165,6 +165,30 @@ SampleApp.CreateCase.FormPanel = function(){
 	   },
 	});
 	
+	function get_ip_info(victim) {
+		Ext.Ajax.request({
+	    url: '../code/psp/get_ip_info.psp', //this needs to call the real service
+	    waitTitle:'Connecting', 
+	    waitMsg:'Getting data...',
+	    params: { 'ip': victim, type: 'json'},
+	    
+	    success:function(request){ 
+	    	var obj = Ext.util.JSON.decode(request.responseText); 
+	    	ip_information.loadData(obj.ip_msg);
+	    	network_field.setValue(obj.ip_msg.network_name);
+	    	dns_field.setValue(obj.ip_msg.fqdn);
+	    	dhcp_field.setValue(obj.ip_msg.dhcp_info);
+	    	if (obj.ip_msg.critical_info != "FALSE") {
+	    		Ext.Msg.alert('Critical', 'This is a VIP machine!');
+	    	}	    	
+	    	if (obj.ip_msg.recent_case != "0") {
+	    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
+	    	}
+	   },
+	});
+	}
+	
+	
 	//break out form fields from the form so that we can add data to the object
 	event_field = new Ext.form.TextField({
         fieldLabel: 'Event',
@@ -205,7 +229,10 @@ SampleApp.CreateCase.FormPanel = function(){
         fieldLabel: 'Victim',
         name: 'victim',
         allowBlank:false,
-        width: 400
+        width: 400,
+        onBlur : function() {
+        	get_ip_info(victim_field.getValue())
+        }
     });
     
     attacker_field = new Ext.form.TextField({

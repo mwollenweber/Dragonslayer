@@ -47,8 +47,8 @@ SampleApp.PatchyUpload.Panel = function() {
             	var form_data = patchy_form.getForm().getValues();
             	if(patchy_form.getForm().isValid()){
 	            	patchy_form.getForm().submit({
-//	                    url: '../code/psp/submit_patchy.psp',
-	            		url: 'controls/file_test.php',
+	                    url: '../code/psp/submit_patchy.psp',
+//	            		url: 'controls/file_test.php',
 	                    waitMsg: 'Uploading patchy file...',
 	                    success: function(fp, o){
 	                    	Ext.Msg.alert('Success');
