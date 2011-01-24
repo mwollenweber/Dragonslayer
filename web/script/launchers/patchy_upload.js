@@ -34,21 +34,43 @@ SampleApp.PatchyUpload.Panel = function() {
         autoHeight: true,
         bodyStyle: 'padding: 10px 10px 0 10px;',
         labelWidth: 50,
-        items: [{
-            xtype: 'fileuploadfield',
-            emptyText: 'Select patchy file..',
-            fieldLabel: 'Patchy File',
-            name: 'patchy_file',
+        defaults: {
+            anchor: '95%',
             allowBlank: false,
-        }],
+            msgTarget: 'side'
+        },
+        items: [
+//                {
+//            xtype: 'fileuploadfield',
+//            emptyText: 'Select patchy file..',
+//            fieldLabel: 'Patchy File',
+//            name: 'patchy_file',
+//            allowBlank: false,
+//        }
+
+{
+            xtype: 'textfield',
+            fieldLabel: 'Name'
+        },{
+            xtype: 'fileuploadfield',
+            id: 'form-file',
+            emptyText: 'Select an image',
+            fieldLabel: 'Photo',
+            name: 'patchy_file',
+            buttonText: '',
+            buttonCfg: {
+                iconCls: 'upload-icon'
+            }
+        }
+                ],
         buttons: [{
             text: 'Save',
             handler: function(){
             	var form_data = patchy_form.getForm().getValues();
             	if(patchy_form.getForm().isValid()){
 	            	patchy_form.getForm().submit({
-	                    url: '../code/psp/submit_patchy.psp',
-//	            		url: 'controls/file_test.php',
+//	                    url: '../code/psp/submit_patchy.psp',
+	            		url: 'controls/file_test.php',
 	                    waitMsg: 'Uploading patchy file...',
 	                    success: function(fp, o){
 	                    	Ext.Msg.alert('Success');

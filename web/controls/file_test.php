@@ -1,3 +1,3 @@
 <?php 
-echo $_FILES['patchy_file'];
+$file = $_FILES['patchy_file'];
 ?>

@@ -56,6 +56,7 @@ function UnenteredCasesPortlet(){
 				victim_field.setValue(rec.get('victim'));
 				attacker_field.setValue(rec.get('attacker'));
 				notes_field.setValue(rec.get('notes'));
+				get_ip_info(rec.get('victim'));
 			}
 		}
     });
