@@ -40,27 +40,12 @@ SampleApp.PatchyUpload.Panel = function() {
             msgTarget: 'side'
         },
         items: [
-//                {
-//            xtype: 'fileuploadfield',
-//            emptyText: 'Select patchy file..',
-//            fieldLabel: 'Patchy File',
-//            name: 'patchy_file',
-//            allowBlank: false,
-//        }
-
-{
-            xtype: 'textfield',
-            fieldLabel: 'Name'
-        },{
+                {
             xtype: 'fileuploadfield',
-            id: 'form-file',
-            emptyText: 'Select an image',
-            fieldLabel: 'Photo',
+            emptyText: 'Select patchy file..',
+            fieldLabel: 'Patchy File',
             name: 'patchy_file',
-            buttonText: '',
-            buttonCfg: {
-                iconCls: 'upload-icon'
-            }
+            allowBlank: false,
         }
                 ],
         buttons: [{
@@ -70,10 +55,10 @@ SampleApp.PatchyUpload.Panel = function() {
             	if(patchy_form.getForm().isValid()){
 	            	patchy_form.getForm().submit({
 //	                    url: '../code/psp/submit_patchy.psp',
-	            		url: 'controls/file_test.php',
+	            		url: 'controls/launchers/patchy_submit.php',
 	                    waitMsg: 'Uploading patchy file...',
 	                    success: function(fp, o){
-	                    	Ext.Msg.alert('Success');
+	                    	Ext.Msg.alert('Success', 'File uploaded');
 	                    }
 	                });
             		

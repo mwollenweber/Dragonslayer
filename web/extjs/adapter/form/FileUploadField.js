@@ -34,7 +34,7 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
      */
 
     // private
-    readOnly: false,
+    readOnly: true,
 
     /**
      * @hide
@@ -63,15 +63,15 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
         Ext.ux.form.FileUploadField.superclass.onRender.call(this, ct, position);
 
         this.wrap = this.el.wrap({cls:'x-form-field-wrap x-form-file-wrap'});
-        this.el.addClass('x-form-file-text');
-        this.el.dom.removeAttribute('name');
+//        this.el.addClass('x-form-file-text');
+//        this.el.dom.removeAttribute('name');
         this.createFileInput();
 
         var btnCfg = Ext.applyIf(this.buttonCfg || {}, {
             text: this.buttonText
         });
         this.button = new Ext.Button(Ext.apply(btnCfg, {
-            renderTo: this.wrap,
+//            renderTo: this.wrap,
             cls: 'x-form-file-btn' + (btnCfg.iconCls ? ' x-btn-icon' : '')
         }));
 
@@ -136,10 +136,10 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
 
         this.wrap.setWidth(w);
 
-        if(!this.buttonOnly){
-            var w = this.wrap.getWidth() - this.button.getEl().getWidth() - this.buttonOffset;
-            this.el.setWidth(w);
-        }
+//        if(!this.buttonOnly){
+//            var w = this.wrap.getWidth() - this.button.getEl().getWidth() - this.buttonOffset;
+//            this.el.setWidth(w);
+//        }
     },
 
     // private
