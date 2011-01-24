@@ -88,7 +88,7 @@ SampleApp.CreateCase.Panel = function() {
 	            {  
 					columnWidth:.35,
 					style:'padding:10px 10 10px 10px',
-					items: createCaseFormPanel
+					items: createCaseFormPanel,
 	        	},
 				{
 					columnWidth:.64,
@@ -303,6 +303,7 @@ SampleApp.CreateCase.FormPanel = function(){
                 fieldLabel: 'Verification',
                 name: 'verification',
                 width: 400,
+                height: 250,
                 allowBlank:false,
             }),
             notes_field,
@@ -352,7 +353,7 @@ SampleApp.CreateCase.FormPanel = function(){
             },
         }],
         region: "north",
-        height: 600
+        height: 720
     });
 }
 
