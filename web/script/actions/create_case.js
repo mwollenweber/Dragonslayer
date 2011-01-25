@@ -1,4 +1,12 @@
+/**
+ * @author Brandon Dixon
+ * @date 01/19/2011
+ * @description Creates a case
+ */
+
 Ext.namespace("SampleApp.CreateCase");
+
+//define variables to be used all over
 var createCaseFormPanel;
 var createCaseGridPanel;
 var createCasePanel;
@@ -22,7 +30,6 @@ var category_field;
 var verification_field;
 var dsid_field;
 
-//var unenteredCasesPortlet = new UnenteredCasesPortlet();
 
 /**
  * Attach the launcher panel to the West Panel

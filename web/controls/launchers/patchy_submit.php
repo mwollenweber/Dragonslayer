@@ -1,4 +1,11 @@
 <?php 
+/*
+ * @author Brandon Dixon
+ * @date 01/25/2011
+ * @description Submits the patchy data from the uploaded file
+ * @return JSON object
+ */
+
 include('../database/database_connection.php');
 
 sleep(1);
