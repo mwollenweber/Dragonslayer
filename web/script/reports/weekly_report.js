@@ -254,40 +254,7 @@ Ext.extend(SampleApp.WeeklyReport.FormPanel, Ext.FormPanel, {
 });
 
 SampleApp.WeeklyReport.CountData = function() {
-//	function count_data() {
-//		this.html;
-//	}
-//	
-//	count_data.prototype.setHtml = function(html) {
-//		this.html = html;
-//	}
-//	
-//	count_data.prototype.getHtml = function() {
-//		return this.html;
-//	}
-//	
-//	var count_data = new count_data();
-//	
-//    function collect_data() {
-//    	Ext.Ajax.request({
-//	        url: 'controls/reports/weekly_counts.php',
-//	        method:'GET', 
-//	        waitTitle:'Connecting', 
-//	        waitMsg:'Getting data...',
-//	        
-//	        success:function(request){ 
-//	        	var html = '';
-//	        	var obj = Ext.util.JSON.decode(request.responseText); 
-//	        	html += '<p>Total cases ' + obj['Total Cases'] + '</p>';
-//	        	html += '<p>Normal cases ' + obj['Normal Cases'] + '</p>';
-//	        	html += '<p>Student cases ' + obj['Student Cases'] + '</p>';
-//	        	html += '<p>VIP cases ' + obj['VIP Cases'] + '</p>';
-//	        	count_data.setHtml(html); 	
-//	       },
-//		});
-//    }
-//    
-	
+
 	var cm = new Ext.grid.ColumnModel([ 
 		{ header : 'Type', width : 50, sortable : true, dataIndex: 'type'},
 		{ header : 'Amount', width : 50, sortable : true, dataIndex: 'count'}
