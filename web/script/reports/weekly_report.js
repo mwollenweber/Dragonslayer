@@ -30,18 +30,17 @@ SampleApp.WeeklyReport.Open = function() {
 SampleApp.WeeklyReport.Panel = function() {
     weeklyReportFormPanel = new SampleApp.WeeklyReport.FormPanel();
 	weeklyReportGridPanel = new SampleApp.WeeklyReport.GridPanel();
-//	weeklyReportCountGrid = new SampleApp.WeeklyReport.CountGrid();
+	weeklyReportCountData = new SampleApp.WeeklyReport.CountData();
     SampleApp.WeeklyReport.Panel.superclass.constructor.call(this,{
         frame:true,
         title: "Weekly Report",
-        id: 'container',
         closable:true,
         titleCollapse:true,
         layout: 'border',
         items : [
                  weeklyReportGridPanel,
+                 weeklyReportCountData,
                  weeklyReportFormPanel,
-//                 weeklyReportCountGrid
         ]
     });
 };
@@ -131,7 +130,9 @@ SampleApp.WeeklyReport.GridPanel = function() {
             }
         ],
         stripeRows: true,
-        autoExpandColumn: 'weekly_report_device'
+        autoExpandColumn: 'weekly_report_device',
+        frame: true,
+        title: "Weekly Data"
     });
 }
 
@@ -141,94 +142,6 @@ SampleApp.WeeklyReport.GridPanel = function() {
 Ext.extend(SampleApp.WeeklyReport.GridPanel, Ext.grid.GridPanel, {
 });
 
-/**
- * Grid Panel
- */
-SampleApp.WeeklyReport.CountGrid = function() {
-    
-	// create the data store
-    var store = new Ext.data.ArrayStore({
-        fields: [
-           {name: 'device'},
-           {name: 'ip'},
-           {name: 'department'},
-           {name: 'date'},
-           {name: 'patchlink'},
-           {name: 'last_patchlink_check'},
-           {name: 'notes'}
-        ]
-    });
-	
-    var myData = Ext.Ajax.request({
-        url: 'controls/reports/weekly_report.php',
-        method:'GET', 
-        waitTitle:'Connecting', 
-        waitMsg:'Getting data...',
-        
-        success:function(request){ 
-        	var obj = Ext.util.JSON.decode(request.responseText); 
-        	store.loadData(obj);
-       },
-	});
-    
-    SampleApp.WeeklyReport.GridPanel.superclass.constructor.call(this,{
-        region: 'center',
-        store: store,
-        columns: [
-            {
-                id       :'weekly_report_device',
-                header   : 'Device Name', 
-                width    : 160, 
-                sortable : true, 
-                dataIndex: 'device'
-            },
-            {
-                header   : 'IP', 
-                width    : 200, 
-                sortable : true, 
-                dataIndex: 'ip'
-            },
-            {
-                header   : 'School/Department', 
-                width    : 120, 
-                sortable : true, 
-                dataIndex: 'department'
-            },
-            {
-                header   : 'Date/Time', 
-                width    : 120, 
-                sortable : true, 
-                dataIndex: 'date'
-            },
-            {
-                header   : 'Patchlink', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'patchlink'
-            },
-            {
-                header   : 'Last Patchlink Checkin', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'last_patchlink_check'
-            },
-            {
-                header   : 'Notes', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'notes'
-            }
-        ],
-        stripeRows: true,
-        autoExpandColumn: 'weekly_report_device'
-    });
-}
-
-/**
- *  Grid Panel
- */
-Ext.extend(SampleApp.WeeklyReport.CountGrid, Ext.grid.GridPanel, {
-});
 
 /**
  *  Address Book Form Panel
@@ -318,7 +231,7 @@ SampleApp.WeeklyReport.FormPanel = function(){
 
 	
     SampleApp.WeeklyReport.FormPanel.superclass.constructor.call(this,{
-        frame:false,
+        frame:true,
         title: 'Weekly Report Graph',
         bodyStyle:'padding:5px 5px 0',
         region: "south",
@@ -340,3 +253,77 @@ SampleApp.WeeklyReport.FormPanel = function(){
 Ext.extend(SampleApp.WeeklyReport.FormPanel, Ext.FormPanel, {
 });
 
+SampleApp.WeeklyReport.CountData = function() {
+//	function count_data() {
+//		this.html;
+//	}
+//	
+//	count_data.prototype.setHtml = function(html) {
+//		this.html = html;
+//	}
+//	
+//	count_data.prototype.getHtml = function() {
+//		return this.html;
+//	}
+//	
+//	var count_data = new count_data();
+//	
+//    function collect_data() {
+//    	Ext.Ajax.request({
+//	        url: 'controls/reports/weekly_counts.php',
+//	        method:'GET', 
+//	        waitTitle:'Connecting', 
+//	        waitMsg:'Getting data...',
+//	        
+//	        success:function(request){ 
+//	        	var html = '';
+//	        	var obj = Ext.util.JSON.decode(request.responseText); 
+//	        	html += '<p>Total cases ' + obj['Total Cases'] + '</p>';
+//	        	html += '<p>Normal cases ' + obj['Normal Cases'] + '</p>';
+//	        	html += '<p>Student cases ' + obj['Student Cases'] + '</p>';
+//	        	html += '<p>VIP cases ' + obj['VIP Cases'] + '</p>';
+//	        	count_data.setHtml(html); 	
+//	       },
+//		});
+//    }
+//    
+	
+	var cm = new Ext.grid.ColumnModel([ 
+		{ header : 'Type', width : 50, sortable : true, dataIndex: 'type'},
+		{ header : 'Amount', width : 50, sortable : true, dataIndex: 'count'}
+	]);
+	cm.defaultSortable = true; 
+
+   	var store = new Ext.data.JsonStore({
+   	    fields: ['type','count']
+   	});
+   	
+   	var myData = Ext.Ajax.request({
+   	    url: 'controls/reports/weekly_counts.php',
+   	    method:'GET', 
+   	    waitTitle:'Connecting', 
+   	    waitMsg:'Getting data...',
+   	    
+   	    success:function(request){ 
+   	    	var obj = Ext.util.JSON.decode(request.responseText); 
+   	    	store.loadData(obj);
+   	   },
+   	});
+	
+    SampleApp.WeeklyReport.CountData.superclass.constructor.call(this,{
+        store: store,
+        cm: cm,
+        stripeRows: true,
+        height: 300,
+        viewConfig: {forceFit: true},
+		autoSizeColumns: true,
+		loadMask: true,
+        region: "west",
+        frame: true,
+        title: "Weekly Counts",
+        width: 250,
+    })
+}
+
+Ext.extend(SampleApp.WeeklyReport.CountData, Ext.grid.GridPanel, {
+});

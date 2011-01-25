@@ -48,6 +48,7 @@ function DailyBadFilteredPortlet(){
         height: 300,
         viewConfig: {forceFit: true},
 		autoSizeColumns: true,
+		loadMask: true,
 		clicksToEdit: 1,
 		listeners: {
 			cellclick: function(grid, rowIndex, colIndex) {
