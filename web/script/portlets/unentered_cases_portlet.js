@@ -48,7 +48,6 @@ function UnenteredCasesPortlet(){
 		    
 		    success:function(request){ 
 		    	var obj = Ext.util.JSON.decode(request.responseText); 
-		    	ip_information.loadData(obj.ip_msg);
 		    	network_field.setValue(obj.ip_msg.network_name);
 		    	dns_field.setValue(obj.ip_msg.fqdn);
 		    	dhcp_field.setValue(obj.ip_msg.dhcp_info);

@@ -80,6 +80,10 @@ SampleApp.WeeklyCases.GridPanel = function() {
        },
 	});
     
+    function renderTip(val, meta, rec, rowIdx, colIdx, ds) {
+    	return '<div ext:qtitle="' + "Data" + '" ext:qtip="' + val + '">' + val + '</div>';
+    }
+    
     SampleApp.WeeklyCases.GridPanel.superclass.constructor.call(this,{
         store: store,
         columns: [
@@ -135,14 +139,16 @@ SampleApp.WeeklyCases.GridPanel = function() {
                 header   : 'Verification', 
                 width    : 170, 
                 sortable : true, 
-                dataIndex: 'user_verification'
+                dataIndex: 'user_verification',
+                renderer: renderTip
             },
             {
             	id		 : 'search_by_ip_confirmation',
                 header   : 'Confirmation', 
                 width    : 170, 
                 sortable : true, 
-                dataIndex: 'confirmation'
+                dataIndex: 'confirmation',
+                renderer: renderTip
             },
             {
                 header   : 'Category', 
