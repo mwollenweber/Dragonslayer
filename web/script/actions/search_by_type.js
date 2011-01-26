@@ -7,6 +7,7 @@ var store;
  * Attach the launcher panel to the West Panel
  */
 Ext.onReady(function(){
+	Ext.QuickTips.init();
     SampleApp.Main.EventRelay.on("openSearchByType",SampleApp.SearchByIp.Open);
 });
 
@@ -165,6 +166,10 @@ SampleApp.SearchByIp.GridPanel = function() {
         ]
     });
     
+    function renderConfirmation(val, meta, rec, rowIdx, colIdx, ds) {
+    	return '<div ext:qtitle="' + "Confirmation" + '" ext:qtip="' + val + '">' + val + '</div>';
+    }
+    
     SampleApp.SearchByIp.GridPanel.superclass.constructor.call(this,{
         region: 'center',
         store: store,
@@ -222,9 +227,11 @@ SampleApp.SearchByIp.GridPanel = function() {
                 header   : 'Confirmation', 
                 width    : 170, 
                 sortable : true, 
-                dataIndex: 'confirmation'
+                dataIndex: 'confirmation',
+                renderer: renderConfirmation
             }
         ],
+        trackMouseOver: true,
         stripeRows: true,
         autoExpandColumn: 'search_by_ip_confirmation',
 		listeners: {

@@ -39,6 +39,29 @@ function UnenteredCasesPortlet(){
 		});
 	}
 	
+	function get_ip_info(victim) {
+		Ext.Ajax.request({
+		    url: '../code/psp/get_ip_info.psp',
+		    waitTitle:'Connecting', 
+		    waitMsg:'Getting data...',
+		    params: { 'ip': victim, type: 'json'},
+		    
+		    success:function(request){ 
+		    	var obj = Ext.util.JSON.decode(request.responseText); 
+		    	ip_information.loadData(obj.ip_msg);
+		    	network_field.setValue(obj.ip_msg.network_name);
+		    	dns_field.setValue(obj.ip_msg.fqdn);
+		    	dhcp_field.setValue(obj.ip_msg.dhcp_info);
+		    	if (obj.ip_msg.critical_info != "FALSE") {
+		    		Ext.Msg.alert('Critical', 'This is a VIP machine!');
+		    	}	    	
+		    	if (obj.ip_msg.recent_case != "0") {
+		    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
+		    	}
+		   },
+		});
+	}
+	
 	UnenteredCasesPortlet.superclass.constructor.call(this, {
         store: store,
         cm: cm,
