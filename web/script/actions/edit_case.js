@@ -493,7 +493,7 @@ SampleApp.EditCase.GridPanel = function() {
 				    var attacker = rec.get('attacker');
 				    var search_context = new Ext.menu.Menu({
 				    	items: [{
-				    		text: 'search on value',
+				    		text: 'search on attacker',
 				    		handler: function() {
 				    			SampleApp.SearchByIp.PivotSearch(attacker)
 				    		}

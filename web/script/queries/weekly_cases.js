@@ -170,12 +170,12 @@ SampleApp.WeeklyCases.GridPanel = function() {
 				}
 			},
 			cellcontextmenu: function(grid, rowIndex, colIndex, e) {
-				if(colIndex == 5){
+				if(colIndex == 6){
 					var rec = grid.getStore().getAt(rowIndex);
 				    var attacker = rec.get('attacker');
 				    var search_context = new Ext.menu.Menu({
 				    	items: [{
-				    		text: 'search on value',
+				    		text: 'search on attacker',
 				    		handler: function() {
 				    			SampleApp.SearchByIp.PivotSearch(attacker)
 				    		}
