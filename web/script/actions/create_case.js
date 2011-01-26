@@ -160,14 +160,17 @@ SampleApp.CreateCase.FormPanel = function(){
 	    success:function(request){ 
 	    	var obj = Ext.util.JSON.decode(request.responseText); 
 	    	ip_information.loadData(obj.ip_msg);
-	    	network_field.setValue(obj.ip_msg.network_name);
-	    	dns_field.setValue(obj.ip_msg.fqdn);
-	    	dhcp_field.setValue(obj.ip_msg.dhcp_info);
-	    	if (obj.ip_msg.critical_info != "FALSE") {
-	    		Ext.Msg.alert('Critical', 'This is a VIP machine!');
-	    	}	    	
-	    	if (obj.ip_msg.recent_case != "0") {
-	    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
+	    	alert(obj.ip_msg.ip_addr.length);
+	    	if(obj.ip_msg.ip_addr.length > 4) {
+		    	network_field.setValue(obj.ip_msg.network_name);
+		    	dns_field.setValue(obj.ip_msg.fqdn);
+		    	dhcp_field.setValue(obj.ip_msg.dhcp_info);
+		    	if (obj.ip_msg.critical_info != "FALSE") {
+		    		Ext.Msg.alert('Critical', 'This is a VIP machine!');
+		    	}	    	
+		    	if (obj.ip_msg.recent_case != "0") {
+		    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
+		    	}
 	    	}
 	   },
 	});
@@ -358,6 +361,13 @@ SampleApp.CreateCase.FormPanel = function(){
 					});
             	}
             },
+        },
+        {
+        	text: 'Reset',
+        	formBind: true,
+        	handler:function(){ 
+        		createCaseFormPanel.getForm().reset();
+        	}
         }],
         region: "north",
         height: 720
