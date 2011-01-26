@@ -168,7 +168,26 @@ SampleApp.WeeklyCases.GridPanel = function() {
 					dsid = rec.get('dsid');
 					SampleApp.EditCase.OpenFromGrid(dsid);
 				}
-			}
+			},
+			cellcontextmenu: function(grid, rowIndex, colIndex, e) {
+				if(colIndex == 5){
+					var rec = grid.getStore().getAt(rowIndex);
+				    var attacker = rec.get('attacker');
+				    var search_context = new Ext.menu.Menu({
+				    	items: [{
+				    		text: 'search on value',
+				    		handler: function() {
+				    			SampleApp.SearchByIp.PivotSearch(attacker)
+				    		}
+				    	}]
+				    });
+
+					search_context.showAt(e.getXY());
+				}
+			},
+		    render: function() {
+                 Ext.getBody().on("contextmenu", Ext.emptyFn, null, {preventDefault: true});
+        	},
 		}
     });
 }
