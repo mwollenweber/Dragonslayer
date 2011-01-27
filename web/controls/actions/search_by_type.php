@@ -11,24 +11,24 @@ include('../database/database_connection.php');
 #JSON is expected on the client side
 header("Content-type: text/json");
 
-$type = addslashes($_POST['type']);
+$type = addslashes($_POST['search_type']);
 $search_value = addslashes($_POST['search_value']);
 
-if($type == "DSID") {
+if($type == "dsid") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE id='$search_value' ORDER BY id DESC LIMIT 100";
-} elseif ($type == "Analyst") {
+} elseif ($type == "analyst") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE reporter='$search_value' ORDER BY id DESC LIMIT 100";
-} elseif ($type == "NetID") {
+} elseif ($type == "netid") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE netid='$search_value' ORDER BY id DESC LIMIT 100";
-} elseif ($type == "Event") {
+} elseif ($type == "event") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE event='$search_value' ORDER BY id DESC LIMIT 100";
-} elseif ($type == "Victim IP") {
+} elseif ($type == "victim_ip") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE INET_NTOA(victim)='$search_value' ORDER BY id DESC LIMIT 100";
-} elseif ($type == "Attacker IP") {
+} elseif ($type == "attacker_ip") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE INET_NTOA(attacker)='$search_value' ORDER BY id DESC LIMIT 100";
-} elseif ($type == "Network") {
+} elseif ($type == "network") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE network='$search_value' ORDER BY id DESC LIMIT 100";
-} elseif ($type == "Text in Verification") {
+} elseif ($type == "text_in_verification") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE verification regexp '[[:<:]]" . $search_value . "[[:>:]]' ORDER BY id DESC LIMIT 100";
 } else {
 	//TODO handle this

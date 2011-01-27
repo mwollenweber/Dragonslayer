@@ -170,14 +170,15 @@ SampleApp.WeeklyCases.GridPanel = function() {
 				}
 			},
 			cellcontextmenu: function(grid, rowIndex, colIndex, e) {
-				if(colIndex == 5){
+				var type = grid.getColumnModel().getDataIndex(colIndex);
+				if(type == "analyst" || type == "event" || type == "victim" || type == "attacker" || type == "network"){
 					var rec = grid.getStore().getAt(rowIndex);
-				    var attacker = rec.get('attacker');
+				    var data = rec.get(type);
 				    var search_context = new Ext.menu.Menu({
 				    	items: [{
-				    		text: 'search on attacker',
+				    		text: 'search on ' + type,
 				    		handler: function() {
-				    			SampleApp.SearchByIp.PivotSearch(attacker)
+				    			SampleApp.SearchByIp.PivotSearch(type, data)
 				    		}
 				    	}]
 				    });

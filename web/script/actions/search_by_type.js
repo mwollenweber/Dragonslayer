@@ -26,17 +26,21 @@ SampleApp.SearchByIp.Open = function() {
     });
 }
 
-SampleApp.SearchByIp.PivotSearch = function(value) {
+SampleApp.SearchByIp.PivotSearch = function(type, value) {
     var searchByIpPanel = new SampleApp.SearchByIp.Panel();
     SampleApp.Main.CenterPanelInstance.add(searchByIpPanel);
     SampleApp.Main.CenterPanelInstance.activate(searchByIpPanel);
+    
+    if(type == "attacker" || type == "victim") {
+    	type = type + "_ip";
+    }
 
 	Ext.Ajax.request({
 		url: 'controls/actions/search_by_type.php',
         method:'POST', 
         waitTitle:'Connecting', 
         waitMsg:'Getting data...',
-        params: { 'type': 'Attacker IP', 'search_value': value },
+        params: { 'search_type': type, 'search_value': value },
         
         success:function(request){ 
         	var obj = Ext.util.JSON.decode(request.responseText);
@@ -98,13 +102,14 @@ SampleApp.SearchByIp.FormPanel = function(){
             new Ext.form.ComboBox({
                 fieldLabel: 'Type',
                 name: 'type',
+                hiddenName: 'search_type',
                 width: 400,
                 store: new Ext.data.ArrayStore({
-                    fields: ['code', 'type'],
+                    fields: ['code', 'search_type'],
                     data : SampleApp.SearchByIp.categories
                 }),
                 valueField:'code',
-                displayField:'type',
+                displayField:'search_type',
                 typeAhead: true,
                 allowBlank:false,
                 mode: 'local',

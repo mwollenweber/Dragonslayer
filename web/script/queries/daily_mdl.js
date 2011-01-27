@@ -111,7 +111,29 @@ SampleApp.DailyMdl.GridPanel = function() {
             }
         ],
         stripeRows: true,
-        autoExpandColumn: 'daily_mdl_date'
+        autoExpandColumn: 'daily_mdl_date',
+        listeners: {
+			cellcontextmenu: function(grid, rowIndex, colIndex, e) {
+				var type = grid.getColumnModel().getDataIndex(colIndex);
+				if(type == "analyst" || type == "event" || type == "victim" || type == "attacker" || type == "network"){
+					var rec = grid.getStore().getAt(rowIndex);
+				    var data = rec.get(type);
+				    var search_context = new Ext.menu.Menu({
+				    	items: [{
+				    		text: 'search on ' + type,
+				    		handler: function() {
+				    			SampleApp.SearchByIp.PivotSearch(type, data)
+				    		}
+				    	}]
+				    });
+
+					search_context.showAt(e.getXY());
+				}
+			},
+		    render: function() {
+                 Ext.getBody().on("contextmenu", Ext.emptyFn, null, {preventDefault: true});
+        	},
+		}
     });
 }
 
