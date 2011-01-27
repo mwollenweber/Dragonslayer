@@ -18,6 +18,8 @@ if($type == "DSID") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE id='$search_value' ORDER BY id DESC LIMIT 100";
 } elseif ($type == "Analyst") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE reporter='$search_value' ORDER BY id DESC LIMIT 100";
+} elseif ($type == "NetID") {
+	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE netid='$search_value' ORDER BY id DESC LIMIT 100";
 } elseif ($type == "Event") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE event='$search_value' ORDER BY id DESC LIMIT 100";
 } elseif ($type == "Victim IP") {
@@ -26,6 +28,8 @@ if($type == "DSID") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE INET_NTOA(attacker)='$search_value' ORDER BY id DESC LIMIT 100";
 } elseif ($type == "Network") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE network='$search_value' ORDER BY id DESC LIMIT 100";
+} elseif ($type == "Text in Verification") {
+	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE verification regexp '[[:<:]]" . $search_value . "[[:>:]]' ORDER BY id DESC LIMIT 100";
 } else {
 	//TODO handle this
 }

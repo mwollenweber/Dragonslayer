@@ -80,11 +80,12 @@ SampleApp.SearchByIp.FormPanel = function(){
 	SampleApp.SearchByIp.categories = [
       ['dsid', 'DSID'],
       ['analyst', 'Analyst'],
+      ['netid', 'NetID'],
       ['dragon_event', 'Event'],
       ['victim_ip', 'Victim IP'],
       ['attacker_ip', 'Attacker IP'],
       ['network', 'Network'],
-      ['category', 'Category'],
+      ['text_in_verification', 'Text in Verification'],
      ];
 	
     SampleApp.SearchByIp.FormPanel.superclass.constructor.call(this,{
