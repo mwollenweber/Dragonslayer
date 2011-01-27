@@ -160,7 +160,6 @@ SampleApp.CreateCase.FormPanel = function(){
 	    success:function(request){ 
 	    	var obj = Ext.util.JSON.decode(request.responseText); 
 	    	ip_information.loadData(obj.ip_msg);
-	    	alert(obj.ip_msg.ip_addr.length);
 	    	if(obj.ip_msg.ip_addr.length > 4) {
 		    	network_field.setValue(obj.ip_msg.network_name);
 		    	dns_field.setValue(obj.ip_msg.fqdn);

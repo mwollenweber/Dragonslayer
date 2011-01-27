@@ -170,7 +170,7 @@ SampleApp.WeeklyCases.GridPanel = function() {
 				}
 			},
 			cellcontextmenu: function(grid, rowIndex, colIndex, e) {
-				if(colIndex == 6){
+				if(colIndex == 5){
 					var rec = grid.getStore().getAt(rowIndex);
 				    var attacker = rec.get('attacker');
 				    var search_context = new Ext.menu.Menu({
