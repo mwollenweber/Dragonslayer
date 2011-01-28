@@ -88,10 +88,9 @@ SampleApp.Welcome.Panel = function(config) {
 						tools: tools,
 						height: 400
 					}, {
-//						title: 'Recent VIP Cases',
-//						tools: tools,
-//						items: rvc_portlet,
-//						height: 300,
+						title: 'Quick Search',
+						tools: tools,
+						items: new SearchByTypePortlet(),
 					}
 				]}
 			]
