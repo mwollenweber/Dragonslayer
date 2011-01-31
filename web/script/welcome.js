@@ -79,6 +79,10 @@ SampleApp.Welcome.Panel = function(config) {
 					style: 'padding:10px 5px 10px 10px',
 				
 					items: [{
+						title: 'Public Scratch Pad',
+						tools: tools,
+						items: new ScratchPadPortlet(),
+					}, {
 						title: 'Weekly Report',
 						tools: tools,
 						items: new WeeklyReportPortlet(),
