@@ -1,0 +1,36 @@
+<%
+import sys
+sys.path.append("/home/dragonslayer/code/")
+options = req.get_options()
+options['mod_python.importer.path'] = "/home/dragonslayer/code/"
+
+try: 
+    import json
+except:
+    import simplejson as json
+
+import dragonslayer
+
+req.content_type = 'application/json'
+ret = {"data": False}
+
+if form.has_key("patchy_file"):
+    file_obj = form["patchy_file"]
+    data = file_obj.file.read()
+    
+    ds = dragonslayer.dragonslayer()
+    msg = ds.update_patchy(data_blob=data)
+    
+    if ds.patchy_success:
+        ret = {"data": True}
+    else:
+        ret["messages"] = msg
+        
+    ds.shutdown()
+    req.write(json.dumps(ret))
+
+else:
+    ret = {"msg": "give me a file  you bastard"}
+    req.write(json.dumps(ret))
+
+%>
