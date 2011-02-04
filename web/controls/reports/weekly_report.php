@@ -11,7 +11,7 @@ include('../database/database_connection.php');
 #JSON is expected on the client side
 header("Content-type: text/json");
 
-$weekly_ips_query = "SELECT INET_NTOA(victim) as victim, network, tdstamp as discovered, notes FROM gwcases WHERE (report_category >= 100) AND DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() GROUP BY victim ORDER BY tdstamp, victim";
+$weekly_ips_query = "SELECT INET_NTOA(victim) as victim, network, discovered, notes FROM gwcases WHERE (report_category >= 100) AND DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() GROUP BY victim ORDER BY tdstamp, victim";
 
 $result= mysqli_query($link,$weekly_ips_query);
 $result_count = mysqli_num_rows($result);

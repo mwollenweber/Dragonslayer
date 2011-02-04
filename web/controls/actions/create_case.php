@@ -106,7 +106,7 @@ if($category == "Normal") {
 }
 
 if($proceed) {
-	$query = "INSERT INTO gwcases (tdstamp, event, victim, network, dns_name, attacker, primary_detection, secondary_detection, verification, notes, discovered, reporter, report_category, dhcp_info, netid) VALUES (NOW(), '$event', INET_ATON('$victim'), '$network', '$dns', INET_ATON('$attacker'), '$primary', '$secondary', '$verification', '$notes', '$discovered', '$reporter', '$category', '$dhcp', '$netid')";
+	$query = "INSERT INTO gwcases (tdstamp, event, victim, network, dns_name, attacker, primary_detection, secondary_detection, verification, notes, discovered, reporter, report_category, dhcp_info, netid) VALUES (NOW(), '$event', INET_ATON('$victim'), '$network', '$dns', INET_ATON('$attacker'), '$primary', '$secondary', '$verification', '$notes', '$detection_date', '$reporter', '$category', '$dhcp', '$netid')";
 	if(mysqli_query($link,$query)) {
 		$data['success'] = "true";
 	} else {

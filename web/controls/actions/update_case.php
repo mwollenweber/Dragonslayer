@@ -101,7 +101,7 @@ if($category == "Normal") {
 }
 
 if($proceed) {
-	$query = "UPDATE gwcases SET event = '$event', network = '$network', dns_name = '$dns', attacker = INET_ATON('$attacker'), primary_detection = '$primary', secondary_detection = '$secondary', verification = '$verification', notes = '$notes', discovered = '$discovered', reporter = '$reporter', report_category = '$category', dhcp_info = '$dhcp', netid = '$netid' WHERE id=$dsid"; 
+	$query = "UPDATE gwcases SET event = '$event', network = '$network', dns_name = '$dns', attacker = INET_ATON('$attacker'), primary_detection = '$primary', secondary_detection = '$secondary', verification = '$verification', notes = '$notes', discovered = '$detection_date', reporter = '$reporter', report_category = '$category', dhcp_info = '$dhcp', netid = '$netid' WHERE id=$dsid"; 
 
 	if(mysqli_query($link,$query)) {
 		$data['success'] = "true";

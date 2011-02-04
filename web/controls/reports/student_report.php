@@ -11,7 +11,7 @@ include('../database/database_connection.php');
 #JSON is expected on the client side
 header("Content-type: text/json");
 
-$query = "select tdstamp as discovered, INET_NTOA(victim), event, notes, verification from gwcases where DATE(tdstamp) BETWEEN CURDATE()-DAYOFWEEK(CURDATE()) and CURDATE() and report_category=20";
+$query = "select discovered, INET_NTOA(victim), event, notes, verification from gwcases where DATE(tdstamp) BETWEEN CURDATE()-DAYOFWEEK(CURDATE()) and CURDATE() and report_category=20";
 $result= mysqli_query($link,$query);
 
 $data_result = array();
