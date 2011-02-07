@@ -1,4 +1,11 @@
 <?php 
+/*
+ * @author Brandon Dixon
+ * @date 02/07/2011
+ * @description Check to make sure the user is authenticated
+ * @return Redirects user if they aren't good
+ */
+
 include('database_connection.php');
 
 session_start();
@@ -11,6 +18,7 @@ $row = mysqli_fetch_array($result);
 $login_session = $row['username'];
 
 if(!isset($login_session)) {
-	header('Location: http://128.164.80.84/web/login.php');
+	header('Location: http://128.164.80.81/ds2/web/login.php');
 }
+
 ?>
