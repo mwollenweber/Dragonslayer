@@ -36,9 +36,14 @@ if($type == "dsid") {
 
 $data_result = array();
 $result= mysqli_query($link,$query);
+$row_cnt = mysqli_num_rows($result);
 
 while($row = mysqli_fetch_assoc($result)) {
 	$data_result[] = array($row['id'], $row['tdstamp'], $row['reporter'], $row['event'], $row['INET_NTOA(victim)'], $row['INET_NTOA(attacker)'], $row['dns_name'], $row['network'], $row['verification']);
+}
+
+if($row_cnt <= 0) {
+	$data_result['results'] = "null";
 }
 
 mysqli_close($link);

@@ -44,6 +44,9 @@ SampleApp.SearchByIp.PivotSearch = function(type, value) {
         
         success:function(request){ 
         	var obj = Ext.util.JSON.decode(request.responseText);
+        	if(obj.results == "null") {
+        		Ext.Msg.alert('Results', 'No search results found!');
+        	}
         	store.loadData(obj);
        },
 	});
@@ -138,6 +141,9 @@ SampleApp.SearchByIp.FormPanel = function(){
 			        
 			        success:function(request){ 
 			        	var obj = Ext.util.JSON.decode(request.responseText);
+   			        	if(obj.results == "null") {
+   			        		Ext.Msg.alert('Results', 'No search results found!');
+   			        	}
 			        	store.loadData(obj);
 			       },
 				});
@@ -155,6 +161,9 @@ SampleApp.SearchByIp.FormPanel = function(){
 	   			        
 	   			        success:function(request){ 
 	   			        	var obj = Ext.util.JSON.decode(request.responseText);
+	   			        	if(obj.results == "null") {
+	   			        		Ext.Msg.alert('Results', 'No search results found!');
+	   			        	}
 	   			        	store.loadData(obj);
 	   			       },
    					});
