@@ -4,6 +4,7 @@ Ext.onReady(function(){
 	var register = new Ext.form.FieldSet({
         checkboxToggle:true,
         title: 'Register',
+        id:'register_check',
         autoHeight:true,
         defaults: {width: 210},
         defaultType: 'textfield',
@@ -11,7 +12,6 @@ Ext.onReady(function(){
 		items:[{
                     fieldLabel: 'First Name',
                     name: 'first',
-                    allowBlank:false
                 },{
                     fieldLabel: 'Last Name',
                     name: 'last'
@@ -90,6 +90,12 @@ Ext.onReady(function(){
 	                } 
 	            }); 
 	        } 
+        },
+        {
+        	text:'Register',
+        	handler:function(){ 
+        		window.location = 'register.php';
+        	}
         }
     ] 
     });
