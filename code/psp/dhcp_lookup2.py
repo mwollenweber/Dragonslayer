@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 import urllib, httplib, time, traceback
-username = ""
-password = ""
+username = "mwollenw"
+password = "f@ct||cr@p"
 
 def get_dhcp(ip):
     dhcp_site = "dhcp.gwu.edu"
