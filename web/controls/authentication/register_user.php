@@ -46,6 +46,12 @@ if(is_null($confirm_password)) {
 	$data['error'] = "please confirm your password";	
 }
 
+if(strlen($password) < 7) {
+	$process = false;
+	$data['success'] = "false";
+	$data['error'] = "passwords must be at least 8 characters";	
+}
+
 //Make sure the passwords match 
 if($password == $confirm_password) {
 	$password_hash = sha1($password);
@@ -53,6 +59,28 @@ if($password == $confirm_password) {
 	$process = false;
 	$data['success'] = "false";
 	$data['error'] = "passwords did not match";
+}
+
+$first_m = preg_match('/[^a-z0-9]/i', $first_name);
+$last_m = preg_match('/[^a-z0-9]/i', $last_name);
+$user_m = preg_match('/[^a-z0-9]/i', $username);
+
+if($first_m) {
+	$process = false;
+	$data['success'] = "false";
+	$data['error'] = "first name field contains bad characters";
+}
+
+if($last_m) {
+	$process = false;
+	$data['success'] = "false";
+	$data['error'] = "last name field contains bad characters";
+}
+
+if($user_m) {
+	$process = false;
+	$data['success'] = "false";
+	$data['error'] = "username contains bad characters";
 }
 
 $password = addslashes($password);

@@ -58,7 +58,7 @@ Ext.onReady(function(){
 	                			var redirect = 'login.php'; 
 		                        window.location = redirect;
 	                 		} else {
-	                 			Ext.Msg.alert('Status', 'Registration Failed!');
+	                 			Ext.Msg.alert('Registration Failed!', obj.error);
 	                 		}
 	                    },
 		            }); 
