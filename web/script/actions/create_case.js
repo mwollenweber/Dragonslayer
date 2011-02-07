@@ -197,6 +197,19 @@ SampleApp.CreateCase.FormPanel = function(){
 		});
 	}
 	
+	function snatch_user() {
+		Ext.Ajax.request({
+		    url: 'controls/authentication/snatch_user.php',
+		    waitTitle:'Connecting', 
+		    waitMsg:'Getting data...',
+		    
+		    success:function(request){ 
+		    	var obj = Ext.util.JSON.decode(request.responseText); 
+		    	reporter_field.setValue(obj.user);
+		   },
+		})
+	}
+	
 	
 	//break out form fields from the form so that we can add data to the object
 	event_field = new Ext.form.TextField({
@@ -279,6 +292,7 @@ SampleApp.CreateCase.FormPanel = function(){
 	victim_field.setValue(victim);
 	attacker_field.setValue(attacker);
 	notes_field.setValue(notes);
+	snatch_user();
     
     SampleApp.CreateCase.FormPanel.superclass.constructor.call(this,{
         frame:false,
