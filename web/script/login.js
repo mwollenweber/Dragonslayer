@@ -70,10 +70,8 @@ Ext.onReady(function(){
                     success:function(request){ 
                     	obj = Ext.util.JSON.decode(request.responseText); 
                  		if(obj.success == "true") {
-                    		Ext.Msg.alert('Status', 'Login Successful!', function(btn, text){
-                    			var redirect = 'index.php'; 
-    	                        window.location = redirect;
-                    		});
+                			var redirect = 'index.php'; 
+	                        window.location = redirect;
                  		} else {
                  			Ext.Msg.alert('Status', 'Login Failed!');
                  		}
