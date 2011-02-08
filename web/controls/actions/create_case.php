@@ -53,7 +53,7 @@ if(strlen($victim) < 4) {
 	$proceed = false;
 }
 
-if(strlen($reporter) < 4) {
+if(strlen($reporter) < 2) {
 	$data['success'] = "false";
 	$data['error'] = "You must enter a reporter";
 	$proceed = false;
