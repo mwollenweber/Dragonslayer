@@ -27,6 +27,12 @@ WeeklyReportPortlet = function() {
     WeeklyReportPortlet.superclass.constructor.call(this, {
         region: 'center',
         store: store,
+        tbar : [
+    	        {
+    	          xtype: 'exportbutton',
+    	          store: store
+    	        }
+         	],
         columns: [
             {
                 id       :'weekly_report_device',

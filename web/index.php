@@ -27,6 +27,12 @@ include('controls/database/lock.php');
 		
 		<script src="extjs/adapter/form/FileUploadField.js" type="text/javascript"></script>
 		
+		<script src="extjs/adapter/Ext.ux.Printer/Printer.js" type="text/javascript" ></script>
+		<script src="extjs/adapter/Ext.ux.Printer/renderers/Base.js" type="text/javascript"></script>
+		<script src="extjs/adapter/Ext.ux.Printer/renderers/Base.js" type="text/javascript"></script>
+		
+		<script src="extjs/adapter/Ext.ux.Exporter/Exporter-all.js" type="text/javascript"></script>
+		
 		<!-- Portlets -->
 		<script src="script/portlets/daily_bad_filtered_portlet.js" type="text/javascript"></script>
 		<script src="script/portlets/weekly_report_graph_portlet.js" type="text/javascript"></script>

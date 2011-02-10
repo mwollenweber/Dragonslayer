@@ -2,7 +2,7 @@
 /*
  * @author Brandon Dixon
  * @date 01/19/2011
- * @description Queries the filtered view and returns results from the MDL, Shawdowserver and other feeds
+ * @description Sends mail notification to user on critical compromise
  * @return JSON object
  */
 
