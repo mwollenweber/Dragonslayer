@@ -1,0 +1,5 @@
+[slayerdb]
+user = dragonslayer
+password = slayer
+hostname = localhost
+database = dragonslayer
