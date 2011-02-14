@@ -68,6 +68,7 @@ include('controls/database/lock.php');
 		<!-- Reports -->
 		<script src="script/reports/student_report.js" type="text/javascript"></script>
 		<script src="script/reports/weekly_report.js" type="text/javascript"></script>
+		<script src="script/reports/generate_report.js" type="text/javascript"></script>
 		
 		<!-- Launchers -->
 		<script src="script/launchers/dragon_interface.js" type="text/javascript"></script>
@@ -78,6 +79,10 @@ include('controls/database/lock.php');
 	</head>
 	
 	<body>
+	
+		<form id="super_form" method="post" action="/file/">
+	    	<input type="hidden" id="download" name="download" />
+		</form>
 	
 		<!--  Queries -->
 		<ul id="dragonslayer-queries-content" class="x-hidden">
@@ -124,6 +129,10 @@ include('controls/database/lock.php');
 		    <li>
 		        <img src="images/date.gif" class="icon-show-active"/>
 		        <a class="dragonslayer-reports-weeklyreport dragonslayer-nav-link" href="#" name="openWeeklyReport">Weekly Report</a>
+		    </li>
+    		<li>
+		        <img src="images/Diagram.png" class="icon-show-active"/>
+		        <a class="dragonslayer-reports-generatereport dragonslayer-nav-link" href="#" name="openGenerateReport">Generate Report</a>
 		    </li>
 		</ul>
 		
