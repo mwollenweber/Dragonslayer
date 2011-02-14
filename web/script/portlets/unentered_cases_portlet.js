@@ -61,6 +61,21 @@ function UnenteredCasesPortlet(){
 		});
 	}
 	
+	function snatch_user() {
+		Ext.Ajax.request({
+		    url: 'controls/authentication/snatch_user.php',
+		    waitTitle:'Connecting', 
+		    waitMsg:'Getting data...',
+		    
+		    success:function(request){ 
+		    	var obj = Ext.util.JSON.decode(request.responseText); 
+		    	reporter_field.setValue(obj.user);
+		   },
+		})
+	}
+	
+	snatch_user();
+	
 	UnenteredCasesPortlet.superclass.constructor.call(this, {
         store: store,
         cm: cm,

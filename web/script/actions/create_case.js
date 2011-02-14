@@ -293,6 +293,35 @@ SampleApp.CreateCase.FormPanel = function(){
 	attacker_field.setValue(attacker);
 	notes_field.setValue(notes);
 	snatch_user();
+	
+    new Ext.KeyMap(Ext.get(document), {
+    	key:'S',
+    	ctrl:true,
+    	fn:function(e) {
+    		var form_data = createCaseFormPanel.getForm().getValues();
+        	if(createCaseFormPanel.getForm().isValid()){
+            	Ext.Ajax.request({
+            		url: 'controls/actions/create_case.php',
+			        method:'POST', 
+			        waitTitle:'Connecting', 
+			        waitMsg:'Getting data...',
+			        params: form_data,
+			        
+			        success:function(request){ 
+			        	var obj = Ext.util.JSON.decode(request.responseText);
+			        	if(obj.success == "true") {
+			        		Ext.Msg.alert('Success','Case created');
+			        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
+			        		createCaseFormPanel.getForm().reset();
+			        	} else {
+			        		Ext.Msg.alert('Case creation failed', obj.error); 
+			        	}
+			       },
+				});
+        	}
+    	},
+    	stopEvent:true
+	});
     
     SampleApp.CreateCase.FormPanel.superclass.constructor.call(this,{
         frame:false,
@@ -367,6 +396,11 @@ SampleApp.CreateCase.FormPanel = function(){
 				        		Ext.Msg.alert('Success','Case created');
 				        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
 				        		createCaseFormPanel.getForm().reset();
+				        		date_field.setValue('');
+				        		event_field.setValue('');
+				        		victim_field.setValue('');
+				        		attacker_field.setValue('');
+				        		notes_field.setValue('');
 				        	} else {
 				        		Ext.Msg.alert('Case creation failed', obj.error); 
 				        	}
