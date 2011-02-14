@@ -59,11 +59,18 @@ for($i=0;$i < $result_count;$i++) {
 	$output .= '</tr>';
 }
 
-$total_cases_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE()  AND report_category > 1";
-$student_case_query = "SELECT COUNT(*) as count from gwcases WHERE DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category = 20";
-$normal_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN  SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category >= 100";
-$vip_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN  SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category > 200";
-
+if($start_date != null && $end_date != null) {
+	$total_cases_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' AND report_category > 1";
+	$student_case_query = "SELECT COUNT(*) as count from gwcases WHERE DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' AND report_category = 20";
+	$normal_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' AND report_category >= 100";
+	$vip_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' AND report_category > 200";
+} else {
+	$total_cases_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE()  AND report_category > 1";
+	$student_case_query = "SELECT COUNT(*) as count from gwcases WHERE DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category = 20";
+	$normal_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN  SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category >= 100";
+	$vip_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN  SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category > 200";
+}
+	
 $result= mysqli_query($link,$total_cases_query);
 $total_cases = mysqli_fetch_assoc($result);
 $result= mysqli_query($link,$student_case_query);
