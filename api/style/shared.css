@@ -1,0 +1,41 @@
+h1 { 
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 18px; 
+	font-weight: bold; 
+	color: #000000; 
+}
+
+h2 { 
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px; 
+	font-weight: bold; 
+	color: #000000; 
+}
+
+p {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px; 
+	color: #000000; 
+}
+
+#api {
+	float: left;
+	width: 49%;
+}
+
+#live_query {
+	float: right;
+	width: 49%;
+	padding: 5px;
+	height: 100%;
+}
+
+#wrapper {
+	width: 100%;	
+}
+
+#results {
+	height: 50%;	
+	overflow: scroll;
+	border-style: solid;
+}
