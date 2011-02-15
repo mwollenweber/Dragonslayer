@@ -35,6 +35,7 @@ include('controls/database/lock.php');
 		
 		<!-- Portlets -->
 		<script src="script/portlets/daily_bad_filtered_portlet.js" type="text/javascript"></script>
+		<script src="script/portlets/daily_mdl_portlet.js" type="text/javascript"></script>
 		<script src="script/portlets/weekly_report_graph_portlet.js" type="text/javascript"></script>
 		<script src="script/portlets/weekly_report_portlet.js" type="text/javascript"></script>
 		<script src="script/portlets/weekly_contribution_graph_portlet.js" type="text/javascript"></script>
