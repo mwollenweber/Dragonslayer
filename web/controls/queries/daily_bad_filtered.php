@@ -11,12 +11,11 @@ include('../database/database_connection.php');
 #JSON is expected on the client side
 header("Content-type: text/json");
 
-//Drop the view, then recreate it, then query
-$drop_bad_view = "DROP VIEW IF EXISTS badv";
-$create_bad_view = "CREATE view badv AS select tdstamp, event, victim, attacker, description from hourly_dragon_bad GROUP BY victim, event, attacker ORDER BY victim, event, tdstamp";
+//update/create/replace the daily_bad view then query
+$create_bad_view = "CREATE OR REPLACE VIEW badv AS select tdstamp, event, victim, attacker, description FROM hourly_dragon_bad GROUP BY victim, event, attacker ORDER BY victim, event, tdstamp";
 $query = "select tdstamp, event, INET_NTOA(victim), INET_NTOA(attacker), description from badv as bad where not EXISTS (select 1 from gwcases where bad.victim = gwcases.victim and DATE(gwcases.tdstamp) BETWEEN SUBDATE(CURDATE(), 7) AND CURDATE())";
 
-mysqli_query($link,$drop_bad_view);
+
 mysqli_query($link,$create_bad_view);
 $result= mysqli_query($link,$query);
 
