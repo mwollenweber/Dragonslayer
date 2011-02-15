@@ -65,6 +65,11 @@ SampleApp.CreateCase.OpenFromGrid = function(date,event,victim,attacker,notes) {
 	notes = notes;
 	
     var createCasePanel = new SampleApp.CreateCase.Panel();
+	date_field.setValue(date);
+	event_field.setValue(dragon_event);
+	victim_field.setValue(victim);
+	attacker_field.setValue(attacker);
+	notes_field.setValue(notes);
     SampleApp.Main.CenterPanelInstance.add(createCasePanel);
     SampleApp.Main.CenterPanelInstance.activate(createCasePanel);
     
@@ -287,11 +292,6 @@ SampleApp.CreateCase.FormPanel = function(){
 	
     
 	//values pulled from the global form
-	date_field.setValue(date);
-	event_field.setValue(dragon_event);
-	victim_field.setValue(victim);
-	attacker_field.setValue(attacker);
-	notes_field.setValue(notes);
 	snatch_user();
 	
     new Ext.KeyMap(Ext.get(document), {
