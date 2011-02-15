@@ -51,68 +51,52 @@ Ext.extend(SampleApp.DailyMdl.Panel, Ext.Panel, {
  */
 SampleApp.DailyMdl.GridPanel = function() {
     
-	// create the data store
-    var store = new Ext.data.ArrayStore({
-        fields: [
-           {name: 'date'},
-           {name: 'event'},
-           {name: 'victim'},
-           {name: 'attacker'},
-           {name: 'notes'}
-        ]
-    });
-	
-    var myData = Ext.Ajax.request({
-        url: 'controls/queries/daily_mdl.php',
-        method:'GET', 
-        waitTitle:'Connecting', 
-        waitMsg:'Getting data...',
-        
-        success:function(request){ 
-        	var obj = Ext.util.JSON.decode(request.responseText); 
-        	store.loadData(obj);
-       },
-	});
+	var cm = new Ext.grid.ColumnModel([ 
+        { header : 'Create case', width : 100, sortable : true, dataIndex: 'case'},
+   		{ id :'daily_mdl_date', header : 'Date', width : 160, sortable : true, dataIndex: 'date' },
+   		{ header : 'Event', width : 200, sortable : true, dataIndex: 'event' },
+   		{ header : 'Victim', width : 120, sortable : true, dataIndex: 'victim', editor: new Ext.form.TextField({ allowBlank: false }) },
+   		{ header : 'Attacker', width : 120, sortable : true, dataIndex: 'attacker', editor: new Ext.form.TextField({ allowBlank: false }) },
+   		{ header : 'Notes', width : 170, sortable : true, dataIndex: 'notes'}
+   	]);
+   	cm.defaultSortable = true; 
+
+   	var store = new Ext.data.JsonStore({
+   	    fields: ['case','date','event','victim','attacker','notes']
+   	});
+   	
+   	var myData = Ext.Ajax.request({
+   	    url: 'controls/queries/daily_mdl.php',
+   	    method:'GET', 
+   	    waitTitle:'Connecting', 
+   	    waitMsg:'Getting data...',
+   	    
+   	    success:function(request){ 
+   	    	var obj = Ext.util.JSON.decode(request.responseText); 
+   	    	store.loadData(obj);
+   	   },
+   	});
     
-    SampleApp.DailyMdl.GridPanel.superclass.constructor.call(this,{
+   	SampleApp.DailyMdl.GridPanel.superclass.constructor.call(this,{
         region: 'center',
         store: store,
-        columns: [
-            {
-                id       :'daily_mdl_date',
-                header   : 'Date', 
-                width    : 160, 
-                sortable : true, 
-                dataIndex: 'date'
-            },
-            {
-                header   : 'Event', 
-                width    : 200, 
-                sortable : true, 
-                dataIndex: 'event'
-            },
-            {
-                header   : 'Victim', 
-                width    : 120, 
-                sortable : true, 
-                dataIndex: 'victim'
-            },
-            {
-                header   : 'Attacker', 
-                width    : 120, 
-                sortable : true, 
-                dataIndex: 'attacker'
-            },
-            {
-                header   : 'Notes', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'notes'
-            }
-        ],
+        cm: cm,
         stripeRows: true,
         autoExpandColumn: 'daily_mdl_date',
-        listeners: {
+		autoSizeColumns: true,
+		clicksToEdit: 1,
+		listeners: {
+			cellclick: function(grid, rowIndex, colIndex) {
+				if (colIndex == 0) {
+					var rec = grid.getStore().getAt(rowIndex);
+					date = rec.get('date');
+					event = rec.get('event');
+					victim = rec.get('victim');
+					attacker = rec.get('attacker');
+					notes = rec.get('notes');
+					SampleApp.CreateCase.OpenFromGrid(date,event,victim,attacker,notes);
+				}
+			},
 			cellcontextmenu: function(grid, rowIndex, colIndex, e) {
 				var type = grid.getColumnModel().getDataIndex(colIndex);
 				if(type == "analyst" || type == "event" || type == "victim" || type == "attacker" || type == "network"){
