@@ -17,7 +17,8 @@ $result= mysqli_query($link,$query);
 $data_result = array();
 
 while($row = mysqli_fetch_assoc($result)) {
-	$data_result[] = array($row['tdstamp'], $row['event'], $row['INET_NTOA(victim)'], $row['INET_NTOA(attacker)'], $row['description']);
+	$url = "<a href='#' name='openCreateCase'>+</a>"; //Provide the user with something to click on for case creation
+	$data_result[] = array('case'=>$url, 'date'=>$row['tdstamp'], 'event'=>$row['event'], 'victim'=>$row['INET_NTOA(victim)'], 'attacker'=>$row['INET_NTOA(attacker)'], 'notes'=>$row['description']);
 }
 
 mysqli_close($link);
