@@ -42,7 +42,7 @@ function timeout_trigger() {
 
 function timeout_delay() {
 	sp_portlet.reload_store();
-    setTimeout('timeout_trigger()', 50000);
+    setTimeout('timeout_delay()', 50000);
 }
 
 /**
