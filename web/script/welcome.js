@@ -1,5 +1,22 @@
 Ext.namespace('SampleApp.Welcome');
 
+function session_check() {
+	Ext.Ajax.request({
+	    url: 'controls/sessions/checker.php',
+	    waitTitle:'Connecting', 
+	    waitMsg:'Getting data...',
+	    
+	    success:function(request){ 
+	    	var obj = Ext.util.JSON.decode(request.responseText); 
+	    	if(obj.success == "true") {
+		    	SampleApp.EditCase.OpenFromGrid(obj.dsid);
+	    	}
+	   },
+	})
+}
+
+session_check();
+
 var dbf_portlet = new DailyBadFilteredPortlet();
 var rvc_portlet = new RecentVipCases();
 var dmdl_portlet = new DailyMdlPortlet();
@@ -52,7 +69,7 @@ SampleApp.Welcome.Panel = function(config) {
     Ext.apply(this,config);
     timeout_trigger();
     timeout_delay();
-
+	
     SampleApp.Welcome.Panel.superclass.constructor.call(this,{
         frame:true,
         layout: "fit",
