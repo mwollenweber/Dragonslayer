@@ -47,7 +47,8 @@ function ScratchPadPortlet(){
             text: 'Save',   
             formBind: true,	 
             handler:function(){ 
-                var scratch_value = scratch_value_field.getValue();
+            	var scratch_value = '';
+                scratch_value = scratch_value_field.getValue();
             	Ext.Ajax.request({
         		    url: 'controls/actions/scratch_pad.php',
         		    method:'POST', 
