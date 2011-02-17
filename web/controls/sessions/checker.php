@@ -12,6 +12,7 @@ $data = array();
 if(is_int($dsid)) {
 	$data['success'] = "true";
 	$data['dsid'] = $dsid;
+	$_SESSION['dsid'] = null;
 } else {
 	$data['error'] = "Not a valid DSID";
 }
