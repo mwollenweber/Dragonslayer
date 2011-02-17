@@ -175,6 +175,9 @@ SampleApp.CreateCase.FormPanel = function(){
 		    	if (obj.ip_msg.recent_case != "0") {
 		    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
 		    	}
+		    	if (obj.ip_msg.ip_alert != "FALSE") {
+		    		Ext.Msg.alert('Critical', obj.ip_msg.ip_alert.msg);
+		    	}
 	    	}
 	   },
 	});
@@ -197,6 +200,9 @@ SampleApp.CreateCase.FormPanel = function(){
 		    	}	    	
 		    	if (obj.ip_msg.recent_case != "0") {
 		    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
+		    	}
+		    	if (obj.ip_msg.ip_alert != "FALSE") {
+		    		Ext.Msg.alert('Critical', obj.ip_msg.ip_alert.msg);
 		    	}
 		   },
 		});
@@ -313,6 +319,11 @@ SampleApp.CreateCase.FormPanel = function(){
 			        		Ext.Msg.alert('Success','Case created');
 			        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
 			        		createCaseFormPanel.getForm().reset();
+			        		date_field.setValue('');
+			        		event_field.setValue('');
+			        		victim_field.setValue('');
+			        		attacker_field.setValue('');
+			        		notes_field.setValue('');
 			        	} else {
 			        		Ext.Msg.alert('Case creation failed', obj.error); 
 			        	}

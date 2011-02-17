@@ -3,6 +3,7 @@ Ext.namespace('SampleApp.Welcome');
 var dbf_portlet = new DailyBadFilteredPortlet();
 var rvc_portlet = new RecentVipCases();
 var dmdl_portlet = new DailyMdlPortlet();
+var sp_portlet = new ScratchPadPortlet();
 var unenteredCasesPortlet = new UnenteredCasesPortlet(); //portlet is located within create case, but we want it to sync with DBF
 
 var tools = [{
@@ -35,6 +36,7 @@ function timeout_trigger() {
 	dbf_portlet.reload_store();
 	rvc_portlet.reload_store();
 	dmdl_portlet.reload_store();
+	sp_portlet.reload_store();
 	unenteredCasesPortlet.reload_store();
     setTimeout('timeout_trigger()', 10000);
 }
@@ -83,7 +85,7 @@ SampleApp.Welcome.Panel = function(config) {
 					items: [{
 						title: 'Public Scratch Pad',
 						tools: tools,
-						items: new ScratchPadPortlet(),
+						items: sp_portlet,
 					}, {
 						title: 'Quick Search',
 						tools: tools,

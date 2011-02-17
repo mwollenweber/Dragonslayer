@@ -20,6 +20,21 @@ function ScratchPadPortlet(){
 	    },
 	});
 	
+	this.reload_store = function() {
+		Ext.Ajax.request({
+		    url: 'controls/actions/scratch_pad.php',
+		    method:'POST', 
+		    waitTitle:'Connecting', 
+		    waitMsg:'Getting data...',
+		    params: { type: 'pull' },
+		    
+		    success:function(request){ 
+		    	var obj = Ext.util.JSON.decode(request.responseText); 
+		    	scratch_value_field.setValue(obj.data);
+		   },
+		});
+	}
+	
 	ScratchPadPortlet.superclass.constructor.call(this, {
 		frame:true,
         buttonAlign : 'right',
