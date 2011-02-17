@@ -30,173 +30,7 @@ class dragonslayer:
 
         self.cursor = self.conn.cursor()
         print "db connection succeeded"
-
-    def load_mdl(self, data):
-        print "loading mdl"
-        for line in data:
-            line = line.lower()
-            line = line.replace("\"", "")
-            vals = line.split(",", 6)
-            for i in range(0,6):
-                vals[i] = vals[i].strip()
-
-            #if date or ip is clearly invalid
-            if len(vals[0]) < 3 or len(vals[2]) < 3:
-                continue
-
-            try:
-                self.cursor.execute('''INSERT INTO mdl(mdl.tdstamp,mdl.url, mdl.ip, mdl.lookup, mdl.description, mdl.registrant)
-                                       VALUES(%s, %s, INET_ATON(%s), %s, %s, %s)
-                                       ON DUPLICATE KEY UPDATE tdstamp=tdstamp''', vals[0:6]) 
-            except:
-                continue
-    
-    def load_mac(self, data_blob=None, mac_file=None):
-        import re
-
-        msg = ""
-        regex = re.compile('([a-fA-F0-9]{2}[:|\-]?){6}')
-        
-        if data_blob == None:
-            if mac_file != None:
-                reader = csv.reader(open(mac_file, "r"), delimiter=',', quoting=csv.QUOTE_NONE)
-                file_status = 1
-                msg+= "no data blob"
-            else:
-                msg+="fuck off\n you have to supply a blob or a file"
-                
-        else:
-            msg+="got data blob"
-            import StringIO
-            data_stream = StringIO.StringIO(data_blob)
-            reader = csv.reader(data_stream, delimiter=',', quoting=csv.QUOTE_NONE)
-        
-        for row in reader:
-            try:
-                mac = regex.search(row[1]).group(0)
-                mac = mac.replace(":", "")
-                mac = "0x" + mac
-                mac = int(mac, 16)
-                dev_name = row[2].strip()
-                
-                if mac != None:
-                    self.cursor.execute('''INSERT INTO mac_lookup(mac_addr, dev_name) VALUES(%s, %s)''', [mac, dev_name.lower()])
-                    #print mac
-            except:
-                continue
-
-    def load_shadow_ccdns(self, data):
-        print "cannot yet load shadow_ccdns"
-
-    def load_shadow_ccfull(self, data):
-        print "loading - ccfull"
-        line_num = -1
-        
-        for line in data:
-            line_num = line_num + 1
-            
-            line = line.lower()
-            line = line.replace('-', '')
-            vals = line.split(':')
-
-            for i in range(0, len(vals)):
-                vals[i] = vals[i].strip()
-                
-            try:
-                self.cursor.execute('''INSERT INTO shadow_ccfull (tdstamp, ip, dport, fqdn, asn, country)
-                                       VALUES(NOW(), INET_ATON(%s), %s, %s, %s, %s)
-                                       ON DUPLICATE KEY UPDATE tdstamp=tdstamp''', vals) 
-            except:
-                print "error loading shadow_ccfull record line = %s" % line_num
-                #exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
-                #traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
-                continue
-    
-
-
-        
-    def load_shadow_ccip(self, data):
-        print "cannot load shadow_ccip"
-
-    def load_shadow(self, data, url):
-        print "loading shadow"
-        print "url = %s\n" % url
-        
-        if url.find('dns') > 1:
-            self.load_shadow_ccdns(data)
-        elif url.find('ccfull') > 1:
-            self.load_shadow_ccfull(data)
-        elif url.find('ccip') > 1:
-            self.load_shadow_ccip(data)
-
-    def update_mdl(self):
-        mdlurl = "http://www.malwaredomainlist.com/export.csv"
-        f = urllib2.urlopen(mdlurl)
-                    
-        self.load_mdl(f)
-
-    def update_shadow(self):
-        shadow_url = []
-        shadow_url.append('http://www.shadowserver.org/ccdns.php')
-        shadow_url.append('http://www.shadowserver.org/ccfull.php')
-        shadow_url.append('http://www.shadowserver.org/ccip.php')
-
-        for url in shadow_url:
-            f = urllib2.urlopen(url)
-            self.load_shadow(f, url)
-        
-    def update_patchy(self, data_blob=None):
-        self.patchy_success = False
-        file_status = 0 #closed
-        msg = ""
-
-        #"Device Name","IP Address","Status","OS Info","Version","Group List","Agent Install Date","Last Contact Date","Queued Deployments"
-        if data_blob == None:
-            reader = csv.reader(open(patchy_export, "r"), delimiter=',', quoting=csv.QUOTE_MINIMAL)
-            file_status = 1
-            msg+= "ERRPR: no data blob"
-        else:
-            msg+="SUCCESS: got data blob"
-            import StringIO
-            data_stream = StringIO.StringIO(data_blob)
-            reader = csv.reader(data_stream, delimiter=',', quoting=csv.QUOTE_MINIMAL)
-        
-        count = 0
-        
-        for row in reader:
-            try:
-                dev = row[0]
-                dev = dev.replace('"', '')
-                dev = dev.replace("\\", "\\\\")
-                dev = dev.strip()
-                dev = dev.lower()
-                                
-                ip = row[1]
-                ip = ip.replace('"', '')
-                ip = ip.strip();
-                ip = ip.lower()
-                
-                update = row[6]
-                update = update.replace('"', '')
-                update = update.strip()
-                update = update.lower()
-
-                #print "got ip=%s, dev=%s, update=%s\n" % (ip, dev, update)
-                query = '''INSERT INTO patchy(ip, dev_name, tdstamp) VALUES (INET_ATON('%s'), '%s', '%s') ON DUPLICATE KEY UPDATE tdstamp=VALUES(tdstamp)''' % ( ip, dev, update)      
-                #print "query = " + query
-                self.cursor.execute(query) 
-                count = count + 1
-                
-            except:
-                exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
-                print "error loading patchy record - skipping one record"
-                #msg += "error loading patchy record - skipping one record"
-                traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
-
-        msg+= "SUCCESS: " + str(count) + " records loaded"
-        self.patch_success = True
-        
-        return msg
+ 
         
 
     def load_dragon_events(self):
@@ -205,7 +39,6 @@ class dragonslayer:
         #load_file = self.dragon_path + self.load_file
 
         
-
         for x in file_list:
             if x.find(self.dragon_log_prefix) >= 0:
                 if x.find(self.dragon_log_exclude) < 0:
@@ -316,52 +149,6 @@ class dragonslayer:
             traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
 
 
-    def generate_hourly_mdl(self):
-        #delete from hourly table
-        delete_hourly = '''DELETE FROM hourly_dragon_mdl'''
-        delete_temp = '''DELETE FROM temp_mdl'''
-        
-                
-        q1 = '''INSERT INTO temp_mdl (tdstamp, event, victim, attacker, description)
-                SELECT dragon.tdstamp, dragon.event, dragon.srcip, dragon.dstip, mdl.description
-                from dragon, mdl
-                where
-                dstip = ip and ((srcip < 2717712385 or srcip > 2717726975)
-                and (srcip < 2158256129 or srcip > 2158257919))
-                and event not like 'GWU-TEST-Random'
-                and  DATE(dragon.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
-                and  DATE(mdl.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE()
-                GROUP BY dragon.srcip, dragon.dstip, dragon.event
-                ORDER BY dragon.srcip, dragon.dstip, dragon.event'''
-        
-        q2 = '''INSERT INTO temp_mdl (tdstamp, event, victim, attacker, description)
-                SELECT dragon.tdstamp, dragon.event, dragon.dstip, dragon.srcip, mdl.description
-                from dragon, mdl
-                where
-                srcip = ip and ((dstip < 2717712385 or dstip > 2717726975)
-                and (dstip < 2158256129 or dstip > 2158257919))
-                and event not like 'GWU-TEST-Random'
-                and  DATE(dragon.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
-                and  DATE(mdl.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE()
-                GROUP BY dragon.dstip, dragon.srcip, dragon.event
-                ORDER BY dragon.dstip, dragon.srcip, dragon.event'''
-        
-        update_hourly_q = '''INSERT INTO hourly_dragon_mdl (hourly_dragon_mdl.tdstamp, hourly_dragon_mdl.event, hourly_dragon_mdl.victim, hourly_dragon_mdl.attacker, hourly_dragon_mdl.description) select temp_mdl.tdstamp, temp_mdl.event, temp_mdl.victim, temp_mdl.attacker, temp_mdl.description from temp_mdl ON DUPLICATE KEY UPDATE hourly_dragon_mdl.tdstamp=temp_mdl.tdstamp'''
-        clean_hourly_q1 = '''DELETE from hourly_dragon_mdl where DATEDIFF(CURDATE(), DATE(tdstamp)) > 0''' 
-
-
-        try:
-            self.cursor.execute(delete_temp)
-            self.cursor.execute(q1)
-            self.cursor.execute(q2)
-            self.cursor.execute(update_hourly_q)
-            self.cursor.execute(clean_hourly_q1)
-            
-        except:
-            exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
-            print "error updating temp/hourly mdl\n"
-            traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
-
                         
     def update_critical(self):
         critical_filename = "/home/dragonslayer/code/critical.nips"
@@ -371,6 +158,7 @@ class dragonslayer:
             self.cursor.execute(q1, [line])
 
         f.close()
+        
     def shutdown(self):
         self.conn.close()
         #delete the lock file
