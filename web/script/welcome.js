@@ -36,9 +36,13 @@ function timeout_trigger() {
 	dbf_portlet.reload_store();
 	rvc_portlet.reload_store();
 	dmdl_portlet.reload_store();
-	sp_portlet.reload_store();
 	unenteredCasesPortlet.reload_store();
     setTimeout('timeout_trigger()', 10000);
+}
+
+function timeout_delay() {
+	sp_portlet.reload_store();
+    setTimeout('timeout_trigger()', 50000);
 }
 
 /**
@@ -47,6 +51,7 @@ function timeout_trigger() {
 SampleApp.Welcome.Panel = function(config) {
     Ext.apply(this,config);
     timeout_trigger();
+    timeout_delay();
 
     SampleApp.Welcome.Panel.superclass.constructor.call(this,{
         frame:true,
