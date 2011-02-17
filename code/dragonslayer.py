@@ -1,13 +1,8 @@
 #!/usr/bin/python
-# Matthew Wollenweber
-# mwollenw@gwu.edu
-# dragonslayer
 '''
-Alerts
-
-ID, user.id, type, ip1, ip2, notes, notify, interval, active
-
-
+Matthew Wollenweber
+mjw@cyberwart.com
+Copyright Matthew Wollenweber 2009
 '''
 
 import time, thread, MySQLdb, sys, urllib2, os, traceback, csv

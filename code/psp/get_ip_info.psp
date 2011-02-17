@@ -1,5 +1,8 @@
 <%
-# Matthew Wollenweber. Fuck you git
+__author__ = "Matthew Wollenweber"
+__version__ = "0.0.2"
+__email__ = "mjw@cyberwart.com"
+
 
 import socket, MySQLdb, sys, Queue
 from xml.dom.minidom import Document
