@@ -52,6 +52,21 @@ SampleApp.Welcome.Panel = function(config) {
     Ext.apply(this,config);
     timeout_trigger();
     timeout_delay();
+    
+	function session_check() {
+		Ext.Ajax.request({
+		    url: 'controls/sessions/checker.php',
+		    waitTitle:'Connecting', 
+		    waitMsg:'Getting data...',
+		    
+		    success:function(request){ 
+		    	var obj = Ext.util.JSON.decode(request.responseText); 
+		    	if(obj.success == "true") {
+			    	SampleApp.EditCase.OpenFromGrid(obj.dsid);
+		    	}
+		   },
+		})
+	}
 
     SampleApp.Welcome.Panel.superclass.constructor.call(this,{
         frame:true,
@@ -114,6 +129,8 @@ SampleApp.Welcome.Panel = function(config) {
 			]
     	}]
     });
+    
+	session_check();
 };
 
 /**
