@@ -62,22 +62,6 @@ function ScratchPadPortlet(){
         		});
             },
         }],
-        
-        keys: [{ 
-    		key: [Ext.EventObject.ENTER], handler: function() {
-    			Ext.Ajax.request({
-        		    url: 'controls/actions/scratch_pad.php',
-        		    method:'POST', 
-        		    waitTitle:'Connecting', 
-        		    waitMsg:'Sending data...',
-        		    params: { type: 'push', scratch: scratch_value},
-        		    
-        		    success:function(request){ 
-        		    	Ext.Msg.alert('Success', 'Scratch saved');
-        		   },
-        		});
-    		}
-    	}],
         region: "north",
     });
 }
