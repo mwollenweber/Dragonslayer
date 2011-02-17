@@ -176,7 +176,7 @@ SampleApp.CreateCase.FormPanel = function(){
 		    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
 		    	}
 		    	if (obj.ip_msg.ip_alert != "FALSE") {
-		    		Ext.Msg.alert('Critical', obj.ip_msg.ip_alert.msg);
+		    		Ext.Msg.alert('Critical', obj.ip_msg.ip_alert);
 		    	}
 	    	}
 	   },
@@ -202,7 +202,7 @@ SampleApp.CreateCase.FormPanel = function(){
 		    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
 		    	}
 		    	if (obj.ip_msg.ip_alert != "FALSE") {
-		    		Ext.Msg.alert('Critical', obj.ip_msg.ip_alert.msg);
+		    		Ext.Msg.alert('Critical', obj.ip_msg.ip_alert);
 		    	}
 		   },
 		});
