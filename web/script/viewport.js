@@ -11,8 +11,7 @@ Ext.onReady(function(){
             SampleApp.Main.WestPanelInstance,
             //SampleApp.Main.SouthPanelInstance,
         ]
-    });
-    
+    });   
 });
 
 /**
