@@ -5,7 +5,7 @@ mjw@cyberwart.com
 Copyright Matthew Wollenweber 2009
 '''
 
-import time, thread, MySQLdb, sys, urllib2, os, traceback, csv
+import time, thread, MySQLdb, sys, urllib2, os, traceback, csv, ConfigParser
 
 class db_config:
     host = "localhost"
@@ -19,8 +19,6 @@ class db_config:
     
 
 class dragonslayer:
-    """ A basic class to maintain db connectivity and do a little sanity checking on file uploads"""
-
     def db_connect(self):
         mydbinfo = db_config()
         self.conn = MySQLdb.connect(host = mydbinfo.host,
@@ -35,16 +33,62 @@ class dragonslayer:
  
     def __init__(self):
         print "initializing dragonslayer"
+        self.load_config()
         self.db_con = self.db_connect()
-        self.dragon_path = '/home/dragonslayer/dragon_db/'
-        self.dragon_load_file = 'dragon_load.log'
-        self.dragon_log_prefix = 'dragon.log'
-        self.dragon_log_exclude = '.gz'
         self.dragon_log_processed = []
         self.patchy_success = None
 
 
-                        
+    def load_config(self, path="./conf/"):
+        print "loading config from %s" % path
+        self.config = ConfigParser.ConfigParser()
+        self.process_ds_config(path)
+        
+        
+        
+    def process_ds_config(self, path):
+        print "loading ds config"
+        config  = self.config
+        config.readfp(open(path + "ds.cfg"))
+        self.ids = config.get("dscnf", "ids")
+        self.logfile = config.get('dscnf','logfile')
+        self.db = config.get('dscnf','db')
+        self.ingestors = []
+        self.ingestors.append(config.get('dscnf','ingestors'))
+        
+        
+        #load other relevant configs
+        if self.ids == "dragon":
+            print "need to load dragon config"
+            self.process_dragon_config(path)
+        
+        if self.db == "mysql":
+            print "need to load mysql config"
+            
+        for i in self.ingestors:            
+            if i == "mdl":
+                print "loading mdl ingestor"
+                from ingestors import mdl
+                
+            if i == "ses":
+                print "loading ses"
+            
+            if i == "malwareurl":
+                print "loading malware url"
+            
+            if i == "shadow":
+                print "loading shadow ingestor"
+                
+    
+    def process_dragon_config(self, path):
+        print "loadign dragon config"
+        config = self.config
+        config.readfp(open(path + "dragon.cfg"))
+        self.dragon_load_file = config.get("dragon", "load_file")
+        self.dragon_log_prefix = config.get("dragon", "log_prefix")
+        self.dragon_log_exclude = config.get("dragon", "log_exclude")
+        self.dragon_path = config.get("dragon", "data_path")
+        
     def update_critical(self):
         critical_filename = "/home/dragonslayer/code/critical.nips"
         f = open(critical_filename, "r")
