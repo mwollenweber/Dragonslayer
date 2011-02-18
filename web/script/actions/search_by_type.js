@@ -2,6 +2,8 @@ Ext.namespace("SampleApp.SearchByIp");
 var searchByIpFormPanel;
 var searchByIpGridPanel;
 var store;
+var search_result_count = 0;
+var search_results_tbar;
 
 /**
  * Attach the launcher panel to the West Panel
@@ -9,7 +11,28 @@ var store;
 Ext.onReady(function(){
 	Ext.QuickTips.init();
     SampleApp.Main.EventRelay.on("openSearchByType",SampleApp.SearchByIp.Open);
+
 });
+
+function process_search(form_data) {
+	Ext.Ajax.request({
+		url: 'controls/actions/search_by_type.php',
+        method:'POST', 
+        waitTitle:'Connecting', 
+        waitMsg:'Getting data...',
+        params: form_data,
+        
+        success:function(request){ 
+        	var obj = Ext.util.JSON.decode(request.responseText);
+        	if(obj.results == "null") {
+        		Ext.Msg.alert('Results', 'No search results found!');
+        	}
+        	search_result_count = obj.length;
+        	Ext.getCmp('search_results_bar').setText("Search results: " + search_result_count);  
+        	store.loadData(obj);
+       },
+	});
+}
 
 /**
  * Event handler
@@ -132,41 +155,13 @@ SampleApp.SearchByIp.FormPanel = function(){
             formBind: true,	 
             handler:function(){ 
             	var form_data = searchByIpFormPanel.getForm().getValues();
-            	Ext.Ajax.request({
-            		url: 'controls/actions/search_by_type.php',
-			        method:'POST', 
-			        waitTitle:'Connecting', 
-			        waitMsg:'Getting data...',
-			        params: form_data,
-			        
-			        success:function(request){ 
-			        	var obj = Ext.util.JSON.decode(request.responseText);
-   			        	if(obj.results == "null") {
-   			        		Ext.Msg.alert('Results', 'No search results found!');
-   			        	}
-			        	store.loadData(obj);
-			       },
-				});
+            	process_search(form_data);
             },
         }],
         keys: [
                { key: [Ext.EventObject.ENTER], handler: function() {
             	   var form_data = searchByIpFormPanel.getForm().getValues();
-            	   Ext.Ajax.request({
-	               		url: 'controls/actions/search_by_type.php',
-	   			        method:'POST', 
-	   			        waitTitle:'Connecting', 
-	   			        waitMsg:'Getting data...',
-	   			        params: form_data,
-	   			        
-	   			        success:function(request){ 
-	   			        	var obj = Ext.util.JSON.decode(request.responseText);
-	   			        	if(obj.results == "null") {
-	   			        		Ext.Msg.alert('Results', 'No search results found!');
-	   			        	}
-	   			        	store.loadData(obj);
-	   			       },
-   					});
+            	   process_search(form_data);
                    }
                }
            ],
@@ -205,8 +200,14 @@ SampleApp.SearchByIp.GridPanel = function() {
     	return '<div ext:qtitle="' + "Confirmation" + '" ext:qtip="' + val + '">' + val + '</div>';
     }
     
+    search_results_tbar = new Ext.Toolbar.TextItem({
+        text: 'Search results: 0',
+        id: 'search_results_bar',
+	})
+    
     SampleApp.SearchByIp.GridPanel.superclass.constructor.call(this,{
         region: 'center',
+        tbar: [search_results_tbar],
         store: store,
         columns: [
             {
