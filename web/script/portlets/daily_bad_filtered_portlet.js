@@ -14,18 +14,6 @@ function DailyBadFilteredPortlet(){
 	    fields: ['case','date','event','victim','attacker','notes']
 	});
 	
-	var myData = Ext.Ajax.request({
-	    url: 'controls/queries/daily_bad_filtered.php',
-	    method:'GET', 
-	    waitTitle:'Connecting', 
-	    waitMsg:'Getting data...',
-	    
-	    success:function(request){ 
-	    	var obj = Ext.util.JSON.decode(request.responseText); 
-	    	store.loadData(obj);
-	   },
-	});
-	
 	this.reload_store = function() {
 		Ext.Ajax.request({
 		    url: 'controls/queries/daily_bad_filtered.php',
@@ -35,14 +23,28 @@ function DailyBadFilteredPortlet(){
 		    
 		    success:function(request){ 
 		    	var obj = Ext.util.JSON.decode(request.responseText); 
+		    	time = new Date();
+//		    	hours = time.getHours();
+//		    	minutes = time.getMinutes();
+//		    	seconds = time.getSeconds();
+//		    	last_updated = hours + ":" + minutes + ":" + seconds;
+		    	Ext.getCmp('dbf_bottom_bar').setText("Last updated: " + time);  
 		    	store.loadData(obj);
 		   },
 		});
 	}
 	
+	this.reload_store();
+	
+    dbf_tbar = new Ext.Toolbar.TextItem({
+        text: '',
+        id: 'dbf_bottom_bar',
+	})
+	
 	DailyBadFilteredPortlet.superclass.constructor.call(this, {
         store: store,
         cm: cm,
+        bbar: [dbf_tbar],
         stripeRows: true,
         autoExpandColumn: 'daily_bad_filter_date',
         height: 300,
