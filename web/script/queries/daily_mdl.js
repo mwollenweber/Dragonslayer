@@ -73,13 +73,25 @@ SampleApp.DailyMdl.GridPanel = function() {
    	    
    	    success:function(request){ 
    	    	var obj = Ext.util.JSON.decode(request.responseText); 
+	    	time = new Date();
+//	    	hours = time.getHours();
+//	    	minutes = time.getMinutes();
+//	    	seconds = time.getSeconds();
+//	    	last_updated = hours + ":" + minutes + ":" + seconds;
+	    	Ext.getCmp('dmdl_page_bar').setText("Last updated: " + time);  
    	    	store.loadData(obj);
    	   },
    	});
     
+	dmdl_page_bar = new Ext.Toolbar.TextItem({
+        text: '',
+        id: 'dmdl_page_bar',
+	})
+   	
    	SampleApp.DailyMdl.GridPanel.superclass.constructor.call(this,{
         region: 'center',
         store: store,
+        tbar:[dmdl_page_bar],
         cm: cm,
         stripeRows: true,
         autoExpandColumn: 'daily_mdl_date',

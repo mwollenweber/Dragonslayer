@@ -76,9 +76,20 @@ SampleApp.WeeklyCases.GridPanel = function() {
         
         success:function(request){ 
         	var obj = Ext.util.JSON.decode(request.responseText); 
+	    	time = new Date();
+//	    	hours = time.getHours();
+//	    	minutes = time.getMinutes();
+//	    	seconds = time.getSeconds();
+//	    	last_updated = hours + ":" + minutes + ":" + seconds;
+	    	Ext.getCmp('weekly_cases_page_bar').setText("Last updated: " + time);  
         	store.loadData(obj);
        },
 	});
+    
+	weekly_cases_page_bar = new Ext.Toolbar.TextItem({
+        text: '',
+        id: 'weekly_cases_page_bar',
+	})
     
     function renderTip(val, meta, rec, rowIdx, colIdx, ds) {
     	return '<div ext:qtitle="' + "Data" + '" ext:qtip="' + val + '">' + val + '</div>';
@@ -86,6 +97,7 @@ SampleApp.WeeklyCases.GridPanel = function() {
     
     SampleApp.WeeklyCases.GridPanel.superclass.constructor.call(this,{
         store: store,
+        tbar:[weekly_cases_page_bar],
         columns: [
 	          {
 	              header   : 'DSID', 
