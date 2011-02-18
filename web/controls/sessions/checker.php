@@ -7,14 +7,28 @@
  */
 
 session_start();
-$dsid = (int)$_SESSION['dsid'];
-$data = array();
-if(is_int($dsid)) {
+if($_SESSION['dsid']) {
+	$dsid = (int)$_SESSION['dsid'];
+	$data = array();
+	if(is_int($dsid)) {
+		$data['success'] = "true";
+		$data['dsid'] = $dsid;
+		$_SESSION['dsid'] = null;
+	} else {
+		$data['error'] = "Not a valid DSID";
+	}
+}
+
+if($_SESSION['aip']) {
+	$aip = $_SESSION['aip'];
 	$data['success'] = "true";
-	$data['dsid'] = $dsid;
-	$_SESSION['dsid'] = null;
-} else {
-	$data['error'] = "Not a valid DSID";
+	$data['aip'] = $aip;
+}
+
+if($_SESSION['vip']) {
+	$vip = $_SESSION['vip'];
+	$data['success'] = "true";
+	$data['vip'] = $vip;
 }
 
 echo json_encode($data);

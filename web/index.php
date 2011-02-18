@@ -1,6 +1,7 @@
 <?php 
 include('controls/database/lock.php');
 $_SESSION['dsid'] = $_GET['dsid'];
+$_SESSION['aip'] = $_GET['aip'];
 ?>
 
 <html>
