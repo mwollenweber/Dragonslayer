@@ -8,14 +8,16 @@ function session_check() {
 	    
 	    success:function(request){ 
 	    	var obj = Ext.util.JSON.decode(request.responseText); 
-	    	if(obj.dsid != null) {
-		    	SampleApp.EditCase.OpenFromGrid(obj.dsid);
-	    	}
-	    	if(obj.aip != null) {
-	    		SampleApp.SearchByIp.PivotSearch("attacker", obj.aip)
-	    	}
-	    	if(obj.vip != null) {
-	    		SampleApp.SearchByIp.PivotSearch("victim", obj.aip)
+	    	if(obj != null) {
+		    	if(obj.dsid != null) {
+			    	SampleApp.EditCase.OpenFromGrid(obj.dsid);
+		    	}
+		    	if(obj.aip != null) {
+		    		SampleApp.SearchByIp.PivotSearch("attacker", obj.aip)
+		    	}
+		    	if(obj.vip != null) {
+		    		SampleApp.SearchByIp.PivotSearch("victim", obj.aip)
+		    	}
 	    	}
 	   },
 	})
