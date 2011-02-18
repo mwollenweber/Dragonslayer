@@ -57,16 +57,20 @@ Ext.onReady(function() {
     });
 });
 
-function timeout_trigger() {
-	dbf_portlet.reload_store();
-	rvc_portlet.reload_store();
-	dmdl_portlet.reload_store();
-	unenteredCasesPortlet.reload_store();
+function timeout_trigger(init) {
+	if(init != 1) {
+		dbf_portlet.reload_store();
+		unenteredCasesPortlet.reload_store();
+	}
     setTimeout('timeout_trigger()', 10000);
 }
 
-function timeout_delay() {
-	sp_portlet.reload_store();
+function timeout_delay(init) {
+	if(init != 1) {
+		sp_portlet.reload_store();
+		dmdl_portlet.reload_store();
+		rvc_portlet.reload_store();
+	}
     setTimeout('timeout_delay()', 50000);
 }
 
@@ -75,8 +79,9 @@ function timeout_delay() {
  */
 SampleApp.Welcome.Panel = function(config) {
     Ext.apply(this,config);
-    timeout_trigger();
-    timeout_delay();
+    
+    timeout_trigger(1);
+    timeout_delay(1);
 	
     SampleApp.Welcome.Panel.superclass.constructor.call(this,{
         frame:true,
