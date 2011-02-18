@@ -26,6 +26,8 @@ function process_search(form_data) {
         	var obj = Ext.util.JSON.decode(request.responseText);
         	if(obj.results == "null") {
         		Ext.Msg.alert('Results', 'No search results found!');
+        		search_result_count = "0";
+            	Ext.getCmp('search_results_bar').setText("Search results: " + search_result_count);  
         	}
         	search_result_count = obj.length;
         	Ext.getCmp('search_results_bar').setText("Search results: " + search_result_count);  
@@ -69,6 +71,8 @@ SampleApp.SearchByIp.PivotSearch = function(type, value) {
         	var obj = Ext.util.JSON.decode(request.responseText);
         	if(obj.results == "null") {
         		Ext.Msg.alert('Results', 'No search results found!');
+        		search_result_count = "0";
+            	Ext.getCmp('search_results_bar').setText("Search results: " + search_result_count);  
         	}
         	search_result_count = obj.length;
         	Ext.getCmp('search_results_bar').setText("Search results: " + search_result_count);  
