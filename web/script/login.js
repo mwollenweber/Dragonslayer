@@ -1,6 +1,36 @@
 Ext.onReady(function(){
 	Ext.QuickTips.init();
 	
+	function process_login(form_data) {
+        Ext.Ajax.request({
+    		url:'controls/authentication/validate.php', 
+            method:'POST', 
+            waitTitle:'Connecting', 
+            waitMsg:'Sending data...',
+            params: form_data,
+            
+            success:function(request){ 
+            	obj = Ext.util.JSON.decode(request.responseText); 
+         		if(obj.success == "true") {
+        			var redirect = 'index.php'; 
+                    window.location = redirect;
+         		} else {
+         			Ext.Msg.alert('Status', 'Login Failed!');
+             		}
+                },
+ 
+                failure:function(form, action){ 
+                        if(action.failureType == 'server'){ 
+                    obj = Ext.util.JSON.decode(action.response.responseText); 
+                    Ext.Msg.alert('Login Failed!', obj.errors.reason); 
+                }else{ 
+                    Ext.Msg.alert('Warning!', 'Authentication server is unreachable : ' + action.response.responseText); 
+                } 
+                login.getForm().reset(); 
+            } 
+        }); 
+	}
+	
 	var register = new Ext.form.FieldSet({
         checkboxToggle:true,
         title: 'Register',
@@ -60,33 +90,7 @@ Ext.onReady(function(){
 	        formBind: true,	 
 	        handler:function(){ 
 	        	var form_data = login.getForm().getValues();
-	            Ext.Ajax.request({
-	        		url:'controls/authentication/validate.php', 
-	                method:'POST', 
-	                waitTitle:'Connecting', 
-	                waitMsg:'Sending data...',
-	                params: form_data,
-	                
-                    success:function(request){ 
-                    	obj = Ext.util.JSON.decode(request.responseText); 
-                 		if(obj.success == "true") {
-                			var redirect = 'index.php'; 
-	                        window.location = redirect;
-                 		} else {
-                 			Ext.Msg.alert('Status', 'Login Failed!');
-                 		}
-                    },
-	 
-                    failure:function(form, action){ 
-                            if(action.failureType == 'server'){ 
-	                        obj = Ext.util.JSON.decode(action.response.responseText); 
-	                        Ext.Msg.alert('Login Failed!', obj.errors.reason); 
-	                    }else{ 
-	                        Ext.Msg.alert('Warning!', 'Authentication server is unreachable : ' + action.response.responseText); 
-	                    } 
-	                    login.getForm().reset(); 
-	                } 
-	            }); 
+	        	process_login(form_data);
 	        } 
         },
         {
@@ -95,7 +99,14 @@ Ext.onReady(function(){
         		window.location = 'register.php';
         	}
         }
-    ] 
+        ],
+        keys: [
+           { key: [Ext.EventObject.ENTER], handler: function() {
+        	   var form_data = login.getForm().getValues();
+        	   process_login(form_data)
+               }
+           }
+        ],
     });
     
     var win = new Ext.Window({

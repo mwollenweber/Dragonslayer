@@ -70,6 +70,8 @@ SampleApp.SearchByIp.PivotSearch = function(type, value) {
         	if(obj.results == "null") {
         		Ext.Msg.alert('Results', 'No search results found!');
         	}
+        	search_result_count = obj.length;
+        	Ext.getCmp('search_results_bar').setText("Search results: " + search_result_count);  
         	store.loadData(obj);
        },
 	});

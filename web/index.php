@@ -56,6 +56,7 @@ $_SESSION['aip'] = $_GET['aip'];
 		<script src="script/actions.js" type="text/javascript"></script>
 		<script src="script/reports.js" type="text/javascript"></script>
 		<script src="script/launchers.js" type="text/javascript"></script>
+		<script src="script/accounts.js" type="text/javascript"></script>
 		
 		<!-- Queries -->
 		<script src="script/queries/daily_critical.js" type="text/javascript"></script>
@@ -78,6 +79,8 @@ $_SESSION['aip'] = $_GET['aip'];
 		<script src="script/launchers/patchy_upload.js" type="text/javascript"></script>
 		<script src="script/launchers/forensic_case.js" type="text/javascript"></script>
 		<script src="script/launchers/malware_uploader.js" type="text/javascript"></script>
+		
+		<!-- Accounts -->
 			  
 	</head>
 	
@@ -156,6 +159,14 @@ $_SESSION['aip'] = $_GET['aip'];
      		<li>
 		        <img src="images/Eye.png" class="icon-show-active"/>
 		        <a class="dragonslayer-launchers-malwareuploader dragonslayer-nav-link" href="#" name="openMalwareUploader">Malware Uploader</a>
+		    </li>
+		</ul>
+		
+		<!-- Accounts -->
+		<ul id="dragonslayer-accounts-content" class="x-hidden">
+		    <li>
+		        <img src="images/icon_user.gif" class="icon-show-active"/>
+		        <a class="dragonslayer-accounts-myaccount dragonslayer-nav-link" href="#" name="openMyAccount">My Account</a>
 		    </li>
 		</ul>
 	
