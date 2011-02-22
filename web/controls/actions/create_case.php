@@ -97,6 +97,10 @@ if($category == "Normal") {
 	$category = 510;
 } elseif ($category == "Forensics Complete") {
 	$category = 520;
+} elseif ($category == "Mail Compromise - Student") {
+	$category = 80;
+} elseif ($category == "Mail Compromise - Faculty/Staff") {
+	$category = 90;	
 } elseif ($category == "Delete") {
 	$category = 0;
 } else {
