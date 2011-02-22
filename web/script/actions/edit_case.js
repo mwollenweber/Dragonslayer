@@ -314,7 +314,7 @@ SampleApp.EditCase.FormPanel = function(){
 				        success:function(request){ 
 				        	var obj = Ext.util.JSON.decode(request.responseText);
 				        	if(obj.success == "true") {
-				        		Ext.Msg.alert('Case updated');
+				        		Ext.Msg.alert('Success','Case updated');
 				        		
 				        		//Update the grid when all is updated
 				        	    var myData = Ext.Ajax.request({

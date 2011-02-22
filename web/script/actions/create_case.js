@@ -336,6 +336,22 @@ SampleApp.CreateCase.FormPanel = function(){
     	stopEvent:true
 	});
     
+    new Ext.KeyMap(Ext.get(document), { //DELETE ME
+    	key:'Q',
+    	ctrl:true,
+    	fn:function(e) {
+			date_field.setValue('1');
+			event_field.setValue('phishing-email-compromise');
+			victim_field.setValue('127.0.0.1');
+			attacker_field.setValue('none');
+			dns_field.setValue('none');
+			dhcp_field.setValue('none');
+			network_field.setValue('unknown');
+			notes_field.setValue('Compromised through phishing attack');
+    	},
+    	stopEvent:true
+	});
+    
     SampleApp.CreateCase.FormPanel.superclass.constructor.call(this,{
         frame:false,
         buttonAlign : 'left',
