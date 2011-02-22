@@ -4,6 +4,9 @@ var searchByIpGridPanel;
 var store;
 var search_result_count = 0;
 var search_results_tbar;
+var form_data;
+var search_value;
+var search_type;
 
 /**
  * Attach the launcher panel to the West Panel
@@ -14,13 +17,13 @@ Ext.onReady(function(){
 
 });
 
-function process_search(form_data) {
+function process_search(type,value) {
 	Ext.Ajax.request({
 		url: 'controls/actions/search_by_type.php',
         method:'POST', 
         waitTitle:'Connecting', 
         waitMsg:'Getting data...',
-        params: form_data,
+        params: { 'search_type': type, 'search_value': value },
         
         success:function(request){ 
         	var obj = Ext.util.JSON.decode(request.responseText);
@@ -29,9 +32,11 @@ function process_search(form_data) {
         		search_result_count = "0";
             	Ext.getCmp('search_results_bar').setText("Search results: " + search_result_count);  
         	}
-        	search_result_count = obj.length;
+        	search_result_count = obj.total;
         	Ext.getCmp('search_results_bar').setText("Search results: " + search_result_count);  
         	store.loadData(obj);
+        	store.setBaseParam("search_type", type);
+        	store.setBaseParam("search_value", value);
        },
 	});
 }
@@ -60,26 +65,7 @@ SampleApp.SearchByIp.PivotSearch = function(type, value) {
     	type = type + "_ip";
     }
 
-	Ext.Ajax.request({
-		url: 'controls/actions/search_by_type.php',
-        method:'POST', 
-        waitTitle:'Connecting', 
-        waitMsg:'Getting data...',
-        params: { 'search_type': type, 'search_value': value },
-        
-        success:function(request){ 
-        	var obj = Ext.util.JSON.decode(request.responseText);
-        	if(obj.results == "null") {
-        		Ext.Msg.alert('Results', 'No search results found!');
-        		search_result_count = "0";
-            	Ext.getCmp('search_results_bar').setText("Search results: " + search_result_count);  
-        	}
-        	search_result_count = obj.length;
-        	Ext.getCmp('search_results_bar').setText("Search results: " + search_result_count);  
-        	store.loadData(obj);
-       },
-	});
-    
+	process_search(type, value);
 }
 
 /**
@@ -124,6 +110,31 @@ SampleApp.SearchByIp.FormPanel = function(){
       ['text_in_verification', 'Text in Verification'],
      ];
 	
+	search_value = new Ext.form.TextField({
+        fieldLabel: 'Value',
+        name: 'search_value',
+        allowBlank:false,
+        width: 400
+    });
+	
+	search_type = new Ext.form.ComboBox({
+        fieldLabel: 'Type',
+        name: 'type',
+        hiddenName: 'search_type',
+        width: 400,
+        store: new Ext.data.ArrayStore({
+            fields: ['code', 'search_type'],
+            data : SampleApp.SearchByIp.categories
+        }),
+        valueField:'code',
+        displayField:'search_type',
+        typeAhead: true,
+        allowBlank:false,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText:'Select a type...',
+    });
+	
     SampleApp.SearchByIp.FormPanel.superclass.constructor.call(this,{
         frame:false,
         buttonAlign : 'left',
@@ -131,43 +142,24 @@ SampleApp.SearchByIp.FormPanel = function(){
         width: 500,
         defaultType: 'textfield',
         items: [
-            new Ext.form.ComboBox({
-                fieldLabel: 'Type',
-                name: 'type',
-                hiddenName: 'search_type',
-                width: 400,
-                store: new Ext.data.ArrayStore({
-                    fields: ['code', 'search_type'],
-                    data : SampleApp.SearchByIp.categories
-                }),
-                valueField:'code',
-                displayField:'search_type',
-                typeAhead: true,
-                allowBlank:false,
-                mode: 'local',
-                triggerAction: 'all',
-                emptyText:'Select a type...',
-            }),
-            {
-                fieldLabel: 'Value',
-                name: 'search_value',
-                allowBlank:false,
-                width: 400
-            },
+            search_type,
+            search_value
         ],
 
         buttons: [{
             text: 'Search',   
             formBind: true,	 
             handler:function(){ 
-            	var form_data = searchByIpFormPanel.getForm().getValues();
-            	process_search(form_data);
+            	value = search_value.getValue();
+            	type = search_type.getValue();
+            	process_search(type, value);
             },
         }],
         keys: [
                { key: [Ext.EventObject.ENTER], handler: function() {
-            	   var form_data = searchByIpFormPanel.getForm().getValues();
-            	   process_search(form_data);
+	               	value = search_value.getValue();
+	            	type = search_type.getValue();
+	            	process_search(type, value);
                    }
                }
            ],
@@ -186,9 +178,13 @@ Ext.extend(SampleApp.SearchByIp.FormPanel, Ext.FormPanel, {
  * Grid Panel
  */
 SampleApp.SearchByIp.GridPanel = function() {
-    
+
 	store = new Ext.data.JsonStore({
-	    fields: ['dsid','date','analyst','event','victim','attacker','dns','network','confirmation']
+	    fields: ['dsid','date','analyst','event','victim','attacker','dns','network','confirmation'],
+	    remoteSort:true,
+	    totalProperty:'total',
+	    root:'results',
+	    url: 'controls/actions/search_by_type.php',
 	});
     
 	var cm = new Ext.grid.ColumnModel([ 
@@ -229,7 +225,13 @@ SampleApp.SearchByIp.GridPanel = function() {
 					SampleApp.EditCase.OpenFromGrid(dsid);
 				}
 			}
-		}
+		},
+		bbar: new Ext.PagingToolbar({
+			store:store,
+		    pageSize: 50,
+			displayInfo:true,
+			displayMessage:"Displaying results {0} - {1} of {2}"
+		})
     });
 }
 
