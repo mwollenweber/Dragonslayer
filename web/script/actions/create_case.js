@@ -229,73 +229,73 @@ SampleApp.CreateCase.FormPanel = function(){
         fieldLabel: 'Event',
         name: 'event',
         allowBlank:false,
-        width: 400
+        anchor:'100%'
     });
 	
 	date_field = new Ext.form.TextField({
         fieldLabel: 'Date Discovered',
         name: 'date',
         allowBlank:false,
-        width: 400
+        anchor:'100%'
     });
 	
 	reporter_field = new Ext.form.TextField({
         fieldLabel: 'Reporter',
         name: 'reporter',
         allowBlank:false,
-        width: 400
+        anchor:'100%'
     });
 	
     network_field = new Ext.form.TextField({
         fieldLabel: 'Network',
         name: 'network',
         allowBlank:false,
-        width: 400
+        anchor:'100%'
     });
     
     netid_field = new Ext.form.TextField({
         fieldLabel: 'NetID',
         name: 'netid',
         allowBlank:true,
-        width: 400
+        anchor:'100%'
     });
     
     victim_field = new Ext.form.TextField({
         fieldLabel: 'Victim',
         name: 'victim',
         allowBlank:false,
-        width: 400,
         onBlur : function() {
         	get_ip_info(victim_field.getValue())
-        }
+        },
+        anchor:'100%'
     });
     
     attacker_field = new Ext.form.TextField({
         fieldLabel: 'Attacker',
         name: 'attacker',
         allowBlank:false,
-        width: 400
+        anchor:'100%'
     });
     
     dhcp_field = new Ext.form.TextField({
         fieldLabel: 'DHCP',
         name: 'dhcp',
         allowBlank:false,
-        width: 400
+        anchor:'100%'
     });
     
     dns_field = new Ext.form.TextField({
         fieldLabel: 'DNS',
         name: 'dns',
         allowBlank:false,
-        width: 400
+        anchor:'100%'
     });
     
     notes_field = new Ext.form.TextArea({
         fieldLabel: 'Notes',
         name: 'notes',
-        width: 400,
         allowBlank:false,
+        anchor:'100%'
     });
 	
     
@@ -356,8 +356,8 @@ SampleApp.CreateCase.FormPanel = function(){
         frame:false,
         buttonAlign : 'left',
         bodyStyle:'padding:5px 5px 0',
-        width: 600,
         defaultType: 'textfield',
+        autoWidth: true,
         items: [
             event_field,
             reporter_field,
@@ -372,26 +372,25 @@ SampleApp.CreateCase.FormPanel = function(){
                 fieldLabel: 'Primary Detection',
                 name: 'primary_detection',
                 allowBlank:true,
-                width: 400
+                anchor:'100%'
             },
             {
                 fieldLabel: 'Seconday Detection',
                 name: 'seconday_detection',
-                width: 400,
                 allowBlank:true,
+                anchor:'100%'
             },
             new Ext.form.TextArea({
                 fieldLabel: 'Verification',
                 name: 'verification',
-                width: 400,
                 height: 250,
                 allowBlank:false,
+                anchor:'100%'
             }),
             notes_field,
             new Ext.form.ComboBox({
                 fieldLabel: 'Category',
                 name: 'category',
-                width: 400,
                 store: new Ext.data.ArrayStore({
                     fields: ['code', 'category'],
                     data : SampleApp.CreateCase.categories
@@ -403,6 +402,7 @@ SampleApp.CreateCase.FormPanel = function(){
                 triggerAction: 'all',
                 emptyText:'Select a category...',
                 allowBlank:false,
+                anchor:'100%'
             }),
         ],
 
