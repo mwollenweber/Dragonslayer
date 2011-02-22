@@ -16,7 +16,7 @@ function session_check() {
 		    		SampleApp.SearchByIp.PivotSearch("attacker", obj.aip)
 		    	}
 		    	if(obj.vip != null) {
-		    		SampleApp.SearchByIp.PivotSearch("victim", obj.aip)
+		    		SampleApp.SearchByIp.PivotSearch("victim", obj.vip)
 		    	}
 	    	}
 	   },
@@ -105,7 +105,6 @@ SampleApp.Welcome.Panel = function(config) {
 						title: 'Recent VIP Cases',
 						tools: tools,
 						items: rvc_portlet,
-						height: 300,
 					}, {
 						title: 'Weekly Report',
 						tools: tools,
