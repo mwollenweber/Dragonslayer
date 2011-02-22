@@ -39,7 +39,7 @@ $result= mysqli_query($link,$query);
 $row_cnt = mysqli_num_rows($result);
 
 while($row = mysqli_fetch_assoc($result)) {
-	$data_result[] = array($row['id'], $row['tdstamp'], $row['reporter'], $row['event'], $row['INET_NTOA(victim)'], $row['INET_NTOA(attacker)'], $row['dns_name'], $row['network'], $row['verification']);
+	$data_result[] = array('dsid'=>$row['id'], 'date'=>$row['tdstamp'],'analyst'=>$row['reporter'],'event'=>$row['event'],'victim'=>$row['INET_NTOA(victim)'],'attacker'=>$row['INET_NTOA(attacker)'],'dns'=>$row['dns_name'],'network'=>$row['network'],'confirmation'=>$row['verification']);
 }
 
 if($row_cnt <= 0) {
