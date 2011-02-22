@@ -149,8 +149,8 @@ SampleApp.CreateCase.FormPanel = function(){
 	                          [500, 'Needs Forensics'],
 	                          [510, 'Forensics Ongoing'],
 	                          [520, 'Forensics Complete'],
-	                          [80, 'Mail Compromise - Student'],
-	                          [90, 'Mail Compromise - Faculty/Staff'],
+	                          [25, 'Mail Compromise - Student'],
+	                          [205, 'Mail Compromise - Faculty/Staff'],
 	                          [0, 'Delete'],
 	                      ];
 	
