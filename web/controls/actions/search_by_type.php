@@ -50,7 +50,7 @@ while($row = mysqli_fetch_assoc($result)) {
 }
 
 if($row_cnt <= 0) {
-	$data_result['results'] = "null";
+	$data_result['results'] = null;
 }
 
 $data_result['results'] = $holder;
