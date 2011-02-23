@@ -68,28 +68,46 @@ SampleApp.WeeklyCases.GridPanel = function() {
         ]
     });
 	
-    var myData = Ext.Ajax.request({
-        url: 'controls/queries/weekly_cases.php',
-        method:'GET', 
-        waitTitle:'Connecting', 
-        waitMsg:'Getting data...',
-        
-        success:function(request){ 
-        	var obj = Ext.util.JSON.decode(request.responseText); 
-	    	time = new Date();
-//	    	hours = time.getHours();
-//	    	minutes = time.getMinutes();
-//	    	seconds = time.getSeconds();
-//	    	last_updated = hours + ":" + minutes + ":" + seconds;
-	    	Ext.getCmp('weekly_cases_page_bar').setText("Last updated: " + time);  
-        	store.loadData(obj);
-       },
-	});
+	reload_store = function() {
+   		Ext.Ajax.request({
+	   	    url: 'controls/queries/weekly_cases.php',
+	   	    method:'GET', 
+	   	    waitTitle:'Connecting', 
+	   	    waitMsg:'Getting data...',
+	   	    
+	   	    success:function(request){ 
+	   	    	var obj = Ext.util.JSON.decode(request.responseText); 
+		    	time = new Date();
+	//	    	hours = time.getHours();
+	//	    	minutes = time.getMinutes();
+	//	    	seconds = time.getSeconds();
+	//	    	last_updated = hours + ":" + minutes + ":" + seconds;
+		    	Ext.getCmp('weekly_cases_page_bar').setText("Last updated: " + time);  
+	   	    	store.loadData(obj);
+	   	   },
+	   	});
+	}
     
-	weekly_cases_page_bar = new Ext.Toolbar.TextItem({
+	reload_store();
+   	
+	weekly_cases_page_bar_update_time = new Ext.Toolbar.TextItem({
         text: '',
         id: 'weekly_cases_page_bar',
-	})
+	});
+   	
+	weekly_cases_page_bar = new Ext.Toolbar({
+		frame:false,
+		items: [
+		        weekly_cases_page_bar_update_time,
+	        {
+	        	text: 'Refresh',
+	        	iconCls: 'x-tbar-loading',
+	        	handler: function() {
+	        		reload_store();
+	        	}
+	        }
+    	]
+	});
     
     function renderTip(val, meta, rec, rowIdx, colIdx, ds) {
     	return '<div ext:qtitle="' + "Data" + '" ext:qtip="' + val + '">' + val + '</div>';
@@ -101,19 +119,17 @@ SampleApp.WeeklyCases.GridPanel = function() {
         columns: [
 	          {
 	              header   : 'DSID', 
-	              width    : 100, 
 	              sortable : true, 
 	              dataIndex: 'dsid'
 	          },
             {
                 header   : 'Date', 
-                width    : 160, 
                 sortable : true, 
+                width    : 120, 
                 dataIndex: 'date'
             },
             {
                 header   : 'Analyst', 
-                width    : 200, 
                 sortable : true, 
                 dataIndex: 'analyst'
             },
@@ -171,7 +187,7 @@ SampleApp.WeeklyCases.GridPanel = function() {
         ],
         stripeRows: true,
         autoExpandColumn: 'search_by_ip_confirmation',
-        height: 700,
+        region: 'center',
 		autoSizeColumns: true,
 		listeners: {
 			cellclick: function(grid, rowIndex, colIndex) {
