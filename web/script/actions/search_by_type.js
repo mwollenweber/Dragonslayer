@@ -27,7 +27,7 @@ function process_search(type,value) {
         
         success:function(request){ 
         	var obj = Ext.util.JSON.decode(request.responseText);
-        	if(obj.results == "null") {
+        	if(obj.results == null) {
         		Ext.Msg.alert('Results', 'No search results found!');
         		search_result_count = "0";
             	Ext.getCmp('search_results_bar').setText("Search results: " + search_result_count);  
@@ -211,7 +211,7 @@ SampleApp.SearchByIp.GridPanel = function() {
     
     SampleApp.SearchByIp.GridPanel.superclass.constructor.call(this,{
         region: 'center',
-        tbar: [search_results_tbar],
+//        tbar: [search_results_tbar],
         store: store,
         cm: cm,
         trackMouseOver: true,
