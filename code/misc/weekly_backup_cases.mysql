@@ -1,0 +1,2 @@
+DELETE FROM gwcases_weekly_backup;
+INSERT INTO gwcases_weekly_backup (SELECT * FROM gwcases);

@@ -27,7 +27,7 @@ $data = array();
 foreach ($reporters as $reporter) {
 
 	#Base Query
-	$query= "SELECT distinct(reporter), COUNT(reporter) as count from gwcases WHERE report_category > 19 AND YEAR(tdstamp) = YEAR(CURRENT_TIMESTAMP) AND reporter = '$reporter' AND reporter <> \"\" AND MONTH(tdstamp) = MONTH(CURRENT_TIMESTAMP) AND YEARWEEK(tdstamp) = YEARWEEK(CURRENT_TIMESTAMP) GROUP BY reporter ORDER BY reporter, count DESC";
+	$query= "SELECT distinct(reporter), COUNT(reporter) as count from gwcases WHERE report_category > 19 AND YEAR(tdstamp) = YEAR(CURRENT_TIMESTAMP) AND reporter = '$reporter' AND reporter <> \"\" AND DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), 60) AND CURDATE() AND YEARWEEK(tdstamp) = YEARWEEK(CURRENT_TIMESTAMP) GROUP BY reporter ORDER BY reporter, count DESC";
 	
 	#Make the query
 	$results= mysqli_query($link,$query);
