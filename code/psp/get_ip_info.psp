@@ -1,4 +1,9 @@
 <%
+__author__ = "Matthew Wollenweber"
+__version__ = "0.0.2"
+__email__ = "mjw@cyberwart.com"
+
+
 import socket, MySQLdb, sys, Queue
 from xml.dom.minidom import Document
 from threading import Thread
@@ -34,6 +39,7 @@ class ip_info:
 		crit = None
 		dhcp = None
 		req_type = None
+		ip_alert = None
 	
 	def get_ip_from_form(self):
 		if form.has_key("ip"):
@@ -101,6 +107,18 @@ class ip_info:
 		ret = "CRITICAL HOST: " + str(row[0]) + " TRUE"
 		return ret
 	
+	def check_ip_alerts(self, conn, ip):
+		query = "SELECT notes from ipalerts where ip = INET_ATON('%s')" % ip
+		cursor = conn.cursor()		
+		cursor.execute(query)
+		row = cursor.fetchone()
+
+		if row is None:
+			return "FALSE"	
+	
+		ret = "ALERT MSG FOR IP: " + str(row[0]) 
+		return ret
+	
 	def build_json_reply(self):
 		print "building json reply"
 		try:
@@ -114,6 +132,7 @@ class ip_info:
 		data["network_name"] = self.net
 		data["critical_info"] = self.crit
 		data["dhcp_info"] = self.dhcp
+		data["ip_alert"] = self.ip_alert
 		
 		#add mac info
 		if len(self.macs) > 0:
@@ -160,6 +179,12 @@ class ip_info:
 		ip_msg.appendChild(dhcp_info)
 		txt = doc.createTextNode(self.dhcp)
 		dhcp_info.appendChild(txt)
+		
+		ipalert = doc.createElement("ip_alert")
+		ip_msg.appendChild(ipalert)
+		txt = doc.createTextNode(self.ip_alert)
+		ipalert.appendChild(txt)
+
 	
 		for m in self.macs:
 			mac_info = doc.createElement("mac_addr")
@@ -192,6 +217,7 @@ class ip_info:
 		self.net = self.get_network(conn, ipstr)
 		self.macs = self.get_macs(conn, ipstr)
 		self.crit = self.check_critical(conn, ipstr)
+		self.ip_alert = self.check_ip_alerts(conn, ipstr)
 	
 		if self.dhcp_flag == True:
 			dhcp_t.join()
@@ -215,6 +241,8 @@ class ip_info:
 		else:
 			req.content_type = 'text/xml'
 			return self.build_xml_reply()
+		
+		
 def str2bool(v):
   return v.lower() in ["yes", "true", "t", "1"]			
 

@@ -1,3 +1,10 @@
+<?php 
+include('controls/database/lock.php');
+$_SESSION['dsid'] = $_GET['dsid'];
+$_SESSION['aip'] = $_GET['aip'];
+$_SESSION['vip'] = $_GET['vip'];
+?>
+
 <html>
 	<head>
 		<title>Dragon Slayer 2 (so metal)</title>
@@ -23,8 +30,15 @@
 		
 		<script src="extjs/adapter/form/FileUploadField.js" type="text/javascript"></script>
 		
+		<script src="extjs/adapter/Ext.ux.Printer/Printer.js" type="text/javascript" ></script>
+		<script src="extjs/adapter/Ext.ux.Printer/renderers/Base.js" type="text/javascript"></script>
+		<script src="extjs/adapter/Ext.ux.Printer/renderers/Base.js" type="text/javascript"></script>
+		
+		<script src="extjs/adapter/Ext.ux.Exporter/Exporter-all.js" type="text/javascript"></script>
+		
 		<!-- Portlets -->
 		<script src="script/portlets/daily_bad_filtered_portlet.js" type="text/javascript"></script>
+		<script src="script/portlets/daily_mdl_portlet.js" type="text/javascript"></script>
 		<script src="script/portlets/weekly_report_graph_portlet.js" type="text/javascript"></script>
 		<script src="script/portlets/weekly_report_portlet.js" type="text/javascript"></script>
 		<script src="script/portlets/weekly_contribution_graph_portlet.js" type="text/javascript"></script>
@@ -43,6 +57,7 @@
 		<script src="script/actions.js" type="text/javascript"></script>
 		<script src="script/reports.js" type="text/javascript"></script>
 		<script src="script/launchers.js" type="text/javascript"></script>
+		<script src="script/accounts.js" type="text/javascript"></script>
 		
 		<!-- Queries -->
 		<script src="script/queries/daily_critical.js" type="text/javascript"></script>
@@ -58,16 +73,23 @@
 		<!-- Reports -->
 		<script src="script/reports/student_report.js" type="text/javascript"></script>
 		<script src="script/reports/weekly_report.js" type="text/javascript"></script>
+		<script src="script/reports/generate_report.js" type="text/javascript"></script>
 		
 		<!-- Launchers -->
 		<script src="script/launchers/dragon_interface.js" type="text/javascript"></script>
 		<script src="script/launchers/patchy_upload.js" type="text/javascript"></script>
 		<script src="script/launchers/forensic_case.js" type="text/javascript"></script>
 		<script src="script/launchers/malware_uploader.js" type="text/javascript"></script>
+		
+		<!-- Accounts -->
 			  
 	</head>
 	
 	<body>
+	
+		<form id="super_form" method="post" action="/file/">
+	    	<input type="hidden" id="download" name="download" />
+		</form>
 	
 		<!--  Queries -->
 		<ul id="dragonslayer-queries-content" class="x-hidden">
@@ -115,6 +137,10 @@
 		        <img src="images/date.gif" class="icon-show-active"/>
 		        <a class="dragonslayer-reports-weeklyreport dragonslayer-nav-link" href="#" name="openWeeklyReport">Weekly Report</a>
 		    </li>
+    		<li>
+		        <img src="images/Diagram.png" class="icon-show-active"/>
+		        <a class="dragonslayer-reports-generatereport dragonslayer-nav-link" href="#" name="openGenerateReport">Generate Report</a>
+		    </li>
 		</ul>
 		
 		<!-- Launchers -->
@@ -134,6 +160,14 @@
      		<li>
 		        <img src="images/Eye.png" class="icon-show-active"/>
 		        <a class="dragonslayer-launchers-malwareuploader dragonslayer-nav-link" href="#" name="openMalwareUploader">Malware Uploader</a>
+		    </li>
+		</ul>
+		
+		<!-- Accounts -->
+		<ul id="dragonslayer-accounts-content" class="x-hidden">
+		    <li>
+		        <img src="images/icon_user.gif" class="icon-show-active"/>
+		        <a class="dragonslayer-accounts-myaccount dragonslayer-nav-link" href="#" name="openMyAccount">My Account</a>
 		    </li>
 		</ul>
 	

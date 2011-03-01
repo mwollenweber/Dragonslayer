@@ -1,7 +1,34 @@
 Ext.namespace('SampleApp.Welcome');
 
+function session_check() {
+	Ext.Ajax.request({
+	    url: 'controls/sessions/checker.php',
+	    waitTitle:'Connecting', 
+	    waitMsg:'Getting data...',
+	    
+	    success:function(request){ 
+	    	var obj = Ext.util.JSON.decode(request.responseText); 
+	    	if(obj != null) {
+		    	if(obj.dsid != null) {
+			    	SampleApp.EditCase.OpenFromGrid(obj.dsid);
+		    	}
+		    	if(obj.aip != null) {
+		    		SampleApp.SearchByIp.PivotSearch("attacker", obj.aip)
+		    	}
+		    	if(obj.vip != null) {
+		    		SampleApp.SearchByIp.PivotSearch("victim", obj.vip)
+		    	}
+	    	}
+	   },
+	})
+}
+
+session_check();
+
 var dbf_portlet = new DailyBadFilteredPortlet();
 var rvc_portlet = new RecentVipCases();
+var dmdl_portlet = new DailyMdlPortlet();
+var sp_portlet = new ScratchPadPortlet();
 var unenteredCasesPortlet = new UnenteredCasesPortlet(); //portlet is located within create case, but we want it to sync with DBF
 
 var tools = [{
@@ -30,11 +57,21 @@ Ext.onReady(function() {
     });
 });
 
-function timeout_trigger() {
-	dbf_portlet.reload_store();
-	rvc_portlet.reload_store();
-	unenteredCasesPortlet.reload_store();
+function timeout_trigger(init) {
+	if(init != 1) {
+		dbf_portlet.reload_store();
+		unenteredCasesPortlet.reload_store();
+	}
     setTimeout('timeout_trigger()', 10000);
+}
+
+function timeout_delay(init) {
+	if(init != 1) {
+		sp_portlet.reload_store();
+		dmdl_portlet.reload_store();
+		rvc_portlet.reload_store();
+	}
+    setTimeout('timeout_delay()', 50000);
 }
 
 /**
@@ -42,8 +79,10 @@ function timeout_trigger() {
  */
 SampleApp.Welcome.Panel = function(config) {
     Ext.apply(this,config);
-    timeout_trigger();
-
+    
+    timeout_trigger(1);
+    timeout_delay(1);
+	
     SampleApp.Welcome.Panel.superclass.constructor.call(this,{
         frame:true,
         layout: "fit",
@@ -66,7 +105,6 @@ SampleApp.Welcome.Panel = function(config) {
 						title: 'Recent VIP Cases',
 						tools: tools,
 						items: rvc_portlet,
-						height: 300,
 					}, {
 						title: 'Weekly Report',
 						tools: tools,
@@ -81,20 +119,25 @@ SampleApp.Welcome.Panel = function(config) {
 					items: [{
 						title: 'Public Scratch Pad',
 						tools: tools,
-						items: new ScratchPadPortlet(),
+						items: sp_portlet,
 					}, {
-						title: 'Weekly Report',
+						title: 'Quick Search',
 						tools: tools,
-						items: new WeeklyReportPortlet(),
+						items: new SearchByTypePortlet(),
+					}, {
+						frame:true,         
+						title: 'Daily MDL',
+						tools: tools,
+						items: dmdl_portlet
 					}, {
 						title: 'Weekly Contribution',
 						items: new WeeklyContributionGraphPortlet(),
 						tools: tools,
 						height: 400
 					}, {
-						title: 'Quick Search',
+						title: 'Weekly Report',
 						tools: tools,
-						items: new SearchByTypePortlet(),
+						items: new WeeklyReportPortlet(),
 					}
 				]}
 			]

@@ -57,8 +57,24 @@ function UnenteredCasesPortlet(){
 		    	if (obj.ip_msg.recent_case != "0") {
 		    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
 		    	}
+		    	if (obj.ip_msg.ip_alert != "FALSE") {
+		    		Ext.Msg.alert('Critical', obj.ip_msg.ip_alert);
+		    	}
 		   },
 		});
+	}
+	
+	function snatch_user() {
+		Ext.Ajax.request({
+		    url: 'controls/authentication/snatch_user.php',
+		    waitTitle:'Connecting', 
+		    waitMsg:'Getting data...',
+		    
+		    success:function(request){ 
+		    	var obj = Ext.util.JSON.decode(request.responseText); 
+		    	reporter_field.setValue(obj.user);
+		   },
+		})
 	}
 	
 	UnenteredCasesPortlet.superclass.constructor.call(this, {
@@ -79,6 +95,7 @@ function UnenteredCasesPortlet(){
 				attacker_field.setValue(rec.get('attacker'));
 				notes_field.setValue(rec.get('notes'));
 				get_ip_info(rec.get('victim'));
+				snatch_user();
 			}
 		}
     });

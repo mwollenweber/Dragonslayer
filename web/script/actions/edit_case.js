@@ -153,6 +153,8 @@ SampleApp.EditCase.FormPanel = function(){
 	                          [500, 'Needs Forensics'],
 	                          [510, 'Forensics Ongoing'],
 	                          [520, 'Forensics Complete'],
+	                          [25, 'Mail Compromise - Student'],
+	                          [205, 'Mail Compromise - Faculty/Staff'],
 	                          [0, 'Delete'],
 	                      ];
 	
@@ -312,7 +314,7 @@ SampleApp.EditCase.FormPanel = function(){
 				        success:function(request){ 
 				        	var obj = Ext.util.JSON.decode(request.responseText);
 				        	if(obj.success == "true") {
-				        		Ext.Msg.alert('Case updated');
+				        		Ext.Msg.alert('Success','Case updated');
 				        		
 				        		//Update the grid when all is updated
 				        	    var myData = Ext.Ajax.request({

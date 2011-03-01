@@ -65,21 +65,51 @@ SampleApp.DailyBadFiltered.GridPanel = function() {
    	    fields: ['case','date','event','victim','attacker','notes']
    	});
    	
-   	var myData = Ext.Ajax.request({
-   	    url: 'controls/queries/daily_bad_filtered.php',
-   	    method:'GET', 
-   	    waitTitle:'Connecting', 
-   	    waitMsg:'Getting data...',
-   	    
-   	    success:function(request){ 
-   	    	var obj = Ext.util.JSON.decode(request.responseText); 
-   	    	store.loadData(obj);
-   	   },
-   	});
-    
+	reload_store = function() {
+   		Ext.Ajax.request({
+	   	    url: 'controls/queries/daily_bad_filtered.php',
+	   	    method:'GET', 
+	   	    waitTitle:'Connecting', 
+	   	    waitMsg:'Getting data...',
+	   	    
+	   	    success:function(request){ 
+	   	    	var obj = Ext.util.JSON.decode(request.responseText); 
+		    	time = new Date();
+	//	    	hours = time.getHours();
+	//	    	minutes = time.getMinutes();
+	//	    	seconds = time.getSeconds();
+	//	    	last_updated = hours + ":" + minutes + ":" + seconds;
+		    	Ext.getCmp('dbf_update_time').setText("Last updated: " + time);  
+	   	    	store.loadData(obj);
+	   	   },
+	   	});
+   	}
+	
+	reload_store();
+   	
+   	dbf_page_bar_update_time = new Ext.Toolbar.TextItem({
+        text: '',
+        id: 'dbf_update_time',
+	});
+   	
+	dbf_page_bar = new Ext.Toolbar({
+		frame:false,
+		items: [
+		        dbf_page_bar_update_time,
+	        {
+	        	text: 'Refresh',
+	        	iconCls: 'x-tbar-loading',
+	        	handler: function() {
+	        		reload_store();
+	        	}
+	        }
+    	]
+	});
+		
     SampleApp.DailyBadFiltered.GridPanel.superclass.constructor.call(this,{
         region: 'center',
         store: store,
+        tbar:[dbf_page_bar],
         cm: cm,
         stripeRows: true,
         autoExpandColumn: 'daily_bad_filter_date',

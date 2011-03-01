@@ -25,18 +25,6 @@ function RecentVipCases(){
         ]
     });
 	
-	var myData = Ext.Ajax.request({
-	    url: 'controls/queries/recent_vip_cases.php',
-	    method:'GET', 
-	    waitTitle:'Connecting', 
-	    waitMsg:'Getting data...',
-	    
-	    success:function(request){ 
-	    	var obj = Ext.util.JSON.decode(request.responseText); 
-	    	recent_vip_store.loadData(obj);
-	   },
-	});
-	
 	this.reload_store = function() {
 		Ext.Ajax.request({
 		    url: 'controls/queries/recent_vip_cases.php',
@@ -46,14 +34,28 @@ function RecentVipCases(){
 		    
 		    success:function(request){ 
 		    	var obj = Ext.util.JSON.decode(request.responseText); 
+		    	time = new Date();
+//		    	hours = time.getHours();
+//		    	minutes = time.getMinutes();
+//		    	seconds = time.getSeconds();
+//		    	last_updated = hours + ":" + minutes + ":" + seconds;
+		    	Ext.getCmp('recent_vip_bottom_bar').setText("Last updated: " + time);  
 		    	recent_vip_store.loadData(obj);
 		   },
 		});
 	}
 	
+	this.reload_store();
+	
+	recent_vip_bottom_bar = new Ext.Toolbar.TextItem({
+        text: '',
+        id: 'recent_vip_bottom_bar',
+	})
+	
 	RecentVipCases.superclass.constructor.call(this, {
         store: recent_vip_store,
         cm: cm,
+        bbar:[recent_vip_bottom_bar],
         stripeRows: true,
         autoExpandColumn: 'recent_vip_case_dsid',
         height: 300,

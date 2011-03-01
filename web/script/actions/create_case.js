@@ -65,6 +65,11 @@ SampleApp.CreateCase.OpenFromGrid = function(date,event,victim,attacker,notes) {
 	notes = notes;
 	
     var createCasePanel = new SampleApp.CreateCase.Panel();
+	date_field.setValue(date);
+	event_field.setValue(dragon_event);
+	victim_field.setValue(victim);
+	attacker_field.setValue(attacker);
+	notes_field.setValue(notes);
     SampleApp.Main.CenterPanelInstance.add(createCasePanel);
     SampleApp.Main.CenterPanelInstance.activate(createCasePanel);
     
@@ -144,6 +149,8 @@ SampleApp.CreateCase.FormPanel = function(){
 	                          [500, 'Needs Forensics'],
 	                          [510, 'Forensics Ongoing'],
 	                          [520, 'Forensics Complete'],
+	                          [25, 'Mail Compromise - Student'],
+	                          [205, 'Mail Compromise - Faculty/Staff'],
 	                          [0, 'Delete'],
 	                      ];
 	
@@ -170,6 +177,9 @@ SampleApp.CreateCase.FormPanel = function(){
 		    	if (obj.ip_msg.recent_case != "0") {
 		    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
 		    	}
+		    	if (obj.ip_msg.ip_alert != "FALSE") {
+		    		Ext.Msg.alert('Critical', obj.ip_msg.ip_alert);
+		    	}
 	    	}
 	   },
 	});
@@ -193,8 +203,24 @@ SampleApp.CreateCase.FormPanel = function(){
 		    	if (obj.ip_msg.recent_case != "0") {
 		    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
 		    	}
+		    	if (obj.ip_msg.ip_alert != "FALSE") {
+		    		Ext.Msg.alert('Critical', obj.ip_msg.ip_alert);
+		    	}
 		   },
 		});
+	}
+	
+	function snatch_user() {
+		Ext.Ajax.request({
+		    url: 'controls/authentication/snatch_user.php',
+		    waitTitle:'Connecting', 
+		    waitMsg:'Getting data...',
+		    
+		    success:function(request){ 
+		    	var obj = Ext.util.JSON.decode(request.responseText); 
+		    	reporter_field.setValue(obj.user);
+		   },
+		})
 	}
 	
 	
@@ -203,89 +229,135 @@ SampleApp.CreateCase.FormPanel = function(){
         fieldLabel: 'Event',
         name: 'event',
         allowBlank:false,
-        width: 400
+        anchor:'100%'
     });
 	
 	date_field = new Ext.form.TextField({
         fieldLabel: 'Date Discovered',
         name: 'date',
         allowBlank:false,
-        width: 400
+        anchor:'100%'
     });
 	
 	reporter_field = new Ext.form.TextField({
         fieldLabel: 'Reporter',
         name: 'reporter',
         allowBlank:false,
-        width: 400
+        anchor:'100%'
     });
 	
     network_field = new Ext.form.TextField({
         fieldLabel: 'Network',
         name: 'network',
         allowBlank:false,
-        width: 400
+        anchor:'100%'
     });
     
     netid_field = new Ext.form.TextField({
         fieldLabel: 'NetID',
         name: 'netid',
         allowBlank:true,
-        width: 400
+        anchor:'100%'
     });
     
     victim_field = new Ext.form.TextField({
         fieldLabel: 'Victim',
         name: 'victim',
         allowBlank:false,
-        width: 400,
         onBlur : function() {
         	get_ip_info(victim_field.getValue())
-        }
+        },
+        anchor:'100%'
     });
     
     attacker_field = new Ext.form.TextField({
         fieldLabel: 'Attacker',
         name: 'attacker',
         allowBlank:false,
-        width: 400
+        anchor:'100%'
     });
     
     dhcp_field = new Ext.form.TextField({
         fieldLabel: 'DHCP',
         name: 'dhcp',
         allowBlank:false,
-        width: 400
+        anchor:'100%'
     });
     
     dns_field = new Ext.form.TextField({
         fieldLabel: 'DNS',
         name: 'dns',
         allowBlank:false,
-        width: 400
+        anchor:'100%'
     });
     
     notes_field = new Ext.form.TextArea({
         fieldLabel: 'Notes',
         name: 'notes',
-        width: 400,
         allowBlank:false,
+        anchor:'100%'
     });
 	
     
 	//values pulled from the global form
-	date_field.setValue(date);
-	event_field.setValue(dragon_event);
-	victim_field.setValue(victim);
-	attacker_field.setValue(attacker);
-	notes_field.setValue(notes);
+	snatch_user();
+	
+    new Ext.KeyMap(Ext.get(document), {
+    	key:'S',
+    	ctrl:true,
+    	fn:function(e) {
+    		var form_data = createCaseFormPanel.getForm().getValues();
+        	if(createCaseFormPanel.getForm().isValid()){
+            	Ext.Ajax.request({
+            		url: 'controls/actions/create_case.php',
+			        method:'POST', 
+			        waitTitle:'Connecting', 
+			        waitMsg:'Getting data...',
+			        params: form_data,
+			        
+			        success:function(request){ 
+			        	var obj = Ext.util.JSON.decode(request.responseText);
+			        	if(obj.success == "true") {
+			        		Ext.Msg.alert('Success','Case created');
+			        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
+			        		createCaseFormPanel.getForm().reset();
+			        		date_field.setValue('');
+			        		event_field.setValue('');
+			        		victim_field.setValue('');
+			        		attacker_field.setValue('');
+			        		notes_field.setValue('');
+			        	} else {
+			        		Ext.Msg.alert('Case creation failed', obj.error); 
+			        	}
+			       },
+				});
+        	}
+    	},
+    	stopEvent:true
+	});
+    
+    new Ext.KeyMap(Ext.get(document), { //DELETE ME
+    	key:'Q',
+    	ctrl:true,
+    	fn:function(e) {
+			date_field.setValue('1');
+			event_field.setValue('phishing-email-compromise');
+			victim_field.setValue('127.0.0.1');
+			attacker_field.setValue('none');
+			dns_field.setValue('none');
+			dhcp_field.setValue('none');
+			network_field.setValue('unknown');
+			notes_field.setValue('Compromised through phishing attack');
+    	},
+    	stopEvent:true
+	});
     
     SampleApp.CreateCase.FormPanel.superclass.constructor.call(this,{
         frame:false,
         buttonAlign : 'left',
         bodyStyle:'padding:5px 5px 0',
-        width: 600,
         defaultType: 'textfield',
+        autoWidth: true,
         items: [
             event_field,
             reporter_field,
@@ -300,26 +372,25 @@ SampleApp.CreateCase.FormPanel = function(){
                 fieldLabel: 'Primary Detection',
                 name: 'primary_detection',
                 allowBlank:true,
-                width: 400
+                anchor:'100%'
             },
             {
                 fieldLabel: 'Seconday Detection',
                 name: 'seconday_detection',
-                width: 400,
                 allowBlank:true,
+                anchor:'100%'
             },
             new Ext.form.TextArea({
                 fieldLabel: 'Verification',
                 name: 'verification',
-                width: 400,
                 height: 250,
                 allowBlank:false,
+                anchor:'100%'
             }),
             notes_field,
             new Ext.form.ComboBox({
                 fieldLabel: 'Category',
                 name: 'category',
-                width: 400,
                 store: new Ext.data.ArrayStore({
                     fields: ['code', 'category'],
                     data : SampleApp.CreateCase.categories
@@ -331,6 +402,7 @@ SampleApp.CreateCase.FormPanel = function(){
                 triggerAction: 'all',
                 emptyText:'Select a category...',
                 allowBlank:false,
+                anchor:'100%'
             }),
         ],
 
@@ -353,6 +425,11 @@ SampleApp.CreateCase.FormPanel = function(){
 				        		Ext.Msg.alert('Success','Case created');
 				        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
 				        		createCaseFormPanel.getForm().reset();
+				        		date_field.setValue('');
+				        		event_field.setValue('');
+				        		victim_field.setValue('');
+				        		attacker_field.setValue('');
+				        		notes_field.setValue('');
 				        	} else {
 				        		Ext.Msg.alert('Case creation failed', obj.error); 
 				        	}

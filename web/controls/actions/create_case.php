@@ -33,7 +33,7 @@ $secondary = addslashes($_POST["secondary_detection"]);
 $verification = addslashes($_POST["verification"]);
 $notes = addslashes($_POST["notes"]);
 $reporter = addslashes($_POST["reporter"]);
-$detection_date = addslashes($_POST["detection_date"]);
+$detection_date = addslashes($_POST["date"]);
 $detection_time = addslashes($_POST["detection_time"]); //need to add this into the mix
 $reporter = addslashes($_POST["reporter"]);
 $category = addslashes($_POST["category"]);
@@ -53,7 +53,7 @@ if(strlen($victim) < 4) {
 	$proceed = false;
 }
 
-if(strlen($reporter) < 4) {
+if(strlen($reporter) < 2) {
 	$data['success'] = "false";
 	$data['error'] = "You must enter a reporter";
 	$proceed = false;
@@ -97,6 +97,10 @@ if($category == "Normal") {
 	$category = 510;
 } elseif ($category == "Forensics Complete") {
 	$category = 520;
+} elseif ($category == "Mail Compromise - Student") {
+	$category = 25;
+} elseif ($category == "Mail Compromise - Faculty/Staff") {
+	$category = 205;	
 } elseif ($category == "Delete") {
 	$category = 0;
 } else {
@@ -106,7 +110,7 @@ if($category == "Normal") {
 }
 
 if($proceed) {
-	$query = "INSERT INTO gwcases (tdstamp, event, victim, network, dns_name, attacker, primary_detection, secondary_detection, verification, notes, discovered, reporter, report_category, dhcp_info, netid) VALUES (NOW(), '$event', INET_ATON('$victim'), '$network', '$dns', INET_ATON('$attacker'), '$primary', '$secondary', '$verification', '$notes', '$discovered', '$reporter', '$category', '$dhcp', '$netid')";
+	$query = "INSERT INTO gwcases (tdstamp, event, victim, network, dns_name, attacker, primary_detection, secondary_detection, verification, notes, discovered, reporter, report_category, dhcp_info, netid) VALUES (NOW(), '$event', INET_ATON('$victim'), '$network', '$dns', INET_ATON('$attacker'), '$primary', '$secondary', '$verification', '$notes', '$detection_date', '$reporter', '$category', '$dhcp', '$netid')";
 	if(mysqli_query($link,$query)) {
 		$data['success'] = "true";
 	} else {

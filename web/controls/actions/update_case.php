@@ -34,7 +34,7 @@ $secondary = addslashes($_POST["secondary_detection"]);
 $verification = addslashes($_POST["verification"]);
 $notes = addslashes($_POST["notes"]);
 $reporter = addslashes($_POST["reporter"]);
-$detection_date = addslashes($_POST["detection_date"]);
+$detection_date = addslashes($_POST["date"]);
 $detection_time = addslashes($_POST["detection_time"]); //need to add this into the mix
 $reporter = addslashes($_POST["reporter"]);
 $category = addslashes($_POST["category"]);
@@ -92,6 +92,10 @@ if($category == "Normal") {
 	$category = 510;
 } elseif ($category == "Forensics Complete") {
 	$category = 520;
+} elseif ($category == "Mail Compromise - Student") {
+	$category = 25;
+} elseif ($category == "Mail Compromise - Faculty/Staff") {
+	$category = 205;	
 } elseif ($category == "Delete") {
 	$category = 0;
 } else {
@@ -101,7 +105,7 @@ if($category == "Normal") {
 }
 
 if($proceed) {
-	$query = "UPDATE gwcases SET event = '$event', network = '$network', dns_name = '$dns', attacker = INET_ATON('$attacker'), primary_detection = '$primary', secondary_detection = '$secondary', verification = '$verification', notes = '$notes', discovered = '$discovered', reporter = '$reporter', report_category = '$category', dhcp_info = '$dhcp', netid = '$netid' WHERE id=$dsid"; 
+	$query = "UPDATE gwcases SET event = '$event', network = '$network', dns_name = '$dns', attacker = INET_ATON('$attacker'), primary_detection = '$primary', secondary_detection = '$secondary', verification = '$verification', notes = '$notes', discovered = '$detection_date', reporter = '$reporter', report_category = '$category', dhcp_info = '$dhcp', netid = '$netid' WHERE id=$dsid"; 
 
 	if(mysqli_query($link,$query)) {
 		$data['success'] = "true";

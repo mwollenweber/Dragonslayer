@@ -20,6 +20,21 @@ function ScratchPadPortlet(){
 	    },
 	});
 	
+	this.reload_store = function() {
+		Ext.Ajax.request({
+		    url: 'controls/actions/scratch_pad.php',
+		    method:'POST', 
+		    waitTitle:'Connecting', 
+		    waitMsg:'Getting data...',
+		    params: { type: 'pull' },
+		    
+		    success:function(request){ 
+		    	var obj = Ext.util.JSON.decode(request.responseText); 
+		    	scratch_value_field.setValue(obj.data);
+		   },
+		});
+	}
+	
 	ScratchPadPortlet.superclass.constructor.call(this, {
 		frame:true,
         buttonAlign : 'right',
@@ -32,7 +47,8 @@ function ScratchPadPortlet(){
             text: 'Save',   
             formBind: true,	 
             handler:function(){ 
-                var scratch_value = scratch_value_field.getValue();
+            	var scratch_value = '';
+                scratch_value = scratch_value_field.getValue();
             	Ext.Ajax.request({
         		    url: 'controls/actions/scratch_pad.php',
         		    method:'POST', 
@@ -46,22 +62,6 @@ function ScratchPadPortlet(){
         		});
             },
         }],
-        
-        keys: [{ 
-    		key: [Ext.EventObject.ENTER], handler: function() {
-    			Ext.Ajax.request({
-        		    url: 'controls/actions/scratch_pad.php',
-        		    method:'POST', 
-        		    waitTitle:'Connecting', 
-        		    waitMsg:'Sending data...',
-        		    params: { type: 'push', scratch: scratch_value},
-        		    
-        		    success:function(request){ 
-        		    	Ext.Msg.alert('Success', 'Scratch saved');
-        		   },
-        		});
-    		}
-    	}],
         region: "north",
     });
 }

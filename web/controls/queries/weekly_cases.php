@@ -47,6 +47,10 @@ while($row = mysqli_fetch_assoc($result)) {
 		$category = "Forensics Complete";
 	} elseif ($category == 0) {
 		$category = "Delete";
+	} elseif ($category == 25) {
+		$category = "Mail Compromise - Student";
+	} elseif ($category == 205) {
+		$category = "Mail Compromise - Faculty/Staff";
 	} else {
 		
 	}
