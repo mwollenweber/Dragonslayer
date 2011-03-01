@@ -1,0 +1,6 @@
+15,45   *       *       *       *       /home/dragonslayer/code/cron_dragonslayer.py
+1       1       *       *       *       mysql -u dragonslayer --password=slayer dragonslayer < /var/www/html/ds2/code/misc/daily_backup_cases.mysql
+1       3       *       *       0       mysql -u dragonslayer --password=slayer dragonslayer < /var/www/html/ds2/code/misc/weekly_backup_cases.mysql
+#50     *       *       *       *       /home/dragonslayer/code/update_bad.py
+#30     7,15    *       *       *       /home/dragonslayer/code/refresh_shadow.py
+
