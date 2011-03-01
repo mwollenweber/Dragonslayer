@@ -13,7 +13,7 @@ header("Content-type: text/json");
 
 #Reporter Query
 $reporters = array();
-$query= "SELECT distinct(reporter) from gwcases WHERE YEAR(tdstamp) = YEAR(CURRENT_TIMESTAMP) AND reporter <> \"\" AND MONTH(tdstamp) = MONTH(CURRENT_TIMESTAMP) AND YEARWEEK(tdstamp) = YEARWEEK(CURRENT_TIMESTAMP)";
+$query= "SELECT distinct(reporter) from gwcases WHERE YEAR(tdstamp) = YEAR(CURRENT_TIMESTAMP) AND reporter <> \"\" AND DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), 60) AND YEARWEEK(tdstamp) = YEARWEEK(CURRENT_TIMESTAMP)";
 
 #Make the query
 $result= mysqli_query($link,$query);
