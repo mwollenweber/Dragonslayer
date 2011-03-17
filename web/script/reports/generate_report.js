@@ -57,8 +57,9 @@ SampleApp.GenerateReport.Panel = function() {
             handler: function(){
             	start = (new Date(date_start.getValue())).format('Y-m-d');
             	end = (new Date(date_end.getValue())).format('Y-m-d');
-            	url = 'https://128.164.80.81/ds2/web/controls/reports/generate_weekly_report_download.php?start_date=' + start + '&end_date=' + end;
-            	window.location = url;
+            	SampleApp.DisplayReport.Open(start,end);
+//            	url = 'https://128.164.80.81/ds2/web/controls/reports/generate_weekly_report_download.php?start_date=' + start + '&end_date=' + end;
+//            	window.location = url;
             	GenerateReportPanel.close();
             	
 //            	if(report_form.getForm().isValid()){

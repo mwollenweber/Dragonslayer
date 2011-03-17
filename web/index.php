@@ -74,6 +74,7 @@ $_SESSION['vip'] = $_GET['vip'];
 		<script src="script/reports/student_report.js" type="text/javascript"></script>
 		<script src="script/reports/weekly_report.js" type="text/javascript"></script>
 		<script src="script/reports/generate_report.js" type="text/javascript"></script>
+		<script src="script/reports/display_report.js" type="text/javascript"></script>
 		
 		<!-- Launchers -->
 		<script src="script/launchers/dragon_interface.js" type="text/javascript"></script>
