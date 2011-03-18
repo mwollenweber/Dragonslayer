@@ -94,7 +94,7 @@ if($process) {
 		$data['success'] = "true";
 	} else {
 		$data['success'] = "false";
-		$data['error'] = "registration failed";
+		$data['error'] = "Username is already taken";
 	}
 }
 
