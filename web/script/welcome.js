@@ -120,10 +120,12 @@ SampleApp.Welcome.Panel = function(config) {
 						tools: tools,
 						items: dbf_portlet
 					}, {
+						id: 'p_recent_vip_cases_portlet_heldoc',
 						title: 'Recent VIP Cases',
 						tools: tools,
 						items: rvc_portlet,
 					}, {
+						id: 'p_weekly_report_graph_portlet_heldoc',
 						title: 'Weekly Report',
 						tools: tools,
 						items: new WeeklyReportGraphPortlet(),
@@ -135,24 +137,29 @@ SampleApp.Welcome.Panel = function(config) {
 					style: 'padding:10px 5px 10px 10px',
 				
 					items: [{
+						id: 'p_public_scratch_portlet_heldoc',
 						title: 'Public Scratch Pad',
 						tools: tools,
 						items: sp_portlet,
 					}, {
+						id: 'p_search_portlet_heldoc',
 						title: 'Quick Search',
 						tools: tools,
 						items: new SearchByTypePortlet(),
 					}, {
+						id: 'p_dmdl_portlet_heldoc',
 						frame:true,         
 						title: 'Daily MDL',
 						tools: tools,
 						items: dmdl_portlet
 					}, {
+						id: 'p_weekly_contribution_portlet_heldoc',
 						title: 'Weekly Contribution',
 						items: new WeeklyContributionGraphPortlet(),
 						tools: tools,
 						height: 400
 					}, {
+						id: 'p_weekly_report_portlet_heldoc',
 						title: 'Weekly Report',
 						tools: tools,
 						items: new WeeklyReportPortlet(),
