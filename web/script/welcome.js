@@ -41,11 +41,13 @@ var dmdl_portlet = new DailyMdlPortlet();
 var sp_portlet = new ScratchPadPortlet();
 var unenteredCasesPortlet = new UnenteredCasesPortlet(); //portlet is located within create case, but we want it to sync with DBF
 
-var tools = [{
-    id:'gear',
-    handler: function(){
-    }
-},{
+var tools = [
+//             {
+//    id:'gear',
+//    handler: function(){
+//    }
+//},
+{
     id:'help',
     handler: function(e, target, panel){
     	SampleApp.HelperDocs.Open(panel.id, hidden_user_field.getValue(), hidden_role_field.getValue());
