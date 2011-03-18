@@ -87,9 +87,10 @@ $password = addslashes($password);
 $date = date('Y-m-d H:i:s');
 
 if($process) {
-	$query = "INSERT INTO analysts (username, password, email, first_name, last_name, active, last_login) VALUES('$username','$password_hash','$email','$first_name', '$last_name', 1, '$date')";
+	$query = "INSERT INTO analysts (username, password, email, first_name, last_name, active, last_login, role) VALUES('$username','$password_hash','$email','$first_name', '$last_name', 1, '$date', 'analyst')";
 	if(mysqli_query($link,$query)) {
 		$_SESSION['login_user'] = $username;
+		$_SESSION['user_role'] = "analyst";
 		$data['success'] = "true";
 	} else {
 		$data['success'] = "false";

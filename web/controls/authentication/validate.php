@@ -24,11 +24,13 @@ $query = "SELECT * FROM analysts WHERE username='$username' and password='$passw
 
 $result = mysqli_query($link,$query);
 $row = mysqli_num_rows($result);
+$row_data = mysqli_fetch_assoc($result);
 
 if($row >= 1) {
 	$update_activity = "UPDATE analysts SET last_login = '$date' WHERE username = '$username'";
 	mysqli_query($link,$update_activity);
 	$_SESSION['login_user'] = $username;
+	$_SESSION['user_role'] = $row_data['role'];
 	$data['success'] = "true";
 } else {
 	$data['success'] = "false";

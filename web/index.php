@@ -58,6 +58,7 @@ $_SESSION['vip'] = $_GET['vip'];
 		<script src="script/reports.js" type="text/javascript"></script>
 		<script src="script/launchers.js" type="text/javascript"></script>
 		<script src="script/accounts.js" type="text/javascript"></script>
+		<script src="script/helper_docs.js" type="text/javascript"></script>		
 		
 		<!-- Queries -->
 		<script src="script/queries/daily_critical.js" type="text/javascript"></script>
