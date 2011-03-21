@@ -24,14 +24,11 @@ function DailyBadFilteredPortlet(){
 		    success:function(request){ 
 		    	var obj = Ext.util.JSON.decode(request.responseText); 
 		    	time = new Date();
-//		    	hours = time.getHours();
-//		    	minutes = time.getMinutes();
-//		    	seconds = time.getSeconds();
-//		    	last_updated = hours + ":" + minutes + ":" + seconds;
 		    	Ext.getCmp('dbf_bottom_bar').setText("Last updated: " + time);  
 		    	store.loadData(obj);
 		   },
 		});
+		return false;
 	}
 	
 	this.reload_store();
