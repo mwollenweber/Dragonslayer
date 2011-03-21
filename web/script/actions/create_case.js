@@ -10,12 +10,12 @@ Ext.namespace("SampleApp.CreateCase");
 var createCaseFormPanel;
 var createCaseGridPanel;
 var createCasePanel;
-var network_name = '';
-var date;
-var dragon_event;
-var victim;
-var attacker;
-var notes;
+//var network_name = '';
+//var date;
+//var dragon_event;
+//var victim;
+//var attacker;
+//var notes;
 
 var date_field;
 var event_field;
@@ -59,11 +59,11 @@ var action_tools = [{
  */
 SampleApp.CreateCase.OpenFromGrid = function(date,event,victim,attacker,notes) {
 	//Assign values passed in from the grid to the global variables
-	date = date;
-	dragon_event = event;
-	victim = victim;
-	attacker = attacker;
-	notes = notes;
+//	date = date;
+//	dragon_event = event;
+//	victim = victim;
+//	attacker = attacker;
+//	notes = notes;
 	
     var createCasePanel = new SampleApp.CreateCase.Panel();
 	date_field.setValue(date);
@@ -301,7 +301,7 @@ SampleApp.CreateCase.FormPanel = function(){
     
 	//values pulled from the global form
 	snatch_user();
-	get_ip_info(victim); //
+	get_ip_info(victim_field.getValue()); //
 	
 //    new Ext.KeyMap(Ext.get(document), {
 //    	key:'S',
@@ -448,13 +448,6 @@ SampleApp.CreateCase.FormPanel = function(){
         }],
         region: "north",
         height: 720,
-        remove : function(){
-    		date_field.setValue('');
-    		event_field.setValue('');
-    		victim_field.setValue('');
-    		attacker_field.setValue('');
-    		notes_field.setValue('');
-        },
     });
 }
 
