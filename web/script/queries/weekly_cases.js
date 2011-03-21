@@ -50,6 +50,7 @@ SampleApp.WeeklyCases.Panel = function() {
 	
     SampleApp.WeeklyCases.Panel.superclass.constructor.call(this,{
         frame:true,
+        id: 't_weekly_cases_tab_heldoc',
         title: "Weekly Cases",
         closable:true,
         titleCollapse:true,

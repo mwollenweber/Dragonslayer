@@ -50,6 +50,7 @@ SampleApp.DailyMdl.Panel = function() {
 	
     SampleApp.DailyMdl.Panel.superclass.constructor.call(this,{
         frame:true,
+        id: 't_dmdl_tab_heldoc',
         title: "Daily MDL",
         closable:true,
         titleCollapse:true,
