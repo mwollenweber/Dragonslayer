@@ -38,8 +38,8 @@ function RecentVipCases(){
 		    	Ext.getCmp('recent_vip_bottom_bar').setText("Last updated: " + time);  
 		    	recent_vip_store.loadData(obj);
 		   },
-		});
 		return false;
+		});
 	}
 	
 	this.reload_store();
