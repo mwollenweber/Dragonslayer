@@ -67,7 +67,7 @@ SampleApp.CreateCase.OpenFromGrid = function(date,event,victim,attacker,notes) {
 	
     var createCasePanel = new SampleApp.CreateCase.Panel();
 	date_field.setValue(date);
-	event_field.setValue(dragon_event);
+	event_field.setValue(event);
 	victim_field.setValue(victim);
 	attacker_field.setValue(attacker);
 	notes_field.setValue(notes);
@@ -183,6 +183,7 @@ SampleApp.CreateCase.FormPanel = function(){
 //	});
 	
 	function get_ip_info(victim) {
+		alert(victim);
 		Ext.Ajax.request({
 		    url: '../code/psp/get_ip_info.psp',
 		    waitTitle:'Connecting', 
@@ -222,7 +223,6 @@ SampleApp.CreateCase.FormPanel = function(){
 		   },
 		})
 	}
-	
 	
 	//break out form fields from the form so that we can add data to the object
 	event_field = new Ext.form.TextField({
