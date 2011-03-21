@@ -447,7 +447,14 @@ SampleApp.CreateCase.FormPanel = function(){
         	}
         }],
         region: "north",
-        height: 720
+        height: 720,
+        remove : function(){
+    		date_field.setValue('');
+    		event_field.setValue('');
+    		victim_field.setValue('');
+    		attacker_field.setValue('');
+    		notes_field.setValue('');
+        },
     });
 }
 
