@@ -10,7 +10,7 @@ Ext.namespace("SampleApp.CreateCase");
 var createCaseFormPanel;
 var createCaseGridPanel;
 var createCasePanel;
-var victim;
+var ip_information;
 var date_field;
 var event_field;
 var reporter_field;
@@ -170,37 +170,9 @@ SampleApp.CreateCase.FormPanel = function(){
 	                          [0, 'Delete'],
 	                      ];
 	
-	var ip_information = new Ext.data.JsonStore({
+	ip_information = new Ext.data.JsonStore({
 	    fields: ['critical_info','ip_addr','fqdn','dhcp_info','recent_case','network_name']
 	});
-	
-//	function get_ip_info(victim) {
-//		Ext.Ajax.request({
-//		    url: '../code/psp/get_ip_info.psp',
-//		    waitTitle:'Connecting', 
-//		    waitMsg:'Getting data...',
-//		    params: { 'ip': victim, type: 'json'},
-//		    
-//		    success:function(request){ 
-//		    	var obj = Ext.util.JSON.decode(request.responseText); 
-//		    	ip_information.loadData(obj.ip_msg);
-//		    	if(obj.ip_msg.ip_addr.length > 4) {
-//			    	network_field.setValue(obj.ip_msg.network_name);
-//			    	dns_field.setValue(obj.ip_msg.fqdn);
-//			    	dhcp_field.setValue(obj.ip_msg.dhcp_info);
-//			    	if (obj.ip_msg.critical_info != "FALSE") {
-//			    		Ext.Msg.alert('Critical', 'This is a VIP machine!');
-//			    	}	    	
-//			    	if (obj.ip_msg.recent_case != "0") {
-//			    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
-//			    	}
-//			    	if (obj.ip_msg.ip_alert != "FALSE") {
-//			    		Ext.Msg.alert('Critical', obj.ip_msg.ip_alert);
-//			    	}
-//		    	}
-//		   },
-//		});
-//	}
 	
 	function snatch_user() {
 		Ext.Ajax.request({
