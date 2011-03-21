@@ -23,6 +23,11 @@ SampleApp.Main.EventRelay = new Ext.util.Observable();
  * Application's Center Panel
  */
 SampleApp.Main.CenterPanel = function() {
+
+    copy_tbar = new Ext.Toolbar.TextItem({
+        text: 'Copyright Matthew Wollenweber, Brandon Dixon 2011',
+    })
+
     SampleApp.Main.CenterPanel.superclass.constructor.call(this, {
         id:'main',
         region:'center',
@@ -32,7 +37,8 @@ SampleApp.Main.CenterPanel = function() {
         enableTabScroll: true,
         defaults: {autoScroll: true},
         activeTab: 0,
-        items:[]
+    	bbar: [copy_tbar],
+	items:[]
     });
 };
 
