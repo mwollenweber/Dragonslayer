@@ -23,6 +23,13 @@ SampleApp.StudentReport.Open = function() {
     });
 }
 
+var report_tools = [{
+	id:'help',
+	handler: function(e, target, panel){
+		SampleApp.HelperDocs.Open(panel.id, hidden_user_field.getValue(), hidden_role_field.getValue());
+	}
+}];
+
 /**
  * Create Daily Bad Filtered
  */
@@ -31,6 +38,8 @@ SampleApp.StudentReport.Panel = function() {
     SampleApp.StudentReport.Panel.superclass.constructor.call(this,{
         frame:true,
         title: "Student Report",
+        tools: report_tools,
+        id: 't_student_report_helper_doc',
         closable:true,
         titleCollapse:true,
         layout: 'border',

@@ -50,6 +50,13 @@ SampleApp.EditCase.Open = function() {
     });
 }
 
+var action_tools = [{
+	id:'help',
+	handler: function(e, target, panel){
+		SampleApp.HelperDocs.Open(panel.id, hidden_user_field.getValue(), hidden_role_field.getValue());
+	}
+}];
+
 SampleApp.EditCase.OpenFromGrid = function(dsid) {
 
     var editCasePanel = new SampleApp.EditCase.Panel();
@@ -95,6 +102,8 @@ SampleApp.EditCase.Panel = function() {
         frame:true,
         layout: "fit",
         title:'Edit Case',
+        id: 't_edit_case_tab_heldoc',
+        tools: action_tools,
         closable: true,
         items: [{
 			xtype:'portal',

@@ -41,7 +41,7 @@ var dmdl_portlet = new DailyMdlPortlet();
 var sp_portlet = new ScratchPadPortlet();
 var unenteredCasesPortlet = new UnenteredCasesPortlet(); //portlet is located within create case, but we want it to sync with DBF
 
-var tools = [
+var portlet_tools = [
 //             {
 //    id:'gear',
 //    handler: function(){
@@ -117,17 +117,17 @@ SampleApp.Welcome.Panel = function(config) {
 						id: 'p_dbf_portlet_heldoc',
 						frame:true,         
 						title: 'Daily Bad Filtered',
-						tools: tools,
+						tools: portlet_tools,
 						items: dbf_portlet
 					}, {
 						id: 'p_recent_vip_cases_portlet_heldoc',
 						title: 'Recent VIP Cases',
-						tools: tools,
+						tools: portlet_tools,
 						items: rvc_portlet,
 					}, {
 						id: 'p_weekly_report_graph_portlet_heldoc',
 						title: 'Weekly Report',
-						tools: tools,
+						tools: portlet_tools,
 						items: new WeeklyReportGraphPortlet(),
 						height: 500
 					}
@@ -139,29 +139,29 @@ SampleApp.Welcome.Panel = function(config) {
 					items: [{
 						id: 'p_public_scratch_portlet_heldoc',
 						title: 'Public Scratch Pad',
-						tools: tools,
+						tools: portlet_tools,
 						items: sp_portlet,
 					}, {
 						id: 'p_search_portlet_heldoc',
 						title: 'Quick Search',
-						tools: tools,
+						tools: portlet_tools,
 						items: new SearchByTypePortlet(),
 					}, {
 						id: 'p_dmdl_portlet_heldoc',
 						frame:true,         
 						title: 'Daily MDL',
-						tools: tools,
+						tools: portlet_tools,
 						items: dmdl_portlet
 					}, {
 						id: 'p_weekly_contribution_portlet_heldoc',
 						title: 'Weekly Contribution',
 						items: new WeeklyContributionGraphPortlet(),
-						tools: tools,
+						tools: portlet_tools,
 						height: 400
 					}, {
 						id: 'p_weekly_report_portlet_heldoc',
 						title: 'Weekly Report',
-						tools: tools,
+						tools: portlet_tools,
 						items: new WeeklyReportPortlet(),
 					}
 				]}

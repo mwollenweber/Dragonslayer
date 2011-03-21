@@ -53,6 +53,13 @@ SampleApp.CreateCase.Open = function() {
     });
 }
 
+var action_tools = [{
+	id:'help',
+	handler: function(e, target, panel){
+		SampleApp.HelperDocs.Open(panel.id, hidden_user_field.getValue(), hidden_role_field.getValue());
+	}
+}];
+
 /**
  * Call from grid
  */
@@ -86,11 +93,14 @@ SampleApp.CreateCase.OpenFromGrid = function(date,event,victim,attacker,notes) {
 SampleApp.CreateCase.Panel = function() {
     createCaseFormPanel = new SampleApp.CreateCase.FormPanel();
     createCaseDragonInterface = new SampleApp.CreateCase.DragonInterface();
+    
     SampleApp.CreateCase.Panel.superclass.constructor.call(this,{
         frame:true,
         layout: "fit",
         title:'Create Case',
+        id: 't_create_case_tab_heldoc',
         closable: true,
+        tools: action_tools,
         items: [{
 			xtype:'portal',
 			margins: '0 0 10 10',

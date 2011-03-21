@@ -73,14 +73,14 @@ Ext.extend(SampleApp.Main.WestPanel, Ext.Panel, {
  */
 SampleApp.Main.SouthPanel = function(){
 	
-    copy_tbar = new Ext.Toolbar.TextItem({
+	copy_tbar = new Ext.Toolbar.TextItem({
         text: 'Copyright Matthew Wollenweber, Brandon Dixon 2011',
     })
 	
     SampleApp.Main.SouthPanel.superclass.constructor.call(this, {
         id:'south-panel',
         region: 'south',
-        bbar: [copy_tbar]
+        tbar: [copy_tbar]
     });
 };
 

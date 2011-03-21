@@ -16,6 +16,13 @@ SampleApp.GenerateReport.Open = function() {
     GenerateReportPanel.show(this);
 }
 
+var report_tools = [{
+	id:'help',
+	handler: function(e, target, panel){
+		SampleApp.HelperDocs.Open(panel.id, hidden_user_field.getValue(), hidden_role_field.getValue());
+	}
+}];
+
 /**
  * 
  */
@@ -104,7 +111,9 @@ SampleApp.GenerateReport.Panel = function() {
         width:500,
         closeAction:'hide',
         modal: true,
-        items: report_form
+        items: report_form,
+        tools: report_tools,
+        id: 't_generate_report_helper_doc',
     });
 };
 

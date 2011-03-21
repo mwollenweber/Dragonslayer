@@ -56,6 +56,13 @@ SampleApp.SearchByIp.Open = function() {
     });
 }
 
+var action_tools = [{
+	id:'help',
+	handler: function(e, target, panel){
+		SampleApp.HelperDocs.Open(panel.id, hidden_user_field.getValue(), hidden_role_field.getValue());
+	}
+}];
+
 SampleApp.SearchByIp.PivotSearch = function(type, value) {
     var searchByIpPanel = new SampleApp.SearchByIp.Panel();
     SampleApp.Main.CenterPanelInstance.add(searchByIpPanel);
@@ -78,6 +85,8 @@ SampleApp.SearchByIp.Panel = function() {
     SampleApp.SearchByIp.Panel.superclass.constructor.call(this,{
         frame:true,
         title: "Search by Type",
+        id: 't_search_tab_heldoc',
+        tools: action_tools,
         closable:true,
         titleCollapse:true,
         layout: 'border',
