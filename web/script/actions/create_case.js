@@ -292,7 +292,7 @@ SampleApp.CreateCase.FormPanel = function(){
     
 	//values pulled from the global form
 	snatch_user();
-	get_ip_info(victim);
+//	get_ip_info(victim);
 	
 //    new Ext.KeyMap(Ext.get(document), {
 //    	key:'S',
