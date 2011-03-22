@@ -387,7 +387,7 @@ SampleApp.CreateCase.FormPanel = function(){
 				        	var obj = Ext.util.JSON.decode(request.responseText);
 				        	if(obj.success == "true") {
 				        		Ext.Msg.alert('Success','Case created (dsid: ' + obj.id + ' )');
-				        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
+//				        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
 				        		createCaseFormPanel.getForm().reset();
 				        		date_field.setValue('');
 				        		event_field.setValue('');
