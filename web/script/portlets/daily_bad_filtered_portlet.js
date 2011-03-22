@@ -28,7 +28,6 @@ function DailyBadFilteredPortlet(){
 		    	store.loadData(obj);
 		   },
 		});
-		return false;
 	}
 	
 	this.reload_store();

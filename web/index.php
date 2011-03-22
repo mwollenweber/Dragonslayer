@@ -36,6 +36,8 @@ $_SESSION['vip'] = $_GET['vip'];
 		
 		<script src="extjs/adapter/Ext.ux.Exporter/Exporter-all.js" type="text/javascript"></script>
 		
+		<script src="extjs/adapter/Ext.ux.RowEditor/RowEditor.js" type="text/javascript"></script>
+		
 		<!-- Portlets -->
 		<script src="script/portlets/daily_bad_filtered_portlet.js" type="text/javascript"></script>
 		<script src="script/portlets/daily_mdl_portlet.js" type="text/javascript"></script>
