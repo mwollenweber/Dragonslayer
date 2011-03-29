@@ -64,9 +64,9 @@ if($start_date != null && $end_date != null) {
 	$vip_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' AND report_category > 200 AND (report_category != 205) AND (report_category != 25)";
 	$mail_compromise_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' AND report_category = 200 OR report_category = 25";
 } else {
-	$total_cases_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE()  AND report_category > 1";
-	$student_case_query = "SELECT COUNT(*) as count from gwcases WHERE DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category = 20";
-	$normal_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN  SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category >= 100";
+	$total_cases_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE()  AND report_category > 1 AND (report_category != 205) AND (report_category != 25)";
+	$student_case_query = "SELECT COUNT(*) as count from gwcases WHERE DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category = 20 AND (report_category != 205) AND (report_category != 25)";
+	$normal_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN  SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category >= 100 AND (report_category != 205) AND (report_category != 25)";
 	$vip_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN  SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category > 200";
 	$mail_compromise_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) AND report_category = 200 OR report_category = 25";
 }
