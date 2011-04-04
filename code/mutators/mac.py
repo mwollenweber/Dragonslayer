@@ -5,9 +5,9 @@ mjw@cyberwart.com
 Copyright Matthew Wollenweber 2009
 '''
 
-from .. import Dragonslayer
+from .. import dragonslayer
 
-class mac_updater(Dragonslayer):
+class mac_updater(dragonslayer):
     def __init__(self):
         print "starting mac updator"
 

@@ -5,9 +5,9 @@ mjw@cyberwart.com
 Copyright Matthew Wollenweber 2009
 '''
 
-from .. import Dragonslayer
+from .. import dragonslayer
 
-class shadow_ingestor(Dragonslayer):
+class shadow_ingestor(dragonslayer):
     def __init__(self):
         print "init self"
         

@@ -5,9 +5,9 @@ mjw@cyberwart.com
 Copyright Matthew Wollenweber 2009
 '''
 
-from .. import Dragonslayer
+from .. import dragonslayer
 
-class patchy_updater(Dragonslayer):
+class patchy_updater(dragonslayer):
     def update_patchy(self, data_blob=None):
         self.patchy_success = False
         file_status = 0 #closed

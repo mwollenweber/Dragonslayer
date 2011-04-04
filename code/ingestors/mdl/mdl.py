@@ -4,10 +4,9 @@ Matthew Wollenweber
 mjw@cyberwart.com
 Copyright Matthew Wollenweber 2009
 '''
+import dragonslayer
 
-from .. import Dragonslayer
-
-class mdl_ingestor(Dragonslayer):
+class ingestor(dragonslayer):
     def __init__(self):
         print "init self"
         

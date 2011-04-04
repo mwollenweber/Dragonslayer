@@ -7,52 +7,61 @@ Copyright Matthew Wollenweber 2009
 
 import time, thread, MySQLdb, sys, urllib2, os, traceback, csv, ConfigParser
 
-class db_config:
-    host = "localhost"
-    user = "dragonslayer"
-    passwd = "slayer"
-    db = "dragonslayer"
-
-    load_mdl_sql = ""
-    lock_file = "/tmp/dragonslayer_lock"
-    log_file = "/home/dragonslayer/log/ds.log"
-    
 
 class dragonslayer:
+    def __init__(self, path = "./"):
+        print "initializing dragonslayer"
+        self.dragon_base = path
+        
+        #launch the processing of most configs
+        self.load_config()
+        
+        #connect to the db
+        self.db_con = self.db_connect()
+        self.dragon_log_processed = []
+        self.patchy_success = None
+        self.lock_file = "/tmp/dragonslayer_lock"
+        self.log_file = "/home/dragonslayer/log/ds.log"
+        
+    def load_db_config(self):
+        config = ConfigParser.RawConfigParser()
+        config.read( self.dragon_base + "/conf/db.cfg")
+        self.host = config.get("slayerdb", "hostname")
+        self.user = config.get("slayerdb", "user")
+        self.passwd = config.get("slayerdb", "password")
+        self.db = config.get("slayerdb", "database")
+
+        self.load_mdl_sql = ""
+
     def db_connect(self):
-        mydbinfo = db_config()
-        self.conn = MySQLdb.connect(host = mydbinfo.host,
-                               user = mydbinfo.user,
-                               passwd = mydbinfo.passwd,
-                               db = mydbinfo.db)
+        self.load_db_config()
+        self.conn = MySQLdb.connect(host = self.host,
+                               user = self.user,
+                               passwd = self.passwd,
+                               db = self.db)
 
         self.cursor = self.conn.cursor()
         print "db connection succeeded"
  
-        
- 
-    def __init__(self):
-        print "initializing dragonslayer"
-        self.load_config()
-        self.db_con = self.db_connect()
-        self.dragon_log_processed = []
-        self.patchy_success = None
 
-
-    def load_config(self, path="./conf/"):
-        print "loading config from %s" % path
+    def load_config(self):
+        config_path = self.dragon_base + "/conf/"
+        print "loading config from %s" % config_path
         self.config = ConfigParser.ConfigParser()
-        self.process_ds_config(path)
+        self.process_ds_config(config_path)
         
         
         
-    def process_ds_config(self, path):
+    def process_ds_config(self, config_path):
         print "loading ds config"
         config  = self.config
-        config.readfp(open(path + "ds.cfg"))
+        config.readfp(open(config_path + "ds.cfg"))
+        
         self.ids = config.get("dscnf", "ids")
         self.logfile = config.get('dscnf','logfile')
         self.db = config.get('dscnf','db')
+                
+        #ready the ingestors (dragon/snort/etc)
         self.ingestors = []
         self.ingestors.append(config.get('dscnf','ingestors'))
         
@@ -60,15 +69,20 @@ class dragonslayer:
         #load other relevant configs
         if self.ids == "dragon":
             print "need to load dragon config"
-            self.process_dragon_config(path)
+            self.process_dragon_config(config_path)
         
         if self.db == "mysql":
-            print "need to load mysql config"
+            print "passing on loading mysql config. Will load on connect"
+        else:
+            print "unknown database. We currently only support mysql - biatches."
             
+
+    def load_ingestors(self):
         for i in self.ingestors:            
             if i == "mdl":
                 print "loading mdl ingestor"
                 from ingestors import mdl
+                mdl_ingestor = mdl.ingestor()
                 
             if i == "ses":
                 print "loading ses"
@@ -89,8 +103,7 @@ class dragonslayer:
         self.dragon_log_exclude = config.get("dragon", "log_exclude")
         self.dragon_path = config.get("dragon", "data_path")
         
-    def update_critical(self):
-        critical_filename = "/home/dragonslayer/code/critical.nips"
+    def update_critical(self, critical_filename = ""):
         f = open(critical_filename, "r")
         q1 = '''INSERT INTO critical (ip) VALUES (%s)'''
         for line in f:
@@ -102,3 +115,21 @@ class dragonslayer:
         self.conn.close()
         #delete the lock file
         #should write to a log
+
+    def update_ingestors(self, ingestors = None):
+        print "updating ingestors"
+        
+    def run_ingestors(self, ingestors = None):
+        print "running ingestors"
+        
+    def update_bad(self):
+        print "update daily bad"
+        
+    def update_filter(self):
+        print "updating filter"
+        
+def main(filename):
+    print "fuxing main bs"
+    
+if __name__ == "__main__":
+    main(sys.argv[1])

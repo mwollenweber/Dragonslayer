@@ -5,9 +5,9 @@ mjw@cyberwart.com
 Copyright Matthew Wollenweber 2009
 '''
 
-from .. import Dragonslayer
+from .. import dragonslayer
 
-class daily_bad(Dragonslayer):
+class daily_bad(dragonslayer):
     def __init__(self):
         print "initializing daily bad correlator"
         
