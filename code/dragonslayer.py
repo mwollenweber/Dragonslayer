@@ -62,9 +62,10 @@ class dragonslayer:
         self.db = config.get('dscnf','db')
                 
         #ready the ingestors (dragon/snort/etc)
-        self.ingestors = []
-        self.ingestors.append(config.get('dscnf','ingestors'))
+        self.ingestor_names = []
+        self.ingestor_names.append(config.get('dscnf','ingestors'))
         
+        self.ingestors = []
         
         #load other relevant configs
         if self.ids == "dragon":
@@ -78,21 +79,31 @@ class dragonslayer:
             
 
     def load_ingestors(self):
-        for i in self.ingestors:            
+        for i in self.ingestor_names:            
             if i == "mdl":
                 print "loading mdl ingestor"
                 from ingestors import mdl
                 mdl_ingestor = mdl.ingestor()
+                self.ingestors.append(mdl_ingestor)
+                #mdl_ingestor = __import("mdl")
                 
-            if i == "ses":
+            elif i == "ses":
                 print "loading ses"
+                from ingestors import ses
+                ses_ingestor = ses.ingestor()
+                self.ingestors.append(ses_ingestor)
             
-            if i == "malwareurl":
+            elif i == "malwareurl":
                 print "loading malware url"
+                from ingestors import malwareurl
+                malwareurl_ingestor = malwareurl.ingestor()
+                self.ingestors.append(malwareurl_ingestor)
             
-            if i == "shadow":
+            elif i == "shadowserver":
                 print "loading shadow ingestor"
-                
+                from ingestors import shadowserver
+                shadowserver_ingestor = shadowserver.ingestor()
+                self.ingestors.append(shadowserver_ingestor)
     
     def process_dragon_config(self, path):
         print "loadign dragon config"
@@ -130,6 +141,11 @@ class dragonslayer:
         
 def main(filename):
     print "fuxing main bs"
+    ds = dragonslayer.dragonslayer()
+    ds.update_ingestors()
+    ds.run_ingestors()
+    ds.update_bad()
+    
     
 if __name__ == "__main__":
     main(sys.argv[1])
