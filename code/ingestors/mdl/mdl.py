@@ -4,20 +4,24 @@ Matthew Wollenweber
 mjw@cyberwart.com
 Copyright Matthew Wollenweber 2009
 '''
-import dragonslayer
+import time, thread, MySQLdb, sys, urllib2, os, traceback, csv
 
-class ingestor(dragonslayer):
-    def __init__(self):
+class ingestor():
+    def __init__(self, conn = None):
         print "init self"
+        self.conn = conn
+        self.cursor = self.conn.cursor()
         
-    def update_mdl(self):
+        
+    def update(self):
+        print "inside mdl ingestor... running update"
         mdlurl = "http://www.malwaredomainlist.com/export.csv"
         f = urllib2.urlopen(mdlurl)
                     
-        self.load_mdl(f)
+        self.load(f)
         
-    def load_mdl(self, data):
-        print "loading mdl"
+    def load(self, data):
+        print "inside mdl ingestor... runing load"
         for line in data:
             line = line.lower()
             line = line.replace("\"", "")
@@ -34,6 +38,9 @@ class ingestor(dragonslayer):
                                        VALUES(%s, %s, INET_ATON(%s), %s, %s, %s)
                                        ON DUPLICATE KEY UPDATE tdstamp=tdstamp''', vals[0:6]) 
             except:
+                print "error inserting into mdl"
+                exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
+                traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
                 continue
             
     def generate_hourly_mdl(self):

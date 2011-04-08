@@ -7,11 +7,12 @@ Copyright Matthew Wollenweber 2009
 
 import time, thread, MySQLdb, sys, urllib2, os, traceback, csv, ConfigParser
 
-
 class dragonslayer:
     def __init__(self, path = "./"):
         print "initializing dragonslayer"
         self.dragon_base = path
+        self.ingestor_names = []
+        self.ingestors = []
         
         #launch the processing of most configs
         self.load_config()
@@ -22,6 +23,7 @@ class dragonslayer:
         self.patchy_success = None
         self.lock_file = "/tmp/dragonslayer_lock"
         self.log_file = "/home/dragonslayer/log/ds.log"
+        
         
     def load_db_config(self):
         config = ConfigParser.RawConfigParser()
@@ -51,7 +53,6 @@ class dragonslayer:
         self.process_ds_config(config_path)
         
         
-        
     def process_ds_config(self, config_path):
         print "loading ds config"
         config  = self.config
@@ -62,11 +63,8 @@ class dragonslayer:
         self.db = config.get('dscnf','db')
                 
         #ready the ingestors (dragon/snort/etc)
-        self.ingestor_names = []
         self.ingestor_names.append(config.get('dscnf','ingestors'))
-        
-        self.ingestors = []
-        
+
         #load other relevant configs
         if self.ids == "dragon":
             print "need to load dragon config"
@@ -78,33 +76,44 @@ class dragonslayer:
             print "unknown database. We currently only support mysql - biatches."
             
 
+    def update_ingestors(self, ingestors = None):
+        print "updating ingestors"
+        for i in self.ingestors:
+            i.update()
+        
+        
     def load_ingestors(self):
         for i in self.ingestor_names:            
             if i == "mdl":
                 print "loading mdl ingestor"
-                from ingestors import mdl
-                mdl_ingestor = mdl.ingestor()
+                from ingestors.mdl import mdl
+                mdl_ingestor = mdl.ingestor(conn = self.conn)
                 self.ingestors.append(mdl_ingestor)
                 #mdl_ingestor = __import("mdl")
                 
+                
             elif i == "ses":
                 print "loading ses"
-                from ingestors import ses
-                ses_ingestor = ses.ingestor()
+                from ingestors.ses import ses
+                ses_ingestor = ses.ingestor(conn = self.conn)
                 self.ingestors.append(ses_ingestor)
             
             elif i == "malwareurl":
                 print "loading malware url"
-                from ingestors import malwareurl
-                malwareurl_ingestor = malwareurl.ingestor()
+                from ingestors.malwareurl import malwareurl
+                malwareurl_ingestor = malwareurl.ingestor(conn = self.conn)
                 self.ingestors.append(malwareurl_ingestor)
             
             elif i == "shadowserver":
                 print "loading shadow ingestor"
-                from ingestors import shadowserver
+                from ingestors.shadowserver import shadowserver
                 shadowserver_ingestor = shadowserver.ingestor()
                 self.ingestors.append(shadowserver_ingestor)
     
+        for i in self.ingestors:
+            i.update()
+            i.load
+            
     def process_dragon_config(self, path):
         print "loadign dragon config"
         config = self.config
@@ -127,25 +136,19 @@ class dragonslayer:
         #delete the lock file
         #should write to a log
 
-    def update_ingestors(self, ingestors = None):
-        print "updating ingestors"
-        
-    def run_ingestors(self, ingestors = None):
-        print "running ingestors"
-        
     def update_bad(self):
         print "update daily bad"
         
     def update_filter(self):
         print "updating filter"
         
-def main(filename):
+def main():
     print "fuxing main bs"
-    ds = dragonslayer.dragonslayer()
+    ds = dragonslayer()
     ds.update_ingestors()
-    ds.run_ingestors()
+    ds.load_ingestors()
     ds.update_bad()
     
     
 if __name__ == "__main__":
-    main(sys.argv[1])
+    main()

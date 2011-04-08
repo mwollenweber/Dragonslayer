@@ -1,3 +1,7 @@
+#!/usr/bin/python
+__author__ = "Matthew Wollenweber"
+__email__ = "mjw@cyberwart.com"
+
 try: 
     import os, sys, csv, zipfile, getopt, traceback, socket, urlparse, time
     from threading import Thread
@@ -17,16 +21,22 @@ class db_config:
     db = "dragonslayer"
     
 
-class norman_ingestor:
-    def __init__(self, filename = None):
+class ingestor:
+    def __init__(self, filename = None, conn = None):
         print "initializing norman ingestor\n I love me some malware"
         
         self.data = []
         self.hosts2ips = []
-        self.mysql_conn = None
-        self.mysql_cursor = None
+        self.mysql_conn = conn
+        if conn != None:
+            self.mysql_cursor = conn.cursor()
+        else:
+            self.mysql_cursor = None
+            
         self.filename = filename
         
+    def load(self):
+        print "Code to load the norman ingestor should go here"
         
     def update(self, filename = None):
         if filename != None or self.filename != None:
@@ -155,7 +165,7 @@ class norman_ingestor:
             exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
             traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
             
-    def push2mysql(self):
+    def update(self):
         print "pushing data to mysql"
         insert_query = "INSERT INTO norman_url (tdstamp, url, md5, originator_content, originator_signature, download_md5, download_content, download_signature, download_sandbox) VALUES (NOW(), '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')"
         if self.mysql_conn == None:
@@ -169,7 +179,7 @@ class norman_ingestor:
         for d in self.data:
             self.mysql_cursor.execute(insert_query % (d["url"], d["md5"], d["originator_content"], d["originator_signature"], d["download_md5"], d["download_content"], d["download_signature"], d["download_sandbox"])) 
     
-    def push_hosts2ips_mysql(self):
+    def update_hosts2ips(self):
         print "blegh"
         if self.mysql_conn == None:
             self.mysql_conn = self.mysql_connect()
@@ -218,10 +228,10 @@ class hostlookup_thread(Thread, norman_url):
             
 def main():
     my_norman = norman_ingestor(sys.argv[1])
-    #my_norman.push2mysql()
+    #my_norman.update()
     #my_norman.print_data()
     my_norman.url2ips()
-    my_norman.push_hosts2ips_mysql()
+    my_norman.update_hosts2ip()
      
             
 if __name__ == "__main__":

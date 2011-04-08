@@ -5,12 +5,15 @@ mjw@cyberwart.com
 Copyright Matthew Wollenweber 2009
 '''
 
-from .. import Dragonslayer
-
-class dragon(Dragonslayer):
-    def __init__(self):
+class dragon():
+    def __init__(self, conn = None):
         print "initialized ids.dragon"
-    
+        self.conn = conn
+        if self.conn != None:
+            self.cursor = conn.cursor()
+        else:
+            self.cursor = None
+            
 
     def load_dragon_events(self):
         load_list = []
@@ -37,6 +40,9 @@ class dragon(Dragonslayer):
             tmp_dragon.tdstamp, tmp_dragon.event, INET_ATON(tmp_dragon.srcip), INET_ATON(tmp_dragon.dstip), tmp_dragon.sport, tmp_dragon.dport
             from tmp_dragon
             ON DUPLICATE KEY UPDATE dragon.tdstamp=tmp_dragon.tdstamp''')
+            
+            #fix me
+            #delete dynamic events
 
             print "loaded: " + x
 
