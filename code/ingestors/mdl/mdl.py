@@ -14,14 +14,12 @@ class ingestor():
         
         
     def update(self):
-        print "inside mdl ingestor... running update"
         mdlurl = "http://www.malwaredomainlist.com/export.csv"
         f = urllib2.urlopen(mdlurl)
                     
         self.load(f)
         
     def load(self, data):
-        print "inside mdl ingestor... runing load"
         for line in data:
             line = line.lower()
             line = line.replace("\"", "")
