@@ -17,7 +17,20 @@ class ingestor():
         print "init self"
         self.urls = []
         self.conn = conn
-        self.curs = self.conn.cursor()
+        if conn != None:
+            self.curs = self.conn.cursor()
+        
+    def update(self):
+        self.urls.append('http://www.shadowserver.org/ccdns.php')
+        self.urls.append('http://www.shadowserver.org/ccfull.php')
+        self.urls.append('http://www.shadowserver.org/ccip.php')
+
+        for u in self.urls:
+            f = urllib2.urlopen(u)
+            self.update_shadow_feeds(f, u)
+            
+    def load(self):
+        print "the shadow ingestor loads on update...continuing"
         
     def update_shadow_ccdns(self, data):
         print "cannot yet load shadow_ccdns"
@@ -46,15 +59,6 @@ class ingestor():
                 #traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
                 continue
     
-
-    def update(self):
-        self.urls.append('http://www.shadowserver.org/ccdns.php')
-        self.urls.append('http://www.shadowserver.org/ccfull.php')
-        self.urls.append('http://www.shadowserver.org/ccip.php')
-
-        for u in self.urls:
-            f = urllib2.urlopen(u)
-            self.update_shadow_feeds(f, u)
             
     def update_shadow_ccip(self, data):
         print "cannot load shadow_ccip"

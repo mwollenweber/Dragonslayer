@@ -19,6 +19,9 @@ class dragonslayer:
         
         #connect to the db
         self.db_con = self.db_connect()
+
+        self.import_ingestors()
+    
         self.dragon_log_processed = []
         self.patchy_success = None
         self.lock_file = "/tmp/dragonslayer_lock"
@@ -63,8 +66,12 @@ class dragonslayer:
         self.db = config.get('dscnf','db')
                 
         #ready the ingestors (dragon/snort/etc)
-        self.ingestor_names.append(config.get('dscnf','ingestors'))
-
+        ingestors = config.get('dscnf','ingestors').split(",")
+        for ing in ingestors:
+            ing = ing.strip()
+            print "mmm ingestors = %s" % ing
+            self.ingestor_names.append(ing)
+            
         #load other relevant configs
         if self.ids == "dragon":
             print "need to load dragon config"
@@ -76,21 +83,14 @@ class dragonslayer:
             print "unknown database. We currently only support mysql - biatches."
             
 
-    def update_ingestors(self, ingestors = None):
-        print "updating ingestors"
-        for i in self.ingestors:
-            i.update()
-        
-        
-    def load_ingestors(self):
-        for i in self.ingestor_names:            
+    def import_ingestors(self):
+        for i in self.ingestor_names:
             if i == "mdl":
                 print "loading mdl ingestor"
                 from ingestors.mdl import mdl
                 mdl_ingestor = mdl.ingestor(conn = self.conn)
                 self.ingestors.append(mdl_ingestor)
                 #mdl_ingestor = __import("mdl")
-                
                 
             elif i == "ses":
                 print "loading ses"
@@ -107,11 +107,17 @@ class dragonslayer:
             elif i == "shadowserver":
                 print "loading shadow ingestor"
                 from ingestors.shadowserver import shadowserver
-                shadowserver_ingestor = shadowserver.ingestor()
+                shadowserver_ingestor = shadowserver.ingestor(conn = self.conn)
                 self.ingestors.append(shadowserver_ingestor)
-    
+
+    def update_ingestors(self, ingestors = None):
+        print "updating ingestors"
         for i in self.ingestors:
             i.update()
+                
+    def load_ingestors(self):
+        print "loading ingestors"
+        for i in self.ingestors:
             i.load
             
     def process_dragon_config(self, path):
