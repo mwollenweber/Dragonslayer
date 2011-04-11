@@ -12,13 +12,16 @@ except ImportError:
     print "error"
     import simplejson as json
     
-class ingestor():
+class correlator():
     def __init__(self, conn = None):
         print "init self"
         self.urls = []
         self.conn = conn
         if conn != None:
             self.cursor = self.conn.cursor()
+            
+    def correlate(self):
+        print "I should do some correlation"
         
     def update(self):
         #self.urls.append('http://www.shadowserver.org/ccdns.php')

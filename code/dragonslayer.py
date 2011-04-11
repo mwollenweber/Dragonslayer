@@ -11,8 +11,8 @@ class dragonslayer:
     def __init__(self, path = "./"):
         print "initializing dragonslayer"
         self.dragon_base = path
-        self.ingestor_names = []
-        self.ingestors = []
+        self.correlator_names = []
+        self.correlators = []
         
         #launch the processing of most configs
         self.load_config()
@@ -20,7 +20,7 @@ class dragonslayer:
         #connect to the db
         self.db_con = self.db_connect()
 
-        self.import_ingestors()
+        self.import_correlators()
     
         self.dragon_log_processed = []
         self.patchy_success = None
@@ -71,12 +71,12 @@ class dragonslayer:
         self.ses_update_interval = config.get("sescnf", "update")
         ses_conf = {"username":self.ses_username , "password": self.ses_password, "update": self.ses_update_interval}
                 
-        #ready the ingestors (mdl, ses, etc)
-        ingestors = config.get('dscnf','ingestors').split(",")
-        for ing in ingestors:
+        #ready the correlators (mdl, ses, etc)
+        correlators = config.get('dscnf','correlators').split(",")
+        for ing in correlators:
             ing = ing.strip()
-            print "mmm ingestors = %s" % ing
-            self.ingestor_names.append(ing)
+            print "mmm correlators = %s" % ing
+            self.correlator_names.append(ing)
             
         #load other relevant configs
         if self.ids == "dragon":
@@ -89,41 +89,41 @@ class dragonslayer:
             print "unknown database. We currently only support mysql - biatches."
             
 
-    def import_ingestors(self):
-        for i in self.ingestor_names:
+    def import_correlators(self):
+        for i in self.correlator_names:
             if i == "mdl":
-                print "loading mdl ingestor"
-                from ingestors.mdl import mdl
-                mdl_ingestor = mdl.ingestor(conn = self.conn)
-                self.ingestors.append(mdl_ingestor)
-                #mdl_ingestor = __import("mdl")
+                print "loading mdl correlator"
+                from correlators.mdl import mdl
+                mdl_correlator = mdl.correlator(conn = self.conn)
+                self.correlators.append(mdl_correlator)
+                #mdl_correlator = __import("mdl")
                 
             elif i == "ses":
                 print "loading ses"
-                from ingestors.ses import ses
-                ses_ingestor = ses.ingestor(conn = self.conn)
-                self.ingestors.append(ses_ingestor)
+                from correlators.ses import ses
+                ses_correlator = ses.correlator(conn = self.conn)
+                self.correlators.append(ses_correlator)
             
             elif i == "malwareurl":
                 print "loading malware url"
-                from ingestors.malwareurl import malwareurl
-                malwareurl_ingestor = malwareurl.ingestor(conn = self.conn)
-                self.ingestors.append(malwareurl_ingestor)
+                from correlators.malwareurl import malwareurl
+                malwareurl_correlator = malwareurl.correlator(conn = self.conn)
+                self.correlators.append(malwareurl_correlator)
             
             elif i == "shadowserver":
-                print "loading shadow ingestor"
-                from ingestors.shadowserver import shadowserver
-                shadowserver_ingestor = shadowserver.ingestor(conn = self.conn)
-                self.ingestors.append(shadowserver_ingestor)
+                print "loading shadow correlator"
+                from correlators.shadowserver import shadowserver
+                shadowserver_correlator = shadowserver.correlator(conn = self.conn)
+                self.correlators.append(shadowserver_correlator)
 
-    def update_ingestors(self, ingestors = None):
-        print "updating ingestors"
-        for i in self.ingestors:
+    def update_correlators(self, correlators = None):
+        print "updating correlators"
+        for i in self.correlators:
             i.update()
                 
-    def load_ingestors(self):
-        print "loading ingestors"
-        for i in self.ingestors:
+    def load_correlators(self):
+        print "loading correlators"
+        for i in self.correlators:
             i.load
             
     def process_dragon_config(self, path):
@@ -157,8 +157,8 @@ class dragonslayer:
 def main():
     print "fuxing main bs"
     ds = dragonslayer()
-    ds.update_ingestors()
-    ds.load_ingestors()
+    ds.update_correlators()
+    ds.load_correlators()
     ds.update_bad()
     
     

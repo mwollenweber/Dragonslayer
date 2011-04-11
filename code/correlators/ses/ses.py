@@ -12,14 +12,17 @@ except ImportError:
     print "error"
     import simplejson as json
     
-class ingestor():
+class correlator():
     def __init__(self, conn = None, config = None):
-        print "in ses stub ingestor init"
+        print "in ses stub correlator init"
         if conf != None:
             self.username = config["username"]
             self.password = config["password"]
             self.up_interval = config["update"]
             
+        
+    def correlate(self):
+        print "i should do some correlation"
         
     def update(self):
         print "ses update stub"

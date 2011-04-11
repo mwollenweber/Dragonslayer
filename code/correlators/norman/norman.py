@@ -23,9 +23,9 @@ class db_config:
     db = "dragonslayer"
     
 
-class ingestor:
+class correlator():
     def __init__(self, filename = None, conn = None):
-        print "initializing norman ingestor\n I love me some malware"
+        print "initializing norman correlator\n I love me some malware"
         
         self.data = []
         self.hosts2ips = []
@@ -38,7 +38,7 @@ class ingestor:
         self.filename = filename
         
     def load(self):
-        print "Code to load the norman ingestor should go here"
+        print "Code to load the norman correlator should go here"
         
     def update(self, filename = None):
         if filename != None or self.filename != None:
