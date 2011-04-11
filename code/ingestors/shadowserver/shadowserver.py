@@ -3,7 +3,7 @@ __author__ = "Matthew Wollenweber"
 __email__ = "mjw@cyberwart.com"
 
 try: 
-    import os, sys, csv, zipfile, getopt, traceback, socket, urlparse, time
+    import os, sys, csv, zipfile, getopt, traceback, socket, urlparse, time, urllib2
     from threading import Thread
     import StringIO
     import json
@@ -18,12 +18,14 @@ class ingestor():
         self.urls = []
         self.conn = conn
         if conn != None:
-            self.curs = self.conn.cursor()
+            self.cursor = self.conn.cursor()
         
     def update(self):
-        self.urls.append('http://www.shadowserver.org/ccdns.php')
-        self.urls.append('http://www.shadowserver.org/ccfull.php')
-        self.urls.append('http://www.shadowserver.org/ccip.php')
+        #self.urls.append('http://www.shadowserver.org/ccdns.php')
+        #self.urls.append('http://www.shadowserver.org/ccfull.php')
+        #temp for ss ip restriction
+        self.urls.append('http://www.cyberwart.com/ccfull.php')
+        #self.urls.append('http://www.shadowserver.org/ccip.php')
 
         for u in self.urls:
             f = urllib2.urlopen(u)
@@ -55,21 +57,24 @@ class ingestor():
                                        ON DUPLICATE KEY UPDATE tdstamp=tdstamp''', vals) 
             except:
                 print "error loading shadow_ccfull record line = %s" % line_num
-                #exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
-                #traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
+                exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
+                traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
                 continue
     
             
     def update_shadow_ccip(self, data):
         print "cannot load shadow_ccip"
+        
+    def update_shadow_ccdns(self, data):
+        print "cannot load shadow_ccdns"
 
     def update_shadow_feeds(self, data, url):
         print "loading shadow"
         print "url = %s\n" % url
         
         if url.find('dns') > 1:
-            self.load_shadow_ccdns(data)
+            self.update_shadow_ccdns(data)
         elif url.find('ccfull') > 1:
-            self.load_shadow_ccfull(data)
+            self.update_shadow_ccfull(data)
         elif url.find('ccip') > 1:
-            self.load_shadow_ccip(data)
+            self.update_shadow_ccip(data)
