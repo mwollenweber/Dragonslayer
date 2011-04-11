@@ -5,8 +5,10 @@ mjw@cyberwart.com
 Copyright Matthew Wollenweber 2009
 '''
 
+import time, thread, MySQLdb, sys, urllib2, os, traceback, csv
+
 class dragon():
-    def __init__(self, conn = None):
+    def __init__(self, conn = None, config = None):
         print "initialized ids.dragon"
         self.conn = conn
         if self.conn != None:
@@ -15,7 +17,7 @@ class dragon():
             self.cursor = None
             
 
-    def load_dragon_events(self):
+    def load_events(self):
         load_list = []
         file_list = os.listdir(self.dragon_path)
         #load_file = self.dragon_path + self.load_file
@@ -46,7 +48,5 @@ class dragon():
 
             print "loaded: " + x
 
-    def get_daily_dragon_mdl(self):
-        self.cursor.execute('''select dragon.tdstamp, dragon.event, INET_NTOA(dragon.srcip), INET_NTOA(dragon.dstip)  from dragon, mdl where srcip = ip and ((dstip < 2717712641 or dstip > 2717726975) and (dstip < 2158256129 or dstip > 2158257919)) and event not like "GWU-TEST-Random" and event not like "mjw-gwu-http-pdf-alpha" and  DATE(dragon.tdstamp) between CURDATE() and CURDATE()+1 GROUP BY dragon.dstip ORDER BY dragon.dstip, dragon.srcip, dragon.event''')
-        
+
    

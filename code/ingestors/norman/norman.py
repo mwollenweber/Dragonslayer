@@ -2,6 +2,7 @@
 #dragonslayer.ingestors.norman
 __author__ = "Matthew Wollenweber"
 __email__ = "mjw@cyberwart.com"
+__copyright__ = "Matthew Wollenweber 2010"
 
 try: 
     import os, sys, csv, zipfile, getopt, traceback, socket, urlparse, time

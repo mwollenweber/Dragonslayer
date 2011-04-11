@@ -64,8 +64,14 @@ class dragonslayer:
         self.ids = config.get("dscnf", "ids")
         self.logfile = config.get('dscnf','logfile')
         self.db = config.get('dscnf','db')
+        
+        config.readfp(open(config_path) + "ses.cfg"))
+        self.ses_username = config.get("sescnf", "username")
+        self.ses_password = config.get("sescnf", "password")
+        self.ses_update_interval = config.get("sescnf", "update")
+        ses_conf = {"username":self.ses_username , "password": self.ses_password, "update": self.ses_update_interval}
                 
-        #ready the ingestors (dragon/snort/etc)
+        #ready the ingestors (mdl, ses, etc)
         ingestors = config.get('dscnf','ingestors').split(",")
         for ing in ingestors:
             ing = ing.strip()

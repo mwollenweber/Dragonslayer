@@ -635,6 +635,32 @@ CREATE TABLE `sesdomains` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `seshttpcnc`
+--
+
+DROP TABLE IF EXISTS `seshttpcnc`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `seshttpcnc` (
+  `sha1` varchar(40) DEFAULT NULL,
+  `md5` varchar(32) DEFAULT NULL,
+  `tdstamp` datetime DEFAULT NULL,
+  `ip` int(10) unsigned NOT NULL,
+  `type` varchar(32) DEFAULT NULL,
+  `asn` int(10) unsigned DEFAULT NULL,
+  `cc` varchar(8) DEFAULT NULL,
+  `url` varchar(256) NOT NULL DEFAULT '',
+  PRIMARY KEY (`ip`,`url`),
+  KEY `ip` (`ip`),
+  KEY `url` (`url`),
+  KEY `tdstamp` (`tdstamp`),
+  KEY `asn` (`asn`),
+  KEY `sha1` (`sha1`),
+  KEY `md5` (`md5`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `sesmalware`
 --
 
@@ -967,4 +993,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-04-11  1:29:37
+-- Dump completed on 2011-04-11  1:35:15

@@ -13,12 +13,12 @@ except ImportError:
     import simplejson as json
     
 class ingestor():
-    def __init__(self, conn = None, conf = None):
+    def __init__(self, conn = None, config = None):
         print "in ses stub ingestor init"
         if conf != None:
-            self.username = conf["username"]
-            self.password = conf["password"]
-            self.up_interval = conf["update"]
+            self.username = config["username"]
+            self.password = config["password"]
+            self.up_interval = config["update"]
             
         
     def update(self):

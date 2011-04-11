@@ -4,10 +4,11 @@ Matthew Wollenweber
 mjw@cyberwart.com
 Copyright Matthew Wollenweber 2009
 '''
+
 import time, thread, MySQLdb, sys, urllib2, os, traceback, csv
 
 class ingestor():
-    def __init__(self, conn = None):
+    def __init__(self, conn = None, config = None):
         print "init self"
         self.conn = conn
         self.cursor = self.conn.cursor()
