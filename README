@@ -1,4 +1,6 @@
-Dragonslayer 2 (Beta)
-This is now Beta DS2 v0.0.1
+Dragonslayer 3 (Dev) - Amy Want
 
-Here we go again
+== Major Changes ==
+* Backend rewrite
+* Django backend and administration
+* New injestors
