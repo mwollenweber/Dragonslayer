@@ -16,7 +16,8 @@ Ext.onReady(function(){
             success:function(request){ 
             	obj = Ext.util.JSON.decode(request.responseText); 
          		if(obj.success == true) {
-         			Ext.Msg.alert('Status', 'Login Success!');
+        			var redirect = '/'; 
+                    window.location = redirect;
          		} else {
          			Ext.Msg.alert('Status', 'Login Failed!');
              		}

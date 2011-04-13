@@ -8,11 +8,17 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    # pages
     (r'^admin/', include(admin.site.urls)),
     (r'^login/$', direct_to_template, {'template': 'auth/login.html'}),
     (r'^register/$', direct_to_template, {'template': 'register/register.html'}),
-    (r'^validate/$', 'auth.views.ext_login'),
-    (r'^process_register/$', 'register.views.ext_register'),
+    (r'^$', direct_to_template, {'template': 'core/index.html'}),
+
+    # processing
+    (r'^validate/$', 'apps.auth.views.ext_login'),
+    (r'^process_register/$', 'apps.register.views.ext_register'),
+    (r'^check_auth/$', 'apps.core.views.check_auth'),
+
     # serve static files
     (r'^media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': os.path.join(settings.BASE_DIR, 'media'),

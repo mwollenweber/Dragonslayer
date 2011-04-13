@@ -1,0 +1,174 @@
+<html>
+	<head>
+		<title>Dragon Slayer 3 (amy want)</title>
+		
+		<!-- CSS -->
+		<link href="/media/js/ext/resources/css/ext-all.css" media="screen" rel="stylesheet" type="text/css" />
+		<link href="/media/css/shared.css" media="screen" rel="stylesheet" type="text/css" />
+		
+		<!-- ExtJS Requirements -->
+		<script src="/media/js/ext/adapter/ext/ext-base.js" type="text/javascript"></script>
+		<script src="/media/js/ext/ext-all-debug.js" type="text/javascript"></script>
+		<script src="/media/js/ext/examples/ux/ux-all-debug.js" type="text/javascript"></script>
+		
+		<!-- Plugins -->
+		<script src="/media/js/ext/adapter/highcharts/ext-highcharts-adapter.js" type="text/javascript"></script>
+		<script src="/media/js/highcharts/highcharts.src.js" type="text/javascript"></script>
+		<script src="/media/js/ext/adapter/highcharts/Ext.ux.HighChartPanel.js" type="text/javascript"></script>
+		<script src="/media/js/ext/adapter/highcharts/Ext.ux.HighChart.js" type="text/javascript"></script>
+		
+		<script src="/media/js/ext/adapter/portal/Ext.ux.Portal.js" type="text/javascript"></script>
+		<script src="/media/js/ext/adapter/portal/Ext.ux.PortalColumn.js" type="text/javascript"></script>
+		<script src="/media/js/ext/adapter/portal/Ext.ux.Portlet.js" type="text/javascript"></script>
+		
+		<script src="/media/js/ext/adapter/form/FileUploadField.js" type="text/javascript"></script>
+		
+		<script src="/media/js/ext/adapter/Ext.ux.Printer/Printer.js" type="text/javascript" ></script>
+		<script src="/media/js/ext/adapter/Ext.ux.Printer/renderers/Base.js" type="text/javascript"></script>
+		<script src="/media/js/ext/adapter/Ext.ux.Printer/renderers/Base.js" type="text/javascript"></script>
+		
+		<script src="/media/js/ext/adapter/Ext.ux.Exporter/Exporter-all.js" type="text/javascript"></script>
+		
+		<script src="/media/js/ext/adapter/Ext.ux.RowEditor/RowEditor.js" type="text/javascript"></script>
+		
+   	    <script src="/media/js/override.js" type="text/javascript"></script>
+		
+		<!-- Portlets -->
+		<script src="/media/js/portlets/daily_bad_filtered_portlet.js" type="text/javascript"></script>
+		<script src="/media/js/portlets/daily_mdl_portlet.js" type="text/javascript"></script>
+		<script src="/media/js/portlets/weekly_report_graph_portlet.js" type="text/javascript"></script>
+		<script src="/media/js/portlets/weekly_report_portlet.js" type="text/javascript"></script>
+		<script src="/media/js/portlets/weekly_contribution_graph_portlet.js" type="text/javascript"></script>
+		<script src="/media/js/portlets/past_30_day_events_graph_portlet.js" type="text/javascript"></script>
+		<script src="/media/js/portlets/recent_vip_cases_portlet.js" type="text/javascript"></script>
+		<script src="/media/js/portlets/unentered_cases_portlet.js" type="text/javascript"></script>
+		<script src="/media/js/portlets/search_by_type_portlet.js" type="text/javascript"></script>
+		<script src="/media/js/portlets/scratch_pad_portlet.js" type="text/javascript"></script>
+		
+		<!-- Pages and Views -->
+		<script src="/media/js/page_views/viewport.js" type="text/javascript"></script>
+		<!-- <script src="script/logger.js" type="text/javascript"></script> -->
+		<script src="/media/js/page_views/welcome.js" type="text/javascript"></script>
+		<script src="script/chart.js" type="text/javascript"></script>
+		<script src="/media/js/queries/queries.js" type="text/javascript"></script>
+		<script src="/media/js/actions/actions.js" type="text/javascript"></script>
+		<script src="/media/js/reports/reports.js" type="text/javascript"></script>
+		<script src="/media/js/launchers/launchers.js" type="text/javascript"></script>
+		<script src="/media/js/accounts/accounts.js" type="text/javascript"></script>
+		<script src="/media/js/helper_docs/helper_docs.js" type="text/javascript"></script>		
+		
+		<!-- Queries -->
+		<script src="/media/js/queries/daily_critical.js" type="text/javascript"></script>
+		<script src="/media/js/queries/daily_mdl.js" type="text/javascript"></script>
+		<script src="/media/js/queries/daily_bad_filtered.js" type="text/javascript"></script>
+		<script src="/media/js/queries/weekly_cases.js" type="text/javascript"></script>
+		
+		<!-- Actions -->
+		<script src="/media/js/actions/create_case.js" type="text/javascript"></script>
+		<script src="/media/js/actions/edit_case.js" type="text/javascript"></script>
+		<script src="/media/js/actions/search_by_type.js" type="text/javascript"></script>
+		
+		<!-- Reports -->
+		<script src="/media/js/reports/student_report.js" type="text/javascript"></script>
+		<script src="/media/js/reports/weekly_report.js" type="text/javascript"></script>
+		<script src="/media/js/reports/generate_report.js" type="text/javascript"></script>
+		<script src="/media/js/reports/display_report.js" type="text/javascript"></script>
+		
+		<!-- Launchers -->
+		<script src="/media/js/launchers/dragon_interface.js" type="text/javascript"></script>
+		<script src="/media/js/launchers/patchy_upload.js" type="text/javascript"></script>
+		<script src="/media/js/launchers/forensic_case.js" type="text/javascript"></script>
+		<script src="/media/js/launchers/malware_uploader.js" type="text/javascript"></script>
+		
+		<!-- Accounts -->
+			  
+	</head>
+	
+	<body>
+	
+		<form id="super_form" method="post" action="/file/">
+	    	<input type="hidden" id="download" name="download" />
+		</form>
+	
+		<!--  Queries -->
+		<ul id="dragonslayer-queries-content" class="x-hidden">
+		    <li>
+		        <img src="/media/img/information.png" class="icon-show-active"/>
+		        <a class="dragonslayer-queries-dailycritical dragonslayer-nav-link" href="#" name="openDailyCritical">Daily Critical</a>
+		    </li>
+		    <li>
+		        <img src="/media/img/information.png" class="icon-show-active"/>
+		        <a class="dragonslayer-queries-dailymdl dragonslayer-nav-link" href="#" name="openDailyMdl">Daily MDL</a>
+		    </li>	
+		    <li>
+		        <img src="/media/img/information.png" class="icon-show-active"/>
+		        <a class="dragonslayer-queries-dailybadfiltered dragonslayer-nav-link" href="#" name="openDailyBadFiltered">Daily Bad Filtered</a>
+		    </li>	
+		    <li>
+		        <img src="/media/img/information.png" class="icon-show-active"/>
+		        <a class="dragonslayer-queries-weeklycases dragonslayer-nav-link" href="#" name="openWeeklyCases">Weekly Cases</a>
+		    </li>			    		  	    
+		</ul>
+		
+		<!-- Actions -->
+		<ul id="dragonslayer-actions-content" class="x-hidden">
+		    <li>
+		        <img src="/media/img/add.png" class="icon-show-active"/>
+		        <a class="dragonslayer-actions-createcase dragonslayer-nav-link" href="#" name="openCreateCase">Create Case</a>
+		    </li>
+		    <li>
+		        <img src="/media/img/cog_edit.png" class="icon-show-active"/>
+		        <a class="dragonslayer-actions-editcase dragonslayer-nav-link" href="#" name="openEditCase">Edit Case</a>
+		    </li>
+		    <li>
+		        <img src="/media/img/View.png" class="icon-show-active"/>
+		        <a class="dragonslayer-actions-searchbytype dragonslayer-nav-link" href="#" name="openSearchByType">Search</a>
+		    </li>		    
+		</ul>
+		
+		<!-- Reports -->
+		<ul id="dragonslayer-reports-content" class="x-hidden">
+		    <li>
+		        <img src="/media/img/list_users.gif" class="icon-show-active"/>
+		        <a class="dragonslayer-reports-studentreport dragonslayer-nav-link" href="#" name="openStudentReport">Student Report</a>
+		    </li>
+		    <li>
+		        <img src="/media/img/date.gif" class="icon-show-active"/>
+		        <a class="dragonslayer-reports-weeklyreport dragonslayer-nav-link" href="#" name="openWeeklyReport">Weekly Report</a>
+		    </li>
+    		<li>
+		        <img src="/media/img/Diagram.png" class="icon-show-active"/>
+		        <a class="dragonslayer-reports-generatereport dragonslayer-nav-link" href="#" name="openGenerateReport">Generate Report</a>
+		    </li>
+		</ul>
+		
+		<!-- Launchers -->
+		<ul id="dragonslayer-launchers-content" class="x-hidden">
+		    <li>
+		        <img src="/media/img/Radiation.png" class="icon-show-active"/>
+		        <a class="dragonslayer-launchers-dragoninterface dragonslayer-nav-link" href="#" name="openDragonInterface">Dragon Interface</a>
+		    </li>
+   		    <li>
+		        <img src="/media/img/Upload.png" class="icon-show-active"/>
+		        <a class="dragonslayer-launchers-patchyupload dragonslayer-nav-link" href="#" name="openPatchyUpload">Patchy Upload</a>
+		    </li>
+    		<li>
+		        <img src="/media/img/Computer 16x16.png" class="icon-show-active"/>
+		        <a class="dragonslayer-launchers-forensiccase dragonslayer-nav-link" href="#" name="openForensicCase">Forensic Case</a>
+		    </li>
+     		<li>
+		        <img src="/media/img/Eye.png" class="icon-show-active"/>
+		        <a class="dragonslayer-launchers-malwareuploader dragonslayer-nav-link" href="#" name="openMalwareUploader">Malware Uploader</a>
+		    </li>
+		</ul>
+		
+		<!-- Accounts -->
+		<ul id="dragonslayer-accounts-content" class="x-hidden">
+		    <li>
+		        <img src="/media/img/icon_user.gif" class="icon-show-active"/>
+		        <a class="dragonslayer-accounts-myaccount dragonslayer-nav-link" href="#" name="openMyAccount">My Account</a>
+		    </li>
+		</ul>
+	
+	</body>
+</html>
