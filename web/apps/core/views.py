@@ -13,7 +13,7 @@ def check_auth(request):
 
 	if request.user.is_authenticated():
 		json['success'] = True
-		json['text'] = "User is authenticated as %s" % (request.user)		
+		json['user'] = str(request.user)
 	else:
                 json['success'] = False
 

@@ -8,7 +8,7 @@ function ScratchPadPortlet(){
 	})
 	
 	var scratch_data = Ext.Ajax.request({
-	    url: 'controls/actions/scratch_pad.php',
+	    url: '/scratch/',
 	    method:'POST',
 	    waitTitle:'Connecting', 
 	    waitMsg:'Getting data...',
@@ -22,7 +22,7 @@ function ScratchPadPortlet(){
 	
 	this.reload_store = function() {
 		Ext.Ajax.request({
-		    url: 'controls/actions/scratch_pad.php',
+		    url: '/scratch/',
 		    method:'POST', 
 		    waitTitle:'Connecting', 
 		    waitMsg:'Getting data...',
@@ -50,14 +50,19 @@ function ScratchPadPortlet(){
             	var scratch_value = '';
                 scratch_value = scratch_value_field.getValue();
             	Ext.Ajax.request({
-        		    url: 'controls/actions/scratch_pad.php',
+        		    url: '/scratch/',
         		    method:'POST', 
         		    waitTitle:'Connecting', 
         		    waitMsg:'Sending data...',
         		    params: { type: 'push', scratch: scratch_value },
         		    
         		    success:function(request){ 
-        		    	Ext.Msg.alert('Success', 'Scratch saved');
+        		    	var obj = Ext.util.JSON.decode(request.responseText); 
+        		    	if (obj.success == true) {
+            		    	Ext.Msg.alert('Success', 'Scratch saved');
+        		    	} else {
+            		    	Ext.Msg.alert('Error', obj.error);
+        		    	}
         		   },
         		});
             },

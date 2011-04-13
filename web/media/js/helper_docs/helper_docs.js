@@ -42,7 +42,7 @@ SampleApp.HelperDocs.Panel = function(id,user,role) {
 	})
 	
 	var helper_data = Ext.Ajax.request({
-	    url: 'controls/helpers/documentation.php',
+	    url: '/documenter/',
 	    method:'POST',
 	    waitTitle:'Connecting', 
 	    waitMsg:'Getting data...',
@@ -74,7 +74,7 @@ SampleApp.HelperDocs.Panel = function(id,user,role) {
         ],
 	});
     
-    if(role == "administrator") {
+//    if(role == "administrator") {
         generic_helper_form.addButton({
             text: 'Save',   
             formBind: true,	 
@@ -82,21 +82,26 @@ SampleApp.HelperDocs.Panel = function(id,user,role) {
             	var helper_data_content = '';
             	helper_data_content = generic_help_field.getValue();
             	Ext.Ajax.request({
-        		    url: 'controls/helpers/documentation.php',
+        		    url: '/documenter/',
         		    method:'POST', 
         		    waitTitle:'Connecting', 
         		    waitMsg:'Sending data...',
         		    params: { type: 'push', name: name, helper_type: type, user: user, content: helper_data_content },
         		    
         		    success:function(request){ 
-        		    	Ext.Msg.alert('Success', 'Helper document saved');
+        		    	var obj = Ext.util.JSON.decode(request.responseText); 
+        		    	if (obj.success == true) {
+            		    	Ext.Msg.alert('Success', 'Helper document saved');	
+        		    	} else {
+        		    		Ext.Msg.alert('Error', obj.error);
+        		    	}
         		   },
         		});
             }
     	})
-    } else {
-    	generic_help_field.readOnly = true;
-    }
+//    } else {
+//    	generic_help_field.readOnly = true;
+//    }
 	
     SampleApp.HelperDocs.Panel.superclass.constructor.call(this,{
     	layout:'fit',

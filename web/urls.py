@@ -18,6 +18,8 @@ urlpatterns = patterns('',
     (r'^validate/$', 'apps.auth.views.ext_login'),
     (r'^process_register/$', 'apps.register.views.ext_register'),
     (r'^check_auth/$', 'apps.core.views.check_auth'),
+    (r'^documenter/$', 'apps.helper_docs.views.documenter'),
+    (r'^scratch/$', 'apps.portlets.scratch_pad.views.scratch'),
 
     # serve static files
     (r'^media/(?P<path>.*)$', 'django.views.static.serve',

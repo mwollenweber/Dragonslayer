@@ -100,8 +100,8 @@ function timeout_delay(init) {
 SampleApp.Welcome.Panel = function(config) {
     Ext.apply(this,config);
     
-    timeout_trigger(1);
-    timeout_delay(1);
+//    timeout_trigger(1);
+//    timeout_delay(1);
 	
     SampleApp.Welcome.Panel.superclass.constructor.call(this,{
         frame:true,
