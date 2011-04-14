@@ -126,6 +126,7 @@ INSTALLED_APPS = (
     'apps.core',
     'apps.helper_docs',
     'apps.portlets.scratch_pad',
+    'apps.queries'
 )
 
 # A sample logging configuration. The only tangible logging

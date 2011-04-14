@@ -21,6 +21,11 @@ urlpatterns = patterns('',
     (r'^documenter/$', 'apps.helper_docs.views.documenter'),
     (r'^scratch/$', 'apps.portlets.scratch_pad.views.scratch'),
 
+    # queries
+    (r'^daily_bad_filtered/$', 'apps.queries.views.daily_bad_filtered'),
+    (r'^daily_mdl/$', 'apps.queries.views.daily_mdl'),
+    (r'^weekly_cases/$', 'apps.queries.views.weekly_cases'),
+
     # serve static files
     (r'^media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': os.path.join(settings.BASE_DIR, 'media'),

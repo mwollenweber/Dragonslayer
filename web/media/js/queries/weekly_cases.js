@@ -74,26 +74,27 @@ Ext.extend(SampleApp.WeeklyCases.Panel, Ext.Panel, {
  */
 SampleApp.WeeklyCases.GridPanel = function() {
 	
-	// create the data store
-    store = new Ext.data.ArrayStore({
-        fields: [
-           {name: 'dsid'},	
-           {name: 'date'},
-           {name: 'analyst'},
-           {name: 'event'},
-           {name: 'victim'},
-           {name: 'attacker'},
-           {name: 'dns'},
-           {name: 'network'},
-           {name: 'user_verification'},
-           {name: 'confirmation'},
-           {name: 'report_category'}
-        ]
-    });
+	var cm = new Ext.grid.ColumnModel([ 
+ 		{ header : 'DSID', width : 100, sortable : true, dataIndex: 'dsid' },
+  		{ header : 'Date', width : 120, sortable : true, dataIndex: 'date' },
+  		{ header : 'Analyst', width : 120, sortable : true, dataIndex: 'analyst' },
+  		{ header : 'Event', width : 120, sortable : true, dataIndex: 'event' },
+  		{ header : 'Victim', width : 170, sortable : true, dataIndex: 'victim', editor: new Ext.form.TextField({ allowBlank: false }) },
+  		{ header : 'Attacker', width : 170, sortable : true, dataIndex: 'attacker', editor: new Ext.form.TextField({ allowBlank: false }) },
+  		{ header : 'DNS', width : 170, sortable : true, dataIndex: 'dns' },
+  		{ header : 'Network', width : 170, sortable : true, dataIndex: 'network' },
+  		{ header : 'Verification', width : 170, sortable : true, dataIndex: 'verification',renderer: renderTip},
+  		{ header : 'Confirmation', width : 170, sortable : true, dataIndex: 'notes',id:'search_by_ip_confirmation',renderer: renderTip},
+  		{ header : 'Category', width : 170, sortable : true, dataIndex: 'category'}
+  	]);
+    
+   	var store = new Ext.data.JsonStore({
+   	    fields: ['dsid','date','analyst','event','victim','attacker','dns','network','verification','notes','category']
+   	});
 	
 	reload_store = function() {
    		Ext.Ajax.request({
-	   	    url: 'controls/queries/weekly_cases.php',
+	   	    url: '/weekly_cases/',
 	   	    method:'GET', 
 	   	    waitTitle:'Connecting', 
 	   	    waitMsg:'Getting data...',
@@ -102,7 +103,7 @@ SampleApp.WeeklyCases.GridPanel = function() {
 	   	    	var obj = Ext.util.JSON.decode(request.responseText); 
 		    	time = new Date();
 		    	Ext.getCmp('weekly_cases_page_bar').setText("Last updated: " + time);  
-	   	    	store.loadData(obj);
+	   	    	store.loadData(obj.data);
 	   	   },
 	   	});
 	}
@@ -114,80 +115,13 @@ SampleApp.WeeklyCases.GridPanel = function() {
     }
     
     SampleApp.WeeklyCases.GridPanel.superclass.constructor.call(this,{
+        region: 'center',
         store: store,
-        columns: [
-	          {
-	              header   : 'DSID', 
-	              sortable : true, 
-	              dataIndex: 'dsid'
-	          },
-            {
-                header   : 'Date', 
-                sortable : true, 
-                width    : 120, 
-                dataIndex: 'date'
-            },
-            {
-                header   : 'Analyst', 
-                sortable : true, 
-                dataIndex: 'analyst'
-            },
-            {
-                header   : 'Event', 
-                width    : 120, 
-                sortable : true, 
-                dataIndex: 'event'
-            },
-            {
-                header   : 'Victim', 
-                width    : 120, 
-                sortable : true, 
-                dataIndex: 'victim'
-            },
-            {
-                header   : 'Attacker', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'attacker'
-            },
-            {
-                header   : 'DNS', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'dns'
-            },
-            {
-                header   : 'Network', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'network'
-            },
-            {
-                header   : 'Verification', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'user_verification',
-                renderer: renderTip
-            },
-            {
-            	id		 : 'search_by_ip_confirmation',
-                header   : 'Confirmation', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'confirmation',
-                renderer: renderTip
-            },
-            {
-                header   : 'Category', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'report_category'
-            }
-        ],
+        cm: cm,
         stripeRows: true,
         autoExpandColumn: 'search_by_ip_confirmation',
-        region: 'center',
 		autoSizeColumns: true,
+		clicksToEdit: 1,
 		listeners: {
 			cellclick: function(grid, rowIndex, colIndex) {
 				if (colIndex == 0) {

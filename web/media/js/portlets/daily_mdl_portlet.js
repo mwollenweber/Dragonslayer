@@ -16,7 +16,7 @@ function DailyMdlPortlet(){
 	
 	this.reload_store = function() {
 		Ext.Ajax.request({
-		    url: 'controls/queries/daily_mdl.php',
+		    url: '/daily_mdl/',
 		    method:'GET', 
 		    waitTitle:'Connecting', 
 		    waitMsg:'Getting data...',
@@ -24,12 +24,8 @@ function DailyMdlPortlet(){
 		    success:function(request){ 
 		    	var obj = Ext.util.JSON.decode(request.responseText); 
 		    	time = new Date();
-//		    	hours = time.getHours();
-//		    	minutes = time.getMinutes();
-//		    	seconds = time.getSeconds();
-//		    	last_updated = hours + ":" + minutes + ":" + seconds;
 		    	Ext.getCmp('dmdl_bottom_bar').setText("Last updated: " + time);  
-		    	store.loadData(obj);
+		    	store.loadData(obj.data);
 		   },
 		});
 	}
