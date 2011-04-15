@@ -87,6 +87,7 @@ SampleApp.WeeklyCases.GridPanel = function() {
   		{ header : 'Confirmation', width : 170, sortable : true, dataIndex: 'notes',id:'search_by_ip_confirmation',renderer: renderTip},
   		{ header : 'Category', width : 170, sortable : true, dataIndex: 'category'}
   	]);
+	cm.defaultSortable = true; 
     
    	var store = new Ext.data.JsonStore({
    	    fields: ['dsid','date','analyst','event','victim','attacker','dns','network','verification','notes','category']

@@ -37,3 +37,9 @@ class GwCases(models.Model):
     dhcp_info = models.TextField(blank=True)
     netid = models.CharField(max_length=96, blank=True)
 
+# previously patchy
+class Patchy(models.Model):
+    ip = models.IntegerField()
+    dev_name = models.CharField(max_length=192)
+    tdstamp = models.CharField(max_length=96, blank=True)
+

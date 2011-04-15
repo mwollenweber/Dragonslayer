@@ -14,7 +14,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'dragonslayer',                      # Or path to database file if using sqlite3.
         'USER': 'root',                      # Not used with sqlite3.
         'PASSWORD': 'password',                  # Not used with sqlite3.
@@ -125,8 +125,10 @@ INSTALLED_APPS = (
     'apps.register',
     'apps.core',
     'apps.helper_docs',
-    'apps.portlets.scratch_pad',
-    'apps.queries'
+    'apps.scratch_pad',
+    'apps.queries',
+    'apps.reports',
+    'apps.actions',
 )
 
 # A sample logging configuration. The only tangible logging

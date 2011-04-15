@@ -1,33 +1,24 @@
 function RecentVipCases(){
 
 	var cm = new Ext.grid.ColumnModel([ 
-		{ id :'recent_vip_case_dsid', header : 'DSID', width : 160, sortable : true, dataIndex: 'dsid' },
-		{ header : 'Date', width : 160, sortable : true, dataIndex: 'date' },
-		{ header : 'Analyst', width : 160, sortable : true, dataIndex: 'analyst' },
-		{ header : 'Event', width : 200, sortable : true, dataIndex: 'event' },
-		{ header : 'Victim', width : 120, sortable : true, dataIndex: 'victim', editor: new Ext.form.TextField({ allowBlank: false }) },
-		{ header : 'Attacker', width : 120, sortable : true, dataIndex: 'attacker', editor: new Ext.form.TextField({ allowBlank: false }) },
-		{ header : 'Network', width : 170, sortable : true, dataIndex: 'network'},
-		{ header : 'Notes', width : 170, sortable : true, dataIndex: 'notes'}
+		{ id :'recent_vip_case_dsid', header : 'DSID', width : 75, sortable : true, dataIndex: 'dsid' },
+		{ header : 'Date', width : 160, sortable : true, dataIndex: 'date', renderer: renderTip },
+		{ header : 'Analyst', width : 120, sortable : true, dataIndex: 'analyst', renderer: renderTip },
+		{ header : 'Event', width : 200, sortable : true, dataIndex: 'event', renderer: renderTip },
+		{ header : 'Victim', width : 120, sortable : true, dataIndex: 'victim', editor: new Ext.form.TextField({ allowBlank: false }), renderer: renderTip },
+		{ header : 'Attacker', width : 120, sortable : true, dataIndex: 'attacker', editor: new Ext.form.TextField({ allowBlank: false }), renderer: renderTip },
+		{ header : 'Network', width : 170, sortable : true, dataIndex: 'network', renderer: renderTip},
+		{ header : 'Notes', width : 170, sortable : true, dataIndex: 'notes', renderer: renderTip}
 	]);
 	cm.defaultSortable = true; 
-
-	var recent_vip_store = new Ext.data.ArrayStore({
-        fields: [
-           {name: 'dsid'},	
-           {name: 'date'},
-           {name: 'analyst'},
-           {name: 'event'},
-           {name: 'victim'},
-           {name: 'attacker'},
-           {name: 'network'},
-           {name: 'notes'},
-        ]
-    });
+	
+	var recent_vip_store = new Ext.data.JsonStore({
+	    fields: ['dsid','date','analyst','event','victim','attacker','network','notes']
+	});
 	
 	this.reload_store = function() {
 		Ext.Ajax.request({
-		    url: 'controls/queries/recent_vip_cases.php',
+		    url: '/recent_vip_cases/',
 		    method:'GET', 
 		    waitTitle:'Connecting', 
 		    waitMsg:'Getting data...',
@@ -35,12 +26,8 @@ function RecentVipCases(){
 		    success:function(request){ 
 		    	var obj = Ext.util.JSON.decode(request.responseText); 
 		    	time = new Date();
-//		    	hours = time.getHours();
-//		    	minutes = time.getMinutes();
-//		    	seconds = time.getSeconds();
-//		    	last_updated = hours + ":" + minutes + ":" + seconds;
 		    	Ext.getCmp('recent_vip_bottom_bar').setText("Last updated: " + time);  
-		    	recent_vip_store.loadData(obj);
+		    	recent_vip_store.loadData(obj.data);
 		   },
 		});
 	}
@@ -51,6 +38,10 @@ function RecentVipCases(){
         text: '',
         id: 'recent_vip_bottom_bar',
 	})
+	
+    function renderTip(val, meta, rec, rowIdx, colIdx, ds) {
+    	return '<div ext:qtitle="' + "Data" + '" ext:qtip="' + val + '">' + val + '</div>';
+    }
 	
 	RecentVipCases.superclass.constructor.call(this, {
         store: recent_vip_store,

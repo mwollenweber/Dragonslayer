@@ -19,7 +19,7 @@ Ext.onReady(function(){
 
 function process_search(type,value) {
 	Ext.Ajax.request({
-		url: 'controls/actions/search_by_type.php',
+		url: '/search/',
         method:'POST', 
         waitTitle:'Connecting', 
         waitMsg:'Getting data...',
@@ -27,7 +27,7 @@ function process_search(type,value) {
         
         success:function(request){ 
         	var obj = Ext.util.JSON.decode(request.responseText);
-        	if(obj.results == null) {
+        	if(obj.data == null) {
         		Ext.Msg.alert('Results', 'No search results found!');
         		search_result_count = "0";
             	Ext.getCmp('search_results_bar').setText("Search results: " + search_result_count);  
@@ -180,11 +180,11 @@ Ext.extend(SampleApp.SearchByIp.FormPanel, Ext.FormPanel, {
 SampleApp.SearchByIp.GridPanel = function() {
 
 	store = new Ext.data.JsonStore({
-	    fields: ['dsid','date','analyst','event','victim','attacker','dns','network','confirmation'],
+	    fields: ['dsid','date','analyst','event','victim','attacker','dns','network','verification'],
 	    remoteSort:true,
 	    totalProperty:'total',
-	    root:'results',
-	    url: 'controls/actions/search_by_type.php',
+	    root:'data',
+	    url: '/search/',
 	});
     
 	var cm = new Ext.grid.ColumnModel([ 
@@ -196,7 +196,7 @@ SampleApp.SearchByIp.GridPanel = function() {
 		{ header : 'Attacker', width : 170, sortable : true, dataIndex: 'attacker'},
 		{ header : 'DNS', width : 170, sortable : true, dataIndex: 'dns'},
 		{ header : 'Network', width : 170, sortable : true, dataIndex: 'network'},
-		{ header : 'Confirmation', width : 170, sortable : true, dataIndex: 'confirmation', id: 'search_by_ip_confirmation',renderer: renderConfirmation}
+		{ header : 'Confirmation', width : 170, sortable : true, dataIndex: 'verification', id: 'search_by_ip_confirmation',renderer: renderConfirmation}
 	]);
 	cm.defaultSortable = true; 
     

@@ -57,78 +57,37 @@ Ext.extend(SampleApp.WeeklyReport.Panel, Ext.Panel, {
 SampleApp.WeeklyReport.GridPanel = function() {
     
 	// create the data store
-    var store = new Ext.data.ArrayStore({
-        fields: [
-           {name: 'device'},
-           {name: 'ip'},
-           {name: 'department'},
-           {name: 'date'},
-           {name: 'patchlink'},
-           {name: 'last_patchlink_check'},
-           {name: 'notes'}
-        ]
-    });
+	var cm = new Ext.grid.ColumnModel([ 
+      		{ id :'weekly_report_device', header : 'Device Name', width : 160, sortable : true, dataIndex: 'device' },
+      		{ header : 'IP', width : 200, sortable : true, dataIndex: 'ip' },
+      		{ header : 'School/Department', width : 120, sortable : true, dataIndex: 'department'},
+      		{ header : 'Date/Time', width : 120, sortable : true, dataIndex: 'date'},
+      		{ header : 'Patchlink', width : 170, sortable : true, dataIndex: 'patchlink'},
+      		{ header : 'Last Patchlink Check-in', width : 170, sortable : true, dataIndex: 'last_patchlink_check'},
+      		{ header : 'Notes', width : 170, sortable : true, dataIndex: 'notes'}
+      	]);
+   	cm.defaultSortable = true; 
+       
+   	var store = new Ext.data.JsonStore({
+   	    fields: ['device','ip','department','date','patchlink','last_patchlink_check','notes']
+   	});
 	
     var myData = Ext.Ajax.request({
-        url: 'controls/reports/weekly_report.php',
+        url: '/weekly_report/',
         method:'GET', 
         waitTitle:'Connecting', 
         waitMsg:'Getting data...',
         
         success:function(request){ 
         	var obj = Ext.util.JSON.decode(request.responseText); 
-        	store.loadData(obj);
+        	store.loadData(obj.data);
        },
 	});
     
     SampleApp.WeeklyReport.GridPanel.superclass.constructor.call(this,{
         region: 'center',
         store: store,
-        columns: [
-            {
-                id       :'weekly_report_device',
-                header   : 'Device Name', 
-                width    : 160, 
-                sortable : true, 
-                dataIndex: 'device'
-            },
-            {
-                header   : 'IP', 
-                width    : 200, 
-                sortable : true, 
-                dataIndex: 'ip'
-            },
-            {
-                header   : 'School/Department', 
-                width    : 120, 
-                sortable : true, 
-                dataIndex: 'department'
-            },
-            {
-                header   : 'Date/Time', 
-                width    : 120, 
-                sortable : true, 
-                dataIndex: 'date'
-            },
-            {
-                header   : 'Patchlink', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'patchlink'
-            },
-            {
-                header   : 'Last Patchlink Checkin', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'last_patchlink_check'
-            },
-            {
-                header   : 'Notes', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'notes'
-            }
-        ],
+        cm: cm,
         stripeRows: true,
         autoExpandColumn: 'weekly_report_device',
         frame: true,

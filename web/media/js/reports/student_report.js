@@ -35,7 +35,7 @@ SampleApp.StudentReport.Panel = function() {
         titleCollapse:true,
         layout: 'border',
         items : [
-studentReportGridPanel
+                 studentReportGridPanel
         ]
     });
 };
@@ -50,67 +50,38 @@ Ext.extend(SampleApp.StudentReport.Panel, Ext.Panel, {
  * Grid Panel
  */
 SampleApp.StudentReport.GridPanel = function() {
-    
-	// create the data store
-    var store = new Ext.data.ArrayStore({
-        fields: [
-           {name: 'discovered'},
-           {name: 'ip'},
-           {name: 'event'},
-           {name: 'notes'},
-           {name: 'verification'}
-        ]
-    });
+	
+	var cm = new Ext.grid.ColumnModel([ 
+     		{ header : 'Discovered', width : 160, sortable : true, dataIndex: 'discovered' },
+     		{ header : 'IP', width : 200, sortable : true, dataIndex: 'victim' },
+     		{ header : 'Event', width : 120, sortable : true, dataIndex: 'event'},
+     		{ header : 'Notes', width : 120, sortable : true, dataIndex: 'notes'},
+     		{ header : 'Verification', width : 170, sortable : true, dataIndex: 'verification', id: 'student_report_verification'},
+     	]);
+	cm.defaultSortable = true; 
+      
+  	var store = new Ext.data.JsonStore({
+  	    fields: ['discovered','victim','event','notes','verification']
+  	});
 	
     var myData = Ext.Ajax.request({
-        url: 'controls/reports/student_report.php',
+        url: '/student_report/',
         method:'GET', 
         waitTitle:'Connecting', 
         waitMsg:'Getting data...',
         
         success:function(request){ 
         	var obj = Ext.util.JSON.decode(request.responseText); 
-        	store.loadData(obj);
+        	store.loadData(obj.data);
        },
 	});
     
     SampleApp.StudentReport.GridPanel.superclass.constructor.call(this,{
         region: 'center',
         store: store,
-        columns: [
-            {
-                header   : 'Discovered', 
-                width    : 160, 
-                sortable : true, 
-                dataIndex: 'discovered'
-            },
-            {
-                header   : 'IP', 
-                width    : 200, 
-                sortable : true, 
-                dataIndex: 'ip'
-            },
-            {
-                header   : 'Event', 
-                width    : 120, 
-                sortable : true, 
-                dataIndex: 'event'
-            },
-            {
-                header   : 'Notes', 
-                width    : 120, 
-                sortable : true, 
-                dataIndex: 'notes'
-            },
-            {
-            	id		 : 'student_report_verification',
-                header   : 'Verification', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'verification'
-            }
-        ],
+        cm: cm,
         stripeRows: true,
+        frame: true,
         autoExpandColumn: 'student_report_verification'
     });
 }

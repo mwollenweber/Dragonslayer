@@ -19,12 +19,20 @@ urlpatterns = patterns('',
     (r'^process_register/$', 'apps.register.views.ext_register'),
     (r'^check_auth/$', 'apps.core.views.check_auth'),
     (r'^documenter/$', 'apps.helper_docs.views.documenter'),
-    (r'^scratch/$', 'apps.portlets.scratch_pad.views.scratch'),
+    (r'^scratch/$', 'apps.scratch_pad.views.scratch'),
 
     # queries
     (r'^daily_bad_filtered/$', 'apps.queries.views.daily_bad_filtered'),
     (r'^daily_mdl/$', 'apps.queries.views.daily_mdl'),
     (r'^weekly_cases/$', 'apps.queries.views.weekly_cases'),
+    (r'^recent_vip_cases/$', 'apps.queries.views.recent_vip_cases'),
+
+    # reports
+    (r'^weekly_report/$', 'apps.reports.views.weekly_report'),
+    (r'^student_report/$', 'apps.reports.views.student_report'),
+
+    # actions
+    (r'^search/$', 'apps.actions.views.search_by_type'),
 
     # serve static files
     (r'^media/(?P<path>.*)$', 'django.views.static.serve',
