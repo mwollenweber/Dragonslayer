@@ -15,7 +15,7 @@ except ImportError:
 class correlator():
     def __init__(self, conn = None, config = None):
         print "in ses stub correlator init"
-        if conf != None:
+        if config != None:
             self.username = config["username"]
             self.password = config["password"]
             self.up_interval = config["update"]

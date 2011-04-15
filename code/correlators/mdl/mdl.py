@@ -17,29 +17,41 @@ class correlator():
         print "I should do some correlation"
         
     def update(self):
-        mdlurl = "http://www.malwaredomainlist.com/export.csv"
+        #mdlurl = "http://www.malwaredomainlist.com/export.csv"
+        mdlurl = "http://www.malwaredomainlist.com/updatescsv.php"
+        
         f = urllib2.urlopen(mdlurl)
                     
         self.load(f)
         
     def load(self, data):
-        for line in data:
-            line = line.lower()
-            line = line.replace("\"", "")
-            vals = line.split(",", 6)
-            for i in range(0,6):
-                vals[i] = vals[i].strip()
+        reader = csv.reader(data, delimiter=',', quotechar='"')
+        for row in reader:
+            if len(row) < 6:
+                print "ERROR: Invalid MDL Record"
+                continue
+            
+            for i in range(0, len(row)):
+                row[i] = row[i].lower()
+                row[i] = row[i].strip()
+                
+            tdstamp = row[0]
+            url = row[1]  
+            ip = row[2]
+            lookup = row[3]
+            description = row[4]
+            registrant = row[5]
 
             #if date or ip is clearly invalid
-            if len(vals[0]) < 3 or len(vals[2]) < 3:
+            if len(tdstamp) < 3 or len(ip) < 3:
                 continue
 
             try:
                 self.cursor.execute('''INSERT INTO mdl(mdl.tdstamp,mdl.url, mdl.ip, mdl.lookup, mdl.description, mdl.registrant)
                                        VALUES(%s, %s, INET_ATON(%s), %s, %s, %s)
-                                       ON DUPLICATE KEY UPDATE tdstamp=tdstamp''', vals[0:6]) 
+                                       ON DUPLICATE KEY UPDATE tdstamp=tdstamp''', (tdstamp, url, ip, lookup, description, registrant)) 
             except:
-                print "error inserting into mdl"
+                print "ERROR: Invalid MDL Record = %s" % row
                 exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
                 traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
                 continue

@@ -13,6 +13,7 @@ class dragonslayer:
         self.dragon_base = path
         self.correlator_names = []
         self.correlators = []
+        self.ingestors = []
         
         #launch the processing of most configs
         self.load_config()
@@ -35,6 +36,7 @@ class dragonslayer:
         self.user = config.get("slayerdb", "user")
         self.passwd = config.get("slayerdb", "password")
         self.db = config.get("slayerdb", "database")
+        self.default_file = "/etc/my.cnf"
 
         self.load_mdl_sql = ""
 
@@ -43,7 +45,8 @@ class dragonslayer:
         self.conn = MySQLdb.connect(host = self.host,
                                user = self.user,
                                passwd = self.passwd,
-                               db = self.db)
+                               db = self.db,
+                               read_default_file = self.default_file)
 
         self.cursor = self.conn.cursor()
         print "db connection succeeded"
@@ -52,12 +55,18 @@ class dragonslayer:
     def load_config(self):
         config_path = self.dragon_base + "/conf/"
         print "loading config from %s" % config_path
-        self.config = ConfigParser.ConfigParser()
-        self.process_ds_config(config_path)
-        
-        
+        try:
+            self.config = ConfigParser.ConfigParser()
+            self.process_ds_config(config_path)
+        except:
+            print "ERROR: Unable to parse proper configs"
+            exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
+            traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
+            sys.exit(-1)
+            
     def process_ds_config(self, config_path):
         print "loading ds config"
+        
         config  = self.config
         config.readfp(open(config_path + "ds.cfg"))
         
@@ -65,10 +74,10 @@ class dragonslayer:
         self.logfile = config.get('dscnf','logfile')
         self.db = config.get('dscnf','db')
         
-        config.readfp(open(config_path) + "ses.cfg"))
+        config.readfp(open(config_path+ "ses.cfg"))
         self.ses_username = config.get("sescnf", "username")
         self.ses_password = config.get("sescnf", "password")
-        self.ses_update_interval = config.get("sescnf", "update")
+        self.ses_update_interval = config.get("sescnf", "update_interval")
         ses_conf = {"username":self.ses_username , "password": self.ses_password, "update": self.ses_update_interval}
                 
         #ready the correlators (mdl, ses, etc)
@@ -154,9 +163,26 @@ class dragonslayer:
     def update_filter(self):
         print "updating filter"
         
+        
+    def ingest_ids(self):
+        print "loading ids"
+        if self.ids == "dragon":
+            print "loading dragon ingestor"
+            dragon_config = {"dragon_path":self.dragon_path, "dragon_log_prefix":self.dragon_log_prefix, "dragon_log_exclude":self.dragon_log_exclude}
+            from ingestors.ids import dragon
+            dragon_ingestor = dragon.ingestor(conn = self.conn, config = dragon_config)
+            self.ingestors.append(dragon_ingestor)
+            
+        for i in self.ingestors:
+            i.ingest()
+            
+        
 def main():
     print "fuxing main bs"
     ds = dragonslayer()
+
+    ds.ingest_ids()
+    
     ds.update_correlators()
     ds.load_correlators()
     ds.update_bad()

@@ -7,7 +7,7 @@ Copyright Matthew Wollenweber 2009
 
 import time, thread, MySQLdb, sys, urllib2, os, traceback, csv
 
-class dragon():
+class ingestor():
     def __init__(self, conn = None, config = None):
         print "initialized ids.dragon"
         self.conn = conn
@@ -16,12 +16,34 @@ class dragon():
         else:
             self.cursor = None
             
+        if config != None:
+            self.dragon_path = config["dragon_path"] 
+            self.dragon_log_prefix = config["dragon_log_prefix"]
+            self.dragon_log_exclude = config["dragon_log_exclude"]
 
-    def load_events(self):
+            print "using dragonpath = %s" % self.dragon_path
+            
+    def ingest(self):
+        print "inside dragon ingestor...ingesting!"
+        self.load()
+        
+    def load(self):
         load_list = []
         file_list = os.listdir(self.dragon_path)
         #load_file = self.dragon_path + self.load_file
+        
+        load_from_tmp_query  = '''
+                               INSERT INTO dragon
+                                    (dragon.tdstamp, dragon.event, dragon.srcip, dragon.dstip, dragon.sport, dragon.dport)
+                               SELECT
+                                    tmp_dragon.tdstamp, tmp_dragon.event, INET_ATON(tmp_dragon.srcip), INET_ATON(tmp_dragon.dstip), tmp_dragon.sport, tmp_dragon.dport
+                               from tmp_dragon
+                               ON DUPLICATE KEY UPDATE dragon.tdstamp=tmp_dragon.tdstamp'''
 
+        load_row_query       = '''INSERT INTO dragon
+                                       (dragon.tdstamp, dragon.event, dragon.srcip, dragon.dstip, dragon.sport, dragon.dport)
+                                  VALUES
+                                       (DATE(%s), %s, INET_ATON(%s), INET_ATON(%s), %s, %s) ON DUPLICATE KEY UPDATE dragon.tdstamp=tdstamp''' 
         
         for x in file_list:
             if x.find(self.dragon_log_prefix) >= 0:
@@ -31,22 +53,45 @@ class dragon():
                     if abs(time.time() - mod_time) < (60*60*8): 
                         load_list.append(self.dragon_path + x)
 
+                        
         for x in load_list:
-            self.cursor.execute('''DELETE from tmp_dragon''')
+            try:
+                self.cursor.execute('''DELETE from tmp_dragon''')
+                self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
+                self.cursor.execute('''DELETE FROM tmp_dragon where event LIKE "DYNAMIC%" OR event LIKE "HEARTBEAT"''')
+                self.cursor.execute(load_from_tmp_query )
+
+            except MySQLdb.OperationalError:
+                print "load infile was a fail. Moving to manual"
+                values = []
+                
+                reader = csv.reader(open(x, "r"), delimiter='|', quotechar='"')
+                for row in reader:
+                    if len(row)  < 6:
+                        continue
+                    
+                    tdstamp = row[0]
+                    sensor = row[1]
+                    event = row[2]
+                    src = row[3]
+                    dst = row[4]
+                    sport = row[5]
+                    dport = row[6]
+                                        
+                    if event.find("DYNAMIC") >= 0:
+                        continue
+                    
+                    values.append((tdstamp, event, src, dst, sport, dport))
+                    
+                self.cursor.executemany(load_row_query, values)
+                print "Alternate load complete"
+                
+            except:
+                print "ERROR: Unable to load dragonfile - unhandled"
+                exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
+                traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
+                continue
+
             
-            self.cursor.execute('''LOAD DATA LOCAL INFILE %s into TABLE tmp_dragon FIELDS TERMINATED BY "|" LINES TERMINATED BY "\n"''', x)
-            #self.cursor.execute('''DELETE FROM tmp_dragon where event LIKE "DYNAMIC-%" OR event LIKE "HEARTBEAT"''')
-            self.cursor.execute('''INSERT INTO dragon
-            (dragon.tdstamp, dragon.event, dragon.srcip, dragon.dstip, dragon.sport, dragon.dport)
-            SELECT
-            tmp_dragon.tdstamp, tmp_dragon.event, INET_ATON(tmp_dragon.srcip), INET_ATON(tmp_dragon.dstip), tmp_dragon.sport, tmp_dragon.dport
-            from tmp_dragon
-            ON DUPLICATE KEY UPDATE dragon.tdstamp=tmp_dragon.tdstamp''')
-            
-            #fix me
-            #delete dynamic events
-
-            print "loaded: " + x
-
-
+    print "Done with load"
    
