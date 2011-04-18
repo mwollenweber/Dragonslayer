@@ -20,8 +20,7 @@ class correlator():
         #mdlurl = "http://www.malwaredomainlist.com/export.csv"
         mdlurl = "http://www.malwaredomainlist.com/updatescsv.php"
         
-        f = urllib2.urlopen(mdlurl)
-                    
+        f = urllib2.urlopen(mdlurl)                 
         self.load(f)
         
     def load(self, data):

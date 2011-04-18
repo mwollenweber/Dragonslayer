@@ -14,6 +14,7 @@ class dragonslayer:
         self.correlator_names = []
         self.correlators = []
         self.ingestors = []
+        self.ses_config = None
         
         #launch the processing of most configs
         self.load_config()
@@ -78,7 +79,24 @@ class dragonslayer:
         self.ses_username = config.get("sescnf", "username")
         self.ses_password = config.get("sescnf", "password")
         self.ses_update_interval = config.get("sescnf", "update_interval")
-        ses_conf = {"username":self.ses_username , "password": self.ses_password, "update": self.ses_update_interval}
+        self.ses_base_url = config.get("feeds", "base_url")
+        self.ses_feed_pages = []
+        tmp_pages = config.get("feeds", "pages")
+        try:
+            if len(tmp_pages.split(",")) > 1:
+                for p in tmp_pages.split(","):
+                    self.ses_feed_pages.append(p.strip())
+            else:
+                self.ses_feed_pages.append(tmp_pages.strip())
+                
+        except:
+            print "error in ses config"
+            exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
+            traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
+            sys.exit(-1)
+        
+        
+        self.ses_config = {"username":self.ses_username , "password": self.ses_password, "update": self.ses_update_interval, "base_url": self.ses_base_url, "feed_pages":self.ses_feed_pages}
                 
         #ready the correlators (mdl, ses, etc)
         correlators = config.get('dscnf','correlators').split(",")
@@ -110,7 +128,7 @@ class dragonslayer:
             elif i == "ses":
                 print "loading ses"
                 from correlators.ses import ses
-                ses_correlator = ses.correlator(conn = self.conn)
+                ses_correlator = ses.correlator(conn = self.conn, config = self.ses_config)
                 self.correlators.append(ses_correlator)
             
             elif i == "malwareurl":
@@ -181,7 +199,7 @@ def main():
     print "fuxing main bs"
     ds = dragonslayer()
 
-    ds.ingest_ids()
+    #ds.ingest_ids()
     
     ds.update_correlators()
     ds.load_correlators()
