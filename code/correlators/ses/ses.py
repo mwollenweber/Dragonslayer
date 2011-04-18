@@ -85,53 +85,60 @@ class correlator():
     def update_httpcnc(self, data):
         print "updating ses http cnc"
         reader = csv.reader(data, delimiter='|', quotechar='"', skipinitialspace = True)
-        
+
         for row in reader:
-            if len(row) < 8 or row[0][0].find("#") >= 0:
-                continue
-        
-            sha1 = row[0].strip()
-            md5 = row[1].strip()
-            timestamp = row[2].strip()
-            ip = row[3].strip()
-            tpe = row[4].strip()
-            asn = row[5].strip()
-            if asn.isdigit() == False:
-                asn = str(0)
+            try:
+                if len(row) < 8 or row[0][0].find("#") >= 0:
+                    continue
+            
+                sha1 = row[0].strip()
+                md5 = row[1].strip()
+                timestamp = row[2].strip()
+                ip = row[3].strip()
+                tpe = row[4].strip()
+                asn = row[5].strip()
+                if asn.isdigit() == False:
+                    asn = str(0)
+                    
+                cc = row[6].strip()
+                url = row[7].strip()
                 
-            cc = row[6].strip()
-            url = row[7].strip()
-            
-            query = '''INSERT INTO seshttpcnc (sha1, md5, tdstamp, ip, asn, cc, url) VALUES ('%s', '%s', DATE('%s'), INET_ATON('%s'), %s, '%s', '%s') ON DUPLICATE KEY UPDATE tdstamp=tdstamp''' % (sha1, md5, timestamp, ip,  asn, cc, url)
-            #print "query = %s" % query
-            
-            self.cursor.execute(query)
-            
+                query = '''INSERT INTO seshttpcnc (sha1, md5, tdstamp, ip, asn, cc, url) VALUES ('%s', '%s', DATE('%s'), INET_ATON('%s'), %s, '%s', '%s') ON DUPLICATE KEY UPDATE tdstamp=tdstamp''' % (sha1, md5, timestamp, ip,  asn, cc, url)
+                #print "query = %s" % query
+                self.cursor.execute(query)
+                
+            except:
+                exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
+                traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
             
     def update_cncip(self, data):
         print "updating cncip"
         reader = csv.reader(data, delimiter='|', quotechar='"', skipinitialspace = True)
         
         for row in reader:
-            if len(row) < 10 or row[0][0].find("#") >= 0:
-                continue
-            
-            asn = row[0].strip()
-            description = row[1].strip()
-            ip = row[2].strip()
-            protocol = row[3].strip()
-            port = row[4].strip()
-            discovered = row[5].strip()
-            expiration = row[6].strip()
-            category = row[7].strip()
-            hasssl = row[8].strip()
-            services = row[9].strip()
-            comments = row[10].strip()
-            
-            query = '''INSERT INTO sescncip (asn, description, ip, protocol, discovered, expiration, category, comments) VALUES (%s, '%s', INET_ATON('%s'), '%s', DATE('%s'), DATE('%s'), '%s', '%s') ON DUPLICATE KEY UPDATE expiration = expiration''' % (asn, description, ip, protocol, discovered, expiration, category, comments)
-            #print "query = %s" % query
-            
-            self.cursor.execute(query)
+            try:
+                if len(row) < 10 or row[0][0].find("#") >= 0:
+                    continue
+                
+                asn = row[0].strip()
+                description = row[1].strip()
+                ip = row[2].strip()
+                protocol = row[3].strip()
+                port = row[4].strip()
+                discovered = row[5].strip()
+                expiration = row[6].strip()
+                category = row[7].strip()
+                hasssl = row[8].strip()
+                services = row[9].strip()
+                comments = row[10].strip()
+                
+                query = '''INSERT INTO sescncip (asn, description, ip, protocol, discovered, expiration, category, comments) VALUES (%s, '%s', INET_ATON('%s'), '%s', DATE('%s'), DATE('%s'), '%s', '%s') ON DUPLICATE KEY UPDATE expiration = expiration''' % (asn, description, ip, protocol, discovered, expiration, category, comments)
+                #print "query = %s" % query
+                
+                self.cursor.execute(query)
+            except:
+                exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
+                traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
             
         print "DONE inserting sescncip"
             
