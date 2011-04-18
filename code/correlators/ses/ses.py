@@ -33,30 +33,41 @@ class correlator():
         
     def update(self):
         print "updating ses"
-        pass_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
-        pass_mgr.add_password(None, self.base_url, self.username, self.password)
-        handler = urllib2.HTTPBasicAuthHandler(pass_mgr)
-        opener = urllib2.build_opener(handler)
-        urllib2.install_opener(opener)
-        
-        for page in self.feed_pages:     
-            print "i want page...%s" % page
-            if page.find("cncip") >= 0:
-                print "loading ses cncip"
-                url = self.base_url + page
-                f = urllib2.urlopen(url)
-                #data = f.read()
-                self.update_cncip(f)
-                
-            elif page.find("phishing-url") >= 0:
-                print "loading ses phishing url"
-                url = self.base_url + page
-                f = urllib2.urlopen(url)
-                #data = f.read()
-                self.update_phishingurl(f)
-                
-            else:
-                print "unknown ses page"
+        try:
+            pass_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
+            pass_mgr.add_password(None, self.base_url, self.username, self.password)
+            handler = urllib2.HTTPBasicAuthHandler(pass_mgr)
+            opener = urllib2.build_opener(handler)
+            urllib2.install_opener(opener)
+            
+            for page in self.feed_pages:     
+                print "i want page...%s" % page
+                if page.find("cncip") >= 0:
+                    print "loading ses cncip"
+                    url = self.base_url + page
+                    f = urllib2.urlopen(url)
+                    #data = f.read()
+                    self.update_cncip(f)
+                    
+                elif page.find("httpcnc") >= 0:
+                    print "loading ses http cnc"
+                    url = self.base_url + page
+                    f = urllib2.urlopen(url)
+                    self.update_httpcnc(f)
+                    
+                elif page.find("phishing-url") >= 0:
+                    print "loading ses phishing url"
+                    url = self.base_url + page
+                    f = urllib2.urlopen(url)
+                    #data = f.read()
+                    self.update_phishingurl(f)
+                    
+                else:
+                    print "unknown ses page"
+        except:
+            print "error loading ses record"
+            exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
+            traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
                 
      
     def update_sesmalware(self, data):
@@ -71,6 +82,32 @@ class correlator():
     def update_phishingurl(self, data):
         print "updating phishing url"
         
+    def update_httpcnc(self, data):
+        print "updating ses http cnc"
+        reader = csv.reader(data, delimiter='|', quotechar='"', skipinitialspace = True)
+        
+        for row in reader:
+            if len(row) < 8 or row[0][0].find("#") >= 0:
+                continue
+        
+            sha1 = row[0].strip()
+            md5 = row[1].strip()
+            timestamp = row[2].strip()
+            ip = row[3].strip()
+            tpe = row[4].strip()
+            asn = row[5].strip()
+            if asn.isdigit() == False:
+                asn = str(0)
+                
+            cc = row[6].strip()
+            url = row[7].strip()
+            
+            query = '''INSERT INTO seshttpcnc (sha1, md5, tdstamp, ip, asn, cc, url) VALUES ('%s', '%s', DATE('%s'), INET_ATON('%s'), %s, '%s', '%s') ON DUPLICATE KEY UPDATE tdstamp=tdstamp''' % (sha1, md5, timestamp, ip,  asn, cc, url)
+            #print "query = %s" % query
+            
+            self.cursor.execute(query)
+            
+            
     def update_cncip(self, data):
         print "updating cncip"
         reader = csv.reader(data, delimiter='|', quotechar='"', skipinitialspace = True)
@@ -91,7 +128,9 @@ class correlator():
             services = row[9].strip()
             comments = row[10].strip()
             
-            query = '''INSERT INTO sescncip (asn, description, ip, protocol, discovered, expiration, category, comments) VALUES (%s, '%s', INET_ATON('%s'), '%s', DATE('%s'), DATE('%s'), '%s', '%s')''' % (asn, description, ip, protocol, discovered, expiration, category, comments)
+            query = '''INSERT INTO sescncip (asn, description, ip, protocol, discovered, expiration, category, comments) VALUES (%s, '%s', INET_ATON('%s'), '%s', DATE('%s'), DATE('%s'), '%s', '%s') ON DUPLICATE KEY UPDATE expiration = expiration''' % (asn, description, ip, protocol, discovered, expiration, category, comments)
+            #print "query = %s" % query
+            
             self.cursor.execute(query)
             
         print "DONE inserting sescncip"
