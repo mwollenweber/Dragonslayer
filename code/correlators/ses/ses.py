@@ -50,8 +50,8 @@ class correlator():
         where
         dstip = sescncip.ip and ((srcip < 2717712385 or srcip > 2717726975)
         and (srcip < 2158256129 or srcip > 2158257919))
-        and  DATE(dragon.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
-        and  CURDATE() < sescncip.expiration
+        and  DATE(dragon.tdstamp) between SUBDATE(CURDATE(), 7) and ADDDATE(CURDATE(),1)
+        and  dragon.tdstamp <= sescncip.expiration
         GROUP BY dragon.srcip, dragon.dstip, dragon.event
         ORDER BY dragon.srcip, dragon.dstip, dragon.event''')
         
@@ -62,10 +62,14 @@ class correlator():
         where
         srcip = sescncip.ip and ((dstip < 2717712385 or dstip > 2717726975)
         and (dstip < 2158256129 or dstip > 2158257919))
-        and  DATE(dragon.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
-        and  CURDATE() < sescncip.expiration
+        and  DATE(dragon.tdstamp) between SUBDATE(CURDATE(), 7) and ADDDATE(CURDATE(),1)
+        and  dragon.tdstamp <= sescncip.expiration
         GROUP BY dragon.srcip, dragon.dstip, dragon.event
         ORDER BY dragon.srcip, dragon.dstip, dragon.event''')
+        
+        queries.append("DELETE FROM ids_shadow_correlation")
+        queries.append("INSERT INTO ids_shadow_correlation (SELECT * from temp_ses)")
+        queries.append("DELETE FROM temp_ses")
 
         for q in queries:
             #print "QUERY = %s" % q

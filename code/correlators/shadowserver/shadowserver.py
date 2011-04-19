@@ -37,8 +37,7 @@ class correlator():
         where
         dstip = ip and ((srcip < 2717712385 or srcip > 2717726975)
         and (srcip < 2158256129 or srcip > 2158257919))
-        and event not like 'GWU-TEST-Random'
-        and  DATE(dragon_working.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
+        and  DATE(dragon_working.tdstamp) between SUBDATE(CURDATE(), 1) and ADDDATE(CURDATE(),1)
         and  DATE(shadow_ccfull_working.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE())''')
 
         
@@ -49,8 +48,7 @@ class correlator():
         where
         srcip = ip and ((dstip < 2717712385 or dstip > 2717726975)
         and (dstip < 2158256129 or dstip > 2158257919))
-        and event not like 'GWU-TEST-Random'
-        and  DATE(dragon_working.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
+        and  DATE(dragon_working.tdstamp) between SUBDATE(CURDATE(), 1) and ADDDATE(CURDATE(),1)
         and  DATE(shadow_ccfull_working.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE())''')
                         
         for q in queries:

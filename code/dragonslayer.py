@@ -205,9 +205,11 @@ def main():
     #ds.ingest_ids()
     
     #ds.update_correlators()
-    #ds.load_correlators()
-    #ds.update_bad()
+    ds.load_correlators()
     ds.correlate()
+    
+    ds.update_bad()
+    
     
     print "FINIS"
     

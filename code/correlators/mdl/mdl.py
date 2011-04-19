@@ -66,8 +66,7 @@ class correlator():
         where
         dstip = ip and ((srcip < 2717712385 or srcip > 2717726975)
         and (srcip < 2158256129 or srcip > 2158257919))
-        and event not like 'GWU-TEST-Random'
-        and  DATE(dragon.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
+        and  DATE(dragon.tdstamp) between SUBDATE(CURDATE(), 1) and ADDDATE(CURDATE(),1)
         and  DATE(mdl.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE()
         GROUP BY dragon.srcip, dragon.dstip, dragon.event
         ORDER BY dragon.srcip, dragon.dstip, dragon.event''')
@@ -79,16 +78,14 @@ class correlator():
         where
         srcip = ip and ((dstip < 2717712385 or dstip > 2717726975)
         and (dstip < 2158256129 or dstip > 2158257919))
-        and event not like 'GWU-TEST-Random'
-        and  DATE(dragon.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
+        and  DATE(dragon.tdstamp) between SUBDATE(CURDATE(), 1) and ADDDATE(CURDATE(),1)
         and  DATE(mdl.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE()
         GROUP BY dragon.dstip, dragon.srcip, dragon.event
         ORDER BY dragon.dstip, dragon.srcip, dragon.event''')
         
         queries.append("DELETE FROM ids_mdl_correlation")
-        
         queries.append('''INSERT INTO ids_mdl_correlation (ids_mdl_correlation.tdstamp, ids_mdl_correlation.event, ids_mdl_correlation.victim, ids_mdl_correlation.attacker, ids_mdl_correlation.description) select temp_mdl.tdstamp, temp_mdl.event, temp_mdl.victim, temp_mdl.attacker, temp_mdl.description from temp_mdl ON DUPLICATE KEY UPDATE ids_mdl_correlation.tdstamp=temp_mdl.tdstamp''')
-        queries.append('''DELETE from ids_mdl_correlation where DATEDIFF(CURDATE(), DATE(tdstamp)) > 0''')
+        queries.append("DELETE FROM temp_mdl")
 
 
         try:
