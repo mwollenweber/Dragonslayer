@@ -23,6 +23,22 @@ class ingestor():
 
             print "using dragonpath = %s" % self.dragon_path
             
+    def update_dragon_working(self):
+        queries = []
+        queries.append("DROP VIEW IF EXISTS dragon_working")
+        queries.append("CREATE VIEW dragon_working AS (SELECT * from dragon where DATE(tdstamp) = CURDATE())")
+        
+        for q in queries:
+            self.cursor.execute(q)
+
+    def clean_dragon(self):
+        queries = []
+        queries.append("DELETE FROM dragon WHERE event LIKE 'DYNAMIC%'")
+        queries.append("DELETE FROM dragon where event LIKE '%Random%'")
+        
+        for q in queries:
+            self.cursor.execute(q)
+        
     def ingest(self):
         print "inside dragon ingestor...ingesting!"
         self.load()
@@ -92,6 +108,6 @@ class ingestor():
                 traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
                 continue
 
-            
-    print "Done with load"
+        self.clean_dragon()     
+        print "Done with load"
    

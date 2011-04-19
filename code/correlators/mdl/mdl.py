@@ -11,7 +11,7 @@ class correlator():
     def __init__(self, conn = None, config = None):
         print "init self"
         self.conn = conn
-        self.cursor = self.conn.cursor()
+        self.cursor = self.conn.cursor()     
         
     def correlate(self):
         print "I should do some correlation"
@@ -55,46 +55,44 @@ class correlator():
                 traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
                 continue
     
-    def generate_hourly_mdl(self):
-        #delete from hourly table
-        delete_hourly = '''DELETE FROM hourly_dragon_mdl'''
-        delete_temp = '''DELETE FROM temp_mdl'''
+    def correlate_mdl(self):
+        queries = []
         
-                
-        q1 = '''INSERT INTO temp_mdl (tdstamp, event, victim, attacker, description)
-                SELECT dragon.tdstamp, dragon.event, dragon.srcip, dragon.dstip, mdl.description
-                from dragon, mdl
-                where
-                dstip = ip and ((srcip < 2717712385 or srcip > 2717726975)
-                and (srcip < 2158256129 or srcip > 2158257919))
-                and event not like 'GWU-TEST-Random'
-                and  DATE(dragon.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
-                and  DATE(mdl.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE()
-                GROUP BY dragon.srcip, dragon.dstip, dragon.event
-                ORDER BY dragon.srcip, dragon.dstip, dragon.event'''
+        queries.append('''DELETE FROM temp_mdl''')
+        queries.append('''INSERT INTO temp_mdl (tdstamp, event, victim, attacker, description)
+        SELECT dragon.tdstamp, dragon.event, dragon.srcip, dragon.dstip, mdl.description
+        from dragon, mdl
+        where
+        dstip = ip and ((srcip < 2717712385 or srcip > 2717726975)
+        and (srcip < 2158256129 or srcip > 2158257919))
+        and event not like 'GWU-TEST-Random'
+        and  DATE(dragon.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
+        and  DATE(mdl.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE()
+        GROUP BY dragon.srcip, dragon.dstip, dragon.event
+        ORDER BY dragon.srcip, dragon.dstip, dragon.event''')
         
-        q2 = '''INSERT INTO temp_mdl (tdstamp, event, victim, attacker, description)
-                SELECT dragon.tdstamp, dragon.event, dragon.dstip, dragon.srcip, mdl.description
-                from dragon, mdl
-                where
-                srcip = ip and ((dstip < 2717712385 or dstip > 2717726975)
-                and (dstip < 2158256129 or dstip > 2158257919))
-                and event not like 'GWU-TEST-Random'
-                and  DATE(dragon.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
-                and  DATE(mdl.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE()
-                GROUP BY dragon.dstip, dragon.srcip, dragon.event
-                ORDER BY dragon.dstip, dragon.srcip, dragon.event'''
         
-        update_hourly_q = '''INSERT INTO hourly_dragon_mdl (hourly_dragon_mdl.tdstamp, hourly_dragon_mdl.event, hourly_dragon_mdl.victim, hourly_dragon_mdl.attacker, hourly_dragon_mdl.description) select temp_mdl.tdstamp, temp_mdl.event, temp_mdl.victim, temp_mdl.attacker, temp_mdl.description from temp_mdl ON DUPLICATE KEY UPDATE hourly_dragon_mdl.tdstamp=temp_mdl.tdstamp'''
-        clean_hourly_q1 = '''DELETE from hourly_dragon_mdl where DATEDIFF(CURDATE(), DATE(tdstamp)) > 0''' 
+        queries.append('''INSERT INTO temp_mdl (tdstamp, event, victim, attacker, description)
+        SELECT dragon.tdstamp, dragon.event, dragon.dstip, dragon.srcip, mdl.description
+        from dragon, mdl
+        where
+        srcip = ip and ((dstip < 2717712385 or dstip > 2717726975)
+        and (dstip < 2158256129 or dstip > 2158257919))
+        and event not like 'GWU-TEST-Random'
+        and  DATE(dragon.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
+        and  DATE(mdl.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE()
+        GROUP BY dragon.dstip, dragon.srcip, dragon.event
+        ORDER BY dragon.dstip, dragon.srcip, dragon.event''')
+        
+        queries.append("DELETE FROM ids_mdl_correlation")
+        
+        queries.append('''INSERT INTO ids_mdl_correlation (ids_mdl_correlation.tdstamp, ids_mdl_correlation.event, ids_mdl_correlation.victim, ids_mdl_correlation.attacker, ids_mdl_correlation.description) select temp_mdl.tdstamp, temp_mdl.event, temp_mdl.victim, temp_mdl.attacker, temp_mdl.description from temp_mdl ON DUPLICATE KEY UPDATE ids_mdl_correlation.tdstamp=temp_mdl.tdstamp''')
+        queries.append('''DELETE from ids_mdl_correlation where DATEDIFF(CURDATE(), DATE(tdstamp)) > 0''')
 
 
         try:
-            self.cursor.execute(delete_temp)
-            self.cursor.execute(q1)
-            self.cursor.execute(q2)
-            self.cursor.execute(update_hourly_q)
-            self.cursor.execute(clean_hourly_q1)
+            for q in queries:
+                self.cursor.execute(q)
             
         except:
             exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()

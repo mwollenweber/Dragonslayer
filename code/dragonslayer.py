@@ -102,7 +102,6 @@ class dragonslayer:
         correlators = config.get('dscnf','correlators').split(",")
         for ing in correlators:
             ing = ing.strip()
-            print "mmm correlators = %s" % ing
             self.correlator_names.append(ing)
             
         #load other relevant configs

@@ -12,39 +12,18 @@ class daily_bad():
         self.conn = conn
         self.cursor = conn.cursor()
         
+      
+
+
+        
+
+        
+
+        
+        
     def generate_hourly_bad(self):
         print "generating hourly bad list"
-
-        q_del1 = "DELETE from dragon_working"
-        q_del2 = "DELETE from shadow_ccfull_working"
-
-        q1 = '''INSERT into shadow_ccfull_working (SELECT * from shadow_ccfull where DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), 30) and CURDATE())'''
-        q2 = '''INSERT INTO dragon_working (SELECT * from dragon where DATE(tdstamp) = CURDATE())'''
-
-        q_del3 = '''DELETE FROM dragon_working where event like "DYNAMIC-%"'''
-        q_del4 = '''DELETE from hourly_dragon_bad'''
-
-        q3 = '''
-        INSERT INTO  hourly_dragon_bad (
-        SELECT dragon_working.tdstamp, dragon_working.event, dragon_working.srcip, dragon_working.dstip, 'ShadowServer'
-        from dragon_working, shadow_ccfull_working
-        where
-        dstip = ip and ((srcip < 2717712385 or srcip > 2717726975)
-           and (srcip < 2158256129 or srcip > 2158257919))
-           and event not like 'GWU-TEST-Random'
-           and  DATE(dragon_working.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
-           and  DATE(shadow_ccfull_working.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE())'''
-
-        q4 = '''
-        INSERT INTO  hourly_dragon_bad (
-        SELECT dragon_working.tdstamp, dragon_working.event, dragon_working.dstip, dragon_working.srcip, 'ShadowServer'
-        from dragon_working, shadow_ccfull_working
-        where
-        srcip = ip and ((dstip < 2717712385 or dstip > 2717726975)
-           and (dstip < 2158256129 or dstip > 2158257919))
-           and event not like 'GWU-TEST-Random'
-           and  DATE(dragon_working.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
-           and  DATE(shadow_ccfull_working.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE())'''
+       
 
 
         q5 = '''INSERT INTO hourly_dragon_bad (select * from hourly_dragon_mdl)'''

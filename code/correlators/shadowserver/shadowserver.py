@@ -22,6 +22,40 @@ class correlator():
             
     def correlate(self):
         print "I should do some correlation"
+        print "trying..."
+        self.correlate_shadow()
+        
+    def correlate_shadow(self):
+        queries = []
+        queries.append("DELETE FROM TABLE ids_shadow_correlation")
+        queries.append("DELETE VIEW IF EXISTS shadow_ccfull_working")
+        queries.append('''CREATE VIEW AS shadow_ccfull_working (SELECT * from shadow_ccfull where DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), 30) and CURDATE())''')
+        
+        queries.append('''
+        INSERT INTO  ids_shadow_correlation (
+        SELECT dragon_working.tdstamp, dragon_working.event, dragon_working.srcip, dragon_working.dstip, 'ShadowServer'
+        from dragon_working, shadow_ccfull_working
+        where
+        dstip = ip and ((srcip < 2717712385 or srcip > 2717726975)
+        and (srcip < 2158256129 or srcip > 2158257919))
+        and event not like 'GWU-TEST-Random'
+        and  DATE(dragon_working.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
+        and  DATE(shadow_ccfull_working.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE())''')
+
+        
+        queries.append('''
+        INSERT INTO  ids_shadow_correlation (
+        SELECT dragon_working.tdstamp, dragon_working.event, dragon_working.dstip, dragon_working.srcip, 'ShadowServer'
+        from dragon_working, shadow_ccfull_working
+        where
+        srcip = ip and ((dstip < 2717712385 or dstip > 2717726975)
+        and (dstip < 2158256129 or dstip > 2158257919))
+        and event not like 'GWU-TEST-Random'
+        and  DATE(dragon_working.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
+        and  DATE(shadow_ccfull_working.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE())''')
+                        
+        for q in queries:
+            self.cursor.execute(q)
         
     def update(self):
         #self.urls.append('http://www.shadowserver.org/ccdns.php')
@@ -71,8 +105,21 @@ class correlator():
     def update_shadow_ccdns(self, data):
         print "cannot load shadow_ccdns"
 
+    def update_shadow_ccfull_working(self):
+        queries = []
+        queries.append("DROP VIEW IF EXISTS shadow_ccfull_working")
+        queries.append("CREATE VIEW shadow_ccfull_working AS (SELECT * from shadow_ccfull where DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), 30) and CURDATE())")
+        
+        for q in queries:
+            self.cursor.execute(q)
+     
+    def verify_interval(self):
+        print "I need to verify i'm not going too fast"
+        
     def update_shadow_feeds(self, data, url):
-        print "loading shadow"
+        print "loading shadow - uh DUMBASS CHECK THE TIME DATE FEATURE"
+        self.verify_interval()
+        
         print "url = %s\n" % url
         
         if url.find('dns') > 1:
