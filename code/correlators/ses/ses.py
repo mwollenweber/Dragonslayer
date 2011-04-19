@@ -69,7 +69,7 @@ class correlator():
         
         queries.append("DELETE FROM ids_shadow_correlation")
         queries.append("INSERT INTO ids_shadow_correlation (SELECT * from temp_ses)")
-        queries.append("DELETE FROM temp_ses")
+        #queries.append("DELETE FROM temp_ses")
 
         for q in queries:
             #print "QUERY = %s" % q

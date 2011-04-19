@@ -26,7 +26,7 @@ class ingestor():
     def update_dragon_working(self):
         queries = []
         queries.append("DROP VIEW IF EXISTS dragon_working")
-        queries.append("CREATE VIEW dragon_working AS (SELECT * from dragon where DATE(tdstamp) = CURDATE())")
+        queries.append("CREATE VIEW dragon_working AS (SELECT * from dragon where DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), 1) AND CURDATE() )")
         
         for q in queries:
             self.cursor.execute(q)
