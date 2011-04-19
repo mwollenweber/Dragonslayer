@@ -14,7 +14,8 @@ class correlator():
         self.cursor = self.conn.cursor()     
         
     def correlate(self):
-        print "I should do some correlation"
+        self.correlate_mdl()
+        print "Completed mdl correlation"
         
     def update(self):
         #mdlurl = "http://www.malwaredomainlist.com/export.csv"
@@ -92,6 +93,7 @@ class correlator():
 
         try:
             for q in queries:
+                #print "QUERY: %s" % q
                 self.cursor.execute(q)
             
         except:

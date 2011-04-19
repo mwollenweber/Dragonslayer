@@ -29,7 +29,47 @@ class correlator():
             
         
     def correlate(self):
-        print "i should do some correlation"
+        print "i should do some (ses) correlation"
+        self.ses_correlate()
+        print "Done correlating SES. fawesome"
+        
+    def ses_correlate(self):
+        self.sescncip_correlate()
+        #self.seshttpcnc_correlate()
+        #self.sesphishing_correlate()
+        
+        
+    def sescncip_correlate(self):
+        print "Starting SES correlation"
+        queries = []
+        queries.append('''DELETE FROM temp_ses''')
+        queries.append('''
+        INSERT INTO temp_ses (tdstamp, event, victim, attacker, description)
+        SELECT dragon.tdstamp, dragon.event, dragon.srcip, dragon.dstip, CONCAT("SES EVENT\nCategory: ", sescncip.category, "\nDESCRIPTION: ", sescncip.description,"\nComments:", sescncip.comments)
+        from dragon, sescncip
+        where
+        dstip = sescncip.ip and ((srcip < 2717712385 or srcip > 2717726975)
+        and (srcip < 2158256129 or srcip > 2158257919))
+        and  DATE(dragon.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
+        and  CURDATE() < sescncip.expiration
+        GROUP BY dragon.srcip, dragon.dstip, dragon.event
+        ORDER BY dragon.srcip, dragon.dstip, dragon.event''')
+        
+        queries.append('''
+        INSERT INTO temp_ses (tdstamp, event, victim, attacker, description)
+        SELECT dragon.tdstamp, dragon.event, dragon.srcip, dragon.dstip, CONCAT("SES EVENT\nCategory: ", sescncip.category, "\nDESCRIPTION: ", sescncip.description,"\nComments:", sescncip.comments)
+        from dragon, sescncip
+        where
+        srcip = sescncip.ip and ((dstip < 2717712385 or dstip > 2717726975)
+        and (dstip < 2158256129 or dstip > 2158257919))
+        and  DATE(dragon.tdstamp) between CURDATE() and ADDDATE(CURDATE(),1)
+        and  CURDATE() < sescncip.expiration
+        GROUP BY dragon.srcip, dragon.dstip, dragon.event
+        ORDER BY dragon.srcip, dragon.dstip, dragon.event''')
+
+        for q in queries:
+            #print "QUERY = %s" % q
+            self.cursor.execute(q)
         
     def update(self):
         print "updating ses"

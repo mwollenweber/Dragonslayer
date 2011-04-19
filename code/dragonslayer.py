@@ -146,7 +146,12 @@ class dragonslayer:
         print "updating correlators"
         for i in self.correlators:
             i.update()
-                
+          
+    def correlate(self, correlators = None):
+        print "updating correlators"
+        for i in self.correlators:
+            i.correlate()
+        
     def load_correlators(self):
         print "loading correlators"
         for i in self.correlators:
@@ -180,7 +185,6 @@ class dragonslayer:
     def update_filter(self):
         print "updating filter"
         
-        
     def ingest_ids(self):
         print "loading ids"
         if self.ids == "dragon":
@@ -200,10 +204,12 @@ def main():
 
     #ds.ingest_ids()
     
-    ds.update_correlators()
-    ds.load_correlators()
-    ds.update_bad()
+    #ds.update_correlators()
+    #ds.load_correlators()
+    #ds.update_bad()
+    ds.correlate()
     
+    print "FINIS"
     
 if __name__ == "__main__":
     main()

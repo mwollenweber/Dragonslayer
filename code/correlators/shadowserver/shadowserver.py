@@ -21,15 +21,14 @@ class correlator():
             self.cursor = self.conn.cursor()
             
     def correlate(self):
-        print "I should do some correlation"
-        print "trying..."
         self.correlate_shadow()
+        print "Finished ShadowServer correlation"
         
     def correlate_shadow(self):
         queries = []
-        queries.append("DELETE FROM TABLE ids_shadow_correlation")
-        queries.append("DELETE VIEW IF EXISTS shadow_ccfull_working")
-        queries.append('''CREATE VIEW AS shadow_ccfull_working (SELECT * from shadow_ccfull where DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), 30) and CURDATE())''')
+        queries.append("DELETE FROM ids_shadow_correlation")
+        queries.append("DROP VIEW IF EXISTS shadow_ccfull_working")
+        queries.append('''CREATE VIEW shadow_ccfull_working AS (SELECT * from shadow_ccfull where DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), 30) and CURDATE())''')
         
         queries.append('''
         INSERT INTO  ids_shadow_correlation (
@@ -55,6 +54,7 @@ class correlator():
         and  DATE(shadow_ccfull_working.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE())''')
                         
         for q in queries:
+            #print "executing: %s" % q
             self.cursor.execute(q)
         
     def update(self):
