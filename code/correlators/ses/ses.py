@@ -57,7 +57,7 @@ class correlator():
         ON DUPLICATE KEY UPDATE description = CONCAT(description, "\n", VALUES(description))''')       
         
         queries.append('''INSERT INTO temp_ses (tdstamp, event, victim, attacker, description)
-        SELECT dragon.tdstamp, dragon.event, dragon.srcip, dragon.dstip,  CONCAT("SES MALWARE INFRASTRUCTURE! ", sesinfrastructure.description, "\nRESTRICTION: ", sesinfrastructure.restriction, "\nCONFIDENCE: ", sesinfrastructure.confidence)
+        SELECT dragon.tdstamp, dragon.event, dragon.dstip, dragon.srcip, CONCAT("SES MALWARE INFRASTRUCTURE! ", sesinfrastructure.description, "\nRESTRICTION: ", sesinfrastructure.restriction, "\nCONFIDENCE: ", sesinfrastructure.confidence)
         from dragon, sesinfrastructure
         where
         srcip = sesinfrastructure.ip and ((dstip < 2717712385 or dstip > 2717726975)
@@ -71,7 +71,7 @@ class correlator():
 
         queries.append('''INSERT INTO ids_ses_correlation (SELECT * from temp_ses) ON DUPLICATE KEY UPDATE ids_ses_correlation.description = CONCAT(ids_ses_correlation.description, "\n", VALUES(description))''')
         queries.append("DELETE FROM ids_ses_correlation where SUBDATE(CURDATE(), INTERVAL 7 DAY) > tdstamp")
-        #queries.append("INSERT INTO ids_ses_correlation (SELECT * from temp_ses)")
+        queries.append("DELETE FROM temp_ses")
         
         for q in queries:
             #print "QUERY = %s" % q
@@ -98,7 +98,7 @@ class correlator():
         ON DUPLICATE KEY UPDATE description = CONCAT(description, "\n", VALUES(description))''')
         
         queries.append('''INSERT INTO temp_ses (tdstamp, event, victim, attacker, description)
-        SELECT dragon.tdstamp, dragon.event, dragon.srcip, dragon.dstip, "SES Malware Flow"
+        SELECT dragon.tdstamp, dragon.event, dragon.dstip, dragon.srcip, "SES Malware Flow"
         from dragon, sesmalwareflows
         where
         srcip = sesmalwareflows.ip and ((dstip < 2717712385 or dstip > 2717726975)
@@ -111,6 +111,7 @@ class correlator():
         
         queries.append('''INSERT INTO ids_ses_correlation (SELECT * from temp_ses) ON DUPLICATE KEY UPDATE ids_ses_correlation.description = CONCAT(ids_ses_correlation.description, "\n", VALUES(description))''')
         queries.append("DELETE FROM ids_ses_correlation where SUBDATE(CURDATE(), INTERVAL 7 DAY) > tdstamp")
+        queries.append("DELETE FROM temp_ses")
         
         for q in queries:
             #print "QUERY = %s" % q
@@ -135,7 +136,7 @@ class correlator():
         ON DUPLICATE KEY UPDATE description = CONCAT(description, "\n", VALUES(description))''')
         
         queries.append('''INSERT INTO temp_ses (tdstamp, event, victim, attacker, description)
-        SELECT dragon.tdstamp, dragon.event, dragon.srcip, dragon.dstip, CONCAT("SES EVENT\nCategory: ", sescncip.category, "\nDESCRIPTION: ", sescncip.description,"\nComments:", sescncip.comments)
+        SELECT dragon.tdstamp, dragon.event, dragon.dstip, dragon.srcip, CONCAT("SES EVENT\nCategory: ", sescncip.category, "\nDESCRIPTION: ", sescncip.description,"\nComments:", sescncip.comments)
         from dragon, sescncip
         where
         srcip = sescncip.ip and ((dstip < 2717712385 or dstip > 2717726975)
@@ -149,6 +150,7 @@ class correlator():
         queries.append('''INSERT INTO ids_ses_correlation (SELECT * from temp_ses) ON DUPLICATE KEY UPDATE ids_ses_correlation.description = CONCAT(ids_ses_correlation.description, "\n", VALUES(description))''')
         #queries.append("DELETE FROM temp_ses")
         queries.append("DELETE FROM ids_ses_correlation where SUBDATE(CURDATE(), INTERVAL 7 DAY) > tdstamp")
+        queries.append("DELETE FROM temp_ses")
 
         for q in queries:
             #print "QUERY = %s" % q
@@ -346,8 +348,8 @@ class correlator():
                 
                 query = '''INSERT INTO sescncip (asn, description, ip, protocol, discovered, expiration, category, comments) VALUES (%s, '%s', INET_ATON('%s'), '%s', DATE('%s'), DATE('%s'), '%s', '%s') ON DUPLICATE KEY UPDATE expiration = expiration ''' % (asn, description, ip, protocol, discovered, expiration, category, comments)
                 #print "query = %s" % query
-                
                 self.cursor.execute(query)
+                
             except:
                 exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
                 traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)

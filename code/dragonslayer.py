@@ -204,10 +204,10 @@ def main():
     print "fuxing main bs"
     ds = dragonslayer()
 
-    #ds.ingest_ids()
+    ds.ingest_ids()
     
-    #ds.update_correlators()
-    #ds.load_correlators()
+    ds.update_correlators()
+    ds.load_correlators()
     ds.correlate()
     
     #ds.update_bad()
