@@ -41,7 +41,14 @@ class correlator():
         if conn != None:
             self.cursor = self.conn.cursor()
             
+    def delete(self):
+        query = "DELETE FROM ids_correlate_mdl"
+        self.cursor.execute(query)
+        self.conn.commit()
+        
+            
     def correlate(self):
+        self.delete()
         self.correlate_shadow()
         print "Finished ShadowServer correlation"
         

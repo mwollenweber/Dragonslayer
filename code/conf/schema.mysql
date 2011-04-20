@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: dragonslayer
 -- ------------------------------------------------------
--- Server version	5.1.56
+-- Server version	5.5.11
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -118,27 +118,15 @@ DROP TABLE IF EXISTS `attackers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `attackers` (
-  `ip` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`ip`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `ip` int(10) unsigned NOT NULL DEFAULT '0',
+  `tdstamp` datetime DEFAULT NULL,
+  `org` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ip`,`org`),
+  KEY `ip` (`ip`),
+  KEY `org` (`org`),
+  KEY `tdstamp` (`tdstamp`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Temporary table structure for view `badv`
---
-
-DROP TABLE IF EXISTS `badv`;
-/*!50001 DROP VIEW IF EXISTS `badv`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `badv` (
-  `tdstamp` datetime,
-  `event` varchar(64),
-  `victim` int(10) unsigned,
-  `attacker` int(10) unsigned,
-  `description` varchar(50)
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `case_notes`
@@ -212,24 +200,22 @@ CREATE TABLE `dragon` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `dragon_working`
+-- Temporary table structure for view `dragon_working`
 --
 
 DROP TABLE IF EXISTS `dragon_working`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `dragon_working` (
-  `tdstamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `event` varchar(50) DEFAULT NULL,
-  `srcip` int(10) unsigned NOT NULL DEFAULT '0',
-  `dstip` int(10) unsigned NOT NULL DEFAULT '0',
-  `sport` int(10) unsigned DEFAULT NULL,
-  `dport` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`tdstamp`,`srcip`,`dstip`),
-  KEY `tdstamp` (`tdstamp`,`event`,`srcip`,`dstip`),
-  KEY `dstindex` (`dstip`)
-) ENGINE=MEMORY DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!50001 DROP VIEW IF EXISTS `dragon_working`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `dragon_working` (
+  `tdstamp` datetime,
+  `event` varchar(50),
+  `srcip` int(10) unsigned,
+  `dstip` int(10) unsigned,
+  `sport` int(10) unsigned,
+  `dport` int(10) unsigned
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `gwcases`
@@ -315,13 +301,34 @@ CREATE TABLE `host2ip` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `hourly_dragon_bad`
+-- Table structure for table `ids_case_correlation`
 --
 
-DROP TABLE IF EXISTS `hourly_dragon_bad`;
+DROP TABLE IF EXISTS `ids_case_correlation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `hourly_dragon_bad` (
+CREATE TABLE `ids_case_correlation` (
+  `tdstamp` datetime DEFAULT NULL,
+  `event` varchar(64) NOT NULL DEFAULT '',
+  `victim` int(10) unsigned NOT NULL DEFAULT '0',
+  `attacker` int(10) unsigned NOT NULL DEFAULT '0',
+  `description` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`victim`,`attacker`,`event`),
+  KEY `tdstamp` (`tdstamp`),
+  KEY `victim` (`victim`),
+  KEY `attacker` (`attacker`),
+  KEY `description` (`description`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ids_correlation`
+--
+
+DROP TABLE IF EXISTS `ids_correlation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ids_correlation` (
   `tdstamp` datetime DEFAULT NULL,
   `event` varchar(64) DEFAULT NULL,
   `victim` int(10) unsigned DEFAULT NULL,
@@ -338,13 +345,99 @@ CREATE TABLE `hourly_dragon_bad` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `hourly_dragon_mdl`
+-- Table structure for table `ids_malwareurl_correlation`
 --
 
-DROP TABLE IF EXISTS `hourly_dragon_mdl`;
+DROP TABLE IF EXISTS `ids_malwareurl_correlation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `hourly_dragon_mdl` (
+CREATE TABLE `ids_malwareurl_correlation` (
+  `tdstamp` datetime DEFAULT NULL,
+  `event` varchar(64) NOT NULL DEFAULT '',
+  `victim` int(10) unsigned NOT NULL DEFAULT '0',
+  `attacker` int(10) unsigned NOT NULL DEFAULT '0',
+  `description` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`victim`,`attacker`,`event`),
+  KEY `tdstamp` (`tdstamp`),
+  KEY `victim` (`victim`),
+  KEY `attacker` (`attacker`),
+  KEY `description` (`description`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ids_mdl_correlation`
+--
+
+DROP TABLE IF EXISTS `ids_mdl_correlation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ids_mdl_correlation` (
+  `tdstamp` datetime DEFAULT NULL,
+  `event` varchar(64) DEFAULT NULL,
+  `victim` int(10) unsigned DEFAULT NULL,
+  `attacker` int(10) unsigned DEFAULT NULL,
+  `description` varchar(50) DEFAULT NULL,
+  KEY `event` (`event`),
+  KEY `victim` (`victim`),
+  KEY `attacker` (`attacker`),
+  KEY `event_2` (`event`),
+  KEY `attacker_2` (`attacker`),
+  KEY `victim_2` (`victim`),
+  KEY `tdstamp` (`tdstamp`)
+) ENGINE=MEMORY DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ids_norman_correlation`
+--
+
+DROP TABLE IF EXISTS `ids_norman_correlation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ids_norman_correlation` (
+  `tdstamp` datetime DEFAULT NULL,
+  `event` varchar(64) NOT NULL DEFAULT '',
+  `victim` int(10) unsigned NOT NULL DEFAULT '0',
+  `attacker` int(10) unsigned NOT NULL DEFAULT '0',
+  `description` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`victim`,`attacker`,`event`),
+  KEY `tdstamp` (`tdstamp`),
+  KEY `victim` (`victim`),
+  KEY `attacker` (`attacker`),
+  KEY `description` (`description`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ids_ses_correlation`
+--
+
+DROP TABLE IF EXISTS `ids_ses_correlation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ids_ses_correlation` (
+  `tdstamp` datetime DEFAULT NULL,
+  `event` varchar(64) NOT NULL DEFAULT '',
+  `victim` int(10) unsigned NOT NULL DEFAULT '0',
+  `attacker` int(10) unsigned NOT NULL DEFAULT '0',
+  `description` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`victim`,`attacker`,`event`),
+  KEY `tdstamp` (`tdstamp`),
+  KEY `victim` (`victim`),
+  KEY `attacker` (`attacker`),
+  KEY `description` (`description`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ids_shadow_correlation`
+--
+
+DROP TABLE IF EXISTS `ids_shadow_correlation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ids_shadow_correlation` (
   `tdstamp` datetime DEFAULT NULL,
   `event` varchar(64) DEFAULT NULL,
   `victim` int(10) unsigned DEFAULT NULL,
@@ -404,6 +497,26 @@ SET character_set_client = utf8;
   `mac` varchar(40)
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `malips`
+--
+
+DROP TABLE IF EXISTS `malips`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `malips` (
+  `ip` int(10) unsigned NOT NULL DEFAULT '0',
+  `discovered` datetime DEFAULT NULL,
+  `expires` datetime DEFAULT NULL,
+  `source` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ip`,`source`),
+  KEY `ip` (`ip`),
+  KEY `discovered` (`discovered`),
+  KEY `expires` (`expires`),
+  KEY `source` (`source`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `malwareurl`
@@ -661,13 +774,76 @@ CREATE TABLE `seshttpcnc` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `sesmalware`
+-- Table structure for table `sesinfrastructure`
 --
 
-DROP TABLE IF EXISTS `sesmalware`;
+DROP TABLE IF EXISTS `sesinfrastructure`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sesmalware` (
+CREATE TABLE `sesinfrastructure` (
+  `asn` int(10) unsigned DEFAULT NULL,
+  `ip` int(10) unsigned NOT NULL DEFAULT '0',
+  `protocol` varchar(8) DEFAULT NULL,
+  `portlist` varchar(32) DEFAULT NULL,
+  `restriction` varchar(32) NOT NULL DEFAULT '',
+  `description` varchar(256) NOT NULL DEFAULT '',
+  `impact` varchar(32) DEFAULT NULL,
+  `action` varchar(32) DEFAULT NULL,
+  `confidence` varchar(32) NOT NULL DEFAULT '',
+  `created` datetime DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
+  `ref` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`ip`,`restriction`,`description`,`confidence`),
+  KEY `asn` (`asn`),
+  KEY `ip` (`ip`),
+  KEY `restriction` (`restriction`),
+  KEY `description` (`description`),
+  KEY `impact` (`impact`),
+  KEY `confidence` (`confidence`),
+  KEY `created` (`created`),
+  KEY `updated` (`updated`),
+  KEY `ref` (`ref`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `sesmalwareflows`
+--
+
+DROP TABLE IF EXISTS `sesmalwareflows`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sesmalwareflows` (
+  `sha1` varchar(40) DEFAULT NULL,
+  `md5` varchar(32) DEFAULT NULL,
+  `tdstamp` datetime DEFAULT NULL,
+  `ip` int(10) unsigned NOT NULL DEFAULT '0',
+  `dport` int(10) unsigned NOT NULL DEFAULT '0',
+  `pr` int(11) DEFAULT NULL,
+  `app` varchar(16) DEFAULT NULL,
+  `asn` int(10) unsigned DEFAULT NULL,
+  `cc` varchar(4) DEFAULT NULL,
+  `fqdn` varchar(256) NOT NULL DEFAULT '',
+  PRIMARY KEY (`ip`,`dport`,`fqdn`),
+  KEY `sha1` (`sha1`),
+  KEY `md5` (`md5`),
+  KEY `tdstamp` (`tdstamp`),
+  KEY `ip` (`ip`),
+  KEY `dport` (`dport`),
+  KEY `asn` (`asn`),
+  KEY `cc` (`cc`),
+  KEY `fqdn` (`fqdn`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `sesmalwareurl`
+--
+
+DROP TABLE IF EXISTS `sesmalwareurl`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sesmalwareurl` (
   `url` varchar(256) NOT NULL,
   `restriction` int(10) unsigned DEFAULT NULL,
   `impact` int(10) unsigned DEFAULT NULL,
@@ -741,26 +917,22 @@ CREATE TABLE `shadow_ccfull` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `shadow_ccfull_working`
+-- Temporary table structure for view `shadow_ccfull_working`
 --
 
 DROP TABLE IF EXISTS `shadow_ccfull_working`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shadow_ccfull_working` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `tdstamp` datetime DEFAULT NULL,
-  `ip` int(10) unsigned NOT NULL,
-  `dport` int(10) unsigned DEFAULT NULL,
-  `fqdn` varchar(128) DEFAULT NULL,
-  `asn` int(10) unsigned DEFAULT NULL,
-  `country` varchar(8) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `tdstamp` (`tdstamp`),
-  KEY `ip` (`ip`),
-  KEY `fqdn` (`fqdn`)
-) ENGINE=MEMORY AUTO_INCREMENT=892505 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!50001 DROP VIEW IF EXISTS `shadow_ccfull_working`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `shadow_ccfull_working` (
+  `tdstamp` datetime,
+  `ip` int(10) unsigned,
+  `dport` int(10) unsigned,
+  `fqdn` varchar(256),
+  `asn` int(10) unsigned,
+  `country` varchar(8)
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `shadow_ccip`
@@ -777,6 +949,22 @@ CREATE TABLE `shadow_ccip` (
   KEY `tdstamp` (`tdstamp`),
   KEY `ip` (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `sources`
+--
+
+DROP TABLE IF EXISTS `sources`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sources` (
+  `sid` int(10) unsigned NOT NULL DEFAULT '0',
+  `name` varchar(64) NOT NULL DEFAULT '',
+  PRIMARY KEY (`sid`,`name`),
+  KEY `sid` (`sid`),
+  KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -863,6 +1051,45 @@ CREATE TABLE `temp_mdl` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `temp_ses`
+--
+
+DROP TABLE IF EXISTS `temp_ses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `temp_ses` (
+  `tdstamp` datetime DEFAULT NULL,
+  `event` varchar(64) NOT NULL DEFAULT '',
+  `victim` int(10) unsigned NOT NULL DEFAULT '0',
+  `attacker` int(10) unsigned NOT NULL DEFAULT '0',
+  `description` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`victim`,`attacker`,`event`),
+  KEY `tdstamp` (`tdstamp`),
+  KEY `victim` (`victim`),
+  KEY `attacker` (`attacker`),
+  KEY `description` (`description`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Temporary table structure for view `tmp`
+--
+
+DROP TABLE IF EXISTS `tmp`;
+/*!50001 DROP VIEW IF EXISTS `tmp`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `tmp` (
+  `tdstamp` datetime,
+  `event` varchar(50),
+  `srcip` int(10) unsigned,
+  `dstip` int(10) unsigned,
+  `sport` int(10) unsigned,
+  `dport` int(10) unsigned
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `tmp_dragon`
 --
 
@@ -947,20 +1174,20 @@ CREATE TABLE `users` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Final view structure for view `badv`
+-- Final view structure for view `dragon_working`
 --
 
-/*!50001 DROP TABLE IF EXISTS `badv`*/;
-/*!50001 DROP VIEW IF EXISTS `badv`*/;
+/*!50001 DROP TABLE IF EXISTS `dragon_working`*/;
+/*!50001 DROP VIEW IF EXISTS `dragon_working`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 SET character_set_client      = latin1 */;
+/*!50001 SET character_set_results     = latin1 */;
+/*!50001 SET collation_connection      = latin1_swedish_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`dragonslayer`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `badv` AS select `hourly_dragon_bad`.`tdstamp` AS `tdstamp`,`hourly_dragon_bad`.`event` AS `event`,`hourly_dragon_bad`.`victim` AS `victim`,`hourly_dragon_bad`.`attacker` AS `attacker`,`hourly_dragon_bad`.`description` AS `description` from `hourly_dragon_bad` group by `hourly_dragon_bad`.`victim`,`hourly_dragon_bad`.`event`,`hourly_dragon_bad`.`attacker` order by `hourly_dragon_bad`.`victim`,`hourly_dragon_bad`.`event`,`hourly_dragon_bad`.`tdstamp` */;
+/*!50001 VIEW `dragon_working` AS (select `dragon`.`tdstamp` AS `tdstamp`,`dragon`.`event` AS `event`,`dragon`.`srcip` AS `srcip`,`dragon`.`dstip` AS `dstip`,`dragon`.`sport` AS `sport`,`dragon`.`dport` AS `dport` from `dragon` where (cast(`dragon`.`tdstamp` as date) between (curdate() - interval 1 day) and curdate())) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -983,6 +1210,44 @@ CREATE TABLE `users` (
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `shadow_ccfull_working`
+--
+
+/*!50001 DROP TABLE IF EXISTS `shadow_ccfull_working`*/;
+/*!50001 DROP VIEW IF EXISTS `shadow_ccfull_working`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = latin1 */;
+/*!50001 SET character_set_results     = latin1 */;
+/*!50001 SET collation_connection      = latin1_swedish_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`dragonslayer`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `shadow_ccfull_working` AS (select `shadow_ccfull`.`tdstamp` AS `tdstamp`,`shadow_ccfull`.`ip` AS `ip`,`shadow_ccfull`.`dport` AS `dport`,`shadow_ccfull`.`fqdn` AS `fqdn`,`shadow_ccfull`.`asn` AS `asn`,`shadow_ccfull`.`country` AS `country` from `shadow_ccfull` where (cast(`shadow_ccfull`.`tdstamp` as date) between (curdate() - interval 30 day) and curdate())) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `tmp`
+--
+
+/*!50001 DROP TABLE IF EXISTS `tmp`*/;
+/*!50001 DROP VIEW IF EXISTS `tmp`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = latin1 */;
+/*!50001 SET character_set_results     = latin1 */;
+/*!50001 SET collation_connection      = latin1_swedish_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`dragonslayer`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `tmp` AS (select `dragon`.`tdstamp` AS `tdstamp`,`dragon`.`event` AS `event`,`dragon`.`srcip` AS `srcip`,`dragon`.`dstip` AS `dstip`,`dragon`.`sport` AS `sport`,`dragon`.`dport` AS `dport` from `dragon` where (`dragon`.`event` like '%mjw%')) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -993,4 +1258,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-04-11  1:35:15
+-- Dump completed on 2011-04-19 23:58:59

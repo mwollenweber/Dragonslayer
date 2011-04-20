@@ -30,7 +30,13 @@ class correlator():
         self.ses_correlate()
         print "Done correlating SES. fawesome"
         
+    def delete(self):
+        query = "DELETE FROM ids_ses_correlate"
+        self.cursor.execute(query)
+        self.conn.commit()
+        
     def ses_correlate(self):
+        self.delete()
         self.sescncip_correlate()
         self.sesmalwareflows_correlate()
         self.sesinfrastructure_correlate()
