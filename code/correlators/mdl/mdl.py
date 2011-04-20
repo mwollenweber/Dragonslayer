@@ -55,6 +55,9 @@ class correlator():
                 exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
                 traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
                 continue
+            
+        self.conn.commit()
+        print "DONE with loading mdl"
     
     def correlate_mdl(self):
         queries = []
@@ -97,6 +100,8 @@ class correlator():
             exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
             print "error updating temp/hourly mdl\n"
             traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
+            
+        self.conn.commit()
             
     def get_daily_dragon_mdl(self):
         self.cursor.execute('''select dragon.tdstamp, dragon.event, INET_NTOA(dragon.srcip), INET_NTOA(dragon.dstip)  from dragon, mdl where srcip = ip and ((dstip < 2717712641 or dstip > 2717726975) and (dstip < 2158256129 or dstip > 2158257919)) and event not like "GWU-TEST-Random" and event not like "mjw-gwu-http-pdf-alpha" and  DATE(dragon.tdstamp) between CURDATE() and CURDATE()+1 GROUP BY dragon.dstip ORDER BY dragon.dstip, dragon.srcip, dragon.event''')

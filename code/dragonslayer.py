@@ -43,6 +43,7 @@ class dragonslayer:
 
     def db_connect(self):
         self.load_db_config()
+        print "CONNECTING to MYSQL on %s as %s using db %s" % (self.host, self.user, self.db)
         self.conn = MySQLdb.connect(host = self.host,
                                user = self.user,
                                passwd = self.passwd,
@@ -172,9 +173,10 @@ class dragonslayer:
         for line in f:
             self.cursor.execute(q1, [line])
 
-        f.close()
+        f.close() 
         
     def shutdown(self):
+        self.conn.commit()
         self.conn.close()
         #delete the lock file
         #should write to a log
@@ -205,10 +207,11 @@ def main():
     #ds.ingest_ids()
     
     #ds.update_correlators()
-    ds.load_correlators()
+    #ds.load_correlators()
     ds.correlate()
     
-    ds.update_bad()
+    #ds.update_bad()
+    ds.shutdown()
     
     
     print "FINIS"

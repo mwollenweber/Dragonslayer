@@ -12,6 +12,27 @@ except ImportError:
     print "error"
     import simplejson as json
     
+    
+#
+   #update_check_tdq = '''SELECT TIME_TO_SEC(TIMEDIFF(NOW(), last_update)) from status where name like "shadowcc"'''
+            #self.cursor.execute(update_check_tdq)
+            #update_age = self.cursor.fetchone()[0]
+            
+            #update_check_iq = '''SELECT update_interval * 60 * 60 from status where name like "shadowcc"'''
+            #self.cursor.execute(update_check_iq)
+            #interval = self.cursor.fetchone()[0]
+
+            #print "lastupdate = %s interval = %s\n"  % ( update_age, interval)
+
+            #if update_age > interval:
+                #print "updating shadow"
+                #self.update_shadow()
+                #self.cursor.execute('''UPDATE status set last_update = NOW() where name like "shadowcc"''')
+            #else:
+                #print "shadow server data up to date enough"
+#
+
+    
 class correlator():
     def __init__(self, conn = None):
         print "init self"
@@ -54,6 +75,8 @@ class correlator():
         for q in queries:
             #print "executing: %s" % q
             self.cursor.execute(q)
+            
+        self.conn.commit()
         
     def update(self):
         #self.urls.append('http://www.shadowserver.org/ccdns.php')
@@ -66,8 +89,11 @@ class correlator():
             f = urllib2.urlopen(u)
             self.update_shadow_feeds(f, u)
             
+        self.conn.commit()
+            
     def load(self):
         print "the shadow ingestor loads on update...continuing"
+        self.conn.commit()
         
     def update_shadow_ccdns(self, data):
         print "cannot yet load shadow_ccdns"
@@ -95,6 +121,8 @@ class correlator():
                 exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
                 traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
                 continue
+        
+        self.conn.commit()
     
             
     def update_shadow_ccip(self, data):
@@ -110,6 +138,8 @@ class correlator():
         
         for q in queries:
             self.cursor.execute(q)
+            
+        self.conn.commit()
      
     def verify_interval(self):
         print "I need to verify i'm not going too fast"
@@ -126,3 +156,5 @@ class correlator():
             self.update_shadow_ccfull(data)
         elif url.find('ccip') > 1:
             self.update_shadow_ccip(data)
+        
+        self.conn.commit()
