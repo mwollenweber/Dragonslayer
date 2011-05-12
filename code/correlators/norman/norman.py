@@ -213,7 +213,7 @@ class correlator():
             
     def update(self):
         print "pushing data to mysql"
-        insert_query = "INSERT INTO norman_url (tdstamp, url, md5, originator_content, originator_signature, download_md5, download_content, download_signature, download_sandbox) VALUES (NOW(), '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')"
+        insert_query = "INSERT INTO norman_url (tdstamp, url, md5, originator_content, originator_signature, download_md5, download_content, download_signature, download_sandbox) VALUES (NOW(), '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s') ON DUPLICATE KEY UPDATE tdstamp=tdstamp"
         if self.mysql_conn == None:
             self.mysql_conn = self.mysql_connect()
             
