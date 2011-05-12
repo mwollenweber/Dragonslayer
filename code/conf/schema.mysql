@@ -129,6 +129,38 @@ CREATE TABLE `attackers` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `case_attacker`
+--
+
+DROP TABLE IF EXISTS `case_attacker`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `case_attacker` (
+  `caseid` int(10) unsigned NOT NULL DEFAULT '0',
+  `ip` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`caseid`,`ip`),
+  KEY `caseid` (`caseid`),
+  KEY `ip` (`ip`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `case_file`
+--
+
+DROP TABLE IF EXISTS `case_file`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `case_file` (
+  `fileid` int(10) unsigned NOT NULL DEFAULT '0',
+  `caseid` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`fileid`,`caseid`),
+  KEY `fileid` (`fileid`),
+  KEY `caseid` (`caseid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `case_notes`
 --
 
@@ -143,6 +175,22 @@ CREATE TABLE `case_notes` (
   `tdstamp` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1972 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `case_victim`
+--
+
+DROP TABLE IF EXISTS `case_victim`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `case_victim` (
+  `caseid` int(10) unsigned NOT NULL DEFAULT '0',
+  `ip` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`caseid`,`ip`),
+  KEY `caseid` (`caseid`),
+  KEY `ip` (`ip`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1174,6 +1222,88 @@ CREATE TABLE `users` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `virustotal`
+--
+
+DROP TABLE IF EXISTS `virustotal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `virustotal` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tdstamp` datetime DEFAULT NULL,
+  `AVG` varchar(32) DEFAULT NULL,
+  `AhnLab_V3` varchar(32) DEFAULT NULL,
+  `AntiVir` varchar(32) DEFAULT NULL,
+  `Antiy_AVL` varchar(32) DEFAULT NULL,
+  `Avast` varchar(32) DEFAULT NULL,
+  `Avast5` varchar(32) DEFAULT NULL,
+  `BitDefender` varchar(32) DEFAULT NULL,
+  `CAT_QuickHeal` varchar(32) DEFAULT NULL,
+  `ClamAV` varchar(32) DEFAULT NULL,
+  `Commtouch` varchar(32) DEFAULT NULL,
+  `Comodo` varchar(32) DEFAULT NULL,
+  `DrWeb` varchar(32) DEFAULT NULL,
+  `Emsisoft` varchar(32) DEFAULT NULL,
+  `F_Prot` varchar(32) DEFAULT NULL,
+  `F_Secure` varchar(32) DEFAULT NULL,
+  `Fortinet` varchar(32) DEFAULT NULL,
+  `GData` varchar(32) DEFAULT NULL,
+  `Ikarus` varchar(32) DEFAULT NULL,
+  `Jiangmin` varchar(32) DEFAULT NULL,
+  `K7AntiVirus` varchar(32) DEFAULT NULL,
+  `Kaspersky` varchar(32) DEFAULT NULL,
+  `McAfee` varchar(32) DEFAULT NULL,
+  `McAfee_GW_Edition` varchar(32) DEFAULT NULL,
+  `Microsoft` varchar(32) DEFAULT NULL,
+  `NOD32` varchar(32) DEFAULT NULL,
+  `Norman` varchar(32) DEFAULT NULL,
+  `PCTools` varchar(32) DEFAULT NULL,
+  `Panda` varchar(32) DEFAULT NULL,
+  `Prevx` varchar(32) DEFAULT NULL,
+  `Rising` varchar(32) DEFAULT NULL,
+  `SUPERAntiSpyware` varchar(32) DEFAULT NULL,
+  `Sophos` varchar(32) DEFAULT NULL,
+  `Symantec` varchar(32) DEFAULT NULL,
+  `TheHacker` varchar(32) DEFAULT NULL,
+  `TrendMicro` varchar(32) DEFAULT NULL,
+  `TrendMicro_HouseCall` varchar(32) DEFAULT NULL,
+  `VBA32` varchar(32) DEFAULT NULL,
+  `VIPRE` varchar(32) DEFAULT NULL,
+  `ViRobot` varchar(32) DEFAULT NULL,
+  `VirusBuster` varchar(32) DEFAULT NULL,
+  `eSafe` varchar(32) DEFAULT NULL,
+  `eTrust_Vet` varchar(32) DEFAULT NULL,
+  `nProtect` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ClamAV` (`ClamAV`),
+  KEY `Symantec` (`Symantec`),
+  KEY `Microsoft` (`Microsoft`),
+  KEY `McAfee` (`McAfee`),
+  KEY `tdstamp` (`tdstamp`),
+  KEY `Norman` (`Norman`),
+  KEY `NOD32` (`NOD32`),
+  KEY `TrendMicro` (`TrendMicro`),
+  KEY `Comodo` (`Comodo`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `virustotal_file`
+--
+
+DROP TABLE IF EXISTS `virustotal_file`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `virustotal_file` (
+  `vtid` int(10) unsigned NOT NULL DEFAULT '0',
+  `fid` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`vtid`,`fid`),
+  KEY `vtid` (`vtid`),
+  KEY `fid` (`fid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Final view structure for view `dragon_working`
 --
 
@@ -1258,4 +1388,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-04-19 23:58:59
+-- Dump completed on 2011-05-12  0:33:34

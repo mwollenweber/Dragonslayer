@@ -14,7 +14,7 @@ class correlator():
         self.cursor = self.conn.cursor()     
         
     def delete(self):
-        query = "DELETE FROM ids_correlate_mdl"
+        query = "DELETE FROM ids_mdl_correlation"
         self.cursor.execute(query)
         self.conn.commit()
         

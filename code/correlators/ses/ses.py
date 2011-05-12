@@ -38,7 +38,7 @@ class correlator():
     def ses_correlate(self):
         self.delete()
         self.sescncip_correlate()
-        self.sesmalwareflows_correlate()
+        #self.sesmalwareflows_correlate()
         self.sesinfrastructure_correlate()
         
         
