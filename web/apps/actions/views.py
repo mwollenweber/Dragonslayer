@@ -20,8 +20,8 @@ def update_case(request):
         }
 	form = update_case_form(request.POST)
 	if form.is_valid():
+		dsid = request.POST['dsid']
 		record_handle = GwCases.objects.get(id__exact=dsid)
-		record_handle.dsid = request.POST['dsid']
 		record_handle.event = request.POST['event']
 		record_handle.victim = request.POST['victim']
 		record_handle.attacker = request.POST['attacker']
