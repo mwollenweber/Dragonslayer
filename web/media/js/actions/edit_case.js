@@ -123,7 +123,7 @@ SampleApp.EditCase.Panel = function() {
 			columnWidth:.39,
 			style: 'padding:10px 5px 10px 10px',
 			items: editCaseFormPanel,
-			height: 720
+			height: 750
 		    }
         	]
     	}]
@@ -348,7 +348,17 @@ SampleApp.EditCase.FormPanel = function(){
 		    });
             	}
             },
-        }],
+        },
+	{
+	    text: 'Print',   
+            formBind: true,
+	    handler:function(){
+		printer = window.open('','winReport');
+		printer.document.write("<html><body><p>Test</p></body></html>");
+		printer.document.close();
+	    }
+	}
+	],
         region: "north",
         height: 700
     });
