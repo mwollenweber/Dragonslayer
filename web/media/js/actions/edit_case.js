@@ -354,13 +354,15 @@ SampleApp.EditCase.FormPanel = function(){
             formBind: true,
 	    handler:function(){
 		printer = window.open('','winReport');
-		printer.document.write("<html><body><p>Test</p></body></html>");
+		printer.document.write("<html><body>");
+		printer.document.write("<h1>DSID: " + dsid_field.getValues() + "</h1>");
+		printer.document.write("</body></html>");
 		printer.document.close();
 	    }
 	}
 	],
         region: "north",
-        height: 700
+        height: 725
     });
 }
 
