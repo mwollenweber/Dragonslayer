@@ -248,6 +248,7 @@ SampleApp.EditCase.FormPanel = function(){
         emptyText:'Select a category...',
         allowBlank:false,
 	id : 'category_field_hidden',
+	hiddenName:'value',
     });
     
     verification_field = new Ext.form.TextArea({
@@ -412,7 +413,7 @@ SampleApp.EditCase.GridPanel = function() {
 		network_field.setValue(rec.get('network'));
 		dhcp_field.setValue(rec.get('dhcp_info'));
 		verification_field.setValue(rec.get('verification'));
-		notes_field.setValue(rec.get('confirmation'));
+		notes_field.setValue(rec.get('notes'));
 		category_field.setValue(rec.get('category'));
 	    },
 	    cellcontextmenu: function(grid, rowIndex, colIndex, e) {
@@ -495,7 +496,7 @@ SampleApp.EditCase.FromAnywhereGrid = function() {
 				network_field.setValue(rec.get('network'));
 				dhcp_field.setValue(rec.get('dhcp_info'));
 				verification_field.setValue(rec.get('verification'));
-				notes_field.setValue(rec.get('confirmation'));
+				notes_field.setValue(rec.get('notes'));
 				category_field.setValue(rec.get('category'));
 			}
 		},
