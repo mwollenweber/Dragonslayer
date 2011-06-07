@@ -395,7 +395,7 @@ SampleApp.EditCase.GridPanel = function() {
         store: store,
         cm: cm,
         stripeRows: true,
-        autoExpandColumn: 'search_by_ip_confirmation',
+        autoExpandColumn: 'daily_bad_filter_date',
         height: 300,
 		autoSizeColumns: true,
 		listeners: {
