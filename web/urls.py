@@ -34,6 +34,7 @@ urlpatterns = patterns('',
 
     # actions
     (r'^search/$', 'apps.actions.views.search_by_type'),
+    (r'^update_case/$', 'apps.actions.views.update_case'),
 
     # serve static files
     (r'^media/(?P<path>.*)$', 'django.views.static.serve',

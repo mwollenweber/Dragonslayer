@@ -307,7 +307,7 @@ SampleApp.EditCase.FormPanel = function(){
             	var form_data = editCaseFormPanel.getForm().getValues();
             	if(editCaseFormPanel.getForm().isValid()) {
 		    Ext.Ajax.request({
-			url: 'controls/actions/update_case.php',
+			url: '/update_case/',
 			method:'POST', 
 			waitTitle:'Connecting', 
 			waitMsg:'Getting data...',
