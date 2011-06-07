@@ -355,7 +355,7 @@ SampleApp.EditCase.FormPanel = function(){
 	    handler:function(){
 		printer = window.open('','winReport');
 		printer.document.write("<html><body>");
-		printer.document.write("<h1>DSID: " + dsid_field.getValues() + "</h1>");
+		printer.document.write("<h1>DSID: " + dsid_field.getValue() + "</h1>");
 		printer.document.write("</body></html>");
 		printer.document.close();
 	    }
