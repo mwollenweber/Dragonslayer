@@ -140,7 +140,7 @@ Ext.extend(SampleApp.EditCase.Panel, Ext.Panel, {
 */
 SampleApp.EditCase.FormPanel = function(){
 	SampleApp.EditCase.categories = [
-	    [200, 'Normal'],
+	    ['200', 'Normal'],
 	    [201, 'Normal - Remedied'],
 	    [20, 'Student'],
 	    [300, 'Server'],
@@ -237,7 +237,7 @@ SampleApp.EditCase.FormPanel = function(){
         name: 'category',
         width: 400,
         store: new Ext.data.ArrayStore({
-            fields: [code, 'category'],
+            fields: ['code', 'category'],
             data : SampleApp.EditCase.categories
         }),
         valueField:'code',
