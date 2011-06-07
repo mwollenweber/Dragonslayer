@@ -20,23 +20,26 @@ def update_case(request):
         }
 	form = update_case_form(request.POST)
 	if form.is_valid():
-		dsid = request.POST['dsid']
-		event = request.POST['event']
-		victim = request.POST['victim']
-		attacker = request.POST['attacker']
-		network = request.POST['network']
-		dns = request.POST['dns']
-		primary = request.POST['primary_detection']
-		secondary = request.POST['secondary_detection']
-		verification = request.POST['verification']
-		notes = request.POST['notes']
-		analyst = request.POST['reporter']
-		detection_date = request.POST['date']
-		category = request.POST['category']
-		dhcp_info = request.POST['dhcp']
-		netid = request.POST['netid']
+		record_handle = GwCases.objects.get(id__exact=dsid)
+		record_handle.dsid = request.POST['dsid']
+		record_handle.event = request.POST['event']
+		record_handle.victim = request.POST['victim']
+		record_handle.attacker = request.POST['attacker']
+		record_handle.network = request.POST['network']
+		record_handle.dns = request.POST['dns']
+		record_handle.primary = request.POST['primary_detection']
+		record_handle.secondary = request.POST['secondary_detection']
+		record_handle.verification = request.POST['verification']
+		record_handle.notes = request.POST['notes']
+		record_handle.analyst = request.POST['reporter']
+		record_handle.detection_date = request.POST['date']
+		record_handle.category = request.POST['category']
+		record_handle.dhcp_info = request.POST['dhcp']
+		record_handle.netid = request.POST['netid']
+		record_handle.save()
 		
-		record_handle = GwCases.objects.all().filter(id__exact=dsid)
+		json['success'] = True
+		
 	else:
              	json['error'] = form.errors
 
