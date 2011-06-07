@@ -23,8 +23,8 @@ def update_case(request):
 		dsid = request.POST['dsid']
 		record_handle = GwCases.objects.get(id__exact=dsid)
 		record_handle.event = request.POST['event']
-		record_handle.victim = socket.inet_aton(request.POST['victim'])
-		record_handle.attacker = socket.inet_aton(request.POST['attacker'])
+		record_handle.victim = struct.unpack( "!i", socket.inet_aton(request.POST['victim']))[0]
+		record_handle.attacker = struct.unpack( "!i", socket.inet_aton(request.POST['attacker']))[0]
 		record_handle.network = request.POST['network']
 		record_handle.dns = request.POST['dns']
 		record_handle.primary = request.POST['primary_detection']
