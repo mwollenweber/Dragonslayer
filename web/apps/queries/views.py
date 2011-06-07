@@ -50,7 +50,7 @@ def last_50_cases(request):
 			        'dns_name': str(entry.dns_name),
                                 'network': str(entry.network),
 			        'dhcp_info': str(entry.dhcp_info),
-			        'verification': str(entry.verification),
+			        'verification': entry.verification,
                                 'notes': entry.notes,
 			        'category': str(category_to_text(entry.report_category))
                         }
