@@ -160,6 +160,15 @@ SampleApp.EditCase.FormPanel = function(){
 	];
 	
     //break out form fields from the form so that we can add data to the object
+
+    dsid_display_field = new Ext.form.TextField({
+        fieldLabel: 'DSID',
+        name: 'dsid',
+        width: 400,
+        readOnly:true,
+        allowBlank:false,
+    });
+    
     event_field = new Ext.form.TextField({
         fieldLabel: 'Event',
         name: 'event',
@@ -274,6 +283,7 @@ SampleApp.EditCase.FormPanel = function(){
         width: 520,
         defaultType: 'textfield',
         items: [
+	    dsid_display_field,
             event_field,
             reporter_field,
             victim_field,
@@ -404,6 +414,7 @@ SampleApp.EditCase.GridPanel = function() {
 		var rec = grid.getStore().getAt(rowIndex);
 		//values pulled from the global form
 		dsid_field.setValue(rec.get('dsid'));
+		dsid_display_field.setValue(rec.get('dsid'));
 		date_field.setValue(rec.get('date'));
 		reporter_field.setValue(rec.get('analyst'));
 		event_field.setValue(rec.get('event'));
@@ -487,6 +498,7 @@ SampleApp.EditCase.FromAnywhereGrid = function() {
 				
 				//values pulled from the global form
 				dsid_field.setValue(rec.get('dsid'));
+				dsid_display_field.setValue(rec.get('dsid'));
 				date_field.setValue(rec.get('date'));
 				reporter_field.setValue(rec.get('analyst'));
 				event_field.setValue(rec.get('event'));
