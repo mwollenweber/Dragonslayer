@@ -240,7 +240,6 @@ SampleApp.EditCase.FormPanel = function(){
             fields: ['code', 'category'],
             data : SampleApp.EditCase.categories
         }),
-        valueField:'code',
         displayField:'category',
         typeAhead: true,
         mode: 'local',
