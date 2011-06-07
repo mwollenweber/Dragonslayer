@@ -55,6 +55,7 @@ def last_50_cases(request):
 			        'category': str(category_to_text(entry.report_category))
                         }
                         objs.append(obj)
+			print objs
 
                 json['success'] = True
                 json['data'] = objs
