@@ -11,6 +11,37 @@ import socket
 import struct
 import sys
 
+def update_case(request):
+	objs = []
+        json = {
+                'error': {},
+                'text': {},
+                'success': False,
+        }
+	form = update_case_form(request.POST)
+	if form.is_valid():
+		dsid = request.POST['dsid']
+		event = request.POST['event']
+		victim = request.POST['victim']
+		attacker = request.POST['attacker']
+		network = request.POST['network']
+		dns = request.POST['dns']
+		primary = request.POST['primary_detection']
+		secondary = request.POST['secondary_detection']
+		verification = request.POST['verification']
+		notes = request.POST['notes']
+		analyst = request.POST['reporter']
+		detection_date = request.POST['date']
+		category = request.POST['category']
+		dhcp_info = request.POST['dhcp']
+		netid = request.POST['netid']
+		
+		record_handle = GwCases.objects.all().filter(id__exact=dsid)
+	else:
+             	json['error'] = form.errors
+
+        return HttpResponse(simplejson.dumps(json, cls=DjangoJSONEncoder))
+
 def search_by_type(request):
 	objs = []
         json = {

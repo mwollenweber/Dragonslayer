@@ -88,7 +88,7 @@ SampleApp.EditCase.OpenFromGrid = function(dsid) {
  * 
  */
 SampleApp.EditCase.Panel = function() {
-	editCaseFormPanel = new SampleApp.EditCase.FormPanel();
+    editCaseFormPanel = new SampleApp.EditCase.FormPanel();
     editCaseGridPanel = new SampleApp.EditCase.GridPanel();
     editCaseFromAnywhereGrid = new SampleApp.EditCase.FromAnywhereGrid();
     SampleApp.EditCase.Panel.superclass.constructor.call(this,{
@@ -97,33 +97,33 @@ SampleApp.EditCase.Panel = function() {
         title:'Edit Case',
         closable: true,
         items: [{
-			xtype:'portal',
-			margins: '0 0 10 10',
-			cmargins: '10 10 10 10' ,
-			region:'center',
+		    xtype:'portal',
+		    margins: '0 0 10 10',
+		    cmargins: '10 10 10 10' ,
+		    region:'center',
         	items: [
 	            {  
-					columnWidth:.59,
-					style:'padding:10px 10 10px 10px',
-					items:[{
-						frame:true,         
-						title: '50 Latest Cases',
-						items: editCaseGridPanel,
-					},
-					{
-						frame:true,         
-						title: 'Results from last tab',
-						items: editCaseFromAnywhereGrid,
-						
-					}]
+			columnWidth:.59,
+			style:'padding:10px 10 10px 10px',
+			items:[{
+				frame:true,         
+				title: '50 Latest Cases',
+				items: editCaseGridPanel,
+			},
+			{
+				frame:true,         
+				title: 'Results from last tab',
+				items: editCaseFromAnywhereGrid,
+				
+			}]
 					
-	        	},
-				{
-					columnWidth:.39,
-					style: 'padding:10px 5px 10px 10px',
-					items: editCaseFormPanel,
-					height: 720
-	        	}
+		    },
+		    {
+			columnWidth:.39,
+			style: 'padding:10px 5px 10px 10px',
+			items: editCaseFormPanel,
+			height: 720
+		    }
         	]
     	}]
     });
@@ -140,26 +140,26 @@ Ext.extend(SampleApp.EditCase.Panel, Ext.Panel, {
 */
 SampleApp.EditCase.FormPanel = function(){
 	SampleApp.EditCase.categories = [
-	                          [200, 'Normal'],
-	                          [201, 'Normal - Remedied'],
-	                          [20, 'Student'],
-	                          [300, 'Server'],
-	                          [42, 'Needs Research'],
-	                          [100, 'Other - Do Not Ticket'],
-	                          [252, 'Other - Please Review'],
-	                          [250, 'VIP - Please Review'],
-	                          [251, 'VIP - Block/Re-image'],	
-	                          [253, 'Request Review'],
-	                          [500, 'Needs Forensics'],
-	                          [510, 'Forensics Ongoing'],
-	                          [520, 'Forensics Complete'],
-	                          [25, 'Mail Compromise - Student'],
-	                          [205, 'Mail Compromise - Faculty/Staff'],
-	                          [0, 'Delete'],
-	                      ];
+	    [200, 'Normal'],
+	    [201, 'Normal - Remedied'],
+	    [20, 'Student'],
+	    [300, 'Server'],
+	    [42, 'Needs Research'],
+	    [100, 'Other - Do Not Ticket'],
+	    [252, 'Other - Please Review'],
+	    [250, 'VIP - Please Review'],
+	    [251, 'VIP - Block/Re-image'],	
+	    [253, 'Request Review'],
+	    [500, 'Needs Forensics'],
+	    [510, 'Forensics Ongoing'],
+	    [520, 'Forensics Complete'],
+	    [25, 'Mail Compromise - Student'],
+	    [205, 'Mail Compromise - Faculty/Staff'],
+	    [0, 'Delete'],
+	];
 	
-	//break out form fields from the form so that we can add data to the object
-	event_field = new Ext.form.TextField({
+    //break out form fields from the form so that we can add data to the object
+    event_field = new Ext.form.TextField({
         fieldLabel: 'Event',
         name: 'event',
         width: 400,
@@ -167,14 +167,14 @@ SampleApp.EditCase.FormPanel = function(){
         allowBlank:false,
     });
 	
-	date_field = new Ext.form.TextField({
+    date_field = new Ext.form.TextField({
         fieldLabel: 'Date Discovered',
         name: 'date',
         allowBlank:false,
         width: 400
     });
 	
-	reporter_field = new Ext.form.TextField({
+    reporter_field = new Ext.form.TextField({
         fieldLabel: 'Reporter',
         name: 'reporter',
         width: 400,
@@ -237,7 +237,7 @@ SampleApp.EditCase.FormPanel = function(){
         name: 'category',
         width: 400,
         store: new Ext.data.ArrayStore({
-            fields: ['code', 'category'],
+            fields: [code, 'category'],
             data : SampleApp.EditCase.categories
         }),
         valueField:'code',
@@ -304,35 +304,35 @@ SampleApp.EditCase.FormPanel = function(){
             handler:function(){ 
             	var form_data = editCaseFormPanel.getForm().getValues();
             	if(editCaseFormPanel.getForm().isValid()) {
-	            	Ext.Ajax.request({
-	            		url: 'controls/actions/update_case.php',
-				        method:'POST', 
-				        waitTitle:'Connecting', 
-				        waitMsg:'Getting data...',
-				        params: form_data,
-				        
-				        success:function(request){ 
-				        	var obj = Ext.util.JSON.decode(request.responseText);
-				        	if(obj.success == "true") {
-				        		Ext.Msg.alert('Success','Case updated');
-				        		
-				        		//Update the grid when all is updated
-				        	    var myData = Ext.Ajax.request({
-				        	        url: 'controls/queries/last_50_cases.php',
-				        	        method:'GET', 
-				        	        waitTitle:'Connecting', 
-				        	        waitMsg:'Getting data...',
-				        	        
-				        	        success:function(request){ 
-				        	        	var obj = Ext.util.JSON.decode(request.responseText); 
-				        	        	store.loadData(obj);
-				        	       },
-				        		});
-				        	} else {
-				        		Ext.Msg.alert('Case creation failed', obj.error); 
-				        	}
-				       },
-					});
+		    Ext.Ajax.request({
+			url: 'controls/actions/update_case.php',
+			method:'POST', 
+			waitTitle:'Connecting', 
+			waitMsg:'Getting data...',
+			params: form_data,
+				    
+			success:function(request){ 
+			    var obj = Ext.util.JSON.decode(request.responseText);
+			    if(obj.success == "true") {
+				Ext.Msg.alert('Success','Case updated');
+					
+				//Update the grid when all is updated
+				var myData = Ext.Ajax.request({
+				    url: '/last_50_cases/',
+				    method:'GET', 
+				    waitTitle:'Connecting', 
+				    waitMsg:'Getting data...',
+				    
+				    success:function(request){ 
+					var obj = Ext.util.JSON.decode(request.responseText); 
+					store.loadData(obj);
+				    },
+				});
+			    } else {
+				Ext.Msg.alert('Case creation failed', obj.error); 
+			    }
+			},
+		    });
             	}
             },
         }],
@@ -374,19 +374,17 @@ SampleApp.EditCase.GridPanel = function() {
     });
 	
     reload_store = function() {
-	    Ext.Ajax.request({
-		url: '/last_50_cases/',
-		method:'GET', 
-		waitTitle:'Connecting', 
-		waitMsg:'Getting data...',
-		
-		success:function(request){ 
-		    var obj = Ext.util.JSON.decode(request.responseText); 
-		    time = new Date();
-		    //Ext.getCmp('dbf_update_time').setText("Last updated: " + time);  
-		    store.loadData(obj.data);
-	       },
-	    });
+	Ext.Ajax.request({
+	    url: '/last_50_cases/',
+	    method:'GET', 
+	    waitTitle:'Connecting', 
+	    waitMsg:'Getting data...',
+	    
+	    success:function(request){ 
+		var obj = Ext.util.JSON.decode(request.responseText); 
+		store.loadData(obj.data);
+	   },
+	});
     }
     
     reload_store();
@@ -397,48 +395,47 @@ SampleApp.EditCase.GridPanel = function() {
         stripeRows: true,
         autoExpandColumn: 'daily_bad_filter_date',
         height: 300,
-		autoSizeColumns: true,
-		listeners: {
-			cellclick: function(grid, rowIndex, colIndex) {
-				var rec = grid.getStore().getAt(rowIndex);
-				
-				//values pulled from the global form
-				dsid_field.setValue(rec.get('dsid'));
-				date_field.setValue(rec.get('date'));
-				reporter_field.setValue(rec.get('analyst'));
-				event_field.setValue(rec.get('event'));
-				victim_field.setValue(rec.get('victim'));
-				attacker_field.setValue(rec.get('attacker'));
-				netid_field.setValue(rec.get('netid'));
-				dns_field.setValue(rec.get('dns_name'));
-				network_field.setValue(rec.get('network'));
-				dhcp_field.setValue(rec.get('dhcp_info'));
-				verification_field.setValue(rec.get('verification'));
-				notes_field.setValue(rec.get('confirmation'));
-				category_field.setValue(rec.get('category'));
-			},
-			cellcontextmenu: function(grid, rowIndex, colIndex, e) {
-				var type = grid.getColumnModel().getDataIndex(colIndex);
-				if(type == "analyst" || type == "event" || type == "victim" || type == "attacker" || type == "network"){
-					var rec = grid.getStore().getAt(rowIndex);
-				    var data = rec.get(type);
-				    var search_context = new Ext.menu.Menu({
-				    	items: [{
-				    		text: 'search on ' + type,
-				    		handler: function() {
-				    			SampleApp.SearchByIp.PivotSearch(type, data)
-				    		}
-				    	}]
-				    });
+	autoSizeColumns: true,
+	listeners: {
+	    cellclick: function(grid, rowIndex, colIndex) {
+		var rec = grid.getStore().getAt(rowIndex);
+		//values pulled from the global form
+		dsid_field.setValue(rec.get('dsid'));
+		date_field.setValue(rec.get('date'));
+		reporter_field.setValue(rec.get('analyst'));
+		event_field.setValue(rec.get('event'));
+		victim_field.setValue(rec.get('victim'));
+		attacker_field.setValue(rec.get('attacker'));
+		netid_field.setValue(rec.get('netid'));
+		dns_field.setValue(rec.get('dns_name'));
+		network_field.setValue(rec.get('network'));
+		dhcp_field.setValue(rec.get('dhcp_info'));
+		verification_field.setValue(rec.get('verification'));
+		notes_field.setValue(rec.get('confirmation'));
+		category_field.setValue(rec.get('category'));
+	    },
+	    cellcontextmenu: function(grid, rowIndex, colIndex, e) {
+		var type = grid.getColumnModel().getDataIndex(colIndex);
+		if(type == "analyst" || type == "event" || type == "victim" || type == "attacker" || type == "network"){
+		    var rec = grid.getStore().getAt(rowIndex);
+		    var data = rec.get(type);
+		    var search_context = new Ext.menu.Menu({
+			items: [{
+			    text: 'search on ' + type,
+			    handler: function() {
+				SampleApp.SearchByIp.PivotSearch(type, data)
+			    }
+			}]
+		    });
 
-					search_context.showAt(e.getXY());
-				}
-			},
-		    render: function() {
-                 Ext.getBody().on("contextmenu", Ext.emptyFn, null, {preventDefault: true});
-        	},
+		    search_context.showAt(e.getXY());
 		}
-		
+	    },
+		    
+	    render: function() {
+                 Ext.getBody().on("contextmenu", Ext.emptyFn, null, {preventDefault: true});
+	    },
+	}
     });
 }
 
@@ -474,7 +471,6 @@ SampleApp.EditCase.FromAnywhereGrid = function() {
 	fields: ['dsid','date','analyst','event','victim','attacker','netid','dns_name','network','dhcp_info','verification','notes','category']
     });
 	
-    
     SampleApp.EditCase.FromAnywhereGrid.superclass.constructor.call(this,{
         store: anywhere_store,
         cm: cm,
