@@ -3,6 +3,7 @@ var editCaseGridPanel;
 var editCaseFormPanel;
 
 var anywhere_store;
+var store;
 
 var dsid;
 var date;
@@ -371,7 +372,7 @@ SampleApp.EditCase.GridPanel = function() {
     ]);
     cm.defaultSortable = true; 
 
-    var store = new Ext.data.JsonStore({
+    store = new Ext.data.JsonStore({
 	fields: ['dsid','date','analyst','event','victim','attacker','netid','dns_name','network','dhcp_info','verification','notes','category']
     });
 	
