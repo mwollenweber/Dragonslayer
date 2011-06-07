@@ -140,22 +140,22 @@ Ext.extend(SampleApp.EditCase.Panel, Ext.Panel, {
 */
 SampleApp.EditCase.FormPanel = function(){
 	SampleApp.EditCase.categories = [
-	    ['200', 'Normal'],
-	    ['201', 'Normal - Remedied'],
-	    ['20', 'Student'],
-	    ['300', 'Server'],
-	    ['42', 'Needs Research'],
-	    ['100', 'Other - Do Not Ticket'],
-	    ['252', 'Other - Please Review'],
-	    ['250', 'VIP - Please Review'],
-	    ['251', 'VIP - Block/Re-image'],	
-	    ['253', 'Request Review'],
-	    ['500', 'Needs Forensics'],
-	    ['510', 'Forensics Ongoing'],
-	    ['520', 'Forensics Complete'],
-	    ['25', 'Mail Compromise - Student'],
-	    ['205', 'Mail Compromise - Faculty/Staff'],
-	    ['0', 'Delete'],
+	    [200, 'Normal'],
+	    [201, 'Normal - Remedied'],
+	    [20, 'Student'],
+	    [300, 'Server'],
+	    [42, 'Needs Research'],
+	    [100, 'Other - Do Not Ticket'],
+	    [252, 'Other - Please Review'],
+	    [250, 'VIP - Please Review'],
+	    [251, 'VIP - Block/Re-image'],	
+	    [253, 'Request Review'],
+	    [500, 'Needs Forensics'],
+	    [510, 'Forensics Ongoing'],
+	    [520, 'Forensics Complete'],
+	    [25, 'Mail Compromise - Student'],
+	    [205, 'Mail Compromise - Faculty/Staff'],
+	    [0, 'Delete'],
 	];
 	
     //break out form fields from the form so that we can add data to the object
@@ -247,6 +247,7 @@ SampleApp.EditCase.FormPanel = function(){
         triggerAction: 'all',
         emptyText:'Select a category...',
         allowBlank:false,
+	hiddenName : 'category_field_hidden',
     });
     
     verification_field = new Ext.form.TextArea({
