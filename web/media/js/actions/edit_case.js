@@ -383,8 +383,8 @@ SampleApp.EditCase.GridPanel = function() {
 		success:function(request){ 
 		    var obj = Ext.util.JSON.decode(request.responseText); 
 		    time = new Date();
-		    Ext.getCmp('dbf_update_time').setText("Last updated: " + time);  
-		    store.loadData(obj);
+		    //Ext.getCmp('dbf_update_time').setText("Last updated: " + time);  
+		    store.loadData(obj.data);
 	       },
 	    });
     }
