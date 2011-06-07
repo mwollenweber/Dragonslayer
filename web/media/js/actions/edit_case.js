@@ -248,7 +248,7 @@ SampleApp.EditCase.FormPanel = function(){
         emptyText:'Select a category...',
         allowBlank:false,
 	id : 'category_field_hidden',
-	hiddenName:'value',
+	hiddenName:'report_category',
     });
     
     verification_field = new Ext.form.TextArea({
