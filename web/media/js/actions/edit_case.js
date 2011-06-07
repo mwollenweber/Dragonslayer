@@ -327,7 +327,7 @@ SampleApp.EditCase.FormPanel = function(){
 				    
 				    success:function(request){ 
 					var obj = Ext.util.JSON.decode(request.responseText); 
-					store.loadData(obj);
+					store.loadData(obj.data);
 				    },
 				});
 			    } else {
