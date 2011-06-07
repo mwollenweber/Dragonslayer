@@ -26,7 +26,8 @@ urlpatterns = patterns('',
     (r'^daily_mdl/$', 'apps.queries.views.daily_mdl'),
     (r'^weekly_cases/$', 'apps.queries.views.weekly_cases'),
     (r'^recent_vip_cases/$', 'apps.queries.views.recent_vip_cases'),
-
+    (r'^last_50_cases/$', 'apps.queries.views.last_50_cases'),
+    
     # reports
     (r'^weekly_report/$', 'apps.reports.views.weekly_report'),
     (r'^student_report/$', 'apps.reports.views.student_report'),

@@ -351,24 +351,26 @@ Ext.extend(SampleApp.EditCase.FormPanel, Ext.FormPanel, {
  * Grid Panel
  */
 SampleApp.EditCase.GridPanel = function() {
-	
-	// create the data store
-    store = new Ext.data.ArrayStore({
-        fields: [
-           {name: 'dsid'},	
-           {name: 'date'},
-           {name: 'analyst'},
-           {name: 'event'},
-           {name: 'victim'},
-           {name: 'attacker'},
-           {name: 'netid'},
-           {name: 'dns'},
-           {name: 'network'},
-           {name: 'dhcp_info'},
-           {name: 'user_verification'},
-           {name: 'confirmation'},
-           {name: 'report_category'}
-        ]
+
+    var cm = new Ext.grid.ColumnModel([ 
+	{ header : 'DSID', width : 100, sortable : true, dataIndex: 'dsid'},
+	{ header : 'Date', width : 160, sortable : true, dataIndex: 'date',id :'daily_bad_filter_date' },
+	{ header : 'Analyst', width : 200, sortable : true, dataIndex: 'analyst' },
+	{ header : 'Event', width : 200, sortable : true, dataIndex: 'event' },
+	{ header : 'Victim', width : 120, sortable : true, dataIndex: 'victim', editor: new Ext.form.TextField({ allowBlank: false }) },
+	{ header : 'Attacker', width : 120, sortable : true, dataIndex: 'attacker', editor: new Ext.form.TextField({ allowBlank: false }) },
+	{ header : 'NetID', width : 200, sortable : true, dataIndex: 'netid' },
+	{ header : 'DNS', width : 200, sortable : true, dataIndex: 'dns' },
+	{ header : 'Network', width : 200, sortable : true, dataIndex: 'network' },
+	{ header : 'DHCP Info', width : 200, sortable : true, dataIndex: 'dhcp_info' },
+	{ header : 'Verification', width : 200, sortable : true, dataIndex: 'verification' },
+	{ header : 'Notes', width : 200, sortable : true, dataIndex: 'notes' },
+	{ header : 'Category', width : 200, sortable : true, dataIndex: 'category' },
+    ]);
+    cm.defaultSortable = true; 
+
+    var store = new Ext.data.JsonStore({
+	fields: ['dsid','date','analyst','event','victim','attacker','netid','dns_name','network','dhcp_info','verification','notes','category']
     });
 	
     var myData = Ext.Ajax.request({
@@ -382,90 +384,28 @@ SampleApp.EditCase.GridPanel = function() {
         	store.loadData(obj);
        },
 	});
+	
+    reload_store = function() {
+	    Ext.Ajax.request({
+		url: '/last_50_cases/',
+		method:'GET', 
+		waitTitle:'Connecting', 
+		waitMsg:'Getting data...',
+		
+		success:function(request){ 
+		    var obj = Ext.util.JSON.decode(request.responseText); 
+		    time = new Date();
+		    Ext.getCmp('dbf_update_time').setText("Last updated: " + time);  
+		    store.loadData(obj);
+	       },
+	    });
+    }
+    
+    reload_store();
     
     SampleApp.EditCase.GridPanel.superclass.constructor.call(this,{
         store: store,
-        columns: [
-	          {
-	              header   : 'DSID', 
-	              width    : 100, 
-	              sortable : true, 
-	              dataIndex: 'dsid'
-	          },
-            {
-                header   : 'Date', 
-                width    : 160, 
-                sortable : true, 
-                dataIndex: 'date'
-            },
-            {
-                header   : 'Analyst', 
-                width    : 200, 
-                sortable : true, 
-                dataIndex: 'analyst'
-            },
-            {
-                header   : 'Event', 
-                width    : 120, 
-                sortable : true, 
-                dataIndex: 'event'
-            },
-            {
-                header   : 'Victim', 
-                width    : 120, 
-                sortable : true, 
-                dataIndex: 'victim'
-            },
-            {
-                header   : 'Attacker', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'attacker'
-            },
-            {
-                header   : 'NetID', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'netid'
-            },
-            {
-                header   : 'DNS', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'dns'
-            },
-            {
-                header   : 'Network', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'network'
-            },
-            {
-                header   : 'DHCP', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'dhcp_info'
-            },
-            {
-                header   : 'Verification', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'user_verification'
-            },
-            {
-            	id		 : 'search_by_ip_confirmation',
-                header   : 'Confirmation', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'confirmation'
-            },
-            {
-                header   : 'Category', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'report_category'
-            }
-        ],
+        cm: cm,
         stripeRows: true,
         autoExpandColumn: 'search_by_ip_confirmation',
         height: 300,
@@ -482,12 +422,12 @@ SampleApp.EditCase.GridPanel = function() {
 				victim_field.setValue(rec.get('victim'));
 				attacker_field.setValue(rec.get('attacker'));
 				netid_field.setValue(rec.get('netid'));
-				dns_field.setValue(rec.get('dns'));
+				dns_field.setValue(rec.get('dns_name'));
 				network_field.setValue(rec.get('network'));
 				dhcp_field.setValue(rec.get('dhcp_info'));
-				verification_field.setValue(rec.get('user_verification'));
+				verification_field.setValue(rec.get('verification'));
 				notes_field.setValue(rec.get('confirmation'));
-				category_field.setValue(rec.get('report_category'));
+				category_field.setValue(rec.get('category'));
 			},
 			cellcontextmenu: function(grid, rowIndex, colIndex, e) {
 				var type = grid.getColumnModel().getDataIndex(colIndex);
@@ -525,108 +465,31 @@ Ext.extend(SampleApp.EditCase.GridPanel, Ext.grid.GridPanel, {
  */
 SampleApp.EditCase.FromAnywhereGrid = function() {
 	
-	// create the data store
-    anywhere_store = new Ext.data.ArrayStore({
-        fields: [
-           {name: 'dsid'},	
-           {name: 'date'},
-           {name: 'analyst'},
-           {name: 'event'},
-           {name: 'victim'},
-           {name: 'attacker'},
-           {name: 'netid'},
-           {name: 'dns'},
-           {name: 'network'},
-           {name: 'dhcp_info'},
-           {name: 'user_verification'},
-           {name: 'confirmation'},
-           {name: 'report_category'}
-        ]
+    var cm = new Ext.grid.ColumnModel([ 
+	{ header : 'DSID', width : 100, sortable : true, dataIndex: 'dsid'},
+	{ header : 'Date', width : 160, sortable : true, dataIndex: 'date',id :'daily_bad_filter_date' },
+	{ header : 'Analyst', width : 200, sortable : true, dataIndex: 'analyst' },
+	{ header : 'Event', width : 200, sortable : true, dataIndex: 'event' },
+	{ header : 'Victim', width : 120, sortable : true, dataIndex: 'victim', editor: new Ext.form.TextField({ allowBlank: false }) },
+	{ header : 'Attacker', width : 120, sortable : true, dataIndex: 'attacker', editor: new Ext.form.TextField({ allowBlank: false }) },
+	{ header : 'NetID', width : 200, sortable : true, dataIndex: 'netid' },
+	{ header : 'DNS', width : 200, sortable : true, dataIndex: 'dns' },
+	{ header : 'Network', width : 200, sortable : true, dataIndex: 'network' },
+	{ header : 'DHCP Info', width : 200, sortable : true, dataIndex: 'dhcp_info' },
+	{ header : 'Verification', width : 200, sortable : true, dataIndex: 'verification' },
+	{ header : 'Notes', width : 200, sortable : true, dataIndex: 'notes' },
+	{ header : 'Category', width : 200, sortable : true, dataIndex: 'category' },
+    ]);
+    cm.defaultSortable = true; 
+
+    var anywhere_store = new Ext.data.JsonStore({
+	fields: ['dsid','date','analyst','event','victim','attacker','netid','dns_name','network','dhcp_info','verification','notes','category']
     });
+	
     
     SampleApp.EditCase.FromAnywhereGrid.superclass.constructor.call(this,{
         store: anywhere_store,
-        columns: [
-	          {
-	              header   : 'DSID', 
-	              width    : 100, 
-	              sortable : true, 
-	              dataIndex: 'dsid'
-	          },
-            {
-                header   : 'Date', 
-                width    : 160, 
-                sortable : true, 
-                dataIndex: 'date'
-            },
-            {
-                header   : 'Analyst', 
-                width    : 200, 
-                sortable : true, 
-                dataIndex: 'analyst'
-            },
-            {
-                header   : 'Event', 
-                width    : 120, 
-                sortable : true, 
-                dataIndex: 'event'
-            },
-            {
-                header   : 'Victim', 
-                width    : 120, 
-                sortable : true, 
-                dataIndex: 'victim'
-            },
-            {
-                header   : 'Attacker', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'attacker'
-            },
-            {
-                header   : 'NetID', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'netid'
-            },
-            {
-                header   : 'DNS', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'dns'
-            },
-            {
-                header   : 'Network', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'network'
-            },
-            {
-                header   : 'DHCP', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'dhcp_info'
-            },
-            {
-                header   : 'Verification', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'user_verification'
-            },
-            {
-            	id		 : 'search_by_ip_confirmation',
-                header   : 'Confirmation', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'confirmation'
-            },
-            {
-                header   : 'Category', 
-                width    : 170, 
-                sortable : true, 
-                dataIndex: 'report_category'
-            }
-        ],
+        cm: cm,
         stripeRows: true,
         autoExpandColumn: 'search_by_ip_confirmation',
         height: 200,
@@ -643,12 +506,12 @@ SampleApp.EditCase.FromAnywhereGrid = function() {
 				victim_field.setValue(rec.get('victim'));
 				attacker_field.setValue(rec.get('attacker'));
 				netid_field.setValue(rec.get('netid'));
-				dns_field.setValue(rec.get('dns'));
+				dns_field.setValue(rec.get('dns_name'));
 				network_field.setValue(rec.get('network'));
 				dhcp_field.setValue(rec.get('dhcp_info'));
-				verification_field.setValue(rec.get('user_verification'));
+				verification_field.setValue(rec.get('verification'));
 				notes_field.setValue(rec.get('confirmation'));
-				category_field.setValue(rec.get('report_category'));
+				category_field.setValue(rec.get('category'));
 			}
 		},
     });
