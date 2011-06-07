@@ -33,7 +33,7 @@ def update_case(request):
 		record_handle.notes = request.POST['notes']
 		record_handle.analyst = request.POST['reporter']
 		record_handle.detection_date = request.POST['date']
-		record_handle.category = request.POST['category']
+		record_handle.category = request.POST['report_category']
 		record_handle.dhcp_info = request.POST['dhcp']
 		record_handle.netid = request.POST['netid']
 		record_handle.save()
