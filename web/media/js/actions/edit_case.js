@@ -356,6 +356,18 @@ SampleApp.EditCase.FormPanel = function(){
 		printer = window.open('','winReport');
 		printer.document.write("<html><body>");
 		printer.document.write("<h1>DSID: " + dsid_field.getValue() + "</h1>");
+		printer.document.write("<p>Event: " + event_field.getValue() + "</p>");
+		printer.document.write("<p>Analyst: " + reporter_field.getValue() + "</p>");
+		printer.document.write("<p>Victim: " + victim_field.getValue() + "</p>");
+		printer.document.write("<p>NetID: " + netid_field.getValue() + "</p>");
+		printer.document.write("<p>Network: " + netid_field.getValue() + "</p>");
+		printer.document.write("<p>DHCP: " + dhcp_field.getValue() + "</p>");
+		printer.document.write("<p>DNS: " + dns_field.getValue() + "</p>");
+		printer.document.write("<p>Attacker: " + attacker_field.getValue() + "</p>");
+		printer.document.write("<p>Date Discovered: " + date_field.getValue() + "</p>");
+		printer.document.write("<p>Verification: " + verification_field.getValue() + "</p>");
+		printer.document.write("<p>Notes: " + notes_field.getValue() + "</p>");
+		printer.document.write("<p>Category: " + category_field.getValue() + "</p>");
 		printer.document.write("</body></html>");
 		printer.document.close();
 	    }
