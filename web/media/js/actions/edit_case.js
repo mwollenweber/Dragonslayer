@@ -290,7 +290,7 @@ SampleApp.EditCase.FormPanel = function(){
             },
             {
                 fieldLabel: 'Seconday Detection',
-                name: 'seconday_detection',
+                name: 'secondary_detection',
                 allowBlank:true,
                 width: 400
             },
