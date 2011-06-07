@@ -5,7 +5,7 @@ from django.db.models import Count, Q
 from apps.core.models import DailyMdl, DailyBadFiltered, GwCases, Patchy
 from apps.utilities.tools import *
 from datetime import *
-from forms import search_form
+from forms import search_form, update_case_form
 
 import socket
 import struct
