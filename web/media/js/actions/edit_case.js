@@ -373,18 +373,6 @@ SampleApp.EditCase.GridPanel = function() {
 	fields: ['dsid','date','analyst','event','victim','attacker','netid','dns_name','network','dhcp_info','verification','notes','category']
     });
 	
-    var myData = Ext.Ajax.request({
-        url: 'controls/queries/last_50_cases.php',
-        method:'GET', 
-        waitTitle:'Connecting', 
-        waitMsg:'Getting data...',
-        
-        success:function(request){ 
-        	var obj = Ext.util.JSON.decode(request.responseText); 
-        	store.loadData(obj);
-       },
-	});
-	
     reload_store = function() {
 	    Ext.Ajax.request({
 		url: '/last_50_cases/',
