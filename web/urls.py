@@ -22,7 +22,7 @@ urlpatterns = patterns('',
     (r'^scratch/$', 'apps.scratch_pad.views.scratch'),
 
     # queries
-    (r'^daily_bad_filtered/$', 'apps.queries.views.daily_bad_filtered'),
+    #(r'^daily_bad_filtered/$', 'apps.queries.views.daily_bad_filtered'),
     (r'^daily_mdl/$', 'apps.queries.views.daily_mdl'),
     (r'^weekly_cases/$', 'apps.queries.views.weekly_cases'),
     (r'^recent_vip_cases/$', 'apps.queries.views.recent_vip_cases'),
