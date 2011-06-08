@@ -20,6 +20,7 @@ def create_case(request):
         }
 	form = create_case_form(request.POST)	
 	if form.is_valid():
+		tdstamp = None
 		event = request.POST['event']
 		victim = struct.unpack( "!i", socket.inet_aton(request.POST['victim']))[0]
 		attacker = struct.unpack( "!i", socket.inet_aton(request.POST['attacker']))[0]
@@ -34,8 +35,7 @@ def create_case(request):
 		category = request.POST['report_category']
 		dhcp_info = request.POST['dhcp']
 		netid = request.POST['netid']
-		date = datetime.now()
-		tdstamp = date.strftime('%Y-%m-%d %H:%m:%S')
+		tdstamp = datetime.now().strftime('%Y-%m-%d %H:%m:%S')
 		
 		case, created = GwCases.objects.get_or_create(tdstamp = tdstamp ,event = event, victim = victim, attacker = attacker, network = network, dns_name = dns, primary_detection = primary, secondary_detection = secondary, verification = verification, notes = notes, reporter = analyst, discovered = detection_date, report_category = category, dhcp_info = dhcp_info, netid = netid)
 		if created:
