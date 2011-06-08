@@ -30,7 +30,7 @@ def create_case(request):
 		verification = request.POST['verification']
 		notes = request.POST['notes']
 		analyst = request.POST['reporter']
-		detection_date = request.POST['date']
+		detection_date = request.POST['detection_date']
 		category = request.POST['report_category']
 		dhcp_info = request.POST['dhcp']
 		netid = request.POST['netid']
