@@ -234,7 +234,7 @@ SampleApp.CreateCase.FormPanel = function(){
 	
 	date_field = new Ext.form.TextField({
         fieldLabel: 'Date Discovered',
-        name: 'date',
+        name: 'detection_date',
         allowBlank:false,
         anchor:'100%'
     });
@@ -375,8 +375,8 @@ SampleApp.CreateCase.FormPanel = function(){
                 anchor:'100%'
             },
             {
-                fieldLabel: 'Seconday Detection',
-                name: 'seconday_detection',
+                fieldLabel: 'Secondary Detection',
+                name: 'secondary_detection',
                 allowBlank:true,
                 anchor:'100%'
             },
