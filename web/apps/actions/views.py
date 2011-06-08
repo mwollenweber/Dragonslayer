@@ -5,11 +5,47 @@ from django.db.models import Count, Q
 from apps.core.models import DailyMdl, DailyBadFiltered, GwCases, Patchy
 from apps.utilities.tools import *
 from datetime import *
-from forms import search_form, update_case_form
+from forms import search_form, update_case_form, create_case_form
 
 import socket
 import struct
 import sys
+
+def create_case(request):
+	objs = []
+        json = {
+                'error': {},
+                'text': {},
+                'success': False,
+        }
+	form = create_case_form(request.POST)	
+	if form.is_valid():
+		event = request.POST['event']
+		victim = struct.unpack( "!i", socket.inet_aton(request.POST['victim']))[0]
+		attacker = struct.unpack( "!i", socket.inet_aton(request.POST['attacker']))[0]
+		network = request.POST['network']
+		dns = request.POST['dns']
+		primary = request.POST['primary_detection']
+		secondary = request.POST['secondary_detection']
+		verification = request.POST['verification']
+		notes = request.POST['notes']
+		analyst = request.POST['reporter']
+		detection_date = request.POST['date']
+		category = request.POST['report_category']
+		dhcp_info = request.POST['dhcp']
+		netid = request.POST['netid']
+		
+		case, created = GwCases.objects.get_or_create(event = event, victim = victim, attacker = attacker, network = network, dns = dns, primary_detection = primary, secondary_detection = secondary, verification = verification, notes = notes, reporter = analyst, discovered = detection_date, report_category = category, dhcp_info = dhcp_info, netid = netid)
+		if created:
+			json['success'] = True
+		else:
+			json['success'] = False
+			json['error'] = "Failed in insert into database"
+		
+	else:
+             	json['error'] = form.errors
+
+        return HttpResponse(simplejson.dumps(json, cls=DjangoJSONEncoder))
 
 def update_case(request):
 	objs = []

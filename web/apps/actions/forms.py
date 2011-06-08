@@ -23,3 +23,18 @@ class update_case_form(forms.Form):
         dhcp_info = forms.CharField(max_length=500,required=False)
         netid = forms.CharField(max_length=100,required=False)
         
+class create_case_form(forms.Form):
+        event = forms.CharField(max_length=100)
+        victim = forms.CharField(max_length=15)
+        attacker = forms.CharField(max_length=15)
+        network = forms.CharField(max_length=100)
+        dns = forms.CharField(max_length=100)
+        primary = forms.CharField(max_length=100)
+        secondary = forms.CharField(max_length=100)
+        verification = forms.CharField(max_length=5000)
+        notes = forms.CharField(max_length=5000)
+        analyst = forms.CharField(max_length=100)
+        detection_date = forms.DateField()
+        category = forms.CharField(max_length=100)
+        dhcp_info = forms.CharField(max_length=500)
+        netid = forms.CharField(max_length=100)

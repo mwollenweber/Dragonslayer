@@ -403,6 +403,8 @@ SampleApp.CreateCase.FormPanel = function(){
                 emptyText:'Select a category...',
                 allowBlank:false,
                 anchor:'100%'
+		id : 'category_field_hidden',
+		hiddenName:'report_category',
             }),
         ],
 
@@ -413,7 +415,7 @@ SampleApp.CreateCase.FormPanel = function(){
             	var form_data = createCaseFormPanel.getForm().getValues();
             	if(createCaseFormPanel.getForm().isValid()){
 	            	Ext.Ajax.request({
-	            		url: 'controls/actions/create_case.php',
+	            		url: '/create_case/',
 				        method:'POST', 
 				        waitTitle:'Connecting', 
 				        waitMsg:'Getting data...',
@@ -421,7 +423,7 @@ SampleApp.CreateCase.FormPanel = function(){
 				        
 				        success:function(request){ 
 				        	var obj = Ext.util.JSON.decode(request.responseText);
-				        	if(obj.success == "true") {
+				        	if(obj.success == true) {
 				        		Ext.Msg.alert('Success','Case created');
 				        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
 				        		createCaseFormPanel.getForm().reset();
