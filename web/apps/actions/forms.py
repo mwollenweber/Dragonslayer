@@ -33,7 +33,7 @@ class create_case_form(forms.Form):
         secondary_detection = forms.CharField(max_length=100)
         verification = forms.CharField(max_length=5000)
         notes = forms.CharField(max_length=5000)
-        analyst = forms.CharField(max_length=100)
+        reporter = forms.CharField(max_length=100)
         detection_date = forms.DateField()
         report_category = forms.CharField(max_length=100)
         dhcp = forms.CharField(max_length=500)
