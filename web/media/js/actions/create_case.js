@@ -402,7 +402,7 @@ SampleApp.CreateCase.FormPanel = function(){
                 triggerAction: 'all',
                 emptyText:'Select a category...',
                 allowBlank:false,
-                anchor:'100%'
+                anchor:'100%',
 		id : 'category_field_hidden',
 		hiddenName:'report_category',
             }),
