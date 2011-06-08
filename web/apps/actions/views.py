@@ -34,8 +34,10 @@ def create_case(request):
 		category = request.POST['report_category']
 		dhcp_info = request.POST['dhcp']
 		netid = request.POST['netid']
+		date = datetime.now()
+		tdstamp = date.strftime('%Y-%m-%d %H:%m:%S')
 		
-		case, created = GwCases.objects.get_or_create(event = event, victim = victim, attacker = attacker, network = network, dns = dns, primary_detection = primary, secondary_detection = secondary, verification = verification, notes = notes, reporter = analyst, discovered = detection_date, report_category = category, dhcp_info = dhcp_info, netid = netid)
+		case, created = GwCases.objects.get_or_create(tdstamp = tdstamp ,event = event, victim = victim, attacker = attacker, network = network, dns_name = dns, primary_detection = primary, secondary_detection = secondary, verification = verification, notes = notes, reporter = analyst, discovered = detection_date, report_category = category, dhcp_info = dhcp_info, netid = netid)
 		if created:
 			json['success'] = True
 		else:
