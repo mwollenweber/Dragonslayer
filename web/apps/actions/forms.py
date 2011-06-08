@@ -34,7 +34,7 @@ class create_case_form(forms.Form):
         verification = forms.CharField(max_length=5000)
         notes = forms.CharField(max_length=5000)
         reporter = forms.CharField(max_length=100)
-        detection_date = forms.DateField()
+        detection_date = forms.DateTimeField()
         report_category = forms.CharField(max_length=100)
         dhcp = forms.CharField(max_length=500)
         netid = forms.CharField(max_length=100)
