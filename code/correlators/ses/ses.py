@@ -31,7 +31,7 @@ class correlator():
         print "Done correlating SES. fawesome"
         
     def delete(self):
-        query = "DELETE FROM ids_ses_correlate"
+        query = "DELETE FROM ids_ses_correlation"
         self.cursor.execute(query)
         self.conn.commit()
         
