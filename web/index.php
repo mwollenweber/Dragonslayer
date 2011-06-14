@@ -60,6 +60,7 @@ $_SESSION['vip'] = $_GET['vip'];
 		<script src="script/reports.js" type="text/javascript"></script>
 		<script src="script/launchers.js" type="text/javascript"></script>
 		<script src="script/accounts.js" type="text/javascript"></script>
+		<script src="script/training.js" type="text/javascript"></script>
 		<script src="script/helper_docs.js" type="text/javascript"></script>		
 		
 		<!-- Queries -->
@@ -86,6 +87,9 @@ $_SESSION['vip'] = $_GET['vip'];
 		<script src="script/launchers/malware_uploader.js" type="text/javascript"></script>
 		
 		<!-- Accounts -->
+		
+		<!-- Training -->
+		<script src="script/training/videos.js" type="text/javascript"></script>
 			  
 	</head>
 	
@@ -172,6 +176,14 @@ $_SESSION['vip'] = $_GET['vip'];
 		    <li>
 		        <img src="images/icon_user.gif" class="icon-show-active"/>
 		        <a class="dragonslayer-accounts-myaccount dragonslayer-nav-link" href="#" name="openMyAccount">My Account</a>
+		    </li>
+		</ul>
+		
+		<!-- Training -->
+		<ul id="dragonslayer-training-content" class="x-hidden">
+		    <li>
+		        <img src="images/About.png" class="icon-show-active"/>
+		        <a class="dragonslayer-training-videos dragonslayer-nav-link" href="#" name="openVideoTraining">Videos</a>
 		    </li>
 		</ul>
 	
