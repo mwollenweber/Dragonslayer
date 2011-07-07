@@ -71,7 +71,6 @@ $query.= " LIMIT $start,$count";
 $data_result = array();
 $result= mysqli_query($link,$query);
 $data_result['total'] = $row_cnt;
-$data_result['q'] = $query;
 
 while($row = mysqli_fetch_assoc($result)) {
 	$holder[] = array('dsid'=>$row['id'], 'date'=>$row['tdstamp'],'analyst'=>$row['reporter'],'event'=>$row['event'],'victim'=>$row['INET_NTOA(victim)'],'attacker'=>$row['INET_NTOA(attacker)'],'dns'=>$row['dns_name'],'network'=>$row['network'],'confirmation'=>$row['verification']);
