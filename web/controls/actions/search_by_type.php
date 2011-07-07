@@ -16,6 +16,9 @@ $search_value = addslashes($_POST['search_value']);
 $start = ($_REQUEST["start"] == null)? 0 : $_REQUEST["start"];
 $count = ($_REQUEST["limit"] == null)? 50 : $_REQUEST["limit"];
 
+//inline checks for IP address related searching
+
+
 if($type == "dsid") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE id='$search_value' ORDER BY id DESC";
 } elseif ($type == "analyst") {
@@ -25,7 +28,21 @@ if($type == "dsid") {
 } elseif ($type == "event") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE event='$search_value' ORDER BY id DESC";
 } elseif ($type == "victim_ip") {
-	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE INET_NTOA(victim)='$search_value' ORDER BY id DESC";
+	$pos = strpos($search_value,"/");
+	if($pos === false) {
+		$ip_address = $search_value;
+		$ip_mask = "32";
+	}
+	else {
+		$ip_data = explode("/",$search_value);
+		$ip_address = $ip_data[0];
+		$ip_mask = $ip_data[1];
+	}
+	
+	$adjusted_mask = pow(2,(32 - int($ip_mask))); //grabs the amount of host addresses based on the subnet mask
+	
+//	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE INET_NTOA(victim)='$search_value' ORDER BY id DESC";
+	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE victim BETWEEN (INET_ATON($search_value) AND INET_ATON($search_value) + $adjusted_mask) ORDER BY id DESC";
 } elseif ($type == "attacker_ip") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE INET_NTOA(attacker)='$search_value' ORDER BY id DESC";
 } elseif ($type == "network") {
