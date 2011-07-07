@@ -16,6 +16,13 @@ SampleApp.GenerateReport.Open = function() {
     GenerateReportPanel.show(this);
 }
 
+var report_tools = [{
+	id:'help',
+	handler: function(e, target, panel){
+		SampleApp.HelperDocs.Open(panel.id, hidden_user_field.getValue(), hidden_role_field.getValue());
+	}
+}];
+
 /**
  * 
  */
@@ -37,6 +44,28 @@ SampleApp.GenerateReport.Panel = function() {
         format: 'm/d/Y',
 	});
 	
+	SampleApp.GenerateReport.categories = [
+	   	                          ['pop-up', 'Pop-up'],
+	   	                          ['download', 'Download'],
+	   	                      ];
+	
+    var report_format = new Ext.form.ComboBox({
+        fieldLabel: 'Format',
+        name: 'format',
+        width: 300,
+        store: new Ext.data.ArrayStore({
+            fields: ['code', 'category'],
+            data : SampleApp.GenerateReport.categories
+        }),
+        valueField:'code',
+        displayField:'category',
+        typeAhead: true,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText:'Select a format...',
+        allowBlank:false,
+    });
+	
 	report_form = new Ext.FormPanel({
         width: 500,
         frame: true,
@@ -50,28 +79,23 @@ SampleApp.GenerateReport.Panel = function() {
         },
         items: [
 			date_start,
-			date_end
+			date_end,
+			report_format
         ],
         buttons: [{
             text: 'Generate',
             handler: function(){
             	start = (new Date(date_start.getValue())).format('Y-m-d');
             	end = (new Date(date_end.getValue())).format('Y-m-d');
-            	SampleApp.DisplayReport.Open(start,end);
-//            	url = 'https://128.164.80.81/ds2/web/controls/reports/generate_weekly_report_download.php?start_date=' + start + '&end_date=' + end;
-//            	window.location = url;
+            	format = report_format.getValue();
+            	if(format == "download") {
+                	url = 'https://128.164.80.81/ds2/web/controls/reports/generate_weekly_report_download.php?start_date=' + start + '&end_date=' + end;
+                	window.location = url;
+            	} else {
+                	SampleApp.DisplayReport.Open(start,end);
+            	}
+
             	GenerateReportPanel.close();
-            	
-//            	if(report_form.getForm().isValid()){
-//            		report_form.getForm().submit({
-//	            		url: 'controls/reports/generate_weekly_report_download.php',
-//	            		method: 'post',
-//	                    waitMsg: 'Generating report...',
-//	                    success: function(fp, o){
-//	                    	GenerateReportPanel.close();
-//	                    }
-//	                });
-//            	}
             }
         },{
             text: 'Reset',
@@ -87,7 +111,9 @@ SampleApp.GenerateReport.Panel = function() {
         width:500,
         closeAction:'hide',
         modal: true,
-        items: report_form
+        items: report_form,
+        tools: report_tools,
+        id: 't_generate_report_helper_doc',
     });
 };
 

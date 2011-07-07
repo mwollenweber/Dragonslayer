@@ -29,7 +29,8 @@ SampleApp.DisplayReport.Panel = function() {
     	title: 'Compromise Report',
         closeAction:'hide',
         modal: true,
-        height: 500,
+        height: 600,
+        autoScroll: true,
         autoLoad: 'https://128.164.80.81/ds2/web/controls/reports/generate_weekly_report_display.php?start_date=' + start_date + '&end_date=' + end_date
     });
 };

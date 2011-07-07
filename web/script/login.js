@@ -1,5 +1,9 @@
 Ext.onReady(function(){
 	Ext.QuickTips.init();
+
+    copy_tbar = new Ext.Toolbar.TextItem({
+        text: 'Copyright Matthew Wollenweber, Brandon Dixon 2011',
+    })
 	
 	function process_login(form_data) {
         Ext.Ajax.request({
@@ -117,7 +121,8 @@ Ext.onReady(function(){
         plain: true,
         border: false,
         draggable: false,
-        items: [login]
+	bbar: [copy_tbar],
+	items: [login]
 	});
 	win.show();
 });

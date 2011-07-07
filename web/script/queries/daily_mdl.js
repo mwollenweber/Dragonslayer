@@ -1,5 +1,6 @@
 Ext.namespace("SampleApp.DailyMdl");
 var dailyMdlGridPanel;
+var reload_store;
 
 /**
  * Attach the launcher panel to the West Panel
@@ -23,20 +24,42 @@ SampleApp.DailyMdl.Open = function() {
     });
 }
 
+var tools = [{
+	id:'help',
+	handler: function(e, target, panel){
+		SampleApp.HelperDocs.Open(panel.id, hidden_user_field.getValue(), hidden_role_field.getValue());
+	}
+},{
+	id:'refresh',
+	handler: function(e, target, panel){
+		reload_store();
+	}
+}
+];
+
 /**
  * Create Daily Bad Filtered
  */
 SampleApp.DailyMdl.Panel = function() {
 	dailyMdlGridPanel = new SampleApp.DailyMdl.GridPanel();
+	
+   	dmdl_page_bar_update_time = new Ext.Toolbar.TextItem({
+        text: '',
+        id: 'dmdl_update_time',
+	});
+	
     SampleApp.DailyMdl.Panel.superclass.constructor.call(this,{
         frame:true,
+        id: 't_dmdl_tab_heldoc',
         title: "Daily MDL",
         closable:true,
         titleCollapse:true,
         layout: 'border',
         items : [
                  dailyMdlGridPanel
-        ]
+        ],
+        tools: tools,
+        bbar: [dmdl_page_bar_update_time]
     });
 };
 
@@ -75,10 +98,6 @@ SampleApp.DailyMdl.GridPanel = function() {
 	   	    success:function(request){ 
 	   	    	var obj = Ext.util.JSON.decode(request.responseText); 
 		    	time = new Date();
-	//	    	hours = time.getHours();
-	//	    	minutes = time.getMinutes();
-	//	    	seconds = time.getSeconds();
-	//	    	last_updated = hours + ":" + minutes + ":" + seconds;
 		    	Ext.getCmp('dmdl_update_time').setText("Last updated: " + time);  
 	   	    	store.loadData(obj);
 	   	   },
@@ -87,29 +106,9 @@ SampleApp.DailyMdl.GridPanel = function() {
     
 	reload_store();
    	
-   	dmdl_page_bar_update_time = new Ext.Toolbar.TextItem({
-        text: '',
-        id: 'dmdl_update_time',
-	});
-   	
-   	dmdl_page_bar = new Ext.Toolbar({
-		frame:false,
-		items: [
-		        dmdl_page_bar_update_time,
-	        {
-	        	text: 'Refresh',
-	        	iconCls: 'x-tbar-loading',
-	        	handler: function() {
-	        		reload_store();
-	        	}
-	        }
-    	]
-	});
-   	
    	SampleApp.DailyMdl.GridPanel.superclass.constructor.call(this,{
         region: 'center',
         store: store,
-        tbar:[dmdl_page_bar],
         cm: cm,
         stripeRows: true,
         autoExpandColumn: 'daily_mdl_date',

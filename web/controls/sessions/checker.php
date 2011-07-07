@@ -31,6 +31,9 @@ if($_SESSION['vip']) {
 	$data['vip'] = $vip;
 }
 
+$data['user'] = $_SESSION['login_user'];
+$data['user_role'] = $_SESSION['user_role'];
+
 echo json_encode($data);
 
 ?>

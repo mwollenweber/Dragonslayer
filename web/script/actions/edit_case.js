@@ -50,6 +50,13 @@ SampleApp.EditCase.Open = function() {
     });
 }
 
+var action_tools = [{
+	id:'help',
+	handler: function(e, target, panel){
+		SampleApp.HelperDocs.Open(panel.id, hidden_user_field.getValue(), hidden_role_field.getValue());
+	}
+}];
+
 SampleApp.EditCase.OpenFromGrid = function(dsid) {
 
     var editCasePanel = new SampleApp.EditCase.Panel();
@@ -95,6 +102,8 @@ SampleApp.EditCase.Panel = function() {
         frame:true,
         layout: "fit",
         title:'Edit Case',
+        id: 't_edit_case_tab_heldoc',
+        tools: action_tools,
         closable: true,
         items: [{
 			xtype:'portal',
@@ -165,13 +174,15 @@ SampleApp.EditCase.FormPanel = function(){
         width: 400,
         readOnly:true,
         allowBlank:false,
+        anchor:'100%'
     });
 	
 	date_field = new Ext.form.TextField({
         fieldLabel: 'Date Discovered',
         name: 'date',
         allowBlank:false,
-        width: 400
+        width: 400,
+        anchor:'100%'
     });
 	
 	reporter_field = new Ext.form.TextField({
@@ -180,20 +191,23 @@ SampleApp.EditCase.FormPanel = function(){
         width: 400,
         readOnly:true,
         allowBlank:false,
+        anchor:'100%'
     });
 	
     network_field = new Ext.form.TextField({
         fieldLabel: 'Network',
         name: 'network',
         allowBlank:false,
-        width: 400
+        width: 400,
+        anchor:'100%'
     });
     
     netid_field = new Ext.form.TextField({
         fieldLabel: 'NetID',
         name: 'netid',
         allowBlank:true,
-        width: 400
+        width: 400,
+        anchor:'100%'
     });
     
     victim_field = new Ext.form.TextField({
@@ -202,27 +216,31 @@ SampleApp.EditCase.FormPanel = function(){
         readOnly:true,
         width: 400,
         allowBlank:false,
+        anchor:'100%'
     });
     
     attacker_field = new Ext.form.TextField({
         fieldLabel: 'Attacker',
         name: 'attacker',
         allowBlank:false,
-        width: 400
+        width: 400,
+        anchor:'100%'
     });
     
     dhcp_field = new Ext.form.TextField({
         fieldLabel: 'DHCP',
         name: 'dhcp',
         allowBlank:false,
-        width: 400
+        width: 400,
+        anchor:'100%'
     });
     
     dns_field = new Ext.form.TextField({
         fieldLabel: 'DNS',
         name: 'dns',
         allowBlank:false,
-        width: 400
+        width: 400,
+        anchor:'100%'
     });
     
     notes_field = new Ext.form.TextArea({
@@ -230,6 +248,7 @@ SampleApp.EditCase.FormPanel = function(){
         name: 'notes',
         width: 400,
         allowBlank:false,
+        anchor:'100%'
     });
     
     category_field = new Ext.form.ComboBox({
@@ -247,6 +266,7 @@ SampleApp.EditCase.FormPanel = function(){
         triggerAction: 'all',
         emptyText:'Select a category...',
         allowBlank:false,
+        anchor:'100%'
     });
     
     verification_field = new Ext.form.TextArea({
@@ -255,17 +275,20 @@ SampleApp.EditCase.FormPanel = function(){
         width: 400,
         height: 250,
         allowBlank:false,
+        anchor:'100%'
     });
     
     dsid_field = new Ext.form.Hidden({
     	xtype:'hidden',
         name:'dsid',
+        anchor:'100%'
     });
     
 
     
     SampleApp.EditCase.FormPanel.superclass.constructor.call(this,{
         frame:false,
+        autoWidth: true,
         buttonAlign : 'left',
         bodyStyle:'padding:5px 5px 0',
         width: 520,
@@ -284,13 +307,15 @@ SampleApp.EditCase.FormPanel = function(){
                 fieldLabel: 'Primary Detection',
                 name: 'primary_detection',
                 allowBlank:true,
-                width: 400
+                width: 400,
+                anchor:'100%'
             },
             {
                 fieldLabel: 'Seconday Detection',
                 name: 'seconday_detection',
                 allowBlank:true,
-                width: 400
+                width: 400,
+                anchor:'100%'
             },
             verification_field,
             notes_field,

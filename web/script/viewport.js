@@ -9,7 +9,7 @@ Ext.onReady(function(){
         items : [
             SampleApp.Main.CenterPanelInstance,
             SampleApp.Main.WestPanelInstance,
-            //SampleApp.Main.SouthPanelInstance,
+            SampleApp.Main.SouthPanelInstance,
         ]
     });   
 });
@@ -23,6 +23,7 @@ SampleApp.Main.EventRelay = new Ext.util.Observable();
  * Application's Center Panel
  */
 SampleApp.Main.CenterPanel = function() {
+
     SampleApp.Main.CenterPanel.superclass.constructor.call(this, {
         id:'main',
         region:'center',
@@ -32,7 +33,7 @@ SampleApp.Main.CenterPanel = function() {
         enableTabScroll: true,
         defaults: {autoScroll: true},
         activeTab: 0,
-        items:[]
+	items:[]
     });
 };
 
@@ -71,23 +72,15 @@ Ext.extend(SampleApp.Main.WestPanel, Ext.Panel, {
  * Application's South Panel
  */
 SampleApp.Main.SouthPanel = function(){
+	
+	copy_tbar = new Ext.Toolbar.TextItem({
+        text: 'Copyright Matthew Wollenweber, Brandon Dixon 2011',
+    })
+	
     SampleApp.Main.SouthPanel.superclass.constructor.call(this, {
         id:'south-panel',
         region: 'south',
-        title: 'South Panel',
-        header:true,
-        collapsible: true,
-        split: true,
-        height: 125,
-        autoScroll:true,
-        minHeight: 125,
-        resizeTabs: true,
-        enableTabScroll: true,
-        defaults: {autoScroll: true},
-        plugins: new Ext.ux.TabCloseMenu(),
-        activeTab: 0,
-        items:[ ],
-        tabPosition:'bottom',
+        tbar: [copy_tbar]
     });
 };
 

@@ -10,13 +10,7 @@ Ext.namespace("SampleApp.CreateCase");
 var createCaseFormPanel;
 var createCaseGridPanel;
 var createCasePanel;
-var network_name = '';
-var date;
-var dragon_event;
-var victim;
-var attacker;
-var notes;
-
+var ip_information;
 var date_field;
 var event_field;
 var reporter_field;
@@ -45,39 +39,30 @@ SampleApp.CreateCase.Open = function() {
     createCasePanel = new SampleApp.CreateCase.Panel();
     SampleApp.Main.CenterPanelInstance.add(createCasePanel);
     SampleApp.Main.CenterPanelInstance.activate(createCasePanel);
-    
-    SampleApp.Main.EventRelay.fireEvent("log",{
-        severity: "info",
-        from: "create_case.js",
-        message: "Create Case opened",
-    });
 }
+
+var action_tools = [{
+	id:'help',
+	handler: function(e, target, panel){
+		SampleApp.HelperDocs.Open(panel.id, hidden_user_field.getValue(), hidden_role_field.getValue());
+	}
+}];
 
 /**
  * Call from grid
  */
 SampleApp.CreateCase.OpenFromGrid = function(date,event,victim,attacker,notes) {
-	//Assign values passed in from the grid to the global variables
-	date = date;
-	dragon_event = event;
-	victim = victim;
-	attacker = attacker;
-	notes = notes;
+//	victim = victim;
 	
     var createCasePanel = new SampleApp.CreateCase.Panel();
+    get_ip_info(victim)
 	date_field.setValue(date);
-	event_field.setValue(dragon_event);
+	event_field.setValue(event);
 	victim_field.setValue(victim);
 	attacker_field.setValue(attacker);
 	notes_field.setValue(notes);
     SampleApp.Main.CenterPanelInstance.add(createCasePanel);
     SampleApp.Main.CenterPanelInstance.activate(createCasePanel);
-    
-    SampleApp.Main.EventRelay.fireEvent("log",{
-        severity: "info",
-        from: "create_case.js",
-        message: "Create Case opened",
-    });
 }
 
 /**
@@ -86,11 +71,14 @@ SampleApp.CreateCase.OpenFromGrid = function(date,event,victim,attacker,notes) {
 SampleApp.CreateCase.Panel = function() {
     createCaseFormPanel = new SampleApp.CreateCase.FormPanel();
     createCaseDragonInterface = new SampleApp.CreateCase.DragonInterface();
+    
     SampleApp.CreateCase.Panel.superclass.constructor.call(this,{
         frame:true,
         layout: "fit",
         title:'Create Case',
+        id: 't_create_case_tab_heldoc',
         closable: true,
+        tools: action_tools,
         items: [{
 			xtype:'portal',
 			margins: '0 0 10 10',
@@ -130,6 +118,34 @@ SampleApp.CreateCase.Panel = function() {
 Ext.extend(SampleApp.CreateCase.Panel, Ext.Panel, {
 });
 
+function get_ip_info(victim) {
+	Ext.Ajax.request({
+	    url: '../code/psp/get_ip_info.psp',
+	    waitTitle:'Connecting', 
+	    waitMsg:'Getting data...',
+	    params: { 'ip': victim, type: 'json'},
+	    
+	    success:function(request){ 
+	    	var obj = Ext.util.JSON.decode(request.responseText); 
+	    	ip_information.loadData(obj.ip_msg);
+	    	if(obj.ip_msg.ip_addr.length > 4) {
+		    	network_field.setValue(obj.ip_msg.network_name);
+		    	dns_field.setValue(obj.ip_msg.fqdn);
+		    	dhcp_field.setValue(obj.ip_msg.dhcp_info);
+		    	if (obj.ip_msg.critical_info != "FALSE") {
+		    		Ext.Msg.alert('Critical', 'This is a VIP machine!');
+		    	}	    	
+		    	if (obj.ip_msg.recent_case != "0") {
+		    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
+		    	}
+		    	if (obj.ip_msg.ip_alert != "FALSE") {
+		    		Ext.Msg.alert('Critical', obj.ip_msg.ip_alert);
+		    	}
+	    	}
+	   },
+	});
+}
+
 /**
  *
  */
@@ -154,61 +170,9 @@ SampleApp.CreateCase.FormPanel = function(){
 	                          [0, 'Delete'],
 	                      ];
 	
-	var ip_information = new Ext.data.JsonStore({
+	ip_information = new Ext.data.JsonStore({
 	    fields: ['critical_info','ip_addr','fqdn','dhcp_info','recent_case','network_name']
 	});
-	
-	var myData = Ext.Ajax.request({
-	    url: '../code/psp/get_ip_info.psp', //this needs to call the real service
-	    waitTitle:'Connecting', 
-	    waitMsg:'Getting data...',
-	    params: { 'ip': victim, type: 'json'},
-	    
-	    success:function(request){ 
-	    	var obj = Ext.util.JSON.decode(request.responseText); 
-	    	ip_information.loadData(obj.ip_msg);
-	    	if(obj.ip_msg.ip_addr.length > 4) {
-		    	network_field.setValue(obj.ip_msg.network_name);
-		    	dns_field.setValue(obj.ip_msg.fqdn);
-		    	dhcp_field.setValue(obj.ip_msg.dhcp_info);
-		    	if (obj.ip_msg.critical_info != "FALSE") {
-		    		Ext.Msg.alert('Critical', 'This is a VIP machine!');
-		    	}	    	
-		    	if (obj.ip_msg.recent_case != "0") {
-		    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
-		    	}
-		    	if (obj.ip_msg.ip_alert != "FALSE") {
-		    		Ext.Msg.alert('Critical', obj.ip_msg.ip_alert);
-		    	}
-	    	}
-	   },
-	});
-	
-	function get_ip_info(victim) {
-		Ext.Ajax.request({
-		    url: '../code/psp/get_ip_info.psp',
-		    waitTitle:'Connecting', 
-		    waitMsg:'Getting data...',
-		    params: { 'ip': victim, type: 'json'},
-		    
-		    success:function(request){ 
-		    	var obj = Ext.util.JSON.decode(request.responseText); 
-		    	ip_information.loadData(obj.ip_msg);
-		    	network_field.setValue(obj.ip_msg.network_name);
-		    	dns_field.setValue(obj.ip_msg.fqdn);
-		    	dhcp_field.setValue(obj.ip_msg.dhcp_info);
-		    	if (obj.ip_msg.critical_info != "FALSE") {
-		    		Ext.Msg.alert('Critical', 'This is a VIP machine!');
-		    	}	    	
-		    	if (obj.ip_msg.recent_case != "0") {
-		    		Ext.Msg.alert('Critical', 'A case exists for this IP!');
-		    	}
-		    	if (obj.ip_msg.ip_alert != "FALSE") {
-		    		Ext.Msg.alert('Critical', obj.ip_msg.ip_alert);
-		    	}
-		   },
-		});
-	}
 	
 	function snatch_user() {
 		Ext.Ajax.request({
@@ -222,7 +186,6 @@ SampleApp.CreateCase.FormPanel = function(){
 		   },
 		})
 	}
-	
 	
 	//break out form fields from the form so that we can add data to the object
 	event_field = new Ext.form.TextField({
@@ -301,40 +264,41 @@ SampleApp.CreateCase.FormPanel = function(){
     
 	//values pulled from the global form
 	snatch_user();
+//	get_ip_info(victim);
 	
-    new Ext.KeyMap(Ext.get(document), {
-    	key:'S',
-    	ctrl:true,
-    	fn:function(e) {
-    		var form_data = createCaseFormPanel.getForm().getValues();
-        	if(createCaseFormPanel.getForm().isValid()){
-            	Ext.Ajax.request({
-            		url: 'controls/actions/create_case.php',
-			        method:'POST', 
-			        waitTitle:'Connecting', 
-			        waitMsg:'Getting data...',
-			        params: form_data,
-			        
-			        success:function(request){ 
-			        	var obj = Ext.util.JSON.decode(request.responseText);
-			        	if(obj.success == "true") {
-			        		Ext.Msg.alert('Success','Case created');
-			        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
-			        		createCaseFormPanel.getForm().reset();
-			        		date_field.setValue('');
-			        		event_field.setValue('');
-			        		victim_field.setValue('');
-			        		attacker_field.setValue('');
-			        		notes_field.setValue('');
-			        	} else {
-			        		Ext.Msg.alert('Case creation failed', obj.error); 
-			        	}
-			       },
-				});
-        	}
-    	},
-    	stopEvent:true
-	});
+//    new Ext.KeyMap(Ext.get(document), {
+//    	key:'S',
+//    	ctrl:true,
+//    	fn:function(e) {
+//    		var form_data = createCaseFormPanel.getForm().getValues();
+//        	if(createCaseFormPanel.getForm().isValid()){
+//            	Ext.Ajax.request({
+//            		url: 'controls/actions/create_case.php',
+//			        method:'POST', 
+//			        waitTitle:'Connecting', 
+//			        waitMsg:'Getting data...',
+//			        params: form_data,
+//			        
+//			        success:function(request){ 
+//			        	var obj = Ext.util.JSON.decode(request.responseText);
+//			        	if(obj.success == "true") {
+//			        		Ext.Msg.alert('Success','Case created (dsid: ' + obj.id + ' )');
+//			        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
+//			        		createCaseFormPanel.getForm().reset();
+//			        		date_field.setValue('');
+//			        		event_field.setValue('');
+//			        		victim_field.setValue('');
+//			        		attacker_field.setValue('');
+//			        		notes_field.setValue('');
+//			        	} else {
+//			        		Ext.Msg.alert('Case creation failed', obj.error); 
+//			        	}
+//			       },
+//				});
+//        	}
+//    	},
+//    	stopEvent:true
+//	});
     
     new Ext.KeyMap(Ext.get(document), { //DELETE ME
     	key:'Q',
@@ -422,8 +386,8 @@ SampleApp.CreateCase.FormPanel = function(){
 				        success:function(request){ 
 				        	var obj = Ext.util.JSON.decode(request.responseText);
 				        	if(obj.success == "true") {
-				        		Ext.Msg.alert('Success','Case created');
-				        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
+				        		Ext.Msg.alert('Success','Case created (dsid: ' + obj.id + ' )');
+//				        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
 				        		createCaseFormPanel.getForm().reset();
 				        		date_field.setValue('');
 				        		event_field.setValue('');
@@ -446,7 +410,7 @@ SampleApp.CreateCase.FormPanel = function(){
         	}
         }],
         region: "north",
-        height: 720
+        height: 720,
     });
 }
 

@@ -24,6 +24,13 @@ SampleApp.WeeklyReport.Open = function() {
     });
 }
 
+var report_tools = [{
+	id:'help',
+	handler: function(e, target, panel){
+		SampleApp.HelperDocs.Open(panel.id, hidden_user_field.getValue(), hidden_role_field.getValue());
+	}
+}];
+
 /**
  * 
  */
@@ -132,7 +139,9 @@ SampleApp.WeeklyReport.GridPanel = function() {
         stripeRows: true,
         autoExpandColumn: 'weekly_report_device',
         frame: true,
-        title: "Weekly Data"
+        title: "Weekly Data",
+        tools: report_tools,
+        id: 't_weekly_report_data_helper_doc',
     });
 }
 
@@ -238,7 +247,9 @@ SampleApp.WeeklyReport.FormPanel = function(){
         height: 400,
         width: 800,
 		loadMask:true,
-        items: [chart]
+        items: [chart],
+        tools: report_tools,
+        id: 't_weekly_report_chart_helper_doc',
     })
     
     addSeries();
@@ -289,6 +300,8 @@ SampleApp.WeeklyReport.CountData = function() {
         frame: true,
         title: "Weekly Counts",
         width: 250,
+        tools: report_tools,
+        id: 't_weekly_report_count_helper_doc',
     })
 }
 

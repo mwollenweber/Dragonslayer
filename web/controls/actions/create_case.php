@@ -113,6 +113,10 @@ if($proceed) {
 	$query = "INSERT INTO gwcases (tdstamp, event, victim, network, dns_name, attacker, primary_detection, secondary_detection, verification, notes, discovered, reporter, report_category, dhcp_info, netid) VALUES (NOW(), '$event', INET_ATON('$victim'), '$network', '$dns', INET_ATON('$attacker'), '$primary', '$secondary', '$verification', '$notes', '$detection_date', '$reporter', '$category', '$dhcp', '$netid')";
 	if(mysqli_query($link,$query)) {
 		$data['success'] = "true";
+		$query = "SELECT id FROM gwcases ORDER BY tdstamp DESC LIMIT 1";
+		$result= mysqli_query($link,$query);
+		$row = mysqli_fetch_assoc($result);
+		$data['id'] = $row['id'];
 	} else {
 		$data['success'] = "false";
 		$data['error'] = "Something went wrong when submitting";

@@ -1,5 +1,6 @@
 Ext.namespace("SampleApp.DailyBadFiltered");
 var dailyBadFilteredGridPanel;
+var reload_store;
 
 /**
  * Attach the launcher panel to the West Panel
@@ -23,20 +24,42 @@ SampleApp.DailyBadFiltered.Open = function() {
     });
 }
 
+var tools = [{
+	id:'help',
+	handler: function(e, target, panel){
+		SampleApp.HelperDocs.Open(panel.id, hidden_user_field.getValue(), hidden_role_field.getValue());
+	}
+},{
+	id:'refresh',
+	handler: function(e, target, panel){
+		reload_store();
+	}
+}
+];
+
 /**
  * Create Daily Bad Filtered
  */
 SampleApp.DailyBadFiltered.Panel = function() {
 	dailyBadFilteredGridPanel = new SampleApp.DailyBadFiltered.GridPanel();
+	
+   	dbf_page_bar_update_time = new Ext.Toolbar.TextItem({
+        text: '',
+        id: 'dbf_update_time',
+	});
+	
     SampleApp.DailyBadFiltered.Panel.superclass.constructor.call(this,{
         frame:true,
+        id: 't_dbf_tab_heldoc',
         title: "Daily Bad Filtered",
         closable:true,
         titleCollapse:true,
         layout: 'border',
         items : [
                  dailyBadFilteredGridPanel
-        ]
+        ],
+        tools: tools,
+        bbar: [dbf_page_bar_update_time]
     });
 };
 
@@ -75,10 +98,6 @@ SampleApp.DailyBadFiltered.GridPanel = function() {
 	   	    success:function(request){ 
 	   	    	var obj = Ext.util.JSON.decode(request.responseText); 
 		    	time = new Date();
-	//	    	hours = time.getHours();
-	//	    	minutes = time.getMinutes();
-	//	    	seconds = time.getSeconds();
-	//	    	last_updated = hours + ":" + minutes + ":" + seconds;
 		    	Ext.getCmp('dbf_update_time').setText("Last updated: " + time);  
 	   	    	store.loadData(obj);
 	   	   },
@@ -86,30 +105,10 @@ SampleApp.DailyBadFiltered.GridPanel = function() {
    	}
 	
 	reload_store();
-   	
-   	dbf_page_bar_update_time = new Ext.Toolbar.TextItem({
-        text: '',
-        id: 'dbf_update_time',
-	});
-   	
-	dbf_page_bar = new Ext.Toolbar({
-		frame:false,
-		items: [
-		        dbf_page_bar_update_time,
-	        {
-	        	text: 'Refresh',
-	        	iconCls: 'x-tbar-loading',
-	        	handler: function() {
-	        		reload_store();
-	        	}
-	        }
-    	]
-	});
-		
+
     SampleApp.DailyBadFiltered.GridPanel.superclass.constructor.call(this,{
         region: 'center',
         store: store,
-        tbar:[dbf_page_bar],
         cm: cm,
         stripeRows: true,
         autoExpandColumn: 'daily_bad_filter_date',

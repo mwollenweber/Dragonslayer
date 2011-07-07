@@ -35,10 +35,6 @@ function RecentVipCases(){
 		    success:function(request){ 
 		    	var obj = Ext.util.JSON.decode(request.responseText); 
 		    	time = new Date();
-//		    	hours = time.getHours();
-//		    	minutes = time.getMinutes();
-//		    	seconds = time.getSeconds();
-//		    	last_updated = hours + ":" + minutes + ":" + seconds;
 		    	Ext.getCmp('recent_vip_bottom_bar').setText("Last updated: " + time);  
 		    	recent_vip_store.loadData(obj);
 		   },

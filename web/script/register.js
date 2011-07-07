@@ -1,6 +1,10 @@
 Ext.onReady(function(){
 	Ext.QuickTips.init();
  
+    copy_tbar = new Ext.Toolbar.TextItem({
+        text: 'Copyright Matthew Wollenweber, Brandon Dixon 2011',
+    })
+
 	var register = new Ext.FormPanel({ 
 		labelWidth:80,
 		frame:true, 
@@ -8,7 +12,6 @@ Ext.onReady(function(){
 		defaultType:'textfield',
 		monitorValid:true,
 		autoHeight:true,
-
         items:[
 			{
 			    fieldLabel: 'First Name',
@@ -76,6 +79,7 @@ Ext.onReady(function(){
         plain: true,
         border: false,
         draggable: false,
+	bbar: [copy_tbar],
         items: [register]
 	});
 	win.show();

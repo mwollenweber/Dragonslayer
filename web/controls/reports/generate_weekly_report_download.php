@@ -7,7 +7,7 @@
  * 
  */
 header("Content-type: application/vnd.ms-excel");
-header("Content-Disposition: attachment; filename=excel.xls");
+header("Content-Disposition: attachment; filename=generated_report.xls");
 
 include '../database/database_connection.php';
 if($link === null) { die("Failed database connection"); }
@@ -17,17 +17,17 @@ $end_date = $_GET['end_date'];
 
 $output = '<table border="1">';
 if($start_date != null && $end_date != null) {
-	$weekly_ips_query = "SELECT INET_NTOA(victim) as victim, network, discovered, notes FROM gwcases WHERE (report_category >= 100) AND DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' GROUP BY victim ORDER BY tdstamp, victim";
-	$output .= '<tr><th>Start Date</th><th>End Date</th></tr>';
+	$weekly_ips_query = "SELECT INET_NTOA(victim) as victim, network, discovered, notes FROM gwcases WHERE (report_category >= 100) AND (report_category != 205) AND DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' GROUP BY victim ORDER BY tdstamp, victim";
+	$output .= '<tr><th><b>Start Date</b></th><th><b>End Date</b></th></tr>';
 	$output .= "<tr><td>$start_date</td><td>$end_date</td></tr>";
 } else {
-	$weekly_ips_query = "SELECT INET_NTOA(victim) as victim, network, discovered, notes FROM gwcases WHERE (report_category >= 100) AND DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() GROUP BY victim ORDER BY tdstamp, victim";
+	$weekly_ips_query = "SELECT INET_NTOA(victim) as victim, network, discovered, notes FROM gwcases WHERE (report_category >= 100) AND (report_category != 205) AND DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() GROUP BY victim ORDER BY tdstamp, victim";
 }
 	
 $result= mysqli_query($link,$weekly_ips_query);
 $result_count = mysqli_num_rows($result);
 
-$output .= '<tr><th>Device Name</th><th>IP</th><th>School/Department</th><th>Date/Time</th><th>Patchlink</th><th>Last Patchlink Checkin</th><th>Notes</th></tr>';
+$output .= '<tr><th><b>Device Name</b></th><th><b>IP</b></th><th><b>School/Department</b></th><th><b>Date/Time</b></th><th><b>Patchlink</b></th><th><b>Last Patchlink Checkin</b></th><th><b>Notes</b></th></tr>';
 for($i=0;$i < $result_count;$i++) {
 	$output .= '<tr>';
 	$result_array = mysqli_fetch_assoc($result);
@@ -60,15 +60,17 @@ for($i=0;$i < $result_count;$i++) {
 }
 
 if($start_date != null && $end_date != null) {
-	$total_cases_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' AND report_category > 1";
+	$total_cases_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' AND (report_category > 42 OR report_category = 20) AND (report_category != 205 AND report_category != 25)";
 	$student_case_query = "SELECT COUNT(*) as count from gwcases WHERE DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' AND report_category = 20";
-	$normal_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' AND report_category >= 100";
-	$vip_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' AND report_category > 200";
+	$normal_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' AND report_category >= 100 AND (report_category != 205 AND report_category != 25)";
+	$vip_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' AND report_category > 200 AND (report_category != 205 AND report_category != 25)";
+	$mail_compromise_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN '$start_date' AND '$end_date' AND (report_category = 205 OR report_category = 25)";
 } else {
-	$total_cases_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE()  AND report_category > 1";
-	$student_case_query = "SELECT COUNT(*) as count from gwcases WHERE DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category = 20";
-	$normal_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN  SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category >= 100";
+	$total_cases_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE()  AND (report_category > 42 OR report_category = 20) AND (report_category != 205 AND report_category != 25)";
+	$student_case_query = "SELECT COUNT(*) as count from gwcases WHERE DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category = 20 AND (report_category != 205 AND report_category != 25)";
+	$normal_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN  SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category >= 100 AND (report_category != 205 AND report_category != 25)";
 	$vip_case_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN  SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND report_category > 200";
+	$mail_compromise_query = "SELECT COUNT(*) as count FROM gwcases WHERE DATE(tdstamp) BETWEEN  SUBDATE(CURDATE(), DAYOFWEEK(CURDATE())) and CURDATE() AND (report_category = 205 OR report_category = 25)";
 }
 	
 $result= mysqli_query($link,$total_cases_query);
@@ -79,15 +81,18 @@ $result= mysqli_query($link,$normal_case_query);
 $normal_cases = mysqli_fetch_assoc($result);
 $result= mysqli_query($link,$vip_case_query);
 $vip_cases = mysqli_fetch_assoc($result);
+$result= mysqli_query($link,$mail_compromise_query);
+$mail_cases = mysqli_fetch_assoc($result);
 
 $total_cases = $total_cases['count'];
 $student_cases = $student_cases['count'];
 $normal_cases = $normal_cases['count'];
 $vip_cases = $vip_cases['count'];
+$mail_cases = $mail_cases['count'];
 
 $output .= '<tr></tr>';
-$output .= '<tr><th>Total Cases</th><th>Student Cases</th><th>Normal Cases</th><th>VIP Cases</th></tr>';
-$output .= "<tr><td>$total_cases</td><td>$student_cases</td><td>$normal_cases</td><td>$vip_cases</td></tr>";
+$output .= '<tr><th><b>Total Cases</b></th><th><b>Student Cases</b></th><th><b>Normal Cases</b></th><th><b>VIP Cases</b></th><th><b>Mail Compromises</b></th></tr>';
+$output .= "<tr><td>$total_cases</td><td>$student_cases</td><td>$normal_cases</td><td>$vip_cases</td><td>$mail_cases</td></tr>";
 
 $output .= '</table>';
 

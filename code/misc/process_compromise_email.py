@@ -28,8 +28,8 @@ def insert_case(vals, cursor):
     else:
         report_category = 25
         
-    insert_query = "INSERT INTO gwcases (reporter, event, discovered, victim, attacker, netid, report_category, verification, notes) \
-                    VALUES ('mjw', 'phishing-email-compromise', NOW(), INET_ATON('%s'), INET_ATON('%s'), '%s', %s, '%s', '%s')" % (vals["victim"], vals["attacker"], vals["netid"], report_category, vals["data"], "Email Compromise")
+    insert_query = "INSERT INTO gwcases (reporter, event, discovered, victim, attacker, netid, report_category, verification, notes, network, dns_name, tdstamp, dchp_info) \
+                    VALUES ('mjw', 'phishing-email-compromise', NOW(), INET_ATON('%s'), INET_ATON('%s'), '%s', %s, '%s', '%s', '%s', '%s', NOW(), 'No DHCP Info')" % (vals["victim"], vals["attacker"], vals["netid"], report_category, vals["data"], "Email Compromise", "SSL VPN", "client")
     
     #print "insert query = %s" % insert_query
     cursor.execute(insert_query)
@@ -67,7 +67,7 @@ def process_blurb(data):
     for account in m:
         account = account[10:].strip()
         print "account = %s" % account
-        if account.find("Faculty") >= 0 or account.find("Staff") >=0:
+        if account.find("faculty") >= 0 or account.find("staff") >=0:
             is_facstaff = 1
             #print "we have fac/staff"
     

@@ -1,5 +1,6 @@
 Ext.namespace("SampleApp.WeeklyCases");
 var weeklyCasesGridPanel;
+var reload_store;
 
 /**
  * Attach the launcher panel to the West Panel
@@ -23,25 +24,47 @@ SampleApp.WeeklyCases.Open = function() {
     });
 }
 
+var tools = [{
+	id:'help',
+	handler: function(e, target, panel){
+		SampleApp.HelperDocs.Open(panel.id, hidden_user_field.getValue(), hidden_role_field.getValue());
+	}
+},{
+	id:'refresh',
+	handler: function(e, target, panel){
+		reload_store();
+	}
+}
+];
+
 /**
  * Create Daily Bad Filtered
  */
 SampleApp.WeeklyCases.Panel = function() {
 	weeklyCasesGridPanel = new SampleApp.WeeklyCases.GridPanel();
+	
+	weekly_cases_page_bar_update_time = new Ext.Toolbar.TextItem({
+        text: '',
+        id: 'weekly_cases_page_bar',
+	});
+	
     SampleApp.WeeklyCases.Panel.superclass.constructor.call(this,{
         frame:true,
+        id: 't_weekly_cases_tab_heldoc',
         title: "Weekly Cases",
         closable:true,
         titleCollapse:true,
         layout: 'border',
         items : [
                  weeklyCasesGridPanel
-        ]
+        ],
+        tools: tools,
+        bbar: [weekly_cases_page_bar_update_time]
     });
 };
 
 /**
- *   Daily Bad Filtered
+ *   Weekly Cases
  */
 Ext.extend(SampleApp.WeeklyCases.Panel, Ext.Panel, {
 });
@@ -78,10 +101,6 @@ SampleApp.WeeklyCases.GridPanel = function() {
 	   	    success:function(request){ 
 	   	    	var obj = Ext.util.JSON.decode(request.responseText); 
 		    	time = new Date();
-	//	    	hours = time.getHours();
-	//	    	minutes = time.getMinutes();
-	//	    	seconds = time.getSeconds();
-	//	    	last_updated = hours + ":" + minutes + ":" + seconds;
 		    	Ext.getCmp('weekly_cases_page_bar').setText("Last updated: " + time);  
 	   	    	store.loadData(obj);
 	   	   },
@@ -90,32 +109,12 @@ SampleApp.WeeklyCases.GridPanel = function() {
     
 	reload_store();
    	
-	weekly_cases_page_bar_update_time = new Ext.Toolbar.TextItem({
-        text: '',
-        id: 'weekly_cases_page_bar',
-	});
-   	
-	weekly_cases_page_bar = new Ext.Toolbar({
-		frame:false,
-		items: [
-		        weekly_cases_page_bar_update_time,
-	        {
-	        	text: 'Refresh',
-	        	iconCls: 'x-tbar-loading',
-	        	handler: function() {
-	        		reload_store();
-	        	}
-	        }
-    	]
-	});
-    
     function renderTip(val, meta, rec, rowIdx, colIdx, ds) {
     	return '<div ext:qtitle="' + "Data" + '" ext:qtip="' + val + '">' + val + '</div>';
     }
     
     SampleApp.WeeklyCases.GridPanel.superclass.constructor.call(this,{
         store: store,
-        tbar:[weekly_cases_page_bar],
         columns: [
 	          {
 	              header   : 'DSID', 
