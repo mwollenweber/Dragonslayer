@@ -17,7 +17,25 @@ $start = ($_REQUEST["start"] == null)? 0 : $_REQUEST["start"];
 $count = ($_REQUEST["limit"] == null)? 50 : $_REQUEST["limit"];
 
 //inline checks for IP address related searching
-
+function handle_masking($search_value) {
+	$pos = strpos($search_value,"/");
+	if($pos === false) {
+		$ip_address = $search_value;
+		$ip_mask = "32";
+	}
+	else {
+		$ip_data = explode("/",$search_value);
+		$ip_address = $ip_data[0];
+		$ip_mask = $ip_data[1];
+		if((int)$ip_mask > 32) {
+			$ip_mask = "32";
+		}
+	}
+	
+	$adjusted_mask = pow(2,(32 - (int)$ip_mask)); //grabs the amount of host addresses based on the subnet mask
+	$data = array("ip"=>$ip_address,"mask"=>$adjusted_mask);
+	return $data;
+}
 
 if($type == "dsid") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE id='$search_value' ORDER BY id DESC";
@@ -28,23 +46,15 @@ if($type == "dsid") {
 } elseif ($type == "event") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE event='$search_value' ORDER BY id DESC";
 } elseif ($type == "victim_ip") {
-	$pos = strpos($search_value,"/");
-	if($pos === false) {
-		$ip_address = $search_value;
-		$ip_mask = "32";
-	}
-	else {
-		$ip_data = explode("/",$search_value);
-		$ip_address = $ip_data[0];
-		$ip_mask = $ip_data[1];
-	}
-	
-	$adjusted_mask = pow(2,(32 - int($ip_mask))); //grabs the amount of host addresses based on the subnet mask
-	
-//	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE INET_NTOA(victim)='$search_value' ORDER BY id DESC";
-	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE victim BETWEEN (INET_ATON($search_value) AND INET_ATON($search_value) + $adjusted_mask) ORDER BY id DESC";
+	$ip_data = handle_masking($search_value);
+	$ip_address = $ip_data['ip'];
+	$mask = $ip_data['mask'];
+	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE victim BETWEEN INET_ATON('$ip_address') AND INET_ATON('$ip_address') + $mask ORDER BY id DESC";
 } elseif ($type == "attacker_ip") {
-	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE INET_NTOA(attacker)='$search_value' ORDER BY id DESC";
+	$ip_data = handle_masking($search_value);
+	$ip_address = $ip_data['ip'];
+	$mask = $ip_data['mask'];
+	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE attacker BETWEEN INET_ATON('$ip_address') AND INET_ATON('$ip_address') + $mask ORDER BY id DESC";
 } elseif ($type == "network") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification FROM gwcases WHERE network='$search_value' ORDER BY id DESC";
 } elseif ($type == "text_in_verification") {
@@ -61,6 +71,7 @@ $query.= " LIMIT $start,$count";
 $data_result = array();
 $result= mysqli_query($link,$query);
 $data_result['total'] = $row_cnt;
+$data_result['q'] = $query;
 
 while($row = mysqli_fetch_assoc($result)) {
 	$holder[] = array('dsid'=>$row['id'], 'date'=>$row['tdstamp'],'analyst'=>$row['reporter'],'event'=>$row['event'],'victim'=>$row['INET_NTOA(victim)'],'attacker'=>$row['INET_NTOA(attacker)'],'dns'=>$row['dns_name'],'network'=>$row['network'],'confirmation'=>$row['verification']);
