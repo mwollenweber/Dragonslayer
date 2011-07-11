@@ -7,6 +7,7 @@
  */
 
 include('../database/database_connection.php');
+include('../database/mongo_connection.php');
 
 #JSON is expected on the client side
 header("Content-type: text/json");
@@ -121,6 +122,26 @@ if($proceed) {
 		$data['success'] = "false";
 		$data['error'] = "Something went wrong when submitting";
 	}
+	
+	$mongo_case = array(
+		"event"		=>	$event,
+		"victim_ip"	=>	$victim,
+		"network"	=>	$network,
+		"dns"		=>	$dns,
+		"attacker_ip"	=>	$attacker,
+		"primary_detection"	=>	$primary,
+		"secondary_detection"	=>	$secondary,
+		"verification"	=>	$verification,
+		"notes"	=>	$notes,
+		"analyst"	=>	$reporter,
+		"detection_date" =>	$detection_date,
+		"category"	=> $orignal_category,
+		"dhcp"	=> $dhcp,
+		"netid" => $netid,
+	);
+	
+	global $collection;
+	$collection->insert($mongo_case);
 }
 
 mysqli_close($link);
