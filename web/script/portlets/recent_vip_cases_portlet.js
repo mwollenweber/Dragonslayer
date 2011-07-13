@@ -1,5 +1,5 @@
 function RecentVipCases(){
-
+	
 	var cm = new Ext.grid.ColumnModel([ 
 		{ id :'recent_vip_case_dsid', header : 'DSID', width : 160, sortable : true, dataIndex: 'dsid' },
 		{ header : 'Date', width : 160, sortable : true, dataIndex: 'date' },
@@ -51,6 +51,8 @@ function RecentVipCases(){
 	RecentVipCases.superclass.constructor.call(this, {
         store: recent_vip_store,
         cm: cm,
+        stateful:true,
+        stateId: 'recent_vip_cases_portlet_state',
         bbar:[recent_vip_bottom_bar],
         stripeRows: true,
         autoExpandColumn: 'recent_vip_case_dsid',

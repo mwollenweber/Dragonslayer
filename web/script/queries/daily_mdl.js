@@ -108,6 +108,8 @@ SampleApp.DailyMdl.GridPanel = function() {
    	
    	SampleApp.DailyMdl.GridPanel.superclass.constructor.call(this,{
         region: 'center',
+        stateful:true,
+        stateId: 'daily_mdl_state',
         store: store,
         cm: cm,
         stripeRows: true,

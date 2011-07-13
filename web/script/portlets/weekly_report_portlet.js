@@ -26,6 +26,8 @@ WeeklyReportPortlet = function() {
 
     WeeklyReportPortlet.superclass.constructor.call(this, {
         region: 'center',
+        stateful:true,
+        stateId: 'weekly_report_portlet_state',
         store: store,
         columns: [
             {

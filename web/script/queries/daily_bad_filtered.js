@@ -108,6 +108,8 @@ SampleApp.DailyBadFiltered.GridPanel = function() {
 
     SampleApp.DailyBadFiltered.GridPanel.superclass.constructor.call(this,{
         region: 'center',
+        stateful:true,
+        stateId: 'daily_bad_filtered_state',
         store: store,
         cm: cm,
         stripeRows: true,

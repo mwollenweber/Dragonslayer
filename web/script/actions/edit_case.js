@@ -445,6 +445,8 @@ SampleApp.EditCase.GridPanel = function() {
     
     SampleApp.EditCase.GridPanel.superclass.constructor.call(this,{
         store: store,
+        stateful:true,
+        stateId: 'edit_case_state',
         columns: [
 	          {
 	              header   : 'DSID', 

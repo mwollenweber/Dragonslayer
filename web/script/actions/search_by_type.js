@@ -221,7 +221,8 @@ SampleApp.SearchByIp.GridPanel = function() {
     
     SampleApp.SearchByIp.GridPanel.superclass.constructor.call(this,{
         region: 'center',
-//        tbar: [search_results_tbar],
+        stateful:true,
+        stateId: 'search_by_type_state',
         store: store,
         cm: cm,
         trackMouseOver: true,

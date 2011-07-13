@@ -90,6 +90,8 @@ SampleApp.WeeklyReport.GridPanel = function() {
     
     SampleApp.WeeklyReport.GridPanel.superclass.constructor.call(this,{
         region: 'center',
+        stateful:true,
+        stateId: 'weekly_report_state',
         store: store,
         columns: [
             {

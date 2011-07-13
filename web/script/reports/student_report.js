@@ -86,6 +86,8 @@ SampleApp.StudentReport.GridPanel = function() {
     SampleApp.StudentReport.GridPanel.superclass.constructor.call(this,{
         region: 'center',
         store: store,
+        stateful:true,
+        stateId: 'student_report_state',
         columns: [
             {
                 header   : 'Discovered', 

@@ -1,4 +1,5 @@
 Ext.namespace('SampleApp.Welcome');
+Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 
 function session_check() {
 	Ext.Ajax.request({

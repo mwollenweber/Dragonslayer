@@ -115,6 +115,8 @@ SampleApp.WeeklyCases.GridPanel = function() {
     
     SampleApp.WeeklyCases.GridPanel.superclass.constructor.call(this,{
         store: store,
+        stateful:true,
+        stateId: 'weekly_cases_state',
         columns: [
 	          {
 	              header   : 'DSID', 

@@ -43,6 +43,8 @@ function DailyMdlPortlet(){
 	
 	DailyMdlPortlet.superclass.constructor.call(this, {
         store: store,
+        stateful:true,
+        stateId: 'daily_mdl_portlet_state',
         cm: cm,
         bbar:[dmdl_tbar],
         stripeRows: true,

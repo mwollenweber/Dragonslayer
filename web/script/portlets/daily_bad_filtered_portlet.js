@@ -39,6 +39,8 @@ function DailyBadFilteredPortlet(){
 	
 	DailyBadFilteredPortlet.superclass.constructor.call(this, {
         store: store,
+        stateful:true,
+        stateId: 'daily_bad_filtered_portlet_state',
         cm: cm,
         bbar: [dbf_tbar],
         stripeRows: true,
