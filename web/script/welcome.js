@@ -119,7 +119,9 @@ SampleApp.Welcome.Panel = function(config) {
 						frame:true,         
 						title: 'Daily Bad Filtered',
 						tools: portlet_tools,
-						items: dbf_portlet
+						items: dbf_portlet,
+				        stateful:true,
+				        stateId: 'testing_state',
 					}, {
 						id: 'p_recent_vip_cases_portlet_heldoc',
 						title: 'Recent VIP Cases',
