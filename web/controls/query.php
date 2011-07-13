@@ -67,7 +67,7 @@ if ($type == 'week' || $type == 'month' || $type == 'year') {
 	$whole = array(); //all of the data
 	
 	#All cases
-	$query = "SELECT COUNT(id) as c, week(tdstamp) as w from gwcases where DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), 365) AND CURDATE() group by week(tdstamp) ORDER BY id, week(tdstamp)";
+	$query = "SELECT COUNT(id) as c, week(tdstamp) as w from gwcases where YEAR(tdstamp) = YEAR(CURRENT_TIMESTAMP) group by week(tdstamp) ORDER BY id, week(tdstamp)";
 	$result= mysqli_query($link,$query);
 	while($row = mysqli_fetch_assoc($result)) {
 		$point = array('week_all'=>(int)$row['w'],'count_all'=>(int)$row['c']);
@@ -77,7 +77,7 @@ if ($type == 'week' || $type == 'month' || $type == 'year') {
 	$whole['data'] = $instance;
 
 	#Student cases
-	$query = "select count(id) as c, week(tdstamp) as w from gwcases where DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), 365) AND CURDATE() AND report_category = 20 group by week(tdstamp) ORDER BY id, week(tdstamp)";
+	$query = "select count(id) as c, week(tdstamp) as w from gwcases where YEAR(tdstamp) = YEAR(CURRENT_TIMESTAMP) AND report_category = 20 group by week(tdstamp) ORDER BY id, week(tdstamp)";
 	$result= mysqli_query($link,$query);
 	while($row = mysqli_fetch_assoc($result)) {
 		$point = array('week_student'=>(int)$row['w'],'count_student'=>(int)$row['c']);
@@ -87,7 +87,7 @@ if ($type == 'week' || $type == 'month' || $type == 'year') {
 	$whole['data'] = $instance;
 	
 	#DIT cases
-	$query = "select count(id) as c, week(tdstamp) as w from gwcases where DATE(tdstamp) BETWEEN SUBDATE(CURDATE(), 365) AND CURDATE() AND network like '%DIT%'  and  network not like '%guest%' GROUP BY week(tdstamp) ORDER BY id, week(tdstamp)";
+	$query = "select count(id) as c, week(tdstamp) as w from gwcases where YEAR(tdstamp) = YEAR(CURRENT_TIMESTAMP) AND network like '%DIT%'  and  network not like '%guest%' GROUP BY week(tdstamp) ORDER BY id, week(tdstamp)";
 	$result= mysqli_query($link,$query);
 	while($row = mysqli_fetch_assoc($result)) {
 		$point = array('week_dit'=>(int)$row['w'],'count_dit'=>(int)$row['c']);
