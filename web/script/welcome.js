@@ -133,6 +133,12 @@ SampleApp.Welcome.Panel = function(config) {
 						tools: portlet_tools,
 						items: new WeeklyReportGraphPortlet(),
 						height: 500
+					}, {
+						id: 'p_top_10_events_portlet_heldoc',
+						title: 'Top 10 Events (30 days)',
+						items: new Top10Events30DaysGraphPortlet(),
+						tools: portlet_tools,
+						height: 400
 					}
 				]},
 				{
@@ -162,12 +168,6 @@ SampleApp.Welcome.Panel = function(config) {
 						tools: portlet_tools,
 						height: 400
 					}, {
-						id: 'p_top_10_events_portlet_heldoc',
-						title: 'Top 10 Events (30 days)',
-						items: new Top10Events30DaysGraphPortlet(),
-						tools: portlet_tools,
-						height: 400
-					},{
 						id: 'p_weekly_report_portlet_heldoc',
 						title: 'Weekly Report',
 						tools: portlet_tools,

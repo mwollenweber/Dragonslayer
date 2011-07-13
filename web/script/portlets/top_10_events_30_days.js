@@ -9,7 +9,7 @@ Top10Events30DaysGraphPortlet = function() {
                 margin: [50, 150, 60, 80],
             },
             title: {
-                text: 'Top 10 Events (30 days)',
+                text: 'Top 10 Compromise Events (30 days)',
                 style: {
                     margin: '10px 100px 0 0' // center it
                 }
