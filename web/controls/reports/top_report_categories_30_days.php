@@ -13,7 +13,7 @@ header("Content-type: text/json");
 
 $data = array();
 
-$query= "select distinct(report_category) as event, count(report_category) as count from gwcases where DATE(tdstamp) between subdate(curdate(),30) and curdate() GROUP BY report_category order by count(report_category);";
+$query= "select distinct(report_category) as event, count(report_category) as count from gwcases where DATE(tdstamp) between subdate(curdate(),30) and curdate() GROUP BY report_category order by count(report_category) DESC";
 $result= mysqli_query($link,$query);
 while($event_data = mysqli_fetch_assoc($result)) {
 	$category = $event_data['event'];
