@@ -52,7 +52,7 @@ while($event_data = mysqli_fetch_assoc($result)) {
 	} else {
 		
 	}
-	$data[] = array($event_data['event'], (int)$event_data['count']);
+	$data[] = array($category, (int)$event_data['count']);
 }
 
 mysqli_close($link);
