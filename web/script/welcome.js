@@ -65,7 +65,9 @@ var portlet_tools = [
  */
 Ext.onReady(function() {
     var welcomePanel = new SampleApp.Welcome.Panel();
+    var graphPanel = new SampleApp.Welcome.GraphPanel();
     SampleApp.Main.CenterPanelInstance.add(welcomePanel);
+    SampleApp.Main.CenterPanelInstance.add(graphPanel);
     SampleApp.Main.CenterPanelInstance.activate(welcomePanel);
     
     SampleApp.Main.EventRelay.fireEvent("log",{
@@ -128,17 +130,10 @@ SampleApp.Welcome.Panel = function(config) {
 						tools: portlet_tools,
 						items: rvc_portlet,
 					}, {
-						id: 'p_weekly_report_graph_portlet_heldoc',
+						id: 'p_weekly_report_portlet_heldoc',
 						title: 'Weekly Report',
 						tools: portlet_tools,
-						items: new WeeklyReportGraphPortlet(),
-						height: 500
-					}, {
-						id: 'p_top_10_events_portlet_heldoc',
-						title: 'Top 10 Events (30 days)',
-						items: new Top10Events30DaysGraphPortlet(),
-						tools: portlet_tools,
-						height: 400
+						items: new WeeklyReportPortlet(),
 					}
 				]},
 				{
@@ -161,18 +156,7 @@ SampleApp.Welcome.Panel = function(config) {
 						title: 'Daily MDL',
 						tools: portlet_tools,
 						items: dmdl_portlet
-					}, {
-						id: 'p_weekly_contribution_portlet_heldoc',
-						title: 'Weekly Contribution',
-						items: new WeeklyContributionGraphPortlet(),
-						tools: portlet_tools,
-						height: 400
-					}, {
-						id: 'p_weekly_report_portlet_heldoc',
-						title: 'Weekly Report',
-						tools: portlet_tools,
-						items: new WeeklyReportPortlet(),
-					}
+					}, 
 				]}
 			]
     	}]
@@ -185,3 +169,73 @@ SampleApp.Welcome.Panel = function(config) {
 Ext.extend(SampleApp.Welcome.Panel, Ext.Panel, {
 });
 
+/**
+ * Welcome Panel - contains a welcoming message
+ */
+SampleApp.Welcome.GraphPanel = function(config) {
+    Ext.apply(this,config);
+    
+    timeout_trigger(1);
+    timeout_delay(1);
+	
+    SampleApp.Welcome.GraphPanel.superclass.constructor.call(this,{
+        frame:true,
+        layout: "fit",
+        title:'Graph Reporting',
+        closable: false,
+        items: [{
+			xtype:'portal',
+			margins: '0 0 10 10',
+			cmargins: '10 10 10 10' ,
+			region:'center',
+			items: [ {  
+				columnWidth:.49,
+				style:'padding:10px 10 10px 10px',
+				items: [ {
+						id: 'p_top_10_events_portlet_heldoc',
+						title: 'Top 10 Compromise Events (30 days)',
+						items: new Top10Events30DaysGraphPortlet(),
+						tools: portlet_tools,
+						height: 400
+					}, {
+						id: 'p_weekly_contribution_portlet_heldoc',
+						title: 'Weekly Contribution',
+						items: new WeeklyContributionGraphPortlet(),
+						tools: portlet_tools,
+						height: 400
+					}, {
+						id: 'p_top_report_categories_portlet_heldoc',
+						title: 'Top Report Categories (30 days)',
+						items: new TopReportCategories30DaysGraphPortlet(),
+						tools: portlet_tools,
+						height: 400
+					}
+				]},
+				{
+					columnWidth:.49,
+					style: 'padding:10px 5px 10px 10px',
+				
+					items: [{
+						id: 'p_weekly_report_graph_portlet_heldoc',
+						title: 'Weekly Report',
+						tools: portlet_tools,
+						items: new WeeklyReportGraphPortlet(),
+						height: 500
+					}, {
+						id: 'p_top_10_networks_portlet_heldoc',
+						title: 'Top 10 Compromised Networks (30 days)',
+						items: new Top10Networks30DaysGraphPortlet(),
+						tools: portlet_tools,
+						height: 400
+					}
+				]}
+			]
+    	}]
+    });
+};
+
+/**
+ * Welcome Panel
+ */
+Ext.extend(SampleApp.Welcome.GraphPanel, Ext.Panel, {
+});
