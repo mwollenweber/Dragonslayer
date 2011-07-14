@@ -7,6 +7,8 @@ Top10Events30DaysGraphPortlet = function() {
             chart: {
                 defaultSeriesType: 'pie',
                 margin: [50, 150, 60, 80],
+                width:600,
+                height:350,  
             },
             title: {
                 text: 'Top 10 Compromise Events (30 days)',

@@ -7,6 +7,8 @@ WeeklyContributionGraphPortlet = function() {
             chart: {
                 defaultSeriesType: 'pie',
                 margin: [50, 150, 60, 80],
+                width:550,
+                height:350,  
             },
             title: {
                 text: 'Case Entry',
