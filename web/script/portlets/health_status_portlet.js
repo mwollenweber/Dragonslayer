@@ -64,7 +64,7 @@ function HealthStatusPortlet(){
 	
 	this.reload_data();
 	
-	healthData = "This video will demonstrate how to login and register to DragonSlayer.";
+	healthData = "Waiting for health status...";
 	
 	overallHealthPanel = new Ext.Panel({
         frame:true,
@@ -74,11 +74,10 @@ function HealthStatusPortlet(){
 	
 	SearchByTypePortlet.superclass.constructor.call(this, {
         frame:true,
-        title: "Health Status",
         closable:true,
         titleCollapse:true,
         items: [overallHealthPanel]
     });
 }
 
-Ext.extend(SearchByTypePortlet, Ext.Panel);
+Ext.extend(HealthStatusPortlet, Ext.Panel);

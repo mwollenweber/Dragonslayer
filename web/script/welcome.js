@@ -41,7 +41,7 @@ var rvc_portlet = new RecentVipCases();
 var dmdl_portlet = new DailyMdlPortlet();
 var sp_portlet = new ScratchPadPortlet();
 var unenteredCasesPortlet = new UnenteredCasesPortlet(); //portlet is located within create case, but we want it to sync with DBF
-//var health_status_portlet = new HealthStatusPortlet();
+var health_status_portlet = new HealthStatusPortlet();
 
 var portlet_tools = [
 //             {
@@ -91,7 +91,7 @@ function timeout_delay(init) {
 		sp_portlet.reload_store();
 		dmdl_portlet.reload_store();
 		rvc_portlet.reload_store();
-//		health_status_portlet.reload_data();
+		health_status_portlet.reload_data();
 	}
     setTimeout('timeout_delay()', 50000);
 }
@@ -159,13 +159,13 @@ SampleApp.Welcome.Panel = function(config) {
 						tools: portlet_tools,
 						items: dmdl_portlet
 					}, 
-//					{
-//						id: 'p_health_status_portlet_heldoc',
-//						frame:true,         
-//						title: 'Health Status',
-//						tools: portlet_tools,
-//						items: health_status_portlet
-//					}, 
+					{
+						id: 'p_health_status_portlet_heldoc',
+						frame:true,         
+						title: 'Health Status',
+						tools: portlet_tools,
+						items: health_status_portlet
+					}, 
 				]}
 			]
     	}]
