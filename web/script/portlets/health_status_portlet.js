@@ -9,10 +9,10 @@ function HealthStatusPortlet(){
 	        
 	        success:function(request){ 
 	        	var obj = Ext.util.JSON.decode(request.responseText); 
-	        	content = "<b>Dragon Working Count:</b>" + obj.dragon_working_count + "<br>";
-	        	content += "<b>Dragon Event Count:</b>" + obj.dragon_count + "<br>";
-	        	content += "<b>MDL Count:</b>" + obj.mdl_count + "<br>";
-	        	content += "<b>Daily Bad Count:</b>" + obj.daily_bad_count;
+	        	content = "<b>Dragon Working Count: </b>" + obj.dragon_working_count + "<br>";
+	        	content += "<b>Dragon Event Count: </b>" + obj.dragon_count + "<br>";
+	        	content += "<b>MDL Count: </b>" + obj.mdl_count + "<br>";
+	        	content += "<b>Daily Bad Count: </b>" + obj.daily_bad_count;
 	        	
 	        	content += "<br><br>";
 	        	red = "<img src='images/flag_red.gif'/>";
