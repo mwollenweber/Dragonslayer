@@ -75,6 +75,7 @@ SampleApp.EditCase.OpenFromGrid = function(dsid) {
 	    	var obj = Ext.util.JSON.decode(request.responseText); 
 	    	anywhere_store.loadData(obj);
 	    	
+		dsid_display_field.setValue(obj[0][0]);
 	    	date_field.setValue(obj[0][1]);
 	    	reporter_field.setValue(obj[0][2]);
 	    	event_field.setValue(obj[0][3]);
