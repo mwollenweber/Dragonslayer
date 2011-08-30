@@ -35,9 +35,9 @@ SampleApp.Status.Panel = function() {
         
         success:function(request){ 
         	var obj = Ext.util.JSON.decode(request.responseText); 
-        	content = "<b>Dragon Working Count:</b>" + obj.dragon_working_count;
-        	content += "<b>Dragon Event Count:</b>" + obj.dragon_count;
-        	content += "<b>MDL Count:</b>" + obj.mdl_count;
+        	content = "<b>Dragon Working Count:</b>" + obj.dragon_working_count + "<br>";
+        	content += "<b>Dragon Event Count:</b>" + obj.dragon_count + "<br>";
+        	content += "<b>MDL Count:</b>" + obj.mdl_count + "<br>";
         	content += "<b>Daily Bad Count:</b>" + obj.daily_bad_count;
         	
         	content += "<br><br>";
@@ -79,10 +79,10 @@ SampleApp.Status.Panel = function() {
         		daily_bad_img = green;
         	}
         	
-        	content += "<b>Last Dragon Working Event:</b>" + obj.last_dragon_working_event +  " " + dragon_working_img;
-        	content += "<b>Last Dragon Event:</b>" + obj.last_dragon_event + " " + dragon_event_img;
-        	content += "<b>Last MDL Update:</b>" + obj.last_mdl_update + " " + mdl_img;
-        	content += "<b>Last Daily Bad Update:</b>" + obj.last_daily_bad_event + " " + daily_bad_img;
+        	content += "<b>Last Dragon Working Event: </b>" + obj.last_dragon_working_event +  " " + dragon_working_img + "<br>" ;
+        	content += "<b>Last Dragon Event: </b>" + obj.last_dragon_event + " " + dragon_event_img + "<br>";
+        	content += "<b>Last MDL Update: </b>" + obj.last_mdl_update + " " + mdl_img + "<br>";
+        	content += "<b>Last Daily Bad Update: </b>" + obj.last_daily_bad_event + " " + daily_bad_img + "<br>";
         	Ext.getDom('health_panel_data').innerHTML = content;
        },
 	});
