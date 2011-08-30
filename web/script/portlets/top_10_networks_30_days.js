@@ -7,6 +7,8 @@ Top10Networks30DaysGraphPortlet = function() {
             chart: {
                 defaultSeriesType: 'pie',
                 margin: [50, 150, 60, 80],
+                width:550,
+                height:350,  
             },
             title: {
                 text: 'Top 10 Compromised Networks (30 days)',

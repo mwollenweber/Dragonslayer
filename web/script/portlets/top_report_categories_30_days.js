@@ -7,6 +7,8 @@ TopReportCategories30DaysGraphPortlet = function() {
             chart: {
                 defaultSeriesType: 'pie',
                 margin: [50, 150, 60, 80],
+                width:550,
+                height:350,      
             },
             title: {
                 text: 'Top Report Categories (30 days)',
@@ -24,9 +26,9 @@ TopReportCategories30DaysGraphPortlet = function() {
                 style: {
                     left: 'auto',
                     bottom: 'auto',
-                    right: '10px',
+                    right: '1px',
                     top: '100px'
-                }
+                },
             },
 	        series: [{
 				type: 'pie',
