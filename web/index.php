@@ -19,6 +19,7 @@ $_SESSION['vip'] = $_GET['vip'];
 		<script src="extjs/examples/ux/ux-all-debug.js" type="text/javascript"></script>
 		
 		<!-- Plugins -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script> 
 		<script src="extjs/adapter/highcharts/ext-highcharts-adapter.js" type="text/javascript"></script>
 		<script src="script/highcharts/highcharts.src.js" type="text/javascript"></script>
 		<script src="extjs/adapter/highcharts/Ext.ux.HighChartPanel.js" type="text/javascript"></script>
@@ -52,6 +53,7 @@ $_SESSION['vip'] = $_GET['vip'];
 		<script src="script/portlets/top_10_events_30_days.js" type="text/javascript"></script>
 		<script src="script/portlets/top_10_networks_30_days.js" type="text/javascript"></script>
 		<script src="script/portlets/top_report_categories_30_days.js" type="text/javascript"></script>
+		<script src="script/portlets/historical_statistics.js" type="text/javascript"></script>
 		
 		<!-- Pages and Views -->
 		<script src="script/viewport.js" type="text/javascript"></script>
@@ -64,7 +66,8 @@ $_SESSION['vip'] = $_GET['vip'];
 		<script src="script/launchers.js" type="text/javascript"></script>
 		<script src="script/accounts.js" type="text/javascript"></script>
 		<script src="script/training.js" type="text/javascript"></script>
-		<script src="script/helper_docs.js" type="text/javascript"></script>		
+		<script src="script/helper_docs.js" type="text/javascript"></script>	
+		<script src="script/health.js" type="text/javascript"></script>
 		
 		<!-- Queries -->
 		<script src="script/queries/daily_critical.js" type="text/javascript"></script>
@@ -93,6 +96,9 @@ $_SESSION['vip'] = $_GET['vip'];
 		
 		<!-- Training -->
 		<script src="script/training/videos.js" type="text/javascript"></script>
+		
+		<!-- Health -->
+		<script src="script/health/status.js" type="text/javascript"></script>
 			  
 	</head>
 	
@@ -187,6 +193,14 @@ $_SESSION['vip'] = $_GET['vip'];
 		    <li>
 		        <img src="images/About.png" class="icon-show-active"/>
 		        <a class="dragonslayer-training-videos dragonslayer-nav-link" href="#" name="openVideoTraining">Videos</a>
+		    </li>
+		</ul>
+		
+		<!-- Status -->
+		<ul id="dragonslayer-health-content" class="x-hidden">
+		    <li>
+		        <img src="images/Heart.png" class="icon-show-active"/>
+		        <a class="dragonslayer-health-status dragonslayer-nav-link" href="#" name="openHealthStatus">Status</a>
 		    </li>
 		</ul>
 	

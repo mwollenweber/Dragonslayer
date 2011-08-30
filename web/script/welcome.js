@@ -227,6 +227,12 @@ SampleApp.Welcome.GraphPanel = function(config) {
 						items: new Top10Networks30DaysGraphPortlet(),
 						tools: portlet_tools,
 						height: 400
+					}, {
+						id: 'p_historical_portlet_heldoc',
+						frame:true,         
+						title: 'Historical Forecasting',
+						tools: portlet_tools,
+						items: new HistoricalStatisticsChartPortlet(),
 					}
 				]}
 			]
