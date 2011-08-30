@@ -87,7 +87,7 @@ SampleApp.Status.Panel = function() {
        },
 	});
     
-	healthData = "This video will demonstrate how to login and register to DragonSlayer.";
+	healthData = "Waiting for health status...";
 	
 	overallHealthPanel = new Ext.Panel({
         frame:true,
