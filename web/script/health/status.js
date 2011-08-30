@@ -35,7 +35,54 @@ SampleApp.Status.Panel = function() {
         
         success:function(request){ 
         	var obj = Ext.util.JSON.decode(request.responseText); 
-        	content = "<b>Testing:</b>" + obj.dragon_working_count;
+        	content = "<b>Dragon Working Count:</b>" + obj.dragon_working_count;
+        	content += "<b>Dragon Event Count:</b>" + obj.dragon_count;
+        	content += "<b>MDL Count:</b>" + obj.mdl_count;
+        	content += "<b>Daily Bad Count:</b>" + obj.daily_bad_count;
+        	
+        	content += "<br><br>";
+        	red = "<img src='images/flag_red.gif'/>";
+        	yellow = "<img src='images/flag_orange.gif'/>";
+        	green = "<img src='images/flag_green.gif'/>";
+        	one_hour = 60 * 60;
+        	two_hour = 60 * 60 * 2;
+        	
+        	if(obj.delta_dragon_working > two_hour) {
+        		dragon_working_img = red;
+        	} else if(obj.delta_dragon_working > one_hour) {
+        		dragon_working_img = yellow;
+        	} else {
+        		dragon_working_img = green;
+        	}
+        	
+        	if(obj.delta_dragon > two_hour) {
+        		dragon_event_img = red;
+        	} else if(obj.delta_dragon > one_hour) {
+        		dragon_event_img = yellow;
+        	} else {
+        		dragon_event_img = green;
+        	}
+        	
+        	if(obj.delta_mdl > two_hour) {
+        		mdl_img = red;
+        	} else if(obj.delta_mdl > one_hour) {
+        		mdl_img = yellow;
+        	} else {
+        		mdl_img = green;
+        	}
+        	
+        	if(obj.delta_bad_update > two_hour) {
+        		daily_bad_img = red;
+        	} else if(obj.delta_bad_update > one_hour) {
+        		daily_bad_img = yellow;
+        	} else {
+        		daily_bad_img = green;
+        	}
+        	
+        	content += "<b>Last Dragon Working Event:</b>" + obj.last_dragon_working_event +  " " + dragon_working_img;
+        	content += "<b>Last Dragon Event:</b>" + obj.last_dragon_event + " " + dragon_event_img;
+        	content += "<b>Last MDL Update:</b>" + obj.last_mdl_update + " " + mdl_img;
+        	content += "<b>Last Daily Bad Update:</b>" + obj.last_daily_bad_event + " " + daily_bad_img;
         	Ext.getDom('health_panel_data').innerHTML = content;
        },
 	});
