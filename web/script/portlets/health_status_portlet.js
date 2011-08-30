@@ -58,9 +58,16 @@ function HealthStatusPortlet(){
 	        	content += "<b>Last MDL Update: </b>" + obj.last_mdl_update + " " + mdl_img + "<br>";
 	        	content += "<b>Last Daily Bad Update: </b>" + obj.last_daily_bad_event + " " + daily_bad_img + "<br>";
 	        	Ext.getDom('health_panel_data').innerHTML = content;
+		    	time = new Date();
+		    	Ext.getCmp('health_status_portlet_bottom_bar').setText("Last updated: " + time); 
 	       },
 		});
 	}
+	
+    health_status_tbar = new Ext.Toolbar.TextItem({
+        text: '',
+        id: 'health_status_portlet_bottom_bar',
+	})
 	
 	this.reload_data();
 	
@@ -72,12 +79,13 @@ function HealthStatusPortlet(){
         html: healthData,
 	})
 	
-	SearchByTypePortlet.superclass.constructor.call(this, {
+	HealthStatusPortlet.superclass.constructor.call(this, {
         frame:true,
         closable:true,
         titleCollapse:true,
-        items: [overallHealthPanel]
+        items: [overallHealthPanel],
+        bbar: [health_status_tbar]
     });
 }
 
-Ext.extend(HealthStatusPortlet, Ext.Panel);
+Ext.extend(HealthStatusPortlet, Ext.FormPanel);
