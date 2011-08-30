@@ -36,7 +36,7 @@ SampleApp.Status.Panel = function() {
         success:function(request){ 
         	var obj = Ext.util.JSON.decode(request.responseText); 
         	content = "<b>Testing:</b>" + obj.dragon_working_count;
-        	Ext.getCmp('health_panel_data').setText(content);  
+        	Ext.getDom('health_panel_data').innerHTML = content;
        },
 	});
     
