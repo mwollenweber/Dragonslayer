@@ -54,6 +54,7 @@ $_SESSION['vip'] = $_GET['vip'];
 		<script src="script/portlets/top_10_networks_30_days.js" type="text/javascript"></script>
 		<script src="script/portlets/top_report_categories_30_days.js" type="text/javascript"></script>
 		<script src="script/portlets/historical_statistics.js" type="text/javascript"></script>
+		<script src="script/portlets/health_status_portlet.js" type="text/javascript"></script>
 		
 		<!-- Pages and Views -->
 		<script src="script/viewport.js" type="text/javascript"></script>
