@@ -41,6 +41,7 @@ var rvc_portlet = new RecentVipCases();
 var dmdl_portlet = new DailyMdlPortlet();
 var sp_portlet = new ScratchPadPortlet();
 var unenteredCasesPortlet = new UnenteredCasesPortlet(); //portlet is located within create case, but we want it to sync with DBF
+var needs_research_portlet = new NeedsResearchCases();
 var health_status_portlet = new HealthStatusPortlet();
 
 var portlet_tools = [
@@ -92,6 +93,7 @@ function timeout_delay(init) {
 		dmdl_portlet.reload_store();
 		rvc_portlet.reload_store();
 		health_status_portlet.reload_data();
+		needs_research_portlet.reload_data();
 	}
     setTimeout('timeout_delay()', 50000);
 }
@@ -142,30 +144,34 @@ SampleApp.Welcome.Panel = function(config) {
 					columnWidth:.49,
 					style: 'padding:10px 5px 10px 10px',
 				
-					items: [{
-						id: 'p_public_scratch_portlet_heldoc',
-						title: 'Public Scratch Pad',
+					items: [					{
+						id: 'p_health_status_portlet_heldoc',
+						frame:true,         
+						title: 'Health Status',
 						tools: portlet_tools,
-						items: sp_portlet,
+						items: health_status_portlet
 					}, {
 						id: 'p_search_portlet_heldoc',
 						title: 'Quick Search',
 						tools: portlet_tools,
 						items: new SearchByTypePortlet(),
 					}, {
+						id: 'p_needs_research_portlet_heldoc',
+						title: 'Current Needs Research Cases',
+						tools: portlet_tools,
+						items: needs_research_portlet,
+					}, {
+						id: 'p_public_scratch_portlet_heldoc',
+						title: 'Public Scratch Pad',
+						tools: portlet_tools,
+						items: sp_portlet,
+					}, {
 						id: 'p_dmdl_portlet_heldoc',
 						frame:true,         
 						title: 'Daily MDL',
 						tools: portlet_tools,
 						items: dmdl_portlet
-					}, 
-					{
-						id: 'p_health_status_portlet_heldoc',
-						frame:true,         
-						title: 'Health Status',
-						tools: portlet_tools,
-						items: health_status_portlet
-					}, 
+					} 
 				]}
 			]
     	}]
