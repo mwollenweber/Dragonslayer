@@ -24,8 +24,8 @@ var category_field;
 var verification_field;
 var dsid_field;
 
-var victim = "";
-var event = "";
+var victim_g = "";
+var event_g = "";
 
 
 /**
