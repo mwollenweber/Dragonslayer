@@ -264,6 +264,8 @@ SampleApp.CreateCase.FormPanel = function(){
     
 	//values pulled from the global form
 	snatch_user();
+	event_field.setValue('');
+	victim_field.setValue('');
 //	get_ip_info(victim);
 	
 //    new Ext.KeyMap(Ext.get(document), {
@@ -418,9 +420,18 @@ Ext.extend(SampleApp.CreateCase.FormPanel, Ext.FormPanel, {
 });
 
 SampleApp.CreateCase.DragonInterface = function(){
+	var victim, event = "";
+	victim = victim_field.getValue();
+	event = event_field.getValue();
+	if(victim == "" || event == "") {
+		html_content = "<iframe height=100% width=100% src='https://128.164.11.22:9443/'></iframe>";
+	} else {
+		html_content = "<iframe height=100% width=100% src='https://128.164.11.22:9443/cgi-bin/realtime/realtime_expert.cgi?sourceport=&destport=&tfilter=nil&dir=nil&proto=&sensor=&group=&numlines=100&cidr=16&ipm=" + victim +"&srcipm=&dstipm=&ipf=&srcipf=&dstipf=&refer=&parameters=&program=EventDetail&starttime=&stoptime=&event=" + event + "&odd='></iframe>";
+	}
+	
 	SampleApp.CreateCase.DragonInterface.superclass.constructor.call(this,{
         frame:true,
-        html: "<iframe height=100% width=100% src='https://128.164.11.22:9443'></iframe>"
+        html: html_content
     });
 };
 
