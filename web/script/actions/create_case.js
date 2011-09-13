@@ -69,7 +69,7 @@ SampleApp.CreateCase.OpenFromGrid = function(date,event,victim,attacker,notes) {
  * 
  */
 SampleApp.CreateCase.Panel = function() {
-    createCaseFormPanel = new SampleApp.CreateCase.FormPanel();
+    createCaseFormPanel = new SampleApp.CreateCase.FormPanel(victim_field.getValue(),event_field.getValue());
     createCaseDragonInterface = new SampleApp.CreateCase.DragonInterface();
     
     SampleApp.CreateCase.Panel.superclass.constructor.call(this,{
@@ -419,10 +419,7 @@ SampleApp.CreateCase.FormPanel = function(){
 Ext.extend(SampleApp.CreateCase.FormPanel, Ext.FormPanel, {
 });
 
-SampleApp.CreateCase.DragonInterface = function(){
-	var victim, event = "";
-	victim = victim_field.getValue();
-	event = event_field.getValue();
+SampleApp.CreateCase.DragonInterface = function(victim, event){
 	if(victim == "" || event == "") {
 		html_content = "<iframe height=100% width=100% src='https://128.164.11.22:9443/'></iframe>";
 	} else {
