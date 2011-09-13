@@ -88,6 +88,7 @@ SampleApp.EditCase.OpenFromGrid = function(dsid) {
 	    	verification_field.setValue(obj[0][10]);
 	    	notes_field.setValue(obj[0][11]);
 	    	category_field.setValue(obj[0][12]);
+	    	primary_detection_field.setValue(obj[0][13]);
 	   },
 	});
 }
@@ -295,6 +296,14 @@ SampleApp.EditCase.FormPanel = function(){
         anchor:'100%'
     });
     
+    primary_detection_field = new Ext.form.TextField({
+	    fieldLabel: 'Primary Detection',
+	    name: 'primary_detection',
+	    allowBlank:true,
+	    width: 400,
+	    anchor:'100%'
+    })
+    
 
     
     SampleApp.EditCase.FormPanel.superclass.constructor.call(this,{
@@ -315,13 +324,7 @@ SampleApp.EditCase.FormPanel = function(){
             dns_field,
             attacker_field,
             date_field,
-            {
-                fieldLabel: 'Primary Detection',
-                name: 'primary_detection',
-                allowBlank:true,
-                width: 400,
-                anchor:'100%'
-            },
+            primary_detection_field,
             {
                 fieldLabel: 'Seconday Detection',
                 name: 'seconday_detection',
