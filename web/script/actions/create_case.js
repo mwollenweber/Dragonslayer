@@ -429,6 +429,7 @@ SampleApp.CreateCase.DragonInterface = function(){
 		html_content = "<iframe height=100% width=100% src='https://128.164.11.22:9443/cgi-bin/realtime/realtime_expert.cgi?sourceport=&destport=&tfilter=nil&dir=nil&proto=&sensor=&group=&numlines=100&cidr=16&ipm=" + victim +"&srcipm=&dstipm=&ipf=&srcipf=&dstipf=&refer=&parameters=&program=EventDetail&starttime=&stoptime=&event=" + event + "&odd='></iframe>";
 	}
 	
+	alert(victim + event);
 	SampleApp.CreateCase.DragonInterface.superclass.constructor.call(this,{
         frame:true,
         html: html_content
