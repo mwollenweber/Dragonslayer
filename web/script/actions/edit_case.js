@@ -431,7 +431,8 @@ SampleApp.EditCase.GridPanel = function() {
            {name: 'dhcp_info'},
            {name: 'user_verification'},
            {name: 'confirmation'},
-           {name: 'report_category'}
+           {name: 'report_category'},
+           {name: 'primary_detection'}
         ]
     });
 	
@@ -513,6 +514,12 @@ SampleApp.EditCase.GridPanel = function() {
                 dataIndex: 'dhcp_info'
             },
             {
+                header   : 'Primary Detection', 
+                width    : 170, 
+                sortable : true, 
+                dataIndex: 'primary_detection'
+            },
+            {
                 header   : 'Verification', 
                 width    : 170, 
                 sortable : true, 
@@ -555,6 +562,7 @@ SampleApp.EditCase.GridPanel = function() {
 				verification_field.setValue(rec.get('user_verification'));
 				notes_field.setValue(rec.get('confirmation'));
 				category_field.setValue(rec.get('report_category'));
+				primary_detection_field.setValue(rec.get('primary_detection'));
 			},
 			cellcontextmenu: function(grid, rowIndex, colIndex, e) {
 				var type = grid.getColumnModel().getDataIndex(colIndex);
@@ -607,7 +615,8 @@ SampleApp.EditCase.FromAnywhereGrid = function() {
            {name: 'dhcp_info'},
            {name: 'user_verification'},
            {name: 'confirmation'},
-           {name: 'report_category'}
+           {name: 'report_category'},
+           {name: 'primary_detection'}
         ]
     });
     
@@ -675,6 +684,12 @@ SampleApp.EditCase.FromAnywhereGrid = function() {
                 dataIndex: 'dhcp_info'
             },
             {
+                header   : 'Primary Detection', 
+                width    : 170, 
+                sortable : true, 
+                dataIndex: 'primary_detection'
+            },
+            {
                 header   : 'Verification', 
                 width    : 170, 
                 sortable : true, 
@@ -717,6 +732,7 @@ SampleApp.EditCase.FromAnywhereGrid = function() {
 				verification_field.setValue(rec.get('user_verification'));
 				notes_field.setValue(rec.get('confirmation'));
 				category_field.setValue(rec.get('report_category'));
+				primary_detection_field.setValue(rec.get('primary_detection'));
 			}
 		},
     });
