@@ -24,10 +24,6 @@ var category_field;
 var verification_field;
 var dsid_field;
 
-var victim_g = "";
-var event_g = "";
-
-
 /**
  * Attach the launcher panel to the West Panel
  */
@@ -64,8 +60,6 @@ SampleApp.CreateCase.OpenFromGrid = function(date,event,victim,attacker,notes) {
 	victim_field.setValue(victim);
 	attacker_field.setValue(attacker);
 	notes_field.setValue(notes);
-	victim_g = victim;
-	event_g = event;
     SampleApp.Main.CenterPanelInstance.add(createCasePanel);
     SampleApp.Main.CenterPanelInstance.activate(createCasePanel);
 }
@@ -423,7 +417,6 @@ Ext.extend(SampleApp.CreateCase.FormPanel, Ext.FormPanel, {
 });
 
 SampleApp.CreateCase.DragonInterface = function(){
-	alert(victim_g);
 	SampleApp.CreateCase.DragonInterface.superclass.constructor.call(this,{
         frame:true,
         html: "<iframe height=100% width=100% src='https://128.164.11.22:9443'></iframe>"
