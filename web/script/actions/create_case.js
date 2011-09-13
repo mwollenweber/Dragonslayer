@@ -69,8 +69,8 @@ SampleApp.CreateCase.OpenFromGrid = function(date,event,victim,attacker,notes) {
  * 
  */
 SampleApp.CreateCase.Panel = function() {
-    createCaseFormPanel = new SampleApp.CreateCase.FormPanel(victim_field.getValue(),event_field.getValue());
-    createCaseDragonInterface = new SampleApp.CreateCase.DragonInterface();
+    createCaseFormPanel = new SampleApp.CreateCase.FormPanel();
+    createCaseDragonInterface = new SampleApp.CreateCase.DragonInterface(victim_field.getValue(),event_field.getValue());
     
     SampleApp.CreateCase.Panel.superclass.constructor.call(this,{
         frame:true,
