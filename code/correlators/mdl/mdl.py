@@ -12,6 +12,7 @@ class correlator():
         print "init self"
         self.conn = conn
         self.cursor = self.conn.cursor()     
+        self.event_table = "ids_mdl_correlation"
         
     def delete(self):
         query = "DELETE FROM ids_mdl_correlation"

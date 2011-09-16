@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.56, for apple-darwin10.6.0 (i386)
+-- MySQL dump 10.13  Distrib 5.1.57, for apple-darwin11.1.0 (i386)
 --
 -- Host: localhost    Database: dragonslayer
 -- ------------------------------------------------------
--- Server version	5.5.11
+-- Server version	5.1.57
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,25 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `adhoc_bad`
+--
+
+DROP TABLE IF EXISTS `adhoc_bad`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `adhoc_bad` (
+  `tdstamp` datetime DEFAULT NULL,
+  `userid` int(10) unsigned NOT NULL,
+  `attacker` int(10) unsigned NOT NULL,
+  `severity` int(10) unsigned DEFAULT NULL,
+  `notes` blob,
+  KEY `tdstamp` (`tdstamp`),
+  KEY `userid` (`userid`),
+  KEY `attacker` (`attacker`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `analysts`
@@ -266,6 +285,61 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Table structure for table `event_ingest_log`
+--
+
+DROP TABLE IF EXISTS `event_ingest_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `event_ingest_log` (
+  `id` int(11) DEFAULT NULL,
+  `filename` varchar(64) DEFAULT NULL,
+  `md5` varchar(32) DEFAULT NULL,
+  `last_update` datetime DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `global_ignore`
+--
+
+DROP TABLE IF EXISTS `global_ignore`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `global_ignore` (
+  `tdstamp` datetime DEFAULT NULL,
+  `victim` int(10) unsigned NOT NULL,
+  `attacker` int(10) unsigned NOT NULL,
+  `event` varchar(64) DEFAULT NULL,
+  `expires` datetime DEFAULT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
+  KEY `tdstamp` (`tdstamp`),
+  KEY `victim` (`victim`),
+  KEY `attacker` (`attacker`),
+  KEY `expires` (`expires`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `global_safe`
+--
+
+DROP TABLE IF EXISTS `global_safe`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `global_safe` (
+  `tdstamp` datetime DEFAULT NULL,
+  `attacker` int(10) unsigned NOT NULL,
+  `event` varchar(64) DEFAULT NULL,
+  `expires` datetime DEFAULT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
+  KEY `tdstamp` (`tdstamp`),
+  KEY `attacker` (`attacker`),
+  KEY `expires` (`expires`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `gwcases`
 --
 
@@ -370,27 +444,22 @@ CREATE TABLE `ids_case_correlation` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `ids_correlation`
+-- Temporary table structure for view `ids_correlation`
 --
 
 DROP TABLE IF EXISTS `ids_correlation`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ids_correlation` (
-  `tdstamp` datetime DEFAULT NULL,
-  `event` varchar(64) DEFAULT NULL,
-  `victim` int(10) unsigned DEFAULT NULL,
-  `attacker` int(10) unsigned DEFAULT NULL,
-  `description` varchar(50) DEFAULT NULL,
-  KEY `event` (`event`),
-  KEY `victim` (`victim`),
-  KEY `attacker` (`attacker`),
-  KEY `tdstamp` (`tdstamp`),
-  KEY `victim_2` (`victim`),
-  KEY `attacker_2` (`attacker`),
-  KEY `event_2` (`event`)
-) ENGINE=MEMORY DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!50001 DROP VIEW IF EXISTS `ids_correlation`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `ids_correlation` (
+  `tdstamp` datetime,
+  `victim` int(11) unsigned,
+  `attacker` int(11) unsigned,
+  `event` varchar(64),
+  `description` varchar(512),
+  `mdl` varchar(10)
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `ids_malwareurl_correlation`
@@ -500,6 +569,24 @@ CREATE TABLE `ids_shadow_correlation` (
   KEY `tdstamp` (`tdstamp`)
 ) ENGINE=MEMORY DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Temporary table structure for view `ids_working`
+--
+
+DROP TABLE IF EXISTS `ids_working`;
+/*!50001 DROP VIEW IF EXISTS `ids_working`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `ids_working` (
+  `tdstamp` datetime,
+  `event` varchar(50),
+  `srcip` int(11) unsigned,
+  `dstip` int(11) unsigned,
+  `sport` int(11) unsigned,
+  `dport` int(11) unsigned
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `ipalerts`
@@ -999,6 +1086,26 @@ CREATE TABLE `shadow_ccip` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `snort_working`
+--
+
+DROP TABLE IF EXISTS `snort_working`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `snort_working` (
+  `tdstamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `event` varchar(50) DEFAULT NULL,
+  `srcip` int(10) unsigned NOT NULL DEFAULT '0',
+  `dstip` int(10) unsigned NOT NULL DEFAULT '0',
+  `sport` int(10) unsigned DEFAULT NULL,
+  `dport` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`tdstamp`,`srcip`,`dstip`),
+  KEY `tdstamp` (`tdstamp`,`event`,`srcip`,`dstip`),
+  KEY `dstindex` (`dstip`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `sources`
 --
 
@@ -1201,6 +1308,27 @@ CREATE TABLE `url_history` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `user_ignore`
+--
+
+DROP TABLE IF EXISTS `user_ignore`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_ignore` (
+  `tdstamp` datetime DEFAULT NULL,
+  `victim` int(10) unsigned NOT NULL,
+  `attacker` int(10) unsigned NOT NULL,
+  `event` varchar(64) DEFAULT NULL,
+  `expires` datetime DEFAULT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
+  KEY `tdstamp` (`tdstamp`),
+  KEY `victim` (`victim`),
+  KEY `attacker` (`attacker`),
+  KEY `expires` (`expires`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `users`
 --
 
@@ -1303,6 +1431,64 @@ CREATE TABLE `virustotal_file` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping routines for database 'dragonslayer'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `check_status` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = latin1 */ ;
+/*!50003 SET character_set_results = latin1 */ ;
+/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`dragonslayer`@`localhost`*/ /*!50003 PROCEDURE `check_status`()
+BEGIN
+DECLARE dragon_working_count INT unsigned;
+DECLARE last_dragon_working_event datetime;
+DECLARE dragon_count INT unsigned;
+DECLARE last_dragon_event datetime;
+DECLARE mdl_count INT unsigned;
+DECLARE last_mdl_update datetime;
+DECLARE daily_bad_count INT unsigned;
+DECLARE last_daily_bad_event datetime;
+SELECT count(*) INTO dragon_working_count from dragon_working;
+SELECT tdstamp INTO last_dragon_working_event from dragon_working order by tdstamp DESC limit 1;
+SELECT count(*) INTO dragon_count from dragon;
+SELECT tdstamp INTO last_dragon_event from dragon order by tdstamp DESC limit 1;
+SELECT count(*) INTO mdl_count from mdl;
+SELECT tdstamp INTO last_mdl_update from mdl ORDER BY tdstamp DESC limit 1;
+SELECT count(*) INTO daily_bad_count from hourly_dragon_bad;
+SELECT tdstamp INTO last_daily_bad_event from hourly_dragon_bad ORDER BY tdstamp DESC limit 1;
+SELECT dragon_working_count, last_dragon_working_event, TIMESTAMPDIFF(MINUTE, NOW(), last_dragon_working_event) as delta_dragon_working,  dragon_count, last_dragon_event, TIMESTAMPDIFF(MINUTE, NOW(), last_dragon_event) as delta_dragon, mdl_count, last_mdl_update, TIMESTAMPDIFF(MINUTE, NOW(), last_mdl_update) as delta_mdl, daily_bad_count, last_daily_bad_event,  TIMESTAMPDIFF(MINUTE, NOW(), last_mdl_update) as delta_bad_update;
+end */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_daily_bad` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = latin1 */ ;
+/*!50003 SET character_set_results = latin1 */ ;
+/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`dragonslayer`@`localhost`*/ /*!50003 PROCEDURE `get_daily_bad`()
+BEGIN
+    SELECT tdstamp, INET_NTOA(victim) as victim, INET_NTOA(attacker) as attacker, event, description FROM ids_correlation GROUP BY victim, attacker, event, description ORDER by tdstamp;  
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
 -- Final view structure for view `dragon_working`
 --
 
@@ -1317,6 +1503,44 @@ CREATE TABLE `virustotal_file` (
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`dragonslayer`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `dragon_working` AS (select `dragon`.`tdstamp` AS `tdstamp`,`dragon`.`event` AS `event`,`dragon`.`srcip` AS `srcip`,`dragon`.`dstip` AS `dstip`,`dragon`.`sport` AS `sport`,`dragon`.`dport` AS `dport` from `dragon` where (cast(`dragon`.`tdstamp` as date) between (curdate() - interval 1 day) and curdate())) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `ids_correlation`
+--
+
+/*!50001 DROP TABLE IF EXISTS `ids_correlation`*/;
+/*!50001 DROP VIEW IF EXISTS `ids_correlation`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = latin1 */;
+/*!50001 SET character_set_results     = latin1 */;
+/*!50001 SET collation_connection      = latin1_swedish_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`dragonslayer`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `ids_correlation` AS select `ids_mdl_correlation`.`tdstamp` AS `tdstamp`,`ids_mdl_correlation`.`victim` AS `victim`,`ids_mdl_correlation`.`attacker` AS `attacker`,`ids_mdl_correlation`.`event` AS `event`,`ids_mdl_correlation`.`description` AS `description`,'mdl' AS `mdl` from `ids_mdl_correlation` union select `ids_malwareurl_correlation`.`tdstamp` AS `tdstamp`,`ids_malwareurl_correlation`.`victim` AS `victim`,`ids_malwareurl_correlation`.`attacker` AS `attacker`,`ids_malwareurl_correlation`.`event` AS `event`,`ids_malwareurl_correlation`.`description` AS `description`,'malwareurl' AS `malwareurl` from `ids_malwareurl_correlation` union select `ids_case_correlation`.`tdstamp` AS `tdstamp`,`ids_case_correlation`.`victim` AS `victim`,`ids_case_correlation`.`attacker` AS `attacker`,`ids_case_correlation`.`event` AS `event`,`ids_case_correlation`.`description` AS `description`,'case' AS `case` from `ids_case_correlation` union select `ids_ses_correlation`.`tdstamp` AS `tdstamp`,`ids_ses_correlation`.`victim` AS `victim`,`ids_ses_correlation`.`attacker` AS `attacker`,`ids_ses_correlation`.`event` AS `event`,`ids_ses_correlation`.`description` AS `description`,'ses' AS `ses` from `ids_ses_correlation` union select `ids_norman_correlation`.`tdstamp` AS `tdstamp`,`ids_norman_correlation`.`victim` AS `victim`,`ids_norman_correlation`.`attacker` AS `attacker`,`ids_norman_correlation`.`event` AS `event`,`ids_norman_correlation`.`description` AS `description`,'norman' AS `norman` from `ids_norman_correlation` union select `ids_shadow_correlation`.`tdstamp` AS `tdstamp`,`ids_shadow_correlation`.`victim` AS `victim`,`ids_shadow_correlation`.`attacker` AS `attacker`,`ids_shadow_correlation`.`event` AS `event`,`ids_shadow_correlation`.`description` AS `description`,'shadow' AS `shadow` from `ids_shadow_correlation` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `ids_working`
+--
+
+/*!50001 DROP TABLE IF EXISTS `ids_working`*/;
+/*!50001 DROP VIEW IF EXISTS `ids_working`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = latin1 */;
+/*!50001 SET character_set_results     = latin1 */;
+/*!50001 SET collation_connection      = latin1_swedish_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`dragonslayer`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `ids_working` AS select `dragon_working`.`tdstamp` AS `tdstamp`,`dragon_working`.`event` AS `event`,`dragon_working`.`srcip` AS `srcip`,`dragon_working`.`dstip` AS `dstip`,`dragon_working`.`sport` AS `sport`,`dragon_working`.`dport` AS `dport` from `dragon_working` union select `snort_working`.`tdstamp` AS `tdstamp`,`snort_working`.`event` AS `event`,`snort_working`.`srcip` AS `srcip`,`snort_working`.`dstip` AS `dstip`,`snort_working`.`sport` AS `sport`,`snort_working`.`dport` AS `dport` from `snort_working` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -1387,4 +1611,4 @@ CREATE TABLE `virustotal_file` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-06-08  8:52:53
+-- Dump completed on 2011-09-16  0:26:17

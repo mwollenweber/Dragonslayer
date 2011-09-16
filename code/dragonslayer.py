@@ -199,6 +199,9 @@ class dragonslayer:
         for i in self.ingestors:
             i.ingest()
             
+    def load_daily_bad(self):
+        print "loading daily bad"
+        
         
 def main():
     print "fuxing main bs"
@@ -210,7 +213,7 @@ def main():
     ds.load_correlators()
     ds.correlate()
     
-    #ds.update_bad()
+    ds.update_bad()
     ds.shutdown()
     
     

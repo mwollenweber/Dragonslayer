@@ -1,0 +1,82 @@
+DROP PROCEDURE IF EXISTS `check_status`;
+DELIMITER //
+CREATE PROCEDURE check_status()
+    BEGIN
+    DECLARE dragon_working_count INT unsigned;
+    DECLARE last_dragon_working_event datetime;
+    DECLARE dragon_count INT unsigned;
+    DECLARE last_dragon_event datetime;
+    DECLARE mdl_count INT unsigned;
+    DECLARE last_mdl_update datetime;
+    DECLARE daily_bad_count INT unsigned;
+    DECLARE last_daily_bad_event datetime;
+    SELECT count(*) INTO dragon_working_count from dragon_working;
+    SELECT tdstamp INTO last_dragon_working_event from dragon_working order by tdstamp DESC limit 1;
+    SELECT count(*) INTO dragon_count from dragon;
+    SELECT tdstamp INTO last_dragon_event from dragon order by tdstamp DESC limit 1;
+    SELECT count(*) INTO mdl_count from mdl;
+    SELECT tdstamp INTO last_mdl_update from mdl ORDER BY tdstamp DESC limit 1;
+    SELECT count(*) INTO daily_bad_count from hourly_dragon_bad;
+    SELECT tdstamp INTO last_daily_bad_event from hourly_dragon_bad ORDER BY tdstamp DESC limit 1;
+    SELECT dragon_working_count, last_dragon_working_event, TIMESTAMPDIFF(MINUTE, NOW(), last_dragon_working_event) as delta_dragon_working,  dragon_count, last_dragon_event, TIMESTAMPDIFF(MINUTE, NOW(), last_dragon_event) as delta_dragon, mdl_count, last_mdl_update, TIMESTAMPDIFF(MINUTE, NOW(), last_mdl_update) as delta_mdl, daily_bad_count, last_daily_bad_event,  TIMESTAMPDIFF(MINUTE, NOW(), last_mdl_update) as delta_bad_update;
+end//
+delimiter ;
+
+
+DROP PROCEDURE IF EXISTS `get_daily_bad`;
+DELIMITER //
+CREATE PROCEDURE get_daily_bad()
+    BEGIN
+    SELECT tdstamp, INET_NTOA(victim) as victim, INET_NTOA(attacker) as attacker, event, description FROM ids_correlation GROUP BY victim, attacker, event, description ORDER by tdstamp;  
+END//
+delimiter ;
+
+need daily bad filtered magic.
+
+DROP VIEW IF EXISTS `ids_correlation`;
+CREATE VIEW ids_correlation AS
+SELECT tdstamp, victim, attacker, event, description, "mdl" from ids_mdl_correlation
+UNION
+SELECT tdstamp, victim, attacker, event, description, "malwareurl" from ids_malwareurl_correlation
+UNION
+SELECT tdstamp, victim, attacker, event, description, "case" from ids_case_correlation
+UNION
+SELECT tdstamp, victim, attacker, event, description, "ses" from ids_ses_correlation
+UNION
+SELECT tdstamp, victim, attacker, event, description, "norman" from ids_norman_correlation
+UNION
+SELECT tdstamp, victim, attacker, event, description, "shadow" from ids_shadow_correlation;
+
+
+
+ALTER VIEW ids_correlation AS
+SELECT tdstamp, victim, attacker, event, description, "mdl" from ids_mdl_correlation
+UNION
+SELECT tdstamp, victim, attacker, event, description, "malwareurl" from ids_malwareurl_correlation
+UNION
+SELECT tdstamp, victim, attacker, event, description, "case" from ids_case_correlation
+UNION
+SELECT tdstamp, victim, attacker, event, description, "ses" from ids_ses_correlation
+UNION
+SELECT tdstamp, victim, attacker, event, description, "norman" from ids_norman_correlation
+UNION
+SELECT tdstamp, victim, attacker, event, description, "shadow" from ids_shadow_correlation;
+
+DROP VIEW IF EXISTS `ids_working`;
+CREATE VIEW ids_working AS
+SELECT tdstamp, event, srcip, dstip, sport, dport FROM dragon_working
+UNION
+SELECT tdstamp, event, srcip, dstip, sport, dport  FROM  snort_working;
+
+
+SELECT tdstamp, victim, attacker, event, description from ids_correlation 
+WHERE NOT EXISTS (
+SELECT 1 FROM gwcases WHERE ids_correlation.victim = gwcases.victim AND ids_correlation.attacker = gwcases.attacker
+UNION
+SELECT 1 FROM global_ignore WHERE (ids_correlation.attacker = global_ignore.attacker) AND (ids_correlation.victim = global_ignore.victim) AND (NOW() < global_ignore.expires)
+UNION
+SELECT 1 from user_ignore WHERE (user_ignore.user_id) = 42 AND (ids_correlation.attacker = user_ignore.attacker) AND (ids_correlation.victim = user_ignore.victim) AND (NOW() < user_ignore.expires)
+UNION
+SELECT 1 FROM global_safe WHERE ids_correlation.attacker = global_safe.attacker
+);
+

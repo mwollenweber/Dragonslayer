@@ -8,9 +8,11 @@ Copyright Matthew Wollenweber 2009
 import time, thread, MySQLdb, sys, urllib2, os, traceback, csv
 
 class ingestor():
-    def __init__(self, conn = None, config = None):
+    def __init__(self, conn = None, config = None, debug = 1):
         print "initialized ids.dragon"
         self.conn = conn
+        self.debug = debug
+        
         if self.conn != None:
             self.cursor = conn.cursor()
         else:
@@ -30,6 +32,8 @@ class ingestor():
         
         for q in queries:
             self.cursor.execute(q)
+        
+        self.conn.commit()
 
     def clean_dragon(self):
         queries = []
@@ -38,13 +42,18 @@ class ingestor():
         
         for q in queries:
             self.cursor.execute(q)
+            
+        self.conn.commit()
         
     def ingest(self):
         print "inside dragon ingestor...ingesting!"
         self.load()
+        self.conn.commit()
         
     def load(self):
         load_list = []
+        ct = 0
+        #print self.dragon_path
         file_list = os.listdir(self.dragon_path)
         #load_file = self.dragon_path + self.load_file
         
@@ -78,36 +87,45 @@ class ingestor():
                 self.cursor.execute(load_from_tmp_query )
 
             except MySQLdb.OperationalError:
-                print "load infile was a fail. Moving to manual"
+                print "ERROR: Unable to execute LOAD DATA LOCAL INFILE. Beginning manual insert."
                 values = []
-                
-                reader = csv.reader(open(x, "r"), delimiter='|', quotechar='"')
-                for row in reader:
-                    if len(row)  < 6:
-                        continue
+                try:
+                    reader = csv.reader(open(x, "r"), delimiter='|', quotechar='"')
+                    for row in reader:
+                        ct += 1
+                        if len(row)  > 6:
+                            tdstamp = row[0]
+                            sensor = row[1]
+                            event = row[2]
+                            src = row[3]
+                            dst = row[4]
+                            sport = row[5]
+                            dport = row[6]
+                                                
+                            if event.find("DYNAMIC") >= 0:
+                                continue
+                            
+                            values.append((tdstamp, event, src, dst, sport, dport))
+   
+                    self.cursor.executemany(load_row_query, values)
+                    self.conn.commit()
+                    print "Alternate load complete"
                     
-                    tdstamp = row[0]
-                    sensor = row[1]
-                    event = row[2]
-                    src = row[3]
-                    dst = row[4]
-                    sport = row[5]
-                    dport = row[6]
-                                        
-                    if event.find("DYNAMIC") >= 0:
-                        continue
-                    
-                    values.append((tdstamp, event, src, dst, sport, dport))
-                    
-                self.cursor.executemany(load_row_query, values)
-                print "Alternate load complete"
-                
+                except:
+                    print "ERROR: Failed to insert dragon record"
+                    if self.debug == 1:
+                        print "FILE = %s at row %s" % (x, ct)
+                        exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
+                        traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
+                    continue
+                        
             except:
                 print "ERROR: Unable to load dragonfile - unhandled"
                 exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
                 traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
                 continue
 
+        self.conn.commit()
         self.clean_dragon()     
         print "Done with load"
    

@@ -21,6 +21,7 @@ class correlator():
             self.up_interval = config["update"]
             self.base_url = config["base_url"]
             self.feed_pages = config["feed_pages"]
+            self.event_table = "ids_ses_correlation"
             
         if conn != None:
             self.conn = conn
@@ -38,12 +39,17 @@ class correlator():
     def ses_correlate(self):
         self.delete()
         self.sescncip_correlate()
-        #self.sesmalwareflows_correlate()
+        #self.sesmalwareflows_correlate() #shit feed
         self.sesinfrastructure_correlate()
         
+        #want malwareurl https://secure.ren-isac.net/cgi-bin/feeds/bt-ses-malware-url.cgi
+        #"Malicious Domains" https://secure.ren-isac.net/cgi-bin/feeds/bt-ses-domains.cgi
+        #"malicious domains manual" https://secure.ren-isac.net/cgi-bin/feeds/bt-ses-domains-manual.cgi
         
         #self.seshttpcnc_correlate()
         #self.sesphishing_correlate()
+    def btsesdomainsmanual_correlate(self):
+        foo = None
     
     def sesinfrastructure_correlate(self):
         print "begining infrastructure correlate"
@@ -206,10 +212,16 @@ class correlator():
                     #data = f.read()
                     self.update_phishingurl(f)
                     
+                elif page.find("bt-ses-domains-manual") >= 0:
+                    print "loading bt-ses-domains-manual"
+                    url = self.base_url + page
+                    f = urllib2.urlopen(url)
+                    self.update_btsesdomainsmanual(f)
+                    
                 else:
-                    print "unknown ses page"
+                    print "indefined ses loader for page %s" % page
         except:
-            print "error loading ses record"
+            print "error loading ses record for page %s" % page
             exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
             traceback.print_exception(exceptionType, exceptionValue, exceptionTraceback, limit=2, file=sys.stdout)
                 
@@ -218,8 +230,11 @@ class correlator():
     def update_sesmalware(self, data):
         print "updating ses malware"
         
-    def update_sesdomains(self, data):
-        print "ses domains"
+    def update_btsesdomainsmanual(self, data):
+        print "bt ses domains manual"
+        reader = csv.reader(data, delimiter='|', quotechar='"', skipinitialspace = True)
+        for row in reader:
+            print "skipping btsesdatamanual"
         
     def update_sesdns(self, data):
         print "asdfs"

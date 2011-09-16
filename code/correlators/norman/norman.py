@@ -35,6 +35,7 @@ class correlator():
         self.hosts2ips = []
         self.mysql_conn = conn
         self.email_conn = None
+        self.event_table = "ids_norman_correlations"
         
         if conn != None:
             self.mysql_cursor = conn.cursor()

@@ -36,6 +36,7 @@ except ImportError:
 class correlator():
     def __init__(self, conn = None):
         print "init self"
+        self.event_table = "ids_shadow_correlation"
         self.urls = []
         self.conn = conn
         if conn != None:

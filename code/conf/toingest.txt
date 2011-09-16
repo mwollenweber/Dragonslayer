@@ -1,0 +1,17 @@
+to ingest
+http://support.clean-mx.de/clean-mx/xmlviruses.php?, http://support.clean-mx.de/clean-mx/viruses.php
+http://malc0de.com/database/, http://malc0de.com/bl/IP_Blacklist.txt, http://malc0de.com/bl/ZONES,http://malc0de.com/rss/
+#project honey pot http:BL access key qkfljqqsyvhq
+http://minotauranalysis.com/exetweet/
+http://secuboxlabs.fr/
+http://vxvault.siri-urz.net/ViriList.php
+http://www.scumware.org/
+http://www.threatlog.com/
+http://jsunpack.jeek.org/dec/go?list=url
+http://blackip.ustc.edu.cn/bytime.html
+http://www.malwareblacklist.com/showMDL.php, http://www.malwareblacklist.com/mdl.xml
+http://www.malware.com.br/cgi/submit?action=list_ws
+http://www.nothink.org/malware_network_activity/malware_http_request.php, http://www.nothink.org/blacklist.php
+https://zeustracker.abuse.ch/blocklist.php?download=ipblocklist, https://zeustracker.abuse.ch/monitor.php?browse=binaries
+https://spyeyetracker.abuse.ch/monitor.php?browse=binaries, https://spyeyetracker.abuse.ch/monitor.php, https://spyeyetracker.abuse.ch/blocklist.php?download=domainblocklist, https://spyeyetracker.abuse.ch/blocklist.php?download=ipblocklist
+
