@@ -31,7 +31,7 @@ SampleApp.Status.Panel = function() {
 	
 	overallHealthPanel = new Ext.Panel({
         frame:true,
-        id:'health_panel_data',
+        id:'health_panel_data_tab',
         html: healthData,
 	})
 	
@@ -92,7 +92,7 @@ SampleApp.Status.Panel = function() {
 	        	content += "<b>Last Dragon Event: </b>" + obj.last_dragon_event + " " + dragon_event_img + "<br>";
 	        	content += "<b>Last MDL Update: </b>" + obj.last_mdl_update + " " + mdl_img + "<br>";
 	        	content += "<b>Last Daily Bad Update: </b>" + obj.last_daily_bad_event + " " + daily_bad_img + "<br>";
-	        	Ext.getDom('health_panel_data').innerHTML = content;
+	        	Ext.getDom('health_panel_data_tab').innerHTML = content;
 	       },
 		});
 	}
@@ -106,6 +106,8 @@ SampleApp.Status.Panel = function() {
         titleCollapse:true,
         items: [overallHealthPanel]
     });
+    
+	this.reload_store();
 };
 
 /**
