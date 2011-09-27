@@ -48,7 +48,6 @@ SampleApp.Status.Panel = function() {
         	two_hour = 60 * 60 * 2;
         	
         	if((obj.delta_dragon_working > two_hour) || (obj.last_dragon_working_event == null)) {
-        		alert(obj.last_dragon_working_event);
         		dragon_working_img = red;
         	} else if(obj.delta_dragon_working > one_hour) {
         		dragon_working_img = yellow;

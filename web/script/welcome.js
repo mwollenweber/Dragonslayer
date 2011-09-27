@@ -92,8 +92,8 @@ function timeout_delay(init) {
 		sp_portlet.reload_store();
 		dmdl_portlet.reload_store();
 		rvc_portlet.reload_store();
-		health_status_portlet.reload_data();
-		needs_research_portlet.reload_data();
+		health_status_portlet.reload_store();
+		needs_research_portlet.reload_store();
 	}
     setTimeout('timeout_delay()', 50000);
 }
