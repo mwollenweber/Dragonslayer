@@ -27,6 +27,12 @@ SampleApp.Status.Open = function() {
  */
 SampleApp.Status.Panel = function() {
 	
+	overallHealthPanel = new Ext.Panel({
+        frame:true,
+        id:'health_panel_data',
+        html: healthData,
+	})
+	
     var myData = Ext.Ajax.request({
         url: 'controls/health/status.php',
         method:'GET', 
@@ -88,12 +94,6 @@ SampleApp.Status.Panel = function() {
 	});
     
 	healthData = "Waiting for health status...";
-	
-	overallHealthPanel = new Ext.Panel({
-        frame:true,
-        id:'health_panel_data',
-        html: healthData,
-	})
 	 
     SampleApp.Status.Panel.superclass.constructor.call(this,{
         frame:true,

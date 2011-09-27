@@ -1,5 +1,13 @@
 function HealthStatusPortlet(){
 	
+	healthData = "Waiting for health status...";
+	
+	overallHealthPanel = new Ext.Panel({
+        frame:true,
+        id:'health_panel_data',
+        html: healthData,
+	})
+	
 	this.reload_store = function() {
 		Ext.Ajax.request({
 	        url: 'controls/health/status.php',
@@ -68,14 +76,6 @@ function HealthStatusPortlet(){
 	})
 	
 	this.reload_store();
-	
-	healthData = "Waiting for health status...";
-	
-	overallHealthPanel = new Ext.Panel({
-        frame:true,
-        id:'health_panel_data',
-        html: healthData,
-	})
 	
 	HealthStatusPortlet.superclass.constructor.call(this, {
         frame:true,
