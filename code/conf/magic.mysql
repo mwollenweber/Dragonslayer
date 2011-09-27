@@ -1,3 +1,11 @@
+/* 
+Matthew Wollenweber
+Copyright 2011
+
+file contains various mysql magic to make ds work.
+
+*/
+
 DROP PROCEDURE IF EXISTS `check_status`;
 DELIMITER //
 CREATE PROCEDURE check_status()
@@ -31,7 +39,9 @@ CREATE PROCEDURE get_daily_bad()
 END//
 delimiter ;
 
+/*
 need daily bad filtered magic.
+*/
 
 DROP VIEW IF EXISTS `ids_correlation`;
 CREATE VIEW ids_correlation AS
@@ -46,7 +56,6 @@ UNION
 SELECT tdstamp, victim, attacker, event, description, "norman" from ids_norman_correlation
 UNION
 SELECT tdstamp, victim, attacker, event, description, "shadow" from ids_shadow_correlation;
-
 
 
 ALTER VIEW ids_correlation AS

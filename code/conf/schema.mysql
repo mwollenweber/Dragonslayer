@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.57, for apple-darwin11.1.0 (i386)
+-- MySQL dump 10.13  Distrib 5.5.2-m2, for apple-darwin10.8.0 (i386)
 --
 -- Host: localhost    Database: dragonslayer
 -- ------------------------------------------------------
--- Server version	5.1.57
+-- Server version	5.5.2-m2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -52,26 +52,6 @@ CREATE TABLE `analysts` (
   `last_login` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `attachments`
---
-
-DROP TABLE IF EXISTS `attachments`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `attachments` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `tdstamp` datetime DEFAULT NULL,
-  `case_id` int(10) unsigned DEFAULT NULL,
-  `name` varchar(32) DEFAULT NULL,
-  `type` varchar(32) DEFAULT NULL,
-  `size` int(10) unsigned DEFAULT NULL,
-  `content` longblob NOT NULL,
-  `md5` char(32) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,6 +128,23 @@ CREATE TABLE `attackers` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Temporary table structure for view `badv`
+--
+
+DROP TABLE IF EXISTS `badv`;
+/*!50001 DROP VIEW IF EXISTS `badv`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `badv` (
+  `tdstamp` datetime,
+  `event` varchar(64),
+  `victim` int(10) unsigned,
+  `attacker` int(10) unsigned,
+  `description` varchar(50)
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `case_attacker`
 --
 
@@ -164,19 +161,38 @@ CREATE TABLE `case_attacker` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `case_file`
+-- Table structure for table `case_attackers`
 --
 
-DROP TABLE IF EXISTS `case_file`;
+DROP TABLE IF EXISTS `case_attackers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `case_file` (
-  `fileid` int(10) unsigned NOT NULL DEFAULT '0',
-  `caseid` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`fileid`,`caseid`),
-  KEY `fileid` (`fileid`),
-  KEY `caseid` (`caseid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `case_attackers` (
+  `case_id` int(11) unsigned NOT NULL,
+  `attacker` int(10) unsigned NOT NULL,
+  `tdstamp` datetime NOT NULL,
+  `analyst_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`case_id`,`attacker`),
+  KEY `case_id` (`case_id`),
+  KEY `attacker` (`attacker`),
+  KEY `tdstamp` (`tdstamp`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `case_files`
+--
+
+DROP TABLE IF EXISTS `case_files`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `case_files` (
+  `case_id` int(11) unsigned NOT NULL,
+  `file_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`case_id`,`file_id`),
+  KEY `case_id` (`case_id`),
+  KEY `file_id` (`file_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,12 +204,33 @@ DROP TABLE IF EXISTS `case_notes`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `case_notes` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `dsid` int(10) unsigned NOT NULL,
-  `notes` longtext,
-  `user` int(10) unsigned DEFAULT NULL,
-  `tdstamp` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1972 DEFAULT CHARSET=latin1;
+  `case_id` int(11) unsigned NOT NULL,
+  `tdstamp` datetime NOT NULL,
+  `analyst_id` int(10) unsigned NOT NULL,
+  `note` longtext,
+  PRIMARY KEY (`id`),
+  KEY `case_id` (`case_id`),
+  KEY `tdstamp` (`tdstamp`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `case_status`
+--
+
+DROP TABLE IF EXISTS `case_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `case_status` (
+  `case_id` int(11) unsigned NOT NULL,
+  `status_code` int(10) unsigned NOT NULL,
+  `tdstamp` datetime NOT NULL,
+  `analyst_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`case_id`,`status_code`),
+  KEY `case_id` (`case_id`),
+  KEY `status_code` (`status_code`),
+  KEY `tdstamp` (`tdstamp`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,6 +247,43 @@ CREATE TABLE `case_victim` (
   KEY `caseid` (`caseid`),
   KEY `ip` (`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `case_victims`
+--
+
+DROP TABLE IF EXISTS `case_victims`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `case_victims` (
+  `case_id` int(11) unsigned NOT NULL,
+  `victim` int(10) unsigned NOT NULL,
+  `tdstamp` datetime NOT NULL,
+  `analyst_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`case_id`,`victim`),
+  KEY `case_id` (`case_id`),
+  KEY `victim` (`victim`),
+  KEY `tdstamp` (`tdstamp`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `cases`
+--
+
+DROP TABLE IF EXISTS `cases`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cases` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `tdstamp` datetime NOT NULL,
+  `analyst_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`),
+  KEY `tdstamp` (`tdstamp`),
+  KEY `analyst_id` (`analyst_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -296,6 +370,53 @@ CREATE TABLE `event_ingest_log` (
   `filename` varchar(64) DEFAULT NULL,
   `md5` varchar(32) DEFAULT NULL,
   `last_update` datetime DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `file_notes`
+--
+
+DROP TABLE IF EXISTS `file_notes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `file_notes` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `file_id` int(10) unsigned NOT NULL,
+  `analyst_id` int(10) unsigned NOT NULL,
+  `tdstamp` datetime DEFAULT NULL,
+  `note` longtext,
+  PRIMARY KEY (`id`),
+  KEY `file_id` (`file_id`),
+  KEY `analyst_id` (`analyst_id`),
+  KEY `tdstamp` (`tdstamp`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `files`
+--
+
+DROP TABLE IF EXISTS `files`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `files` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `content` longblob,
+  `size` int(10) unsigned DEFAULT NULL,
+  `tdstamp` datetime NOT NULL,
+  `md5` char(32) DEFAULT NULL,
+  `sha256` char(64) DEFAULT NULL,
+  `name` varchar(256) DEFAULT NULL,
+  `analyst_id` int(10) unsigned NOT NULL,
+  `category` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `size` (`size`),
+  KEY `tdstamp` (`tdstamp`),
+  KEY `md5` (`md5`),
+  KEY `sha256` (`sha256`),
+  KEY `category` (`category`),
+  KEY `analyst_id` (`analyst_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -404,6 +525,70 @@ CREATE TABLE `gwcases_bkup` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `gwcases_daily_backup`
+--
+
+DROP TABLE IF EXISTS `gwcases_daily_backup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `gwcases_daily_backup` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tdstamp` datetime DEFAULT NULL,
+  `remedy_ticket` int(10) unsigned DEFAULT NULL,
+  `attacker` int(10) unsigned DEFAULT NULL,
+  `victim` int(10) unsigned NOT NULL,
+  `event` varchar(32) DEFAULT NULL,
+  `type` varchar(32) DEFAULT NULL,
+  `notes` longtext,
+  `network` char(32) DEFAULT NULL,
+  `dns_name` char(64) DEFAULT NULL,
+  `verification` longtext,
+  `primary_detection` int(10) unsigned DEFAULT NULL,
+  `secondary_detection` int(10) unsigned DEFAULT NULL,
+  `event_type` int(10) unsigned DEFAULT NULL,
+  `discovered` datetime DEFAULT NULL,
+  `reporter` varchar(32) DEFAULT NULL,
+  `report_category` int(10) unsigned DEFAULT NULL,
+  `dhcp_info` longtext,
+  `netid` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tdstamp` (`tdstamp`,`remedy_ticket`,`attacker`,`victim`,`event`,`type`,`dns_name`,`event_type`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `gwcases_weekly_backup`
+--
+
+DROP TABLE IF EXISTS `gwcases_weekly_backup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `gwcases_weekly_backup` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tdstamp` datetime DEFAULT NULL,
+  `remedy_ticket` int(10) unsigned DEFAULT NULL,
+  `attacker` int(10) unsigned DEFAULT NULL,
+  `victim` int(10) unsigned NOT NULL,
+  `event` varchar(32) DEFAULT NULL,
+  `type` varchar(32) DEFAULT NULL,
+  `notes` longtext,
+  `network` char(32) DEFAULT NULL,
+  `dns_name` char(64) DEFAULT NULL,
+  `verification` longtext,
+  `primary_detection` int(10) unsigned DEFAULT NULL,
+  `secondary_detection` int(10) unsigned DEFAULT NULL,
+  `event_type` int(10) unsigned DEFAULT NULL,
+  `discovered` datetime DEFAULT NULL,
+  `reporter` varchar(32) DEFAULT NULL,
+  `report_category` int(10) unsigned DEFAULT NULL,
+  `dhcp_info` longtext,
+  `netid` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tdstamp` (`tdstamp`,`remedy_ticket`,`attacker`,`victim`,`event`,`type`,`dns_name`,`event_type`)
+) ENGINE=MyISAM AUTO_INCREMENT=2668 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `host2ip`
 --
 
@@ -420,6 +605,52 @@ CREATE TABLE `host2ip` (
   KEY `hostname` (`hostname`),
   KEY `tdstamp` (`tdstamp`)
 ) ENGINE=MyISAM AUTO_INCREMENT=377 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `hourly_dragon_bad`
+--
+
+DROP TABLE IF EXISTS `hourly_dragon_bad`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hourly_dragon_bad` (
+  `tdstamp` datetime DEFAULT NULL,
+  `event` varchar(64) DEFAULT NULL,
+  `victim` int(10) unsigned DEFAULT NULL,
+  `attacker` int(10) unsigned DEFAULT NULL,
+  `description` varchar(50) DEFAULT NULL,
+  KEY `event` (`event`),
+  KEY `victim` (`victim`),
+  KEY `attacker` (`attacker`),
+  KEY `tdstamp` (`tdstamp`),
+  KEY `victim_2` (`victim`),
+  KEY `attacker_2` (`attacker`),
+  KEY `event_2` (`event`)
+) ENGINE=MEMORY DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `hourly_dragon_mdl`
+--
+
+DROP TABLE IF EXISTS `hourly_dragon_mdl`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hourly_dragon_mdl` (
+  `tdstamp` datetime DEFAULT NULL,
+  `event` varchar(64) DEFAULT NULL,
+  `victim` int(10) unsigned DEFAULT NULL,
+  `attacker` int(10) unsigned DEFAULT NULL,
+  `description` varchar(50) DEFAULT NULL,
+  KEY `event` (`event`),
+  KEY `victim` (`victim`),
+  KEY `attacker` (`attacker`),
+  KEY `event_2` (`event`),
+  KEY `attacker_2` (`attacker`),
+  KEY `victim_2` (`victim`),
+  KEY `tdstamp` (`tdstamp`)
+) ENGINE=MEMORY DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1086,6 +1317,26 @@ CREATE TABLE `shadow_ccip` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `snort`
+--
+
+DROP TABLE IF EXISTS `snort`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `snort` (
+  `tdstamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `event` varchar(50) DEFAULT NULL,
+  `srcip` int(10) unsigned NOT NULL DEFAULT '0',
+  `dstip` int(10) unsigned NOT NULL DEFAULT '0',
+  `sport` int(10) unsigned DEFAULT NULL,
+  `dport` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`tdstamp`,`srcip`,`dstip`),
+  KEY `tdstamp` (`tdstamp`,`event`,`srcip`,`dstip`),
+  KEY `dstindex` (`dstip`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `snort_working`
 --
 
@@ -1437,31 +1688,31 @@ CREATE TABLE `virustotal_file` (
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50020 DEFINER=`dragonslayer`@`localhost`*/ /*!50003 PROCEDURE `check_status`()
 BEGIN
-DECLARE dragon_working_count INT unsigned;
-DECLARE last_dragon_working_event datetime;
-DECLARE dragon_count INT unsigned;
-DECLARE last_dragon_event datetime;
-DECLARE mdl_count INT unsigned;
-DECLARE last_mdl_update datetime;
-DECLARE daily_bad_count INT unsigned;
-DECLARE last_daily_bad_event datetime;
-SELECT count(*) INTO dragon_working_count from dragon_working;
-SELECT tdstamp INTO last_dragon_working_event from dragon_working order by tdstamp DESC limit 1;
-SELECT count(*) INTO dragon_count from dragon;
-SELECT tdstamp INTO last_dragon_event from dragon order by tdstamp DESC limit 1;
-SELECT count(*) INTO mdl_count from mdl;
-SELECT tdstamp INTO last_mdl_update from mdl ORDER BY tdstamp DESC limit 1;
-SELECT count(*) INTO daily_bad_count from hourly_dragon_bad;
-SELECT tdstamp INTO last_daily_bad_event from hourly_dragon_bad ORDER BY tdstamp DESC limit 1;
-SELECT dragon_working_count, last_dragon_working_event, TIMESTAMPDIFF(MINUTE, NOW(), last_dragon_working_event) as delta_dragon_working,  dragon_count, last_dragon_event, TIMESTAMPDIFF(MINUTE, NOW(), last_dragon_event) as delta_dragon, mdl_count, last_mdl_update, TIMESTAMPDIFF(MINUTE, NOW(), last_mdl_update) as delta_mdl, daily_bad_count, last_daily_bad_event,  TIMESTAMPDIFF(MINUTE, NOW(), last_mdl_update) as delta_bad_update;
+    DECLARE dragon_working_count INT unsigned;
+    DECLARE last_dragon_working_event datetime;
+    DECLARE dragon_count INT unsigned;
+    DECLARE last_dragon_event datetime;
+    DECLARE mdl_count INT unsigned;
+    DECLARE last_mdl_update datetime;
+    DECLARE daily_bad_count INT unsigned;
+    DECLARE last_daily_bad_event datetime;
+    SELECT count(*) INTO dragon_working_count from dragon_working;
+    SELECT tdstamp INTO last_dragon_working_event from dragon_working order by tdstamp DESC limit 1;
+    SELECT count(*) INTO dragon_count from dragon;
+    SELECT tdstamp INTO last_dragon_event from dragon order by tdstamp DESC limit 1;
+    SELECT count(*) INTO mdl_count from mdl;
+    SELECT tdstamp INTO last_mdl_update from mdl ORDER BY tdstamp DESC limit 1;
+    SELECT count(*) INTO daily_bad_count from hourly_dragon_bad;
+    SELECT tdstamp INTO last_daily_bad_event from hourly_dragon_bad ORDER BY tdstamp DESC limit 1;
+    SELECT dragon_working_count, last_dragon_working_event, TIMESTAMPDIFF(MINUTE, NOW(), last_dragon_working_event) as delta_dragon_working,  dragon_count, last_dragon_event, TIMESTAMPDIFF(MINUTE, NOW(), last_dragon_event) as delta_dragon, mdl_count, last_mdl_update, TIMESTAMPDIFF(MINUTE, NOW(), last_mdl_update) as delta_mdl, daily_bad_count, last_daily_bad_event,  TIMESTAMPDIFF(MINUTE, NOW(), last_mdl_update) as delta_bad_update;
 end */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1472,9 +1723,9 @@ DELIMITER ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
@@ -1487,6 +1738,25 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Final view structure for view `badv`
+--
+
+/*!50001 DROP TABLE IF EXISTS `badv`*/;
+/*!50001 DROP VIEW IF EXISTS `badv`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`dragonslayer`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `badv` AS select `hourly_dragon_bad`.`tdstamp` AS `tdstamp`,`hourly_dragon_bad`.`event` AS `event`,`hourly_dragon_bad`.`victim` AS `victim`,`hourly_dragon_bad`.`attacker` AS `attacker`,`hourly_dragon_bad`.`description` AS `description` from `hourly_dragon_bad` group by `hourly_dragon_bad`.`victim`,`hourly_dragon_bad`.`event`,`hourly_dragon_bad`.`attacker` order by `hourly_dragon_bad`.`victim`,`hourly_dragon_bad`.`event`,`hourly_dragon_bad`.`tdstamp` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
 -- Final view structure for view `dragon_working`
@@ -1516,9 +1786,9 @@ DELIMITER ;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = latin1 */;
-/*!50001 SET character_set_results     = latin1 */;
-/*!50001 SET collation_connection      = latin1_swedish_ci */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`dragonslayer`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `ids_correlation` AS select `ids_mdl_correlation`.`tdstamp` AS `tdstamp`,`ids_mdl_correlation`.`victim` AS `victim`,`ids_mdl_correlation`.`attacker` AS `attacker`,`ids_mdl_correlation`.`event` AS `event`,`ids_mdl_correlation`.`description` AS `description`,'mdl' AS `mdl` from `ids_mdl_correlation` union select `ids_malwareurl_correlation`.`tdstamp` AS `tdstamp`,`ids_malwareurl_correlation`.`victim` AS `victim`,`ids_malwareurl_correlation`.`attacker` AS `attacker`,`ids_malwareurl_correlation`.`event` AS `event`,`ids_malwareurl_correlation`.`description` AS `description`,'malwareurl' AS `malwareurl` from `ids_malwareurl_correlation` union select `ids_case_correlation`.`tdstamp` AS `tdstamp`,`ids_case_correlation`.`victim` AS `victim`,`ids_case_correlation`.`attacker` AS `attacker`,`ids_case_correlation`.`event` AS `event`,`ids_case_correlation`.`description` AS `description`,'case' AS `case` from `ids_case_correlation` union select `ids_ses_correlation`.`tdstamp` AS `tdstamp`,`ids_ses_correlation`.`victim` AS `victim`,`ids_ses_correlation`.`attacker` AS `attacker`,`ids_ses_correlation`.`event` AS `event`,`ids_ses_correlation`.`description` AS `description`,'ses' AS `ses` from `ids_ses_correlation` union select `ids_norman_correlation`.`tdstamp` AS `tdstamp`,`ids_norman_correlation`.`victim` AS `victim`,`ids_norman_correlation`.`attacker` AS `attacker`,`ids_norman_correlation`.`event` AS `event`,`ids_norman_correlation`.`description` AS `description`,'norman' AS `norman` from `ids_norman_correlation` union select `ids_shadow_correlation`.`tdstamp` AS `tdstamp`,`ids_shadow_correlation`.`victim` AS `victim`,`ids_shadow_correlation`.`attacker` AS `attacker`,`ids_shadow_correlation`.`event` AS `event`,`ids_shadow_correlation`.`description` AS `description`,'shadow' AS `shadow` from `ids_shadow_correlation` */;
@@ -1535,9 +1805,9 @@ DELIMITER ;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = latin1 */;
-/*!50001 SET character_set_results     = latin1 */;
-/*!50001 SET collation_connection      = latin1_swedish_ci */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`dragonslayer`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `ids_working` AS select `dragon_working`.`tdstamp` AS `tdstamp`,`dragon_working`.`event` AS `event`,`dragon_working`.`srcip` AS `srcip`,`dragon_working`.`dstip` AS `dstip`,`dragon_working`.`sport` AS `sport`,`dragon_working`.`dport` AS `dport` from `dragon_working` union select `snort_working`.`tdstamp` AS `tdstamp`,`snort_working`.`event` AS `event`,`snort_working`.`srcip` AS `srcip`,`snort_working`.`dstip` AS `dstip`,`snort_working`.`sport` AS `sport`,`snort_working`.`dport` AS `dport` from `snort_working` */;
@@ -1611,4 +1881,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-09-16  0:26:17
+-- Dump completed on 2011-09-27 17:26:15
