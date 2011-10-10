@@ -56,7 +56,7 @@ SampleApp.Status.Panel = function() {
 	        	one_hour = 60 * 60;
 	        	two_hour = 60 * 60 * 2;
 	        	
-	        	if((obj.delta_dragon_working > two_hour) || (obj.last_dragon_working_event == null)) {
+	        	if((obj.delta_dragon_working > two_hour) || (obj.last_dragon_working_event == null) || (obj.delta_dragon_working < 0)) {
 	        		dragon_working_img = red;
 	        	} else if(obj.delta_dragon_working > one_hour) {
 	        		dragon_working_img = yellow;
@@ -64,7 +64,6 @@ SampleApp.Status.Panel = function() {
 	        		dragon_working_img = green;
 	        	}
 	        	
-	        	alert("delta:" + obj.delta_dragon + " hour:" + two_hour);
 	        	if((obj.delta_dragon > two_hour) || (obj.delta_dragon < 0)) {
 	        		dragon_event_img = red;
 	        	} else if(obj.delta_dragon > one_hour) {
