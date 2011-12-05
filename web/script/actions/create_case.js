@@ -260,6 +260,13 @@ SampleApp.CreateCase.FormPanel = function(){
         anchor:'100%'
     });
 	
+    verification_field = new Ext.form.TextArea({
+        fieldLabel: 'Verification',
+        name: 'verification',
+        height: 250,
+        allowBlank:false,
+        anchor:'100%'
+    });
     
 	//values pulled from the global form
 	snatch_user();
@@ -304,13 +311,9 @@ SampleApp.CreateCase.FormPanel = function(){
     	ctrl:true,
     	fn:function(e) {
 			date_field.setValue('1');
-			event_field.setValue('phishing-email-compromise');
-			victim_field.setValue('127.0.0.1');
-			attacker_field.setValue('none');
-			dns_field.setValue('none');
-			dhcp_field.setValue('none');
-			network_field.setValue('unknown');
-			notes_field.setValue('Compromised through phishing attack');
+			event_field.setValue('ren-isac-soc');
+			verification_field.setValue('Reported from REN-ISAC emailer')
+			notes_field.setValue('DNS Changer callback reported by Ren-ISAC');
     	},
     	stopEvent:true
 	});
@@ -343,13 +346,7 @@ SampleApp.CreateCase.FormPanel = function(){
                 allowBlank:true,
                 anchor:'100%'
             },
-            new Ext.form.TextArea({
-                fieldLabel: 'Verification',
-                name: 'verification',
-                height: 250,
-                allowBlank:false,
-                anchor:'100%'
-            }),
+            verification_field,
             notes_field,
             new Ext.form.ComboBox({
                 fieldLabel: 'Category',
