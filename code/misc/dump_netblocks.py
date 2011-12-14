@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import os, sys, socket, math, struct
+import os, sys, socket, math, struct, traceback
 
 f = open(sys.argv[1])
 ct = 0
@@ -8,9 +8,12 @@ ct = 0
 for x in f:
     try:
         x = x.strip()
-        [netblock, name] = x.split(',')
+        [netblock, owner, name] = x.split(',')
         name = name.strip()
+        netblock = netblock.strip()
         
+        #print [netblock, name]
+
         (x1, x2) = netblock.split('/')
         min = struct.unpack("!L", socket.inet_aton(x1))[0]
         #(x2, x3) = x2.split("\t")
@@ -21,6 +24,7 @@ for x in f:
         ct +=1
         
     except:
-        #print "error on line %s. Line=%s min = %s net=%s" % (ct, x, x1, x2)
+        traceback.print_exc(file=sys.stdout)
+        print "error on line %s. Line=%s min = %s net=%s" % (ct, x, x1, x2)
         continue
     
