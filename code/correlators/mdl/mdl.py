@@ -25,8 +25,8 @@ class correlator():
         print "Completed mdl correlation"
         
     def update(self):
-        #mdlurl = "http://www.malwaredomainlist.com/export.csv"
-        mdlurl = "http://www.malwaredomainlist.com/updatescsv.php"
+        mdlurl = "http://www.malwaredomainlist.com/export.csv"
+        #mdlurl = "http://www.malwaredomainlist.com/updatescsv.php"
         
         f = urllib2.urlopen(mdlurl)                 
         self.load(f)
@@ -57,6 +57,9 @@ class correlator():
                 self.cursor.execute('''INSERT INTO mdl(mdl.tdstamp,mdl.url, mdl.ip, mdl.lookup, mdl.description, mdl.registrant)
                                        VALUES(%s, %s, INET_ATON(%s), %s, %s, %s)
                                        ON DUPLICATE KEY UPDATE tdstamp=tdstamp''', (tdstamp, url, ip, lookup, description, registrant)) 
+                self.cursor.execute('''INSERT INTO mdl_working SELECT * FROM mdl WHERE tdstamp > DATE_SUB(CURDATE(), INTERVAL 3 MONTH)''')
+                self.cursor.execute('''DELETE FROM mdl_working WHERE tdstamp < DATE_SUB(CURDATE(), INTERVAL 3 MONTH)''')
+                
             except:
                 print "ERROR: Invalid MDL Record = %s" % row
                 exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
@@ -72,24 +75,22 @@ class correlator():
         queries.append('''DELETE FROM temp_mdl''')
         queries.append('''INSERT INTO temp_mdl (tdstamp, event, victim, attacker, description)
         SELECT ids_working.tdstamp, ids_working.event, ids_working.srcip, ids_working.dstip, mdl.description
-        FROM ids_working, mdl
+        FROM ids_working, mdl_working
         WHERE
         dstip = ip 
         AND ((srcip < 2717712385 or srcip > 2717726975)
         AND (srcip < 2158256129 or srcip > 2158257919))
-        AND  DATE(mdl.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE()
         GROUP BY ids_working.srcip, ids_working.dstip, ids_working.event
         ORDER BY ids_working.srcip, ids_working.dstip, ids_working.event''')
         
         
         queries.append('''INSERT INTO temp_mdl (tdstamp, event, victim, attacker, description)
         SELECT ids_working.tdstamp, ids_working.event, ids_working.dstip, ids_working.srcip, mdl.description
-        FROM ids_working, mdl
+        FROM ids_working, mdl_working
         WHERE
         srcip = ip 
         AND ((dstip < 2717712385 or dstip > 2717726975)
         AND (dstip < 2158256129 or dstip > 2158257919))
-        AND  DATE(mdl.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE()
         GROUP BY ids_working.dstip, ids_working.srcip, ids_working.event
         ORDER BY ids_working.dstip, ids_working.srcip, ids_working.event''')
         
@@ -114,10 +115,8 @@ class correlator():
             
     def get_daily_dragon_mdl(self):
         self.cursor.execute('''SELECT ids_working.tdstamp, ids_working.event, INET_NTOA(ids_working.srcip), INET_NTOA(ids_working.dstip)
-                               FROM ids_working, mdl where srcip = ip and ((dstip < 2717712641 or dstip > 2717726975) and (dstip < 2158256129 or dstip > 2158257919)) and event not like "GWU-TEST-Random" and event not like "mjw-gwu-http-pdf-alpha" 
-                               AND DATE(ids_working.tdstamp) between CURDATE() and CURDATE()+1 
+                               FROM ids_working, mdl where srcip = ip and ((dstip < 2717712641 or dstip > 2717726975) and (dstip < 2158256129 or dstip > 2158257919))
+                               AND event not like "GWU-TEST-Random" and event not like "mjw-gwu-http-pdf-alpha" 
                                GROUP BY ids_working.dstip 
                                ORDER BY ids_working.dstip, ids_working.srcip, ids_working.event''')
-        
-
         
