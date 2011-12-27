@@ -71,30 +71,32 @@ class correlator():
         
         queries.append('''DELETE FROM temp_mdl''')
         queries.append('''INSERT INTO temp_mdl (tdstamp, event, victim, attacker, description)
-        SELECT dragon.tdstamp, dragon.event, dragon.srcip, dragon.dstip, mdl.description
-        from dragon, mdl
-        where
-        dstip = ip and ((srcip < 2717712385 or srcip > 2717726975)
-        and (srcip < 2158256129 or srcip > 2158257919))
-        and  DATE(dragon.tdstamp) between SUBDATE(CURDATE(), 1) and ADDDATE(CURDATE(),1)
-        and  DATE(mdl.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE()
-        GROUP BY dragon.srcip, dragon.dstip, dragon.event
-        ORDER BY dragon.srcip, dragon.dstip, dragon.event''')
+        SELECT ids_working.tdstamp, ids_working.event, ids_working.srcip, ids_working.dstip, mdl.description
+        FROM ids_working, mdl
+        WHERE
+        dstip = ip 
+        AND ((srcip < 2717712385 or srcip > 2717726975)
+        AND (srcip < 2158256129 or srcip > 2158257919))
+        AND  DATE(mdl.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE()
+        GROUP BY ids_working.srcip, ids_working.dstip, ids_working.event
+        ORDER BY ids_working.srcip, ids_working.dstip, ids_working.event''')
         
         
         queries.append('''INSERT INTO temp_mdl (tdstamp, event, victim, attacker, description)
-        SELECT dragon.tdstamp, dragon.event, dragon.dstip, dragon.srcip, mdl.description
-        from dragon, mdl
-        where
-        srcip = ip and ((dstip < 2717712385 or dstip > 2717726975)
-        and (dstip < 2158256129 or dstip > 2158257919))
-        and  DATE(dragon.tdstamp) between SUBDATE(CURDATE(), 1) and ADDDATE(CURDATE(),1)
-        and  DATE(mdl.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE()
-        GROUP BY dragon.dstip, dragon.srcip, dragon.event
-        ORDER BY dragon.dstip, dragon.srcip, dragon.event''')
+        SELECT ids_working.tdstamp, ids_working.event, ids_working.dstip, ids_working.srcip, mdl.description
+        FROM ids_working, mdl
+        WHERE
+        srcip = ip 
+        AND ((dstip < 2717712385 or dstip > 2717726975)
+        AND (dstip < 2158256129 or dstip > 2158257919))
+        AND  DATE(mdl.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE()
+        GROUP BY ids_working.dstip, ids_working.srcip, ids_working.event
+        ORDER BY ids_working.dstip, ids_working.srcip, ids_working.event''')
         
         queries.append("DELETE FROM ids_mdl_correlation")
-        queries.append('''INSERT INTO ids_mdl_correlation (ids_mdl_correlation.tdstamp, ids_mdl_correlation.event, ids_mdl_correlation.victim, ids_mdl_correlation.attacker, ids_mdl_correlation.description) select temp_mdl.tdstamp, temp_mdl.event, temp_mdl.victim, temp_mdl.attacker, temp_mdl.description from temp_mdl ON DUPLICATE KEY UPDATE ids_mdl_correlation.tdstamp=temp_mdl.tdstamp''')
+        queries.append('''INSERT INTO ids_mdl_correlation (ids_mdl_correlation.tdstamp, ids_mdl_correlation.event, ids_mdl_correlation.victim, ids_mdl_correlation.attacker, ids_mdl_correlation.description) 
+                          SELECT temp_mdl.tdstamp, temp_mdl.event, temp_mdl.victim, temp_mdl.attacker, temp_mdl.description FROM temp_mdl
+                          ON DUPLICATE KEY UPDATE ids_mdl_correlation.tdstamp=temp_mdl.tdstamp''')
         queries.append("DELETE FROM temp_mdl")
 
 
@@ -111,7 +113,11 @@ class correlator():
         self.conn.commit()
             
     def get_daily_dragon_mdl(self):
-        self.cursor.execute('''select dragon.tdstamp, dragon.event, INET_NTOA(dragon.srcip), INET_NTOA(dragon.dstip)  from dragon, mdl where srcip = ip and ((dstip < 2717712641 or dstip > 2717726975) and (dstip < 2158256129 or dstip > 2158257919)) and event not like "GWU-TEST-Random" and event not like "mjw-gwu-http-pdf-alpha" and  DATE(dragon.tdstamp) between CURDATE() and CURDATE()+1 GROUP BY dragon.dstip ORDER BY dragon.dstip, dragon.srcip, dragon.event''')
+        self.cursor.execute('''SELECT ids_working.tdstamp, ids_working.event, INET_NTOA(ids_working.srcip), INET_NTOA(ids_working.dstip)
+                               FROM ids_working, mdl where srcip = ip and ((dstip < 2717712641 or dstip > 2717726975) and (dstip < 2158256129 or dstip > 2158257919)) and event not like "GWU-TEST-Random" and event not like "mjw-gwu-http-pdf-alpha" 
+                               AND DATE(ids_working.tdstamp) between CURDATE() and CURDATE()+1 
+                               GROUP BY ids_working.dstip 
+                               ORDER BY ids_working.dstip, ids_working.srcip, ids_working.event''')
         
 
         
