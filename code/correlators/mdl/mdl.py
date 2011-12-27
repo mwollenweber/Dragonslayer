@@ -56,10 +56,10 @@ class correlator():
             try:
                 self.cursor.execute('''INSERT INTO mdl(mdl.tdstamp,mdl.url, mdl.ip, mdl.lookup, mdl.description, mdl.registrant)
                                        VALUES(%s, %s, INET_ATON(%s), %s, %s, %s)
-                                       ON DUPLICATE KEY UPDATE tdstamp=tdstamp''', (tdstamp, url, ip, lookup, description, registrant)) 
-                self.cursor.execute('''INSERT INTO mdl_working SELECT * FROM mdl WHERE tdstamp > DATE_SUB(CURDATE(), INTERVAL 3 MONTH)''')
-                self.cursor.execute('''DELETE FROM mdl_working WHERE tdstamp < DATE_SUB(CURDATE(), INTERVAL 3 MONTH)''')
-                
+                                       ON DUPLICATE KEY UPDATE tdstamp=tdstamp''', (tdstamp, url, ip, lookup, description, registrant))                 
+                self.cursor.execute('''DROP VIEW IF EXISTS mdl_working''');
+                self.cursor.execute('''CREATE VIEW mdl_working AS SELECT * FROM mdl WHERE tdstamp > DATE_SUB(CURDATE(), INTERVAL 2 MONTH)''')
+
             except:
                 print "ERROR: Invalid MDL Record = %s" % row
                 exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
