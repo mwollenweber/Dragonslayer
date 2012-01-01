@@ -61,24 +61,20 @@ class correlator():
         
         queries.append('''
         INSERT INTO  ids_shadow_correlation (
-        SELECT dragon_working.tdstamp, dragon_working.event, dragon_working.srcip, dragon_working.dstip, 'ShadowServer'
-        from dragon_working, shadow_ccfull_working
+        SELECT ids_working.tdstamp, ids_working.event, ids_working.srcip, ids_working.dstip, 'ShadowServer'
+        from ids_working, shadow_ccfull_working
         where
         dstip = ip and ((srcip < 2717712385 or srcip > 2717726975)
-        and (srcip < 2158256129 or srcip > 2158257919))
-        and  DATE(dragon_working.tdstamp) between SUBDATE(CURDATE(), 1) and ADDDATE(CURDATE(),1)
-        and  DATE(shadow_ccfull_working.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE())''')
+        and (srcip < 2158256129 or srcip > 2158257919)))''')
 
         
         queries.append('''
         INSERT INTO  ids_shadow_correlation (
-        SELECT dragon_working.tdstamp, dragon_working.event, dragon_working.dstip, dragon_working.srcip, 'ShadowServer'
-        from dragon_working, shadow_ccfull_working
+        SELECT ids_working.tdstamp, ids_working.event, ids_working.dstip, ids_working.srcip, 'ShadowServer'
+        from ids_working, shadow_ccfull_working
         where
         srcip = ip and ((dstip < 2717712385 or dstip > 2717726975)
-        and (dstip < 2158256129 or dstip > 2158257919))
-        and  DATE(dragon_working.tdstamp) between SUBDATE(CURDATE(), 1) and ADDDATE(CURDATE(),1)
-        and  DATE(shadow_ccfull_working.tdstamp) between SUBDATE(CURDATE(), 60) and CURDATE())''')
+        and (dstip < 2158256129 or dstip > 2158257919)))''')
                         
         for q in queries:
             #print "executing: %s" % q
@@ -88,9 +84,9 @@ class correlator():
         
     def update(self):
         #self.urls.append('http://www.shadowserver.org/ccdns.php')
-        #self.urls.append('http://www.shadowserver.org/ccfull.php')
+        self.urls.append('http://www.shadowserver.org/ccfull.php')
         #temp for ss ip restriction
-        self.urls.append('http://www.cyberwart.com/ccfull.php')
+        #self.urls.append('http://www.cyberwart.com/ccfull.php')
         #self.urls.append('http://www.shadowserver.org/ccip.php')
 
         for u in self.urls:

@@ -57,27 +57,25 @@ class correlator():
         queries = []
         queries.append('''DELETE FROM temp_ses''')
         queries.append('''INSERT INTO temp_ses (tdstamp, event, victim, attacker, description)
-        SELECT dragon.tdstamp, dragon.event, dragon.srcip, dragon.dstip, CONCAT("SES MALWARE INFRASTRUCTURE! ", sesinfrastructure.description, "\nRESTRICTION: ", sesinfrastructure.restriction, "\nCONFIDENCE: ", sesinfrastructure.confidence)
-        from dragon, sesinfrastructure
+        SELECT ids_working.tdstamp, ids_working.event, ids_working.srcip, ids_working.dstip, CONCAT("SES MALWARE INFRASTRUCTURE! ", sesinfrastructure.description, "\nRESTRICTION: ", sesinfrastructure.restriction, "\nCONFIDENCE: ", sesinfrastructure.confidence)
+        from ids_working, sesinfrastructure
         where
         dstip = sesinfrastructure.ip and ((srcip < 2717712385 or srcip > 2717726975)
         and (srcip < 2158256129 or srcip > 2158257919))
-        and  DATE(dragon.tdstamp) between SUBDATE(CURDATE(), 7) and ADDDATE(CURDATE(),1)
         and  SUBDATE(CURDATE(), INTERVAL 28 DAY) < sesinfrastructure.updated
-        GROUP BY dragon.srcip, dragon.dstip, dragon.event
-        ORDER BY dragon.srcip, dragon.dstip, dragon.event
+        GROUP BY ids_working.srcip, ids_working.dstip, ids_working.event
+        ORDER BY ids_working.srcip, ids_working.dstip, ids_working.event
         ON DUPLICATE KEY UPDATE description = CONCAT(description, "\n", VALUES(description))''')       
         
         queries.append('''INSERT INTO temp_ses (tdstamp, event, victim, attacker, description)
-        SELECT dragon.tdstamp, dragon.event, dragon.dstip, dragon.srcip, CONCAT("SES MALWARE INFRASTRUCTURE! ", sesinfrastructure.description, "\nRESTRICTION: ", sesinfrastructure.restriction, "\nCONFIDENCE: ", sesinfrastructure.confidence)
-        from dragon, sesinfrastructure
+        SELECT ids_working.tdstamp, ids_working.event, ids_working.dstip, ids_working.srcip, CONCAT("SES MALWARE INFRASTRUCTURE! ", sesinfrastructure.description, "\nRESTRICTION: ", sesinfrastructure.restriction, "\nCONFIDENCE: ", sesinfrastructure.confidence)
+        from ids_working, sesinfrastructure
         where
         srcip = sesinfrastructure.ip and ((dstip < 2717712385 or dstip > 2717726975)
         and (dstip < 2158256129 or dstip > 2158257919))
-        and  DATE(dragon.tdstamp) between SUBDATE(CURDATE(), 7) and ADDDATE(CURDATE(),1)
         and  SUBDATE(CURDATE(), INTERVAL 28 DAY) < sesinfrastructure.updated
-        GROUP BY dragon.srcip, dragon.dstip, dragon.event
-        ORDER BY dragon.srcip, dragon.dstip, dragon.event
+        GROUP BY ids_working.srcip, ids_working.dstip, ids_working.event
+        ORDER BY ids_working.srcip, ids_working.dstip, ids_working.event
         ON DUPLICATE KEY UPDATE description = CONCAT(description, "\n", VALUES(description))
         ''')
 
@@ -98,27 +96,25 @@ class correlator():
         queries = []
         queries.append('''DELETE FROM temp_ses''')
         queries.append('''INSERT INTO temp_ses (tdstamp, event, victim, attacker, description)
-        SELECT dragon.tdstamp, dragon.event, dragon.srcip, dragon.dstip, "SES Malware Flow"
-        from dragon, sesmalwareflows
+        SELECT ids_working.tdstamp, ids_working.event, ids_working.srcip, ids_working.dstip, "SES Malware Flow"
+        from ids_working, sesmalwareflows
         where
         dstip = sesmalwareflows.ip and ((srcip < 2717712385 or srcip > 2717726975)
         and (srcip < 2158256129 or srcip > 2158257919))
-        and  DATE(dragon.tdstamp) between SUBDATE(CURDATE(), 7) and ADDDATE(CURDATE(),1)
         and  SUBDATE(CURDATE(), INTERVAL 28 DAY) < sesmalwareflows.tdstamp
-        GROUP BY dragon.srcip, dragon.dstip, dragon.event
-        ORDER BY dragon.srcip, dragon.dstip, dragon.event
+        GROUP BY ids_working.srcip, ids_working.dstip, ids_working.event
+        ORDER BY ids_working.srcip, ids_working.dstip, ids_working.event
         ON DUPLICATE KEY UPDATE description = CONCAT(description, "\n", VALUES(description))''')
         
         queries.append('''INSERT INTO temp_ses (tdstamp, event, victim, attacker, description)
-        SELECT dragon.tdstamp, dragon.event, dragon.dstip, dragon.srcip, "SES Malware Flow"
-        from dragon, sesmalwareflows
+        SELECT ids_working.tdstamp, ids_working.event, ids_working.dstip, ids_working.srcip, "SES Malware Flow"
+        from ids_working, sesmalwareflows
         where
         srcip = sesmalwareflows.ip and ((dstip < 2717712385 or dstip > 2717726975)
         and (dstip < 2158256129 or dstip > 2158257919))
-        and  DATE(dragon.tdstamp) between SUBDATE(CURDATE(), 7) and ADDDATE(CURDATE(),1)
         and  SUBDATE(CURDATE(), INTERVAL 28 DAY) < sesmalwareflows.tdstamp
-        GROUP BY dragon.srcip, dragon.dstip, dragon.event
-        ORDER BY dragon.srcip, dragon.dstip, dragon.event
+        GROUP BY ids_working.srcip, ids_working.dstip, ids_working.event
+        ORDER BY ids_working.srcip, ids_working.dstip, ids_working.event
         ON DUPLICATE KEY UPDATE description = CONCAT(description, "\n", VALUES(description))''')
         
         queries.append('''INSERT INTO ids_ses_correlation (SELECT * from temp_ses) ON DUPLICATE KEY UPDATE ids_ses_correlation.description = CONCAT(ids_ses_correlation.description, "\n", VALUES(description))''')
@@ -136,33 +132,32 @@ class correlator():
         queries = []
         queries.append('''DELETE FROM temp_ses''')
         queries.append('''INSERT INTO temp_ses (tdstamp, event, victim, attacker, description)
-        SELECT dragon.tdstamp, dragon.event, dragon.srcip, dragon.dstip, CONCAT("SES EVENT\nCategory: ", sescncip.category, "\nDESCRIPTION: ", sescncip.description,"\nComments:", sescncip.comments)
-        from dragon, sescncip
+        SELECT ids_working.tdstamp, ids_working.event, ids_working.srcip, ids_working.dstip, CONCAT("SES EVENT\nCategory: ", sescncip.category, "\nDESCRIPTION: ", sescncip.description,"\nComments:", sescncip.comments)
+        from ids_working, sescncip
         where
         dstip = sescncip.ip and ((srcip < 2717712385 or srcip > 2717726975)
         and (srcip < 2158256129 or srcip > 2158257919))
-        and  DATE(dragon.tdstamp) between SUBDATE(CURDATE(), 7) and ADDDATE(CURDATE(),1)
-        and  dragon.tdstamp <= sescncip.expiration
-        GROUP BY dragon.srcip, dragon.dstip, dragon.event
-        ORDER BY dragon.srcip, dragon.dstip, dragon.event
+        and  ids_working.tdstamp <= sescncip.expiration
+        GROUP BY ids_working.srcip, ids_working.dstip, ids_working.event
+        ORDER BY ids_working.srcip, ids_working.dstip, ids_working.event
         ON DUPLICATE KEY UPDATE description = CONCAT(description, "\n", VALUES(description))''')
         
         queries.append('''INSERT INTO temp_ses (tdstamp, event, victim, attacker, description)
-        SELECT dragon.tdstamp, dragon.event, dragon.dstip, dragon.srcip, CONCAT("SES EVENT\nCategory: ", sescncip.category, "\nDESCRIPTION: ", sescncip.description,"\nComments:", sescncip.comments)
-        from dragon, sescncip
+        SELECT ids_working.tdstamp, ids_working.event, ids_working.dstip, ids_working.srcip, CONCAT("SES EVENT\nCategory: ", sescncip.category, "\nDESCRIPTION: ", sescncip.description,"\nComments:", sescncip.comments)
+        from ids_working, sescncip
         where
         srcip = sescncip.ip and ((dstip < 2717712385 or dstip > 2717726975)
         and (dstip < 2158256129 or dstip > 2158257919))
-        and  DATE(dragon.tdstamp) between SUBDATE(CURDATE(), 7) and ADDDATE(CURDATE(),1)
-        and  dragon.tdstamp <= sescncip.expiration
-        GROUP BY dragon.srcip, dragon.dstip, dragon.event
-        ORDER BY dragon.srcip, dragon.dstip, dragon.event
+        and  ids_working.tdstamp <= sescncip.expiration
+        GROUP BY ids_working.srcip, ids_working.dstip, ids_working.event
+        ORDER BY ids_working.srcip, ids_working.dstip, ids_working.event
         ON DUPLICATE KEY UPDATE description = CONCAT(description, "\n", VALUES(description))''')
         
         queries.append('''INSERT INTO ids_ses_correlation (SELECT * from temp_ses) ON DUPLICATE KEY UPDATE ids_ses_correlation.description = CONCAT(ids_ses_correlation.description, "\n", VALUES(description))''')
-        #queries.append("DELETE FROM temp_ses")
-        queries.append("DELETE FROM ids_ses_correlation where SUBDATE(CURDATE(), INTERVAL 7 DAY) > tdstamp")
         queries.append("DELETE FROM temp_ses")
+        #queries.append("DELETE FROM ids_ses_correlation where SUBDATE(CURDATE(), INTERVAL 7 DAY) > tdstamp")
+        #queries.append("DELETE FROM temp_ses")
+        #print "NEED TO DO SES CORRELATION CLEANUP"
 
         for q in queries:
             #print "QUERY = %s" % q

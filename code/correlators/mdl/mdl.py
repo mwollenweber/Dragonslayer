@@ -25,8 +25,8 @@ class correlator():
         print "Completed mdl correlation"
         
     def update(self):
-        mdlurl = "http://www.malwaredomainlist.com/export.csv"
-        #mdlurl = "http://www.malwaredomainlist.com/updatescsv.php"
+        #mdlurl = "http://www.malwaredomainlist.com/export.csv"
+        mdlurl = "http://www.malwaredomainlist.com/updatescsv.php"
         
         f = urllib2.urlopen(mdlurl)                 
         self.load(f)
@@ -74,7 +74,7 @@ class correlator():
         
         queries.append('''DELETE FROM temp_mdl''')
         queries.append('''INSERT INTO temp_mdl (tdstamp, event, victim, attacker, description)
-        SELECT ids_working.tdstamp, ids_working.event, ids_working.srcip, ids_working.dstip, mdl.description
+        SELECT ids_working.tdstamp, ids_working.event, ids_working.srcip, ids_working.dstip, mdl_working.description
         FROM ids_working, mdl_working
         WHERE
         dstip = ip 
@@ -85,7 +85,7 @@ class correlator():
         
         
         queries.append('''INSERT INTO temp_mdl (tdstamp, event, victim, attacker, description)
-        SELECT ids_working.tdstamp, ids_working.event, ids_working.dstip, ids_working.srcip, mdl.description
+        SELECT ids_working.tdstamp, ids_working.event, ids_working.dstip, ids_working.srcip, mdl_working.description
         FROM ids_working, mdl_working
         WHERE
         srcip = ip 
