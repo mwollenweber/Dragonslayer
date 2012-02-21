@@ -23,7 +23,7 @@ SampleApp.DragonInterface.Open = function() {
 }
 
 /**
- * 
+ * DragonInterface Panel - shows the iframe with Dragon in it
  */
 SampleApp.DragonInterface.Panel = function() {
     SampleApp.DragonInterface.Panel.superclass.constructor.call(this,{
@@ -32,7 +32,7 @@ SampleApp.DragonInterface.Panel = function() {
         closable:true,
         titleCollapse:true,
         layout: 'fit',
-        html: "<iframe height=100% width=100% src='https://128.164.11.22:9443'></iframe>"
+        html: "<iframe height=100% width=100% src='https://128.164.11.22:9443'></iframe>" //hardcoded URLs are bad juju
     });
 };
 

@@ -1,4 +1,8 @@
 <?php 
+/*
+ * @description pulls the current user from the session, checks to make sure they are real and returns their username
+ * @return username of user and success boolean
+ */
 include('../database/database_connection.php');
 session_start();
 
@@ -8,8 +12,9 @@ header("Content-type: text/json");
 $data = array();
 
 $user_check = $_SESSION['login_user'];
+$user_check = addslashes($user_check);
 
-$query = "SELECT username FROM analysts where username='$user_check'";
+$query = "SELECT username FROM analysts where username='$user_check'"; //make sure this user is good
 $result = mysqli_query($link,$query);
 $row = mysqli_fetch_array($result);
 

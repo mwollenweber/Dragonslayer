@@ -4,6 +4,7 @@
  * @date 01/31/2011
  * @description Save/pull scratch pad data
  * @return JSON object
+ * @notes this could be done in a more elegant fashion using a pubsub method instead of polling
  */
 
 include('../database/database_connection.php');
@@ -16,6 +17,7 @@ $data_result = array();
 $type = addslashes($_POST['type']);
 $scratch_value = addslashes($_POST['scratch']);
 
+//only two approved options, fail silently if something unexpected is passed in
 if($type == "push") {
 	$query = "DELETE FROM scratch_pad"; //clear the table
 	mysqli_query($link,$query);

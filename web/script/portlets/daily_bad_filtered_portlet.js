@@ -10,10 +10,12 @@ function DailyBadFilteredPortlet(){
 	]);
 	cm.defaultSortable = true; 
 
+	//define our datastore with the fields we expect to get back
 	var store = new Ext.data.JsonStore({
 	    fields: ['case','date','event','victim','attacker','notes']
 	});
 	
+	//method to reload the data within the portlet
 	this.reload_store = function() {
 		Ext.Ajax.request({
 		    url: 'controls/queries/daily_bad_filtered.php',
@@ -37,6 +39,7 @@ function DailyBadFilteredPortlet(){
         id: 'dbf_bottom_bar',
 	})
 	
+    //definition of the portlet
 	DailyBadFilteredPortlet.superclass.constructor.call(this, {
         store: store,
         stateful:true,
@@ -51,7 +54,7 @@ function DailyBadFilteredPortlet(){
 		loadMask: true,
 		clicksToEdit: 1,
 		listeners: {
-			cellclick: function(grid, rowIndex, colIndex) {
+			cellclick: function(grid, rowIndex, colIndex) { //if clicked create the case
 				if (colIndex == 0) {
 					var rec = grid.getStore().getAt(rowIndex);
 					date = rec.get('date');
@@ -62,7 +65,7 @@ function DailyBadFilteredPortlet(){
 					SampleApp.CreateCase.OpenFromGrid(date,event,victim,attacker,notes);
 				}
 			},
-			cellcontextmenu: function(grid, rowIndex, colIndex, e) {
+			cellcontextmenu: function(grid, rowIndex, colIndex, e) { //enable pivot search
 				var type = grid.getColumnModel().getDataIndex(colIndex);
 				if(type == "analyst" || type == "event" || type == "victim" || type == "attacker" || type == "network"){
 					var rec = grid.getStore().getAt(rowIndex);

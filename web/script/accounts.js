@@ -1,3 +1,8 @@
+/**
+ * Basic event register
+ * @description this file will register a handler to the link representing the coresponding panel. when the link is clicked, the handler will fire and perform the specified operation (loading that panel)
+ */
+
 Ext.namespace("SampleApp.Accounts");
 
 /**
@@ -8,6 +13,7 @@ Ext.onReady(function(){
     SampleApp.Main.WestPanelInstance.add(AccountsPanel);
     SampleApp.Main.WestPanelInstance.doLayout();
     
+    //log the event
     SampleApp.Main.EventRelay.fireEvent("log",{
         severity: "info",
         from: "Accounts.js",
@@ -28,6 +34,7 @@ SampleApp.Accounts.Panel = function() {
         titleCollapse:true
     });
     
+    //register click handlers to the links, so when clicked things happen
     this.on("render",function(){
         this.body.on('click', Ext.emptyFn, null, {delegate:'a', preventDefault:true});
         this.body.on('mousedown', this.linkClicked, this, {delegate:'a'});

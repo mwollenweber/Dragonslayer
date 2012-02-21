@@ -1,9 +1,14 @@
+/**
+ * Documentation Hooks
+ * @description this file will serve as the hooking and generator for documentation. 
+ */
+
 Ext.namespace("SampleApp.HelperDocs");
 var HelperDocsPanel;
 var generic_helper_form;
 
 /**
- * Attach the launcher panel to the West Panel
+ * Observer event listening for the button that triggers the call to "open" the helper docs
  */
 Ext.onReady(function(){
     SampleApp.Main.EventRelay.on("openHelperDocs",SampleApp.HelperDocs.Open);
@@ -18,7 +23,7 @@ SampleApp.HelperDocs.Open = function(id,user,role) {
 }
 
 /**
- * 
+ * Panel builder - output displayed to the user
  */
 SampleApp.HelperDocs.Panel = function(id,user,role) {
 	var name = '', type = '';
@@ -41,6 +46,7 @@ SampleApp.HelperDocs.Panel = function(id,user,role) {
         hideLabel: true,
 	})
 	
+	//makes a request for any existing data for the current helper doc
 	var helper_data = Ext.Ajax.request({
 	    url: 'controls/helpers/documentation.php',
 	    method:'POST',
@@ -48,6 +54,7 @@ SampleApp.HelperDocs.Panel = function(id,user,role) {
 	    waitMsg:'Getting data...',
 	    params: { type: 'pull', name: name},
 	    
+	    //bottom toolbar should reflect the output of this success handler
 	    success:function(request){ 
 	    	var obj = Ext.util.JSON.decode(request.responseText); 
 	    	generic_help_field.setValue(obj.content);
@@ -74,6 +81,7 @@ SampleApp.HelperDocs.Panel = function(id,user,role) {
         ],
 	});
     
+    //present the ability to edit and save documentation if the user is an administrator
     if(role == "administrator") {
         generic_helper_form.addButton({
             text: 'Save',   
@@ -98,6 +106,7 @@ SampleApp.HelperDocs.Panel = function(id,user,role) {
     	generic_help_field.readOnly = true;
     }
 	
+    //window configuration that takes into account all items declared above
     SampleApp.HelperDocs.Panel.superclass.constructor.call(this,{
     	layout:'fit',
         autoHeight: true,
@@ -111,7 +120,7 @@ SampleApp.HelperDocs.Panel = function(id,user,role) {
 };
 
 /**
- *   
+ * Tell EXT that our panel is merely an extension of the Window class
  */
 Ext.extend(SampleApp.HelperDocs.Panel, Ext.Window, {
 });

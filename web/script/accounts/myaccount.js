@@ -1,0 +1,1 @@
+//There's no earthly way of knowing. Which direction we are going.

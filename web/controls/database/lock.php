@@ -18,7 +18,7 @@ $row = mysqli_fetch_array($result);
 $login_session = $row['username'];
 
 if(!isset($login_session)) {
-	header('Location: https://128.164.80.81/ds2/web/login.php');
+	header('Location: https://128.164.80.81/ds2/web/login.php'); //should be based on web server path
 }
 
 ?>

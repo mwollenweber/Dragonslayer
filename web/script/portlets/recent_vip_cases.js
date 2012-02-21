@@ -12,6 +12,7 @@ function RecentVipCases(){
 	]);
 	cm.defaultSortable = true; 
 
+	//define the fields
 	var recent_vip_store = new Ext.data.ArrayStore({
         fields: [
            {name: 'dsid'},	
@@ -37,6 +38,7 @@ function RecentVipCases(){
 	   },
 	});
 	
+	//method to reload store
 	this.reload_store = function() {
 		Ext.Ajax.request({
 		    url: 'controls/queries/recent_vip_cases.php',
@@ -51,6 +53,7 @@ function RecentVipCases(){
 		});
 	}
 	
+	//define the panel
 	RecentVipCases.superclass.constructor.call(this, {
         store: recent_vip_store,
         cm: cm,

@@ -33,7 +33,7 @@ if($type == "push") {
 			$result= mysqli_query($link,$query);
 			$data_result['success'] = 'true';
 		} else {
-			$query = "UPDATE helper_docs SET content = '$content', last_edit = '$date', last_user_edit = '$user' WHERE name = '$name'";
+			$query = "UPDATE helper_docs SET content = '$content', last_edit = '$date', last_user_edit = '$user' WHERE name = '$name'"; //document who made the change
 			$result= mysqli_query($link,$query);
 			$data_result['success'] = 'true';
 		}

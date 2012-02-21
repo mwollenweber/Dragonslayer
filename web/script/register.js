@@ -1,10 +1,18 @@
+/**
+ * register.js
+ * @author Brandon Dixon
+ * @description builds a simple register form connected to a window to register users
+ */
+
 Ext.onReady(function(){
 	Ext.QuickTips.init();
  
+	//toolbar appended to the bottom of the register window
     copy_tbar = new Ext.Toolbar.TextItem({
         text: 'Copyright Matthew Wollenweber, Brandon Dixon 2011',
     })
 
+    //main form panel used for the registration
 	var register = new Ext.FormPanel({ 
 		labelWidth:80,
 		frame:true, 
@@ -47,7 +55,7 @@ Ext.onReady(function(){
         	text:'Register',
         	handler:function(){ 
 	        	var form_data = register.getForm().getValues();
-	        	if(register.getForm().isValid()){
+	        	if(register.getForm().isValid()){ //local checks validate successfully
 		            Ext.Ajax.request({
 		        		url:'controls/authentication/register_user.php', 
 		                method:'POST', 
@@ -71,6 +79,7 @@ Ext.onReady(function(){
     ] 
     });
     
+    //attach the form to a window
     var win = new Ext.Window({
         layout:'fit',
         width:300,
@@ -79,8 +88,8 @@ Ext.onReady(function(){
         plain: true,
         border: false,
         draggable: false,
-	bbar: [copy_tbar],
+        bbar: [copy_tbar],
         items: [register]
 	});
-	win.show();
+	win.show(); //use the show method to actually bring the window to the front
 });

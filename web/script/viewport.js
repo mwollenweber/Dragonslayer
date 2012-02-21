@@ -1,3 +1,8 @@
+/**
+ * Basic layout functionality
+ * @description this file instantiates all of the panels to be used within the DS interface. each of these panels are later accessed by the plugin JS code so that other panels are added and their default properties are changed.
+ */
+
 Ext.namespace("SampleApp.Main");
 
 /**

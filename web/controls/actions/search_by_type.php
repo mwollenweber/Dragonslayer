@@ -13,10 +13,10 @@ header("Content-type: text/json");
 
 $type = addslashes($_POST['search_type']);
 $search_value = addslashes($_POST['search_value']);
-$start = ($_REQUEST["start"] == null)? 0 : $_REQUEST["start"];
-$count = ($_REQUEST["limit"] == null)? 50 : $_REQUEST["limit"];
+$start = ($_REQUEST["start"] == null)? 0 : $_REQUEST["start"]; //handles the pagination
+$count = ($_REQUEST["limit"] == null)? 50 : $_REQUEST["limit"]; //handles the pagination
 
-//inline checks for IP address related searching
+//inline checks for IP address related searching, better served for a util class - 0.0.0.0/XX
 function handle_masking($search_value) {
 	$pos = strpos($search_value,"/");
 	if($pos === false) {
@@ -37,6 +37,7 @@ function handle_masking($search_value) {
 	return $data;
 }
 
+//query execution
 if($type == "dsid") {
 	$query = "SELECT id, tdstamp, reporter, event, INET_NTOA(victim), INET_NTOA(attacker), dns_name, network, verification, report_category FROM gwcases WHERE id='$search_value' ORDER BY id DESC";
 } elseif ($type == "analyst") {

@@ -3,7 +3,8 @@
  * @author Brandon Dixon
  * @date 01/19/2011
  * @description Sends mail notification to user on critical compromise
- * @return JSON object
+ * @return 
+ * @notes this is not implemented, but could be
  */
 
 include('controls/database/database_connection.php');
@@ -23,7 +24,7 @@ while($row = mysqli_fetch_assoc($result)) {
 	$victims[] = $row['INET_NTOA(victim)'];	
 }
 
-$to      = '4434156856@txt.att.net';
+$to      = '@txt.att.net';
 $headers = 'From: <ds2@gwu.edu>';
 
 foreach($victims as &$value) {
@@ -35,8 +36,7 @@ foreach($victims as &$value) {
 		$result= mysqli_query($link,$query);
 		$row = mysqli_fetch_assoc($result);
 		$network = $row['name'];
-		echo $network;
-//		mail($to, $network, $value, $headers);
+		mail($to, $network, $value, $headers);
 	}
 }
 

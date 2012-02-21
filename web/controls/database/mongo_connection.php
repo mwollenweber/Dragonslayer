@@ -8,7 +8,6 @@ global $collection;
 
 try {
 	$conn = new Mongo($host);
-	
 	$db = $conn->$database;
 	$collection = $db->$collection;
 

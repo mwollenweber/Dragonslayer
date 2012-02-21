@@ -1,5 +1,14 @@
 <?php 
-include('controls/database/lock.php');
+/*
+ * @author Brandon Dixon
+ * @date 01/19/2011
+ * @description container page that handles all actions. Changes are done inside the DOM.
+ * @return page based on the JS
+ */
+
+include('controls/database/lock.php'); //direct the user if they are not logged in
+
+//handles the https://URL/index.php?param=val (cheap permlinks)
 $_SESSION['dsid'] = $_GET['dsid'];
 $_SESSION['aip'] = $_GET['aip'];
 $_SESSION['vip'] = $_GET['vip'];
@@ -106,11 +115,12 @@ $_SESSION['vip'] = $_GET['vip'];
 	
 	<body>
 	
+		<!-- Required to make the POST when submitting a file -->
 		<form id="super_form" method="post" action="/file/">
 	    	<input type="hidden" id="download" name="download" />
 		</form>
 	
-		<!--  Queries -->
+		<!-- Queries -->
 		<ul id="dragonslayer-queries-content" class="x-hidden">
 		    <li>
 		        <img src="images/information.png" class="icon-show-active"/>

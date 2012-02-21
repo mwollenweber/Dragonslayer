@@ -84,10 +84,12 @@ SampleApp.DailyMdl.GridPanel = function() {
    	]);
    	cm.defaultSortable = true; 
 
+   	//define what we expect from the AJAX call
    	var store = new Ext.data.JsonStore({
    	    fields: ['case','date','event','victim','attacker','notes']
    	});
    	
+   	//make the call back to the server
 	reload_store = function() {
    		Ext.Ajax.request({
 	   	    url: 'controls/queries/daily_mdl.php',
@@ -117,7 +119,7 @@ SampleApp.DailyMdl.GridPanel = function() {
 		autoSizeColumns: true,
 		clicksToEdit: 1,
 		listeners: {
-			cellclick: function(grid, rowIndex, colIndex) {
+			cellclick: function(grid, rowIndex, colIndex) { //open create case if the "+" is clicked.
 				if (colIndex == 0) {
 					var rec = grid.getStore().getAt(rowIndex);
 					date = rec.get('date');
@@ -128,7 +130,7 @@ SampleApp.DailyMdl.GridPanel = function() {
 					SampleApp.CreateCase.OpenFromGrid(date,event,victim,attacker,notes);
 				}
 			},
-			cellcontextmenu: function(grid, rowIndex, colIndex, e) {
+			cellcontextmenu: function(grid, rowIndex, colIndex, e) { //enable pivot searches
 				var type = grid.getColumnModel().getDataIndex(colIndex);
 				if(type == "analyst" || type == "event" || type == "victim" || type == "attacker" || type == "network"){
 					var rec = grid.getStore().getAt(rowIndex);

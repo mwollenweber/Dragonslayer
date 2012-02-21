@@ -1,3 +1,8 @@
+/**
+ * Basic event register
+ * @description this file will register a handler to the link representing the coresponding panel. when the link is clicked, the handler will fire and perform the specified operation (loading that panel)
+ */
+
 Ext.namespace("SampleApp.Reports");
 
 /**

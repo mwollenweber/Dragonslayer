@@ -23,7 +23,7 @@ SampleApp.Videos.Open = function() {
 }
 
 /**
- * 
+ * Panel to hold all the videos - all links are hardcoded to a file present on the server
  */
 SampleApp.Videos.Panel = function() {
 	
@@ -37,7 +37,7 @@ SampleApp.Videos.Panel = function() {
         html: authContent,
         buttons: [{
         	text: 'View',
-            handler: function() {
+            handler: function() { //on click we want to pop-up the video so the user can see it
                 var win = new Ext.Window({
                     layout      : 'fit',
                     autoWidth   : true,

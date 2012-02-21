@@ -20,7 +20,7 @@ SampleApp.DisplayReport.Open = function(sdate, edate) {
 }
 
 /**
- * 
+ * DisplayReport Panel Definition
  */
 SampleApp.DisplayReport.Panel = function() {
 	
@@ -31,7 +31,7 @@ SampleApp.DisplayReport.Panel = function() {
         modal: true,
         height: 600,
         autoScroll: true,
-        autoLoad: 'https://128.164.80.81/ds2/web/controls/reports/generate_weekly_report_display.php?start_date=' + start_date + '&end_date=' + end_date
+        autoLoad: 'https://128.164.80.81/ds2/web/controls/reports/generate_weekly_report_display.php?start_date=' + start_date + '&end_date=' + end_date //this is uglier than Matt
     });
 };
 

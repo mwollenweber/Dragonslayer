@@ -1,10 +1,18 @@
+/**
+ * login.js
+ * @author Brandon Dixon
+ * @description authenticates user against remote PHP script using AJAX
+ */
+
 Ext.onReady(function(){
 	Ext.QuickTips.init();
 
+	//toolbar to append to the login window
     copy_tbar = new Ext.Toolbar.TextItem({
         text: 'Copyright Matthew Wollenweber, Brandon Dixon 2011',
     })
 	
+    //handles the AJAX login fucntionality 
 	function process_login(form_data) {
         Ext.Ajax.request({
     		url:'controls/authentication/validate.php', 
@@ -34,40 +42,8 @@ Ext.onReady(function(){
             } 
         }); 
 	}
-	
-	var register = new Ext.form.FieldSet({
-        checkboxToggle:true,
-        title: 'Register',
-        id:'register_check',
-        autoHeight:true,
-        defaults: {width: 210},
-        defaultType: 'textfield',
-        collapsed: true,
-		items:[{
-                    fieldLabel: 'First Name',
-                    name: 'first',
-                },{
-                    fieldLabel: 'Last Name',
-                    name: 'last'
-                },{
-                    fieldLabel: 'Username',
-                    name: 'username'
-                },{
-                    fieldLabel: 'Email',
-                    name: 'email',
-                    vtype:'email'
-                },{
-                	fieldLabel: 'Password',
-                	name: 'password',
-                	inputType:'password', 
-                },{
-                	fieldLabel: 'Confirm Password',
-                	name: 'confirm_password',
-                	inputType:'password', 
-                }
-        ]
-	})
- 
+
+    //Basic form panel to take user input
 	var login = new Ext.FormPanel({ 
 		labelWidth:80,
 		frame:true, 
@@ -86,7 +62,6 @@ Ext.onReady(function(){
                 inputType:'password', 
                 allowBlank:false 
             },
-//            register
         ],
   
         buttons:[{ 
@@ -99,13 +74,13 @@ Ext.onReady(function(){
         },
         {
         	text:'Register',
-        	handler:function(){ 
+        	handler:function(){  //handle registration in its own file
         		window.location = 'register.php';
         	}
         }
         ],
         keys: [
-           { key: [Ext.EventObject.ENTER], handler: function() {
+           { key: [Ext.EventObject.ENTER], handler: function() { //capture the enter key and associate that with a form submission
         	   var form_data = login.getForm().getValues();
         	   process_login(form_data)
                }
@@ -121,8 +96,8 @@ Ext.onReady(function(){
         plain: true,
         border: false,
         draggable: false,
-	bbar: [copy_tbar],
-	items: [login]
+		bbar: [copy_tbar],
+		items: [login]
 	});
 	win.show();
 });

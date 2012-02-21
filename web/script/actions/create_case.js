@@ -25,7 +25,7 @@ var verification_field;
 var dsid_field;
 
 /**
- * Attach the launcher panel to the West Panel
+ * When clicked, fire the open action
  */
 Ext.onReady(function(){
     SampleApp.Main.EventRelay.on("openCreateCase",SampleApp.CreateCase.Open);
@@ -40,6 +40,7 @@ SampleApp.CreateCase.Open = function() {
     SampleApp.Main.CenterPanelInstance.activate(createCasePanel);
 }
 
+//registers the helper docs to this panel
 var action_tools = [{
 	id:'help',
 	handler: function(e, target, panel){
@@ -48,11 +49,11 @@ var action_tools = [{
 }];
 
 /**
- * Call from grid
+ * Call from grid - this assumes the user made it to create case by clickin on the "+" within one of the portlet grids
+ * @input takes in all the data from the grid component
  */
 SampleApp.CreateCase.OpenFromGrid = function(date,event,victim,attacker,notes) {
-//	victim = victim;
-	
+
     var createCasePanel = new SampleApp.CreateCase.Panel();
     get_ip_info(victim)
 	date_field.setValue(date);
@@ -65,11 +66,11 @@ SampleApp.CreateCase.OpenFromGrid = function(date,event,victim,attacker,notes) {
 }
 
 /**
- * 
+ * Main CreateCase Panel
  */
 SampleApp.CreateCase.Panel = function() {
-    createCaseFormPanel = new SampleApp.CreateCase.FormPanel();
-    createCaseDragonInterface = new SampleApp.CreateCase.DragonInterface();
+    createCaseFormPanel = new SampleApp.CreateCase.FormPanel(); //form panel to enter data
+    createCaseDragonInterface = new SampleApp.CreateCase.DragonInterface(); //iframe to load Dragon IDS
     
     SampleApp.CreateCase.Panel.superclass.constructor.call(this,{
         frame:true,
@@ -96,13 +97,13 @@ SampleApp.CreateCase.Panel = function() {
 				        {
 							frame:true,         
 							title: 'Dragon Interface',
-							items: createCaseDragonInterface,
+							items: createCaseDragonInterface, //dragon iframe
 							height: 700
 						},
 						{
 							frame:true,         
 							title: 'Cases to be Entered',
-							items: unenteredCasesPortlet
+							items: unenteredCasesPortlet //portlet that monitors DBF and updates with cases still to be entered
 						}
 					]
 	        	}
@@ -112,14 +113,20 @@ SampleApp.CreateCase.Panel = function() {
 };
 
 /**
- * 
+ * CreateCase Panel Register
  */
 Ext.extend(SampleApp.CreateCase.Panel, Ext.Panel, {
 });
 
+/**
+ * @description uses Matt's service to grab data we need for a particular IP address
+ * @param victim (ip address)
+ * @return JSON object with data about the IP
+ * @notes should be part of a util class
+ */
 function get_ip_info(victim) {
 	Ext.Ajax.request({
-	    url: '../code/psp/get_ip_info.psp',
+	    url: '../code/psp/get_ip_info.psp', //this should be something more conventional
 	    waitTitle:'Connecting', 
 	    waitMsg:'Getting data...',
 	    params: { 'ip': victim, type: 'json'},
@@ -146,7 +153,7 @@ function get_ip_info(victim) {
 }
 
 /**
- *
+ * Form panel to show to the user
  */
 SampleApp.CreateCase.FormPanel = function(){
 	
@@ -173,6 +180,10 @@ SampleApp.CreateCase.FormPanel = function(){
 	    fields: ['critical_info','ip_addr','fqdn','dhcp_info','recent_case','network_name']
 	});
 	
+	/**
+	 * snatch_user
+	 * @description get the user for the current session and fill it in for the analyst field
+	 */
 	function snatch_user() {
 		Ext.Ajax.request({
 		    url: 'controls/authentication/snatch_user.php',
@@ -270,43 +281,8 @@ SampleApp.CreateCase.FormPanel = function(){
     
 	//values pulled from the global form
 	snatch_user();
-//	get_ip_info(victim);
-	
-//    new Ext.KeyMap(Ext.get(document), {
-//    	key:'S',
-//    	ctrl:true,
-//    	fn:function(e) {
-//    		var form_data = createCaseFormPanel.getForm().getValues();
-//        	if(createCaseFormPanel.getForm().isValid()){
-//            	Ext.Ajax.request({
-//            		url: 'controls/actions/create_case.php',
-//			        method:'POST', 
-//			        waitTitle:'Connecting', 
-//			        waitMsg:'Getting data...',
-//			        params: form_data,
-//			        
-//			        success:function(request){ 
-//			        	var obj = Ext.util.JSON.decode(request.responseText);
-//			        	if(obj.success == "true") {
-//			        		Ext.Msg.alert('Success','Case created (dsid: ' + obj.id + ' )');
-//			        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
-//			        		createCaseFormPanel.getForm().reset();
-//			        		date_field.setValue('');
-//			        		event_field.setValue('');
-//			        		victim_field.setValue('');
-//			        		attacker_field.setValue('');
-//			        		notes_field.setValue('');
-//			        	} else {
-//			        		Ext.Msg.alert('Case creation failed', obj.error); 
-//			        	}
-//			       },
-//				});
-//        	}
-//    	},
-//    	stopEvent:true
-//	});
     
-    new Ext.KeyMap(Ext.get(document), { //DELETE ME
+    new Ext.KeyMap(Ext.get(document), { // hotkey to so that CTRL+Q will fill in data (helpful on bulk entry)
     	key:'Q',
     	ctrl:true,
     	fn:function(e) {
@@ -369,7 +345,7 @@ SampleApp.CreateCase.FormPanel = function(){
         buttons: [{
             text: 'Submit',   
             formBind: true,	 
-            handler:function(){ 
+            handler:function(){ //call back to the server with the user data to create a case
             	var form_data = createCaseFormPanel.getForm().getValues();
             	if(createCaseFormPanel.getForm().isValid()){
 	            	Ext.Ajax.request({
@@ -385,7 +361,7 @@ SampleApp.CreateCase.FormPanel = function(){
 				        		Ext.Msg.alert('Success','Case created (dsid: ' + obj.id + ' )');
 //				        		SampleApp.Main.CenterPanelInstance.remove(createCasePanel);
 				        		createCaseFormPanel.getForm().reset();
-				        		date_field.setValue('');
+				        		date_field.setValue(''); //clear out manually
 				        		event_field.setValue('');
 				        		victim_field.setValue('');
 				        		attacker_field.setValue('');
@@ -416,7 +392,7 @@ Ext.extend(SampleApp.CreateCase.FormPanel, Ext.FormPanel, {
 SampleApp.CreateCase.DragonInterface = function(){
 	SampleApp.CreateCase.DragonInterface.superclass.constructor.call(this,{
         frame:true,
-        html: "<iframe height=100% width=100% src='https://128.164.11.22:9443'></iframe>"
+        html: "<iframe height=100% width=100% src='https://128.164.11.22:9443'></iframe>" //this is hacky, but it works and Dragon should die soon
     });
 };
 

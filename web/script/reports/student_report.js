@@ -23,6 +23,7 @@ SampleApp.StudentReport.Open = function() {
     });
 }
 
+//register the helper docs
 var report_tools = [{
 	id:'help',
 	handler: function(e, target, panel){
@@ -44,7 +45,7 @@ SampleApp.StudentReport.Panel = function() {
         titleCollapse:true,
         layout: 'border',
         items : [
-studentReportGridPanel
+           studentReportGridPanel
         ]
     });
 };
@@ -56,7 +57,7 @@ Ext.extend(SampleApp.StudentReport.Panel, Ext.Panel, {
 });
 
 /**
- * Grid Panel
+ * Grid Panel - shows the report data
  */
 SampleApp.StudentReport.GridPanel = function() {
     
@@ -71,6 +72,7 @@ SampleApp.StudentReport.GridPanel = function() {
         ]
     });
 	
+    //get the student information from the server
     var myData = Ext.Ajax.request({
         url: 'controls/reports/student_report.php',
         method:'GET', 
@@ -83,6 +85,7 @@ SampleApp.StudentReport.GridPanel = function() {
        },
 	});
     
+    //define the grid
     SampleApp.StudentReport.GridPanel.superclass.constructor.call(this,{
         region: 'center',
         store: store,

@@ -24,6 +24,7 @@ SampleApp.DailyBadFiltered.Open = function() {
     });
 }
 
+//register the helper docs and ability to refresh the table
 var tools = [{
 	id:'help',
 	handler: function(e, target, panel){
@@ -84,10 +85,12 @@ SampleApp.DailyBadFiltered.GridPanel = function() {
    	]);
    	cm.defaultSortable = true; 
 
+   	//define what structure we expect to see on our AJAX return
    	var store = new Ext.data.JsonStore({
    	    fields: ['case','date','event','victim','attacker','notes']
    	});
    	
+   	//makes a call back to the server to get the DBF data
 	reload_store = function() {
    		Ext.Ajax.request({
 	   	    url: 'controls/queries/daily_bad_filtered.php',
@@ -98,7 +101,7 @@ SampleApp.DailyBadFiltered.GridPanel = function() {
 	   	    success:function(request){ 
 	   	    	var obj = Ext.util.JSON.decode(request.responseText); 
 		    	time = new Date();
-		    	Ext.getCmp('dbf_update_time').setText("Last updated: " + time);  
+		    	Ext.getCmp('dbf_update_time').setText("Last updated: " + time); //update the bottom toolbar 
 	   	    	store.loadData(obj);
 	   	   },
 	   	});
@@ -117,7 +120,7 @@ SampleApp.DailyBadFiltered.GridPanel = function() {
 		autoSizeColumns: true,
 		clicksToEdit: 1,
 		listeners: {
-			cellclick: function(grid, rowIndex, colIndex) {
+			cellclick: function(grid, rowIndex, colIndex) { //if the "+" is clicked then pass the data of that record to the createcase
 				if (colIndex == 0) {
 					var rec = grid.getStore().getAt(rowIndex);
 					date = rec.get('date');
@@ -128,7 +131,7 @@ SampleApp.DailyBadFiltered.GridPanel = function() {
 					SampleApp.CreateCase.OpenFromGrid(date,event,victim,attacker,notes);
 				}
 			},
-			cellcontextmenu: function(grid, rowIndex, colIndex, e) {
+			cellcontextmenu: function(grid, rowIndex, colIndex, e) { //enable the pivot searching on the grid
 				var type = grid.getColumnModel().getDataIndex(colIndex);
 				if(type == "analyst" || type == "event" || type == "victim" || type == "attacker" || type == "network"){
 					var rec = grid.getStore().getAt(rowIndex);

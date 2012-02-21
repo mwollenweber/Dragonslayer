@@ -123,6 +123,7 @@ if($proceed) {
 		$data['error'] = "Something went wrong when submitting";
 	}
 	
+	//add the case information to Mongo just because it's cheap to do
 	$mongo_case = array(
 		"event"		=>	$event,
 		"victim_ip"	=>	$victim,

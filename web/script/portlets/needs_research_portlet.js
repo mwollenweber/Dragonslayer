@@ -12,6 +12,7 @@ function NeedsResearchCases(){
 	]);
 	cm.defaultSortable = true; 
 
+	//define what our fields should be
 	var needs_research_store = new Ext.data.ArrayStore({
         fields: [
            {name: 'dsid'},	
@@ -25,6 +26,7 @@ function NeedsResearchCases(){
         ]
     });
 	
+	//method to reload the store filled with data
 	this.reload_store = function() {
 		Ext.Ajax.request({
 		    url: 'controls/queries/needs_research_cases.php',
@@ -48,6 +50,7 @@ function NeedsResearchCases(){
         id: 'needs_research_cases_bottom_bar',
 	})
 	
+	//define the panel
 	NeedsResearchCases.superclass.constructor.call(this, {
         store: needs_research_store,
         cm: cm,
@@ -61,14 +64,14 @@ function NeedsResearchCases(){
 		autoSizeColumns: true,
 		clicksToEdit: 1,
 		listeners: {
-			cellclick: function(grid, rowIndex, colIndex) {
+			cellclick: function(grid, rowIndex, colIndex) { //edit case if DSID clicked 
 				if (colIndex == 0) {
 					var rec = grid.getStore().getAt(rowIndex);
 					dsid = rec.get('dsid');
 					SampleApp.EditCase.OpenFromGrid(dsid);
 				}
 			},
-			cellcontextmenu: function(grid, rowIndex, colIndex, e) {
+			cellcontextmenu: function(grid, rowIndex, colIndex, e) { //enable pivot search
 				var type = grid.getColumnModel().getDataIndex(colIndex);
 				if(type == "analyst" || type == "event" || type == "victim" || type == "attacker" || type == "network"){
 					var rec = grid.getStore().getAt(rowIndex);

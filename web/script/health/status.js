@@ -1,7 +1,7 @@
 Ext.namespace("SampleApp.Status");
 
 /**
- * Attach the launcher panel to the West Panel
+ * Fire the open action
  */
 Ext.onReady(function(){
     SampleApp.Main.EventRelay.on("openHealthStatus",SampleApp.Status.Open);
@@ -27,7 +27,7 @@ SampleApp.Status.Open = function() {
  */
 SampleApp.Status.Panel = function() {
 	
-	healthData = "Waiting for health status...";
+	healthData = "Waiting for health status..."; //default data
 	
 	overallHealthPanel = new Ext.Panel({
         frame:true,
@@ -36,7 +36,7 @@ SampleApp.Status.Panel = function() {
 	})
 	
 	this.reload_store = function() {
-		Ext.Ajax.request({
+		Ext.Ajax.request({ //call out to get the health
 	        url: 'controls/health/status.php',
 	        method:'GET', 
 	        waitTitle:'Connecting', 
@@ -56,6 +56,7 @@ SampleApp.Status.Panel = function() {
 	        	one_hour = 60 * 60;
 	        	two_hour = 60 * 60 * 2;
 	        	
+	        	//handle cases for when something is consider a bad health
 	        	if((obj.delta_dragon_working > two_hour) || (obj.last_dragon_working_event == null) || (obj.delta_dragon_working < 0)) {
 	        		dragon_working_img = red;
 	        	} else if(obj.delta_dragon_working > one_hour) {
@@ -88,6 +89,7 @@ SampleApp.Status.Panel = function() {
 	        		daily_bad_img = green;
 	        	}
 	        	
+	        	//format the content to be displayed
 	        	content += "<b>Last Dragon Working Event: </b>" + obj.last_dragon_working_event +  " " + dragon_working_img + "<br>" ;
 	        	content += "<b>Last Dragon Event: </b>" + obj.last_dragon_event + " " + dragon_event_img + "<br>";
 	        	content += "<b>Last MDL Update: </b>" + obj.last_mdl_update + " " + mdl_img + "<br>";
@@ -98,6 +100,7 @@ SampleApp.Status.Panel = function() {
 		});
 	}
 	
+	//kick off the process
 	this.reload_store();
 	 
     SampleApp.Status.Panel.superclass.constructor.call(this,{
@@ -108,6 +111,7 @@ SampleApp.Status.Panel = function() {
         items: [overallHealthPanel]
     });
     
+    //really kick off the process 
 	this.reload_store();
 };
 

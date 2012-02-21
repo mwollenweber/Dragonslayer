@@ -16,6 +16,7 @@ SampleApp.GenerateReport.Open = function() {
     GenerateReportPanel.show(this);
 }
 
+//register with helper docs
 var report_tools = [{
 	id:'help',
 	handler: function(e, target, panel){
@@ -24,7 +25,7 @@ var report_tools = [{
 }];
 
 /**
- * 
+ * GenerateReport Panel - shown to the user
  */
 SampleApp.GenerateReport.Panel = function() {
 	
@@ -89,7 +90,7 @@ SampleApp.GenerateReport.Panel = function() {
             	end = (new Date(date_end.getValue())).format('Y-m-d');
             	format = report_format.getValue();
             	if(format == "download") {
-                	url = 'https://128.164.80.81/ds2/web/controls/reports/generate_weekly_report_download.php?start_date=' + start + '&end_date=' + end;
+                	url = 'https://128.164.80.81/ds2/web/controls/reports/generate_weekly_report_download.php?start_date=' + start + '&end_date=' + end; //this is crap
                 	window.location = url;
             	} else {
                 	SampleApp.DisplayReport.Open(start,end);
@@ -105,6 +106,7 @@ SampleApp.GenerateReport.Panel = function() {
         }]
 	});
 	
+	//Window that takes in the panel
     SampleApp.GenerateReport.Panel.superclass.constructor.call(this,{
     	layout:'fit',
     	title: 'Report Generator',

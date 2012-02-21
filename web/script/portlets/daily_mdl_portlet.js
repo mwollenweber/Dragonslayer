@@ -10,10 +10,12 @@ function DailyMdlPortlet(){
 	]);
 	cm.defaultSortable = true; 
 
+	//define the fields we expect to see in the store
 	var store = new Ext.data.JsonStore({
 	    fields: ['case','date','event','victim','attacker','notes']
 	});
 	
+	//method to reload the store
 	this.reload_store = function() {
 		Ext.Ajax.request({
 		    url: 'controls/queries/daily_mdl.php',
@@ -41,6 +43,7 @@ function DailyMdlPortlet(){
         id: 'dmdl_bottom_bar',
 	})
 	
+    //define the portlet
 	DailyMdlPortlet.superclass.constructor.call(this, {
         store: store,
         stateful:true,
@@ -55,7 +58,7 @@ function DailyMdlPortlet(){
 		loadMask: true,
 		clicksToEdit: 1,
 		listeners: {
-			cellclick: function(grid, rowIndex, colIndex) {
+			cellclick: function(grid, rowIndex, colIndex) { //create a case from the click
 				if (colIndex == 0) {
 					var rec = grid.getStore().getAt(rowIndex);
 					date = rec.get('date');
@@ -66,7 +69,7 @@ function DailyMdlPortlet(){
 					SampleApp.CreateCase.OpenFromGrid(date,event,victim,attacker,notes);
 				}
 			},
-			cellcontextmenu: function(grid, rowIndex, colIndex, e) {
+			cellcontextmenu: function(grid, rowIndex, colIndex, e) { //enable pivot searching
 				var type = grid.getColumnModel().getDataIndex(colIndex);
 				if(type == "analyst" || type == "event" || type == "victim" || type == "attacker" || type == "network"){
 					var rec = grid.getStore().getAt(rowIndex);

@@ -29,7 +29,7 @@ var verification_field;
 var dsid_field;
 
 /**
- * Attach the launcher panel to the West Panel
+ * When clicked, fire the open action
  */
 Ext.onReady(function(){
     SampleApp.Main.EventRelay.on("openEditCase",SampleApp.EditCase.Open);
@@ -50,6 +50,7 @@ SampleApp.EditCase.Open = function() {
     });
 }
 
+//registers the helper docs to this panel
 var action_tools = [{
 	id:'help',
 	handler: function(e, target, panel){
@@ -57,6 +58,7 @@ var action_tools = [{
 	}
 }];
 
+//assumes we are entering this function from a grid click and not on our own free will
 SampleApp.EditCase.OpenFromGrid = function(dsid) {
 
     var editCasePanel = new SampleApp.EditCase.Panel();
@@ -65,6 +67,7 @@ SampleApp.EditCase.OpenFromGrid = function(dsid) {
 
     dsid_field.setValue(dsid);
     
+    //call to the service and get data for the DSID sent in
 	var myData = Ext.Ajax.request({
 	    url: 'controls/queries/get_case_info.php', //this needs to call the real service
 	    waitTitle:'Connecting', 
@@ -73,9 +76,10 @@ SampleApp.EditCase.OpenFromGrid = function(dsid) {
 	    
 	    success:function(request){ 
 	    	var obj = Ext.util.JSON.decode(request.responseText); 
-	    	anywhere_store.loadData(obj);
+	    	anywhere_store.loadData(obj); //return contents will be located within this store
 	    	
-		dsid_display_field.setValue(obj[0][0]);
+	    	//take all the values from the store and automatically fill in the fields
+	    	dsid_display_field.setValue(obj[0][0]);
 	    	date_field.setValue(obj[0][1]);
 	    	reporter_field.setValue(obj[0][2]);
 	    	event_field.setValue(obj[0][3]);
@@ -94,7 +98,7 @@ SampleApp.EditCase.OpenFromGrid = function(dsid) {
 }
 
 /**
- * 
+ * EditCase Panel definition
  */
 SampleApp.EditCase.Panel = function() {
 	editCaseFormPanel = new SampleApp.EditCase.FormPanel();
@@ -124,7 +128,7 @@ SampleApp.EditCase.Panel = function() {
 					{
 						frame:true,         
 						title: 'Results from last tab',
-						items: editCaseFromAnywhereGrid,
+						items: editCaseFromAnywhereGrid, //portlet showing "where you came from"
 						
 					}]
 					
@@ -141,7 +145,7 @@ SampleApp.EditCase.Panel = function() {
 };
 
 /**
- * 
+ * EditCase Panel Registration
  */
 Ext.extend(SampleApp.EditCase.Panel, Ext.Panel, {
 });
@@ -339,7 +343,7 @@ SampleApp.EditCase.FormPanel = function(){
         ],
         
         buttons: [{
-            text: 'Update',   
+            text: 'Update', //update the server with our local changes
             formBind: true,	 
             handler:function(){ 
             	var form_data = editCaseFormPanel.getForm().getValues();
@@ -365,7 +369,7 @@ SampleApp.EditCase.FormPanel = function(){
 				        	        
 				        	        success:function(request){ 
 				        	        	var obj = Ext.util.JSON.decode(request.responseText); 
-				        	        	store.loadData(obj);
+				        	        	store.loadData(obj); //cause a redrawing of the grid
 				        	       },
 				        		});
 				        	} else {
@@ -377,8 +381,9 @@ SampleApp.EditCase.FormPanel = function(){
             },
         },
         {
+        	//cheap printing capability - opens results in a new HTML page and removes the JS structure
     	    text: 'Print',   
-                formBind: true,
+            formBind: true,
     	    handler:function(){
     		printer = window.open('','winReport');
     		printer.document.write("<html><body>");
@@ -412,7 +417,7 @@ Ext.extend(SampleApp.EditCase.FormPanel, Ext.FormPanel, {
 });
 
 /**
- * Grid Panel
+ * Grid Panel - Recent cases
  */
 SampleApp.EditCase.GridPanel = function() {
 	
@@ -436,6 +441,7 @@ SampleApp.EditCase.GridPanel = function() {
         ]
     });
 	
+    //snatch the last 50 cases and throw them into the myData store
     var myData = Ext.Ajax.request({
         url: 'controls/queries/last_50_cases.php',
         method:'GET', 
@@ -448,6 +454,7 @@ SampleApp.EditCase.GridPanel = function() {
        },
 	});
     
+    //build the grid to be filled
     SampleApp.EditCase.GridPanel.superclass.constructor.call(this,{
         store: store,
         stateful:true,
@@ -564,25 +571,26 @@ SampleApp.EditCase.GridPanel = function() {
 				category_field.setValue(rec.get('report_category'));
 				primary_detection_field.setValue(rec.get('primary_detection'));
 			},
+			//this is the fancy pivot search 
 			cellcontextmenu: function(grid, rowIndex, colIndex, e) {
 				var type = grid.getColumnModel().getDataIndex(colIndex);
-				if(type == "analyst" || type == "event" || type == "victim" || type == "attacker" || type == "network"){
-					var rec = grid.getStore().getAt(rowIndex);
-				    var data = rec.get(type);
+				if(type == "analyst" || type == "event" || type == "victim" || type == "attacker" || type == "network"){ //we can pivot on this
+					var rec = grid.getStore().getAt(rowIndex); //get the record
+				    var data = rec.get(type); //get the data
 				    var search_context = new Ext.menu.Menu({
 				    	items: [{
-				    		text: 'search on ' + type,
-				    		handler: function() {
-				    			SampleApp.SearchByIp.PivotSearch(type, data)
+				    		text: 'search on ' + type, //displayed to the user
+				    		handler: function() { 
+				    			SampleApp.SearchByIp.PivotSearch(type, data); //execute the pivot
 				    		}
 				    	}]
 				    });
 
-					search_context.showAt(e.getXY());
+					search_context.showAt(e.getXY()); //show the label relative to the user click
 				}
 			},
 		    render: function() {
-                 Ext.getBody().on("contextmenu", Ext.emptyFn, null, {preventDefault: true});
+                 Ext.getBody().on("contextmenu", Ext.emptyFn, null, {preventDefault: true}); //KILL CONTEXT HAHAHA
         	},
 		}
 		

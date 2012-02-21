@@ -9,7 +9,7 @@ var search_value;
 var search_type;
 
 /**
- * Attach the launcher panel to the West Panel
+ * When clicked, fire the open action
  */
 Ext.onReady(function(){
 	Ext.QuickTips.init();
@@ -17,6 +17,12 @@ Ext.onReady(function(){
 
 });
 
+/**
+ * @description processes the search setup by the user and redraws with results
+ * @param type
+ * @param value
+ * @returns
+ */
 function process_search(type,value) {
 	Ext.Ajax.request({
 		url: 'controls/actions/search_by_type.php',
@@ -56,6 +62,7 @@ SampleApp.SearchByIp.Open = function() {
     });
 }
 
+//registers with helper docs
 var action_tools = [{
 	id:'help',
 	handler: function(e, target, panel){
@@ -63,20 +70,21 @@ var action_tools = [{
 	}
 }];
 
+//assumes we came in from a grid
 SampleApp.SearchByIp.PivotSearch = function(type, value) {
     var searchByIpPanel = new SampleApp.SearchByIp.Panel();
     SampleApp.Main.CenterPanelInstance.add(searchByIpPanel);
     SampleApp.Main.CenterPanelInstance.activate(searchByIpPanel);
     
     if(type == "attacker" || type == "victim") {
-    	type = type + "_ip";
+    	type = type + "_ip"; //prep for searching
     }
 
 	process_search(type, value);
 }
 
 /**
- * 
+ * Search form panel
  */
 SampleApp.SearchByIp.Panel = function() {
 	
@@ -165,7 +173,7 @@ SampleApp.SearchByIp.FormPanel = function(){
             },
         }],
         keys: [
-               { key: [Ext.EventObject.ENTER], handler: function() {
+               { key: [Ext.EventObject.ENTER], handler: function() { //register the enter key for the search button
 	               	value = search_value.getValue();
 	            	type = search_type.getValue();
 	            	process_search(type, value);
@@ -184,7 +192,7 @@ Ext.extend(SampleApp.SearchByIp.FormPanel, Ext.FormPanel, {
 });
 
 /**
- * Grid Panel
+ * Grid Panel for results
  */
 SampleApp.SearchByIp.GridPanel = function() {
 
@@ -210,7 +218,7 @@ SampleApp.SearchByIp.GridPanel = function() {
 	]);
 	cm.defaultSortable = true; 
     
-    function renderConfirmation(val, meta, rec, rowIdx, colIdx, ds) {
+    function renderConfirmation(val, meta, rec, rowIdx, colIdx, ds) { //shows us a little bubble over the data so we don't need to click to see it
     	return '<div ext:qtitle="' + "Confirmation" + '" ext:qtip="' + val + '">' + val + '</div>';
     }
     
@@ -229,7 +237,7 @@ SampleApp.SearchByIp.GridPanel = function() {
         stripeRows: true,
         autoExpandColumn: 'search_by_ip_confirmation',
 		listeners: {
-			cellclick: function(grid, rowIndex, colIndex) {
+			cellclick: function(grid, rowIndex, colIndex) { //if user clicks on the DSID then we want to jump to edit case
 				if (colIndex == 0) {
 					var rec = grid.getStore().getAt(rowIndex);
 					dsid = rec.get('dsid');
@@ -237,7 +245,7 @@ SampleApp.SearchByIp.GridPanel = function() {
 				}
 			}
 		},
-		bbar: new Ext.PagingToolbar({
+		bbar: new Ext.PagingToolbar({ //paging toolbar showing the number of results with other controls
 			store:store,
 		    pageSize: 50,
 			displayInfo:true,

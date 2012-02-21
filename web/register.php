@@ -11,6 +11,7 @@
 		<script src="extjs/ext-all-debug.js" type="text/javascript"></script>
 		<script src="extjs/examples/ux/ux-all-debug.js" type="text/javascript"></script>
 		
+		<!-- Load the register source -->
 		<script src="script/register.js" type="text/javascript"></script>	  
 	</head>
 	
